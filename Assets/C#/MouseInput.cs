@@ -29,19 +29,42 @@ public class MouseInput : MonoBehaviour {
             try {
                 mousedriver.GetMouse(i, ref mice[i]);
                 // Cumulative mousePositionment
-                mousePosition[i] = new Vector2(mice[i].X, -mice[i].Y);
+                mousePosition[i] = new Vector3(mice[i].X / 100.0f * sensitivity, -mice[i].Y / 100.0f * sensitivity);
             } catch { }
         }
         for (int i = 0; i < mousePosition.Length; i++) {
-            switch(i) {
+            Vector3 look;
+            Vector3 playerPos;
+
+            switch (i) {
                 case 0:
-                    Vector3 look = new Vector3(mousePosition[i].x, mousePosition[i].y, GameObject.Find("Player1").transform.position.z);
-                    Debug.DrawLine(GameObject.Find("Player1").transform.position, look);
+                    playerPos = GameObject.Find("Player1").transform.position;
+                    look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
+
+                    /*print(Vector3.Distance(playerPos, look));
+                    if (Vector3.Distance(playerPos, look) > 10) {
+                        Vector3 distanceSet = (playerPos - look).normalized * 5;
+                        print(distanceSet);
+                        mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
+                        look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
+                    }*/
+                    Debug.DrawLine(playerPos, look);
+                    print(mousePosition[i].x + ", " + mousePosition[i].y);
                     //GameObject.Find("Player1").transform.FindChild("Center").LookAt(look, Vector3.right);
                     break;
                 case 1:
-                    look = new Vector3(mousePosition[i].x, mousePosition[i].y, GameObject.Find("Player1").transform.position.z);
-                    Debug.DrawLine(GameObject.Find("Player2").transform.position, look);
+                    playerPos = GameObject.Find("Player2").transform.position;
+                    look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
+
+                    /*print(Vector3.Distance(playerPos, look));
+                    if (Vector3.Distance(playerPos, look) > 10) {
+                        Vector3 distanceSet = (playerPos - look).normalized * 5;
+                        print(distanceSet);
+                        mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
+                        look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
+                    }*/
+                    Debug.DrawLine(playerPos, look);
+                    print(mousePosition[i].x + ", " + mousePosition[i].y);
                     break;
             }
         }
