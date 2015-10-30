@@ -69,13 +69,25 @@ public class move : MonoBehaviour {
 		mousePos.y += Input.GetAxis("MouseY");
 
 	
-		/*GameObject.Find("Uh").transform.position = mousePos; //ignore, fuck this stuff
-		float angle = Vector3.Angle(mousePos - this.transform.position, transform.forward);
+		//transform.FindChild("Reticle").transform.position = mousePos; //ignore, fuck this stuff
+		//float angle = Vector3.Angle(mousePos - this.transform.position, transform.forward);
+		Vector3 reticlePos = transform.FindChild("Reticle").transform.position;
+		float angle;
+		if (this.transform.position.x == transform.FindChild("Reticle").transform.position.x) angle = 0;
+		else angle = Mathf.Atan((reticlePos.y - this.transform.position.y)/(reticlePos.x - this.transform.position.x));
+		//print(angle);
+		angle = angle/2;
+		if (angle < 0) {
+			angle+= Mathf.PI/2;
+		}
+		if (reticlePos.y - this.transform.position.y < 0) {
+			angle += Mathf.PI/2;
+		}
+		angle = angle * 2 * Mathf.Rad2Deg; //Don't question this, for some reason all of the other angles are not working
+		//this.transform.rotation = Quaternion.Euler(new Vector3(0,0,angle));
 		print(angle);
-		this.transform.rotation = Quaternion.Euler(new Vector3(0,0,angle));
-
 		this.GetComponent<LineRenderer>().SetPosition(0, this.transform.position);
-		this.GetComponent<LineRenderer>().SetPosition(1, mousePos);*/
+		this.GetComponent<LineRenderer>().SetPosition(1, this.transform.position + 2 * new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle),this.transform.position.z));
 
 	}
 	bool changePlane() {
