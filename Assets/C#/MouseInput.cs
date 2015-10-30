@@ -13,6 +13,7 @@ public class MouseInput : MonoBehaviour {
     RawMouseDriver.RawMouseDriver mousedriver;
     private RawMouse[] mice;
     private Vector2[] mousePosition;
+	private Vector2[] lastMousePosition;
     private const int NUM_MICE = 4;
 
     // Use this for initialization
@@ -21,52 +22,46 @@ public class MouseInput : MonoBehaviour {
         mousedriver = new RawMouseDriver.RawMouseDriver();
         mice = new RawMouse[NUM_MICE];
         mousePosition = new Vector2[NUM_MICE];
+		lastMousePosition = new Vector2[NUM_MICE];
+
     }
 
-    void Update() {
+	void Update() {
+		if (Input.GetKey ("escape"))
+			Screen.lockCursor = false;
+		else Screen.lockCursor = true;
+
         // Loop through all the connected mice
         for (int i = 0; i < mice.Length; i++) {
             try {
                 mousedriver.GetMouse(i, ref mice[i]);
                 // Cumulative mousePositionment
+				lastMousePosition[i] = mousePosition[i];
+
                 mousePosition[i] = new Vector3(mice[i].X / 100.0f * sensitivity, -mice[i].Y / 100.0f * sensitivity);
+
             } catch { }
         }
-        for (int i = 0; i < mousePosition.Length; i++) {
+        for (int i = 1; i <= mousePosition.Length; i++) {
             Vector3 look;
             Vector3 playerPos;
-
-            switch (i) {
-                case 0:
-                    playerPos = GameObject.Find("Player1").transform.position;
-                    look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
-
-                    /*print(Vector3.Distance(playerPos, look));
+			print(i);
+			playerPos = GameObject.Find("Player" + i).transform.position;
+			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
+			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
+			GameObject.Find("Player" + i).transform.FindChild("Reticle").transform.position += look;
+			
+			/*print(Vector3.Distance(playerPos, look));
                     if (Vector3.Distance(playerPos, look) > 10) {
                         Vector3 distanceSet = (playerPos - look).normalized * 5;
                         print(distanceSet);
                         mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
                         look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
                     }*/
-                    Debug.DrawLine(playerPos, look);
-                    print(mousePosition[i].x + ", " + mousePosition[i].y);
-                    //GameObject.Find("Player1").transform.FindChild("Center").LookAt(look, Vector3.right);
-                    break;
-                case 1:
-                    playerPos = GameObject.Find("Player2").transform.position;
-                    look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
-
-                    /*print(Vector3.Distance(playerPos, look));
-                    if (Vector3.Distance(playerPos, look) > 10) {
-                        Vector3 distanceSet = (playerPos - look).normalized * 5;
-                        print(distanceSet);
-                        mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
-                        look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
-                    }*/
-                    Debug.DrawLine(playerPos, look);
-                    print(mousePosition[i].x + ", " + mousePosition[i].y);
-                    break;
-            }
+			Debug.DrawLine(playerPos, look);
+			print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
+			//GameObject.Find("Player1").transform.FindChild("Center").LookAt(look, Vector3.right);
+           
         }
     }
 
