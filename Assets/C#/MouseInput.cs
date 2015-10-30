@@ -49,7 +49,7 @@ public class MouseInput : MonoBehaviour {
 			playerPos = GameObject.Find("Player" + i).transform.position;
 			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
 			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
-			GameObject.Find("Player" + i).transform.FindChild("Reticle").transform.position += look;
+			GameObject.Find("Reticle" + i).transform.position += look;
 			
 			/*print(Vector3.Distance(playerPos, look));
                     if (Vector3.Distance(playerPos, look) > 10) {
