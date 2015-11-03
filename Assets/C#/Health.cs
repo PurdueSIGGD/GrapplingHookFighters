@@ -11,6 +11,14 @@ public class Health : MonoBehaviour {
 	public int playerHealth;
 	public int armorHealth;
 
+	public int getPlayerHealth() {
+		return playerHealth;
+	}
+
+	public int getArmorHealth() {
+		return armorHealth;
+	}
+
 	//Will reduce Player health  or Armor by one
 	public void hit() {
 		if (armorHealth < 1)
