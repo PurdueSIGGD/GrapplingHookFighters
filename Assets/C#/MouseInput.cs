@@ -27,6 +27,7 @@ public class MouseInput : MonoBehaviour {
     }
 
 	void Update() {
+       
 		if (Input.GetKey ("escape"))
 			Screen.lockCursor = false;
 		else Screen.lockCursor = true;
@@ -50,18 +51,26 @@ public class MouseInput : MonoBehaviour {
 			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
 			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
 			GameObject.Find("Reticle" + i).transform.position += look;
-			
-			/*print(Vector3.Distance(playerPos, look));
-                    if (Vector3.Distance(playerPos, look) > 10) {
-                        Vector3 distanceSet = (playerPos - look).normalized * 5;
-                        print(distanceSet);
-                        mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
-                        look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
-                    }*/
-			Debug.DrawLine(playerPos, look);
+
 			print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
-			//GameObject.Find("Player1").transform.FindChild("Center").LookAt(look, Vector3.right);
-           
+
+			GameObject.Find("Player" + i).transform.FindChild("Center").LookAt(GameObject.Find("Reticle" + i).transform.position);
+            Vector3 rotation = new Vector3(0, 0, -GameObject.Find("Player" + i).transform.FindChild("Center").localEulerAngles.x);
+            GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles = rotation;
+            if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player1").transform.position.x) {
+                GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
+            }
+
+            print("Mouse" + i + " Clicked: " + mice[i - 1].Buttons.GetValue(0));    //left click boolean
+
+            /*print(Vector3.Distance(playerPos, look));
+            if (Vector3.Distance(playerPos, look) > 10) {
+                Vector3 distanceSet = (playerPos - look).normalized * 5;
+                print(distanceSet);
+                mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
+                look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
+            }*/
+
         }
     }
 
