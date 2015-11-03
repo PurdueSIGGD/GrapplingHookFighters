@@ -45,7 +45,8 @@ public class MouseInput : MonoBehaviour {
         for (int i = 1; i <= mousePosition.Length; i++) {
             Vector3 look;
             Vector3 playerPos;
-			print(i);
+		//	print(i);
+			if (GameObject.Find("Player" + i) == null) break;
 			playerPos = GameObject.Find("Player" + i).transform.position;
 			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
 			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
@@ -59,7 +60,7 @@ public class MouseInput : MonoBehaviour {
                         look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
                     }*/
 			Debug.DrawLine(playerPos, look);
-			print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
+		//	print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
 			//GameObject.Find("Player1").transform.FindChild("Center").LookAt(look, Vector3.right);
            
         }

@@ -10,7 +10,7 @@ public class move : MonoBehaviour {
 	private bool canMoveRight;
 	private bool canMoveLeft;
 
-	private Vector3 firingVector;
+	public Vector3 firingVector;
 
 	static float layer1Position = 0;
 	static float layer2Position = 1;
@@ -60,6 +60,7 @@ public class move : MonoBehaviour {
 		}
 	
 		Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
+		reticlePos.z = transform.z;
 		firingVector = (reticlePos-transform.position)/Vector3.Distance(reticlePos,transform.position);
 		GetComponent<LineRenderer>().SetPosition(0, transform.position);
 		GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector);
