@@ -13,6 +13,7 @@ public class GrappleLauncher : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		firedGrapple.gameObject.layer = this.gameObject.layer;
 		Vector2 firingVector = GetComponent<move>().firingVector; //get the angle in which we want to launch
 
 		if (Input.GetMouseButtonDown(1)) {
@@ -22,10 +23,7 @@ public class GrappleLauncher : MonoBehaviour {
 				firedGrapple.SendMessage("Launch",firingVector);
 			} else {
 				if (attached || firing) {
-					firedGrapple.SendMessage("Release");
-					firing = false;
-					retracting = true;
-					firedGrapple.GetComponent<GrappleScript>().retracting = true;
+					Disconnect();
 
 				} else {
 					//retracting = true;
@@ -48,9 +46,7 @@ public class GrappleLauncher : MonoBehaviour {
 			
 			if (Vector3.Distance(firedGrapple.transform.position, this.transform.position) > 10) {
 				//print(r.collider.name);
-				firing = false;
-				retracting = true;
-				firedGrapple.SendMessage("Release");
+				Disconnect();
 
 			}
 		}
@@ -60,5 +56,12 @@ public class GrappleLauncher : MonoBehaviour {
 
 		attached = true;
 
+	}
+	void Disconnect() {
+		if (firing || retracting) {
+			firing = false;
+			retracting = true;
+			firedGrapple.SendMessage("Release");
+		}
 	}
 }

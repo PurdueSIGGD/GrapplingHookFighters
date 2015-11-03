@@ -45,22 +45,29 @@ public class move : MonoBehaviour {
 			if (gameObject.layer != layer1Value) {
 				//print("augh" + gameObject.layer);
 				gameObject.layer = layer1Value;
+				transform.FindChild("TopTrigger").gameObject.layer = layer1Value;
 				transform.position = new Vector3(currentX, currentY, layer1Position);
 			} else 
 			if (gameObject.layer != layer2Value) {
 				//print("oof" + gameObject.layer);
-				gameObject.layer = layer2Value;
+				gameObject.layer = layer2Value;				
+				transform.FindChild("TopTrigger").gameObject.layer = layer2Value;
 				transform.position = new Vector3(currentX, currentY, layer2Position);
 			}
+			this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+
 		}
 
-		if (canMoveLeft && goLeft ()) {
+		if (this.GetComponent<Rigidbody2D>().velocity.x > -10 && canMoveLeft && goLeft ()) {
 			GetComponent<Rigidbody2D>().AddForce(new Vector3(-20, 0, 0));
 		}
-		if (canMoveRight && goRight()) {
+		if (this.GetComponent<Rigidbody2D>().velocity.x < 10 && canMoveRight && goRight()) {
 			GetComponent<Rigidbody2D>().AddForce(new Vector3(20, 0, 0));
 		}
-		if (!jumped && jump()) {
+		if (goDown()) {
+			GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
+		}
+		if (Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) < .1f && !jumped && jump()) {
 			GetComponent<Rigidbody2D>().AddForce (new Vector3(0, 300, 0));
 			jumped = true;
 		}
@@ -91,10 +98,12 @@ public class move : MonoBehaviour {
 	}
 	bool goRight() {
 		return (Input.GetAxis("HorizontalP" + playerid) > 0);
-
+	}
+	bool goDown() {
+		return (Input.GetAxis("VerticalP" + playerid) < 0);
 	}
 	bool jump() {
-		if (Input.GetAxis("VerticalP" + playerid) > 0 ) {
+		if (Input.GetAxis("VerticalP" + playerid) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 
 			return true;
