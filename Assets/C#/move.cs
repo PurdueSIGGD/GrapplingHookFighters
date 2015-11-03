@@ -17,6 +17,9 @@ public class move : MonoBehaviour {
 
 	static int layer1Value = 8;
 	static int layer2Value = 9;
+	
+	
+	private float time = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -32,10 +35,13 @@ public class move : MonoBehaviour {
 	void Update () {
 		currentX = transform.position.x;
 		currentY = transform.position.y;
-		//currentZ = transform.position.z;
-
+		currentZ = transform.position.z;
+		time += Time.deltaTime;
+		
+		
 		//layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
-		if (changePlane()) {
+		if (time >= 1.0f && changePlane()) {
+			time = 0.0f;
 			if (gameObject.layer != layer1Value) {
 				//print("augh" + gameObject.layer);
 				gameObject.layer = layer1Value;
