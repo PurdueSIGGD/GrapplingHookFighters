@@ -37,7 +37,6 @@ public class GrappleScript : MonoBehaviour {
 	void Update() {
 		if (retracting) {
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			print("moving back");
 			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.position, 20 * Time.deltaTime );
 			//this.transform.position += 50*Time.deltaTime*(focus.transform.position - this.transform.position)/Vector3.Distance(this.transform.position, focus.transform.position);
 			

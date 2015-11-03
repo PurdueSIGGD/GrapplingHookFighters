@@ -66,7 +66,7 @@ public class move : MonoBehaviour {
 		}
 	
 		Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
-		reticlePos.z = transform.z;
+		reticlePos.z = transform.position.z;
 		firingVector = (reticlePos-transform.position)/Vector3.Distance(reticlePos,transform.position);
 		GetComponent<LineRenderer>().SetPosition(0, transform.position);
 		GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector);

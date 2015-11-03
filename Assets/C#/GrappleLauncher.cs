@@ -21,7 +21,7 @@ public class GrappleLauncher : MonoBehaviour {
 				firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
 				firedGrapple.SendMessage("Launch",firingVector);
 			} else {
-				if (attached) {
+				if (attached || firing) {
 					firedGrapple.SendMessage("Release");
 					firing = false;
 					retracting = true;
