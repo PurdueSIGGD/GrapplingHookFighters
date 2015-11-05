@@ -58,7 +58,7 @@ public class MouseInput : MonoBehaviour {
 			GameObject.Find("Player" + i).transform.FindChild("Center").LookAt(GameObject.Find("Reticle" + i).transform.position);
 			Vector3 rotation = new Vector3(0, 0, -GameObject.Find("Player" + i).transform.FindChild("Center").localEulerAngles.x);
 			GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles = rotation;
-			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player1").transform.position.x) {
+			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
 				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
 			}
 			
