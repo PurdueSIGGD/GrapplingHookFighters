@@ -116,7 +116,7 @@ public class move : MonoBehaviour {
 			jumped = false;
 		}
 	}
-	void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?
+	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?
 		if (col.CompareTag("PlatformSideRight")) {
 			canMoveLeft = false;
 		}
@@ -130,5 +130,5 @@ public class move : MonoBehaviour {
 			canMoveLeft = true;
 			canMoveRight = true;
 		}
-	}
+	}*/
 }
