@@ -8,8 +8,8 @@ using System.Collections;
 public class Health : MonoBehaviour {
 
 	//player Health should not exceed 1 and armorHealth should not exceed 2
-	public int playerHealth;
-	public int armorHealth;
+	private int playerHealth;
+	private int armorHealth;
 
 	public int getPlayerHealth() {
 		return playerHealth;
