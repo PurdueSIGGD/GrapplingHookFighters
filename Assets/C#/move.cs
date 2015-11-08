@@ -4,7 +4,6 @@ using System.Collections;
 public class move : MonoBehaviour {
 	private float currentX;
 	private float currentY;
-	private float currentZ;	
 	public int playerid;
 	private bool jumped, switchedKey, jumpedKey;
 	private bool canMoveRight;
@@ -35,7 +34,6 @@ public class move : MonoBehaviour {
 	void Update () {
 		currentX = transform.position.x;
 		currentY = transform.position.y;
-		currentZ = transform.position.z;
 		time += Time.deltaTime;
 		
 		
@@ -125,6 +123,7 @@ public class move : MonoBehaviour {
 			col.gameObject.transform.SetParent(center);
 			col.gameObject.transform.position = center.transform.position;
 			col.gameObject.transform.rotation = center.transform.rotation;
+			BroadcastMessage("SetPlayerID", playerid);
 		}
 	}
 	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?
