@@ -111,9 +111,20 @@ public class move : MonoBehaviour {
 			return false;
 		}
 	}
+	bool pickUp() {
+		return (Input.GetAxis("UseP" + playerid) > 0);
+	}
 	void OnTriggerEnter2D(Collider2D col) {
 		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
 			jumped = false;
+		}
+	}
+	void OnTriggerStay2D(Collider2D col) {
+		if (col.CompareTag("Item") && pickUp()) {
+			Transform center = this.gameObject.transform.FindChild("Center");
+			col.gameObject.transform.SetParent(center);
+			col.gameObject.transform.position = center.transform.position;
+			col.gameObject.transform.rotation = center.transform.rotation;
 		}
 	}
 	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?
