@@ -37,20 +37,19 @@ public class gun : MonoBehaviour, item {
 
 	// Update is called once per frame
 	void Update () {
+
 		//this needs to be revised to get an accurate start position for the bullet
-		shootpoint.x = this.gameObject.transform.position.x+1.02f;
-		shootpoint.y = this.gameObject.transform.position.y+0.05f;
-		//this seems to work
-		gunAngle = GetComponentInParent<Transform> ().rotation;
+		shootpoint = transform.FindChild("Butthole").position;
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
 		//update shooting
 		timeSincelast += Time.deltaTime;
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
-			kapeeeeewm = (bullet)Instantiate(kapeeeeewm,shootpoint,gunAngle);
-			//this won't work until we can differentiate mouse clicks
 			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
+			kapeeeeewm = (bullet)Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
+			//this won't work until we can differentiate mouse clicks
+
 			Vector2 thing = reticlePos - shootpoint;
 			thing.Normalize();
 			kapeeeeewm.GetComponent<Rigidbody2D>().AddForce(thing*5f);

@@ -15,6 +15,9 @@ public class MouseInput : MonoBehaviour {
 	private Vector2[] mousePosition;
 	private Vector2[] lastMousePosition;
 	private const int NUM_MICE = 4;
+
+	//checks to see if player has item
+	private bool[] hasItem; 
 	
 	// Use this for initialization
 	void Start() {
@@ -23,6 +26,10 @@ public class MouseInput : MonoBehaviour {
 		mice = new RawMouse[NUM_MICE];
 		mousePosition = new Vector2[NUM_MICE];
 		lastMousePosition = new Vector2[NUM_MICE];
+		hasItem = new bool[NUM_MICE];
+		for(int i = 0; i< NUM_MICE;i++){
+			hasItem[i] = false;
+		}
 		
 	}
 	
@@ -65,12 +72,13 @@ public class MouseInput : MonoBehaviour {
 			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
 				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
 			}
-
-            if ((bool) mice[i - 1].Buttons.GetValue(0)) {
-                GameObject.Find("Player" + i).transform.FindChild("Center").FindChild("Pistol").GetComponent<gun>().SendMessage("click");
-            } else {
-                GameObject.Find("Player" + i).transform.FindChild("Center").FindChild("Pistol").GetComponent<gun>().SendMessage("unclick");
-            }
+			if (hasItem[i - 1]) {
+	            if ((bool) mice[i - 1].Buttons.GetValue(0)) {
+	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("click");
+	            } else {
+	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("unclick");
+	            }
+			}
 
             if ((bool)mice[i - 1].Buttons.GetValue(1)) {
                 GameObject.Find("Player" + i).GetComponent<GrappleLauncher>().SendMessage("fire");
@@ -88,6 +96,10 @@ public class MouseInput : MonoBehaviour {
             }*/
 
         }
+	}
+
+	public void playerHasItem(int pID){
+		hasItem [pID - 1] = true;
 	}
 	
 	void OnGUI() {
