@@ -10,7 +10,7 @@ public class gun : MonoBehaviour, item {
 	//the point at which bullets come out of
 	public Vector2 shootpoint;
 	public Quaternion gunAngle;
-	public bullet kapeeeeewm;
+	public GameObject kapeeeeewm;
 	public Vector2 reticlePos;
 	public int playerid;
 
@@ -21,7 +21,7 @@ public class gun : MonoBehaviour, item {
 
 	public void click(){
 		trigger = true;
-        print("Player " + this.playerid + " clicked");
+       // print("Player " + this.playerid + " clicked");
     }
 
 	public void unclick(){
@@ -47,12 +47,12 @@ public class gun : MonoBehaviour, item {
 		timeSincelast += Time.deltaTime;
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
 			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
-			kapeeeeewm = (bullet)Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
+			GameObject g = (GameObject)GameObject.Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
 			//this won't work until we can differentiate mouse clicks
-
+			//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
 			Vector2 thing = reticlePos - shootpoint;
 			thing.Normalize();
-			kapeeeeewm.GetComponent<Rigidbody2D>().AddForce(thing*5f);
+			g.GetComponent<Rigidbody2D>().AddForce(thing*800f);
 			timeSincelast = 0;
 		}
 

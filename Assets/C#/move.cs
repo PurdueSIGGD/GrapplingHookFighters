@@ -4,10 +4,13 @@ using System.Collections;
 public class move : MonoBehaviour {
 	private float currentX;
 	private float currentY;
+	private float timeSincePickup;
 	public int playerid;
 	private bool jumped, switchedKey, jumpedKey;
 	private bool canMoveRight;
 	private bool canMoveLeft;
+
+	public GameObject heldItem;
 
 	public Vector3 firingVector;
 
@@ -36,7 +39,7 @@ public class move : MonoBehaviour {
 		currentY = transform.position.y;
 		time += Time.deltaTime;
 		
-		
+		timeSincePickup += Time.deltaTime;
 		//layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
 		if (time >= 1.0f && changePlane()) {
 			time = 0.0f;
@@ -69,7 +72,28 @@ public class move : MonoBehaviour {
 			GetComponent<Rigidbody2D>().AddForce (new Vector3(0, 300, 0));
 			jumped = true;
 		}
-	
+		if (heldItem != null) {
+			Transform center = this.gameObject.transform.FindChild("Center");
+			heldItem.GetComponent<Rigidbody2D>().isKinematic = true;
+			heldItem.transform.SetParent(center);
+			heldItem.transform.position = center.transform.position;
+			heldItem.transform.rotation = center.transform.rotation;
+			heldItem.SendMessage("SetPlayerID", playerid); 
+		}
+		if (pickUp () && heldItem != null && timeSincePickup > 1) {
+			//drop weapon
+			GameObject.Find("MouseInput").SendMessage("playerHasNotItem", playerid);
+			heldItem.GetComponent<PolygonCollider2D>().isTrigger = false;
+			timeSincePickup = 0;
+			heldItem.GetComponent<Rigidbody2D>().isKinematic = false;
+			heldItem.GetComponent<Rigidbody2D>().AddForce(130 * firingVector); //throw weapon
+			heldItem.GetComponent<Rigidbody2D>().AddTorque(3);
+			heldItem.transform.parent = null;
+			heldItem.GetComponent<gun>().unclick();
+			heldItem = null;
+
+		}
+
 		Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
 		reticlePos.z = transform.position.z;
 		firingVector = (reticlePos-transform.position)/Vector3.Distance(reticlePos,transform.position);
@@ -118,13 +142,17 @@ public class move : MonoBehaviour {
 		}
 	}
 	void OnTriggerStay2D(Collider2D col) {
-		if (col.CompareTag("Item") && pickUp() && col.transform.parent == null) { //check parent null so you can't steal weapons
+		if (col.CompareTag("Item") && pickUp() && col.transform.parent == null && heldItem == null && timeSincePickup > 1) { //check parent null so you can't steal weapons
+			timeSincePickup = 0;
+			heldItem = col.gameObject;
+			heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
 			Transform center = this.gameObject.transform.FindChild("Center");
-			col.gameObject.transform.SetParent(center);
-			col.gameObject.transform.position = center.transform.position;
-			col.gameObject.transform.rotation = center.transform.rotation;
-			BroadcastMessage("SetPlayerID", playerid);
-			GameObject.FindGameObjectWithTag("MouseInput").SendMessage("playerHasItem", playerid);
+			heldItem.GetComponent<Rigidbody2D>().isKinematic = true;
+			heldItem.transform.SetParent(center);
+			heldItem.transform.position = center.transform.position;
+			heldItem.transform.rotation = center.transform.rotation;
+			heldItem.SendMessage("SetPlayerID", playerid); 
+			GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 		}
 	}
 	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?

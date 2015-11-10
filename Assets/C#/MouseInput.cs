@@ -101,6 +101,10 @@ public class MouseInput : MonoBehaviour {
 	public void playerHasItem(int pID){
 		hasItem [pID - 1] = true;
 	}
+	public void playerHasNotItem(int pID){
+		hasItem [pID - 1] = false;
+	}
+
 	
 	void OnGUI() {
 		GUILayout.Label("Connected:");

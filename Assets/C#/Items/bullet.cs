@@ -6,6 +6,7 @@ public class bullet : MonoBehaviour {
 	//BoxCollider2D bulletBox2D;
 
 	// Use this for initialization
+	float time;
 	void Start () {
 	//	bulletBox2D = GetComponentInParent<BoxCollider2D>();
 	//	bulletrigid2D = GetComponentInParent<Rigidbody2D>();
@@ -13,6 +14,8 @@ public class bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		time += Time.deltaTime;
+		if (time > 6)
+			GameObject.Destroy (this.gameObject);
 	}
 }
