@@ -21,7 +21,8 @@ public class gun : MonoBehaviour, item {
 
 	public void click(){
 		trigger = true;
-	}
+        print("Player " + this.playerid + " clicked");
+    }
 
 	public void unclick(){
 		trigger = false;
@@ -44,11 +45,6 @@ public class gun : MonoBehaviour, item {
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
-		if (Input.GetMouseButtonDown (0)) { 
-			click ();
-		} else {
-			unclick();
-		}
 		//update shooting
 		timeSincelast += Time.deltaTime;
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up

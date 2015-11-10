@@ -44,6 +44,10 @@ public class MouseInput : MonoBehaviour {
 			} catch { }
 		}
 		for (int i = 1; i <= mousePosition.Length; i++) {
+            if (mice[i - 1] == null) {
+                break;
+            }
+
 			Vector3 look;
 			Vector3 playerPos;
 			//print(i);
@@ -61,18 +65,29 @@ public class MouseInput : MonoBehaviour {
 			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
 				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
 			}
-			
-			//print("Mouse" + i + " Clicked: " + mice[i - 1].Buttons.GetValue(0));    //left click boolean
-			
-			/*print(Vector3.Distance(playerPos, look));
+
+            if ((bool) mice[i - 1].Buttons.GetValue(0)) {
+                GameObject.Find("Player" + i).transform.FindChild("Center").FindChild("Pistol").GetComponent<gun>().SendMessage("click");
+            } else {
+                GameObject.Find("Player" + i).transform.FindChild("Center").FindChild("Pistol").GetComponent<gun>().SendMessage("unclick");
+            }
+
+            if ((bool)mice[i - 1].Buttons.GetValue(1)) {
+                GameObject.Find("Player" + i).GetComponent<GrappleLauncher>().SendMessage("fire");
+            } else {
+                GameObject.Find("Player" + i).GetComponent<GrappleLauncher>().SendMessage("mouseRelease");
+            }
+
+
+            /*print(Vector3.Distance(playerPos, look));
             if (Vector3.Distance(playerPos, look) > 10) {
                 Vector3 distanceSet = (playerPos - look).normalized * 5;
                 print(distanceSet);
                 mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
                 look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
             }*/
-			
-		}
+
+        }
 	}
 	
 	void OnGUI() {
