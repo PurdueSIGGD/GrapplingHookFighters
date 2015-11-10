@@ -17,7 +17,7 @@ public class GrappleScript : MonoBehaviour {
 
 	void Attach(GameObject g) {
 		if (g.GetComponent<move>() == null && g.GetComponentInParent<move>() == null &&  (firing || retracting)) {
-			if (focus.name == "Player1" )print(g.name);
+//			if (focus.name == "Player1" )print(g.name);
 			this.GetComponent<SpringJoint2D>().distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			this.GetComponent<Rigidbody2D>().isKinematic = true;
