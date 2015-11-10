@@ -118,7 +118,7 @@ public class move : MonoBehaviour {
 		}
 	}
 	void OnTriggerStay2D(Collider2D col) {
-		if (col.CompareTag("Item") && pickUp()) {
+		if (col.CompareTag("Item") && pickUp() && col.transform.parent == null) { //check parent null so you can't steal weapons
 			Transform center = this.gameObject.transform.FindChild("Center");
 			col.gameObject.transform.SetParent(center);
 			col.gameObject.transform.position = center.transform.position;
