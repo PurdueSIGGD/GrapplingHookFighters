@@ -13,16 +13,12 @@ public class gun : MonoBehaviour, item {
 	public GameObject kapeeeeewm;
 	public Vector2 reticlePos;
 	public int playerid;
-	private bool automatic;
+	public bool automatic;
 	private bool canFire = true;
 
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
-		if (transform.name.Equals ("pistol"))
-			automatic = false;
-		
-
 	}
 
 	public void click(){
