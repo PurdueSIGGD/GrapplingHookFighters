@@ -13,18 +13,30 @@ public class gun : MonoBehaviour, item {
 	public GameObject kapeeeeewm;
 	public Vector2 reticlePos;
 	public int playerid;
+	private bool automatic;
+	private bool canFire = true;
 
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
+		if (transform.name.Equals ("pistol"))
+			automatic = false;
+		
+
 	}
 
 	public void click(){
-		trigger = true;
+		if (automatic || canFire) {
+			trigger = true;
+			canFire = false;
+		}
+		else
+			trigger = false;
        // print("Player " + this.playerid + " clicked");
     }
 
 	public void unclick(){
+		canFire = true;
 		trigger = false;
 	}
 
@@ -37,18 +49,15 @@ public class gun : MonoBehaviour, item {
 
 	// Update is called once per frame
 	void Update () {
-
-		//this needs to be revised to get an accurate start position for the bullet
-		shootpoint = transform.FindChild("Butthole").position;
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
 		//update shooting
 		timeSincelast += Time.deltaTime;
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
+			shootpoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
 			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
 			GameObject g = (GameObject)GameObject.Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
-			//this won't work until we can differentiate mouse clicks
 			//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
 			Vector2 thing = reticlePos - shootpoint;
 			thing.Normalize();
