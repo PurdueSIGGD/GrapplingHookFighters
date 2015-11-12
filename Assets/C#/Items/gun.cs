@@ -13,16 +13,12 @@ public class gun : MonoBehaviour, item {
 	public GameObject kapeeeeewm;
 	public Vector2 reticlePos;
 	public int playerid;
-	private bool automatic;
+	public bool automatic;
 	private bool canFire = true;
 
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
-		if (transform.name.Equals ("pistol"))
-			automatic = false;
-		
-
 	}
 
 	public void click(){
@@ -57,11 +53,17 @@ public class gun : MonoBehaviour, item {
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
 			shootpoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
 			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
-			GameObject g = (GameObject)GameObject.Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
-			//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
-			Vector2 thing = reticlePos - shootpoint;
-			thing.Normalize();
-			g.GetComponent<Rigidbody2D>().AddForce(thing*800f);
+			GameObject g = (GameObject)GameObject.Instantiate(kapeeeeewm, shootpoint, GetComponentInParent<Transform>().rotation);
+            //creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+            Vector2 thing = reticlePos - shootpoint;
+
+            Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
+            if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootpoint, playerPos)) {
+                thing *= -1;
+            }
+
+            thing.Normalize();
+			g.GetComponent<Rigidbody2D>().AddForce(thing*1000f);
 			timeSincelast = 0;
 		}
 

@@ -16,7 +16,7 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void Attach(GameObject g) {
-		if (g.GetComponent<move>() == null && g.GetComponentInParent<move>() == null &&  (firing || retracting)) {
+		if (g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null &&  (firing || retracting)) {
 //			if (focus.name == "Player1" )print(g.name);
 			this.GetComponent<SpringJoint2D>().distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -42,7 +42,7 @@ public class GrappleScript : MonoBehaviour {
 		if (connected) {
 			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) - .2f);
 			foreach (RaycastHit2D ray in r) {
-				if (ray.transform.gameObject.layer == this.gameObject.layer && ray.transform.GetComponent<move>() == null && ray.transform.GetComponentInParent<move>() == null && ray.transform.GetComponent<GrappleScript>() == null) {
+				if (ray.transform.gameObject.layer == this.gameObject.layer && ray.transform.GetComponent<player>() == null && ray.transform.GetComponentInParent<player>() == null && ray.transform.GetComponent<GrappleScript>() == null) {
 					print(ray.transform.name);
 					focus.SendMessage("Disconnect");
 				}

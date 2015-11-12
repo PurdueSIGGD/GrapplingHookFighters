@@ -132,7 +132,9 @@ public class player : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
 			jumped = false;
-		}
+		} else {
+            print("hit");
+        }
 	}
 	void OnTriggerStay2D(Collider2D col) {
 		if (col.CompareTag("Item") && pickUpKey() && col.transform.parent == null && heldItem == null && timeSincePickup > 1) { //check parent null so you can't steal weapons

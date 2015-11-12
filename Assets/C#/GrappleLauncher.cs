@@ -7,7 +7,7 @@ public class GrappleLauncher : MonoBehaviour {
 	public GameObject grappleHook;
 	// Use this for initialization
 	void Start () {
-		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<move>().playerid);
+		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);
 		firedGrapple.GetComponent<GrappleScript>().focus = this.gameObject;
 	}
 	
@@ -40,7 +40,7 @@ public class GrappleLauncher : MonoBehaviour {
         if (!mouseReleased) {
             return;
         }
-        Vector2 firingVector = GetComponent<move>().firingVector; //get the angle in which we want to launch
+        Vector2 firingVector = GetComponent<player>().firingVector; //get the angle in which we want to launch
         if (!firing && !retracting) {
             this.mouseReleased = false;
             firing = true;
