@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bullet : MonoBehaviour {
-	//Rigidbody2D bulletrigid2D;
-	//BoxCollider2D bulletBox2D;
-
+public class bulletScript : MonoBehaviour {
+	public float time;
 	// Use this for initialization
-	float time;
 	void Start () {
-	//	bulletBox2D = GetComponentInParent<BoxCollider2D>();
-	//	bulletrigid2D = GetComponentInParent<Rigidbody2D>();
-	}
 	
+	}
+	void OnCollisionEnter2D(Collision2D col) {
+		Destroy (this.gameObject);
+	}
 	// Update is called once per frame
 	void Update () {
 		time += Time.deltaTime;

@@ -47,12 +47,14 @@ public class player : MonoBehaviour {
 				//print("augh" + gameObject.layer);
 				gameObject.layer = layer1Value;
 				transform.FindChild("TopTrigger").gameObject.layer = layer1Value;
+				if (heldItem != null) heldItem.layer = layer1Value;
 				transform.position = new Vector3(currentX, currentY, layer1Position);
 			} else 
 			if (gameObject.layer != layer2Value) {
 				//print("oof" + gameObject.layer);
 				gameObject.layer = layer2Value;				
 				transform.FindChild("TopTrigger").gameObject.layer = layer2Value;
+				if (heldItem != null) heldItem.layer = layer2Value;
 				transform.position = new Vector3(currentX, currentY, layer2Position);
 			}
 			this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
@@ -133,7 +135,7 @@ public class player : MonoBehaviour {
 		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
 			jumped = false;
 		} else {
-            print("hit");
+            //rint("hit");
         }
 	}
 	void OnTriggerStay2D(Collider2D col) {

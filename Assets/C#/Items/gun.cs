@@ -4,20 +4,23 @@ using System.Collections;
 public class gun : MonoBehaviour, item {
 
 	public bool trigger;
-	public float timeToShoot;
+	public float timeToShoot, projectileSpeed, damage;
 	private float timeSincelast;
 	public Vector2 itemAngle;
 	//the point at which bullets come out of
-	public Vector2 shootpoint;
+	public Vector2 shootPoint;
 	public Quaternion gunAngle;
-	public GameObject kapeeeeewm;
+	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
 	public int playerid;
-	public bool automatic;
+	public bool automatic, raycastShoot;
 	private bool canFire = true;
+	private LineRenderer lr;
+	public int ammo;
 
 	// Use this for initialization
 	void Start () {
+		lr = this.GetComponent<LineRenderer>();
 		timeSincelast = timeToShoot;
 	}
 
@@ -51,21 +54,38 @@ public class gun : MonoBehaviour, item {
 		//update shooting
 		timeSincelast += Time.deltaTime;
 		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
-			shootpoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
-			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
-			GameObject g = (GameObject)GameObject.Instantiate(kapeeeeewm, shootpoint, GetComponentInParent<Transform>().rotation);
-            //creating new gameobject, not setting our last one to be that. It will cause problems in the future.
-            Vector2 thing = reticlePos - shootpoint;
+			if (ammo > 0) {
 
-            Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
-            if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootpoint, playerPos)) {
-                thing *= -1;
-            }
+				ammo--;
+				shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
 
-            thing.Normalize();
-			g.GetComponent<Rigidbody2D>().AddForce(thing*1000f);
-			timeSincelast = 0;
+				reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
+				GameObject g;
+				
+				g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
+				FiredProjectile FP = g.GetComponent<FiredProjectile>();
+				FP.damage = this.damage;
+				
+				g.layer = this.transform.gameObject.layer;
+				Vector2 thing = reticlePos - shootPoint;
+				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
+				if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootPoint, playerPos)) {
+					thing *= -1;
+				}
+				thing.Normalize();			
+				g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
+				for (int i = 0; i < 5; i++) {
+					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
+					particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
+					particleG.GetComponent<ParticleScript>().time = .6f;
+				}
+				timeSincelast = 0;
+			} else {
+				print("Click");
+			}
+
 		}
-
+		
 	}
 }
