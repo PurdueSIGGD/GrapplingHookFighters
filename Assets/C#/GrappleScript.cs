@@ -57,9 +57,12 @@ public class GrappleScript : MonoBehaviour {
 		if (connected) {
 			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) - .2f);
 			foreach (RaycastHit2D ray in r) {
-				if (ray.transform.gameObject.layer == this.gameObject.layer && ray.transform.GetComponent<player>() == null && ray.transform.GetComponentInParent<player>() == null && ray.transform.GetComponent<GrappleScript>() == null) {
-					print(ray.transform.name);
-					focus.SendMessage("Disconnect");
+				if (ray.transform.gameObject.layer == this.gameObject.layer 
+				    && ray.transform.GetComponent<player>() == null 
+				    && ray.transform.GetComponentInParent<player>() == null 
+				    && ray.transform.GetComponent<GrappleScript>() == null
+				    && ray.transform.GetComponent<gun>() == null) {
+					focus.SendMessage("Disconnect"); //Temporarily disabled for now
 				}
 			}
 		}

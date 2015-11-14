@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GrappleLauncher : MonoBehaviour {
-	private bool firing, retracting, attached, mouseReleased;
+	private bool firing, retracting, attached, mouseReleased, death;
 	private GameObject firedGrapple;
 	public GameObject grappleHook;
 	// Use this for initialization
@@ -13,26 +13,31 @@ public class GrappleLauncher : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		firedGrapple.gameObject.layer = this.gameObject.layer;
+		if (!death) {
+			firedGrapple.gameObject.layer = this.gameObject.layer;
 
-		if (retracting && !firing) {
-			//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
-			if (Vector3.Distance(this.transform.position, firedGrapple.transform.position) < .3f) {
-				retracting = false;
-				firedGrapple.GetComponent<GrappleScript>().retracting = false;
+			if (retracting && !firing) {
+				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
+				if (Vector3.Distance (this.transform.position, firedGrapple.transform.position) < .3f) {
+					retracting = false;
+					firedGrapple.GetComponent<GrappleScript> ().retracting = false;
+				}
 			}
-		}
-		if (!firing && !retracting) firedGrapple.transform.position = transform.position;
-		else {
+			if (!firing && !retracting)
+				firedGrapple.transform.position = transform.position;
+			else {
 
-			//RaycastHit2D r;
-			//r = Physics2D.Raycast(transform.position, firedGrapple.transform.position - this.transform.position);
-			
-			if (Vector3.Distance(firedGrapple.transform.position, this.transform.position) > 10) {
-				//print(r.collider.name);
-				Disconnect();
+				//RaycastHit2D r;
+				//r = Physics2D.Raycast(transform.position, firedGrapple.transform.position - this.transform.position);
+				
+				if (Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
+					//print(r.collider.name);
+					Disconnect ();
 
+				}
 			}
+		} else {
+			firedGrapple.transform.position = transform.position;
 		}
 	}
 
@@ -72,5 +77,8 @@ public class GrappleLauncher : MonoBehaviour {
 			retracting = true;
 			firedGrapple.SendMessage("Release");
 		}
+	}
+	void Death() {
+		death = true;
 	}
 }

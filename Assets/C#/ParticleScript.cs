@@ -14,7 +14,7 @@ public class ParticleScript : MonoBehaviour {
 		Color c = this.GetComponent<SpriteRenderer>().color;
 		this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, time);
 		if (time <= 0) {
-			GameObject.Destroy(this);
+			GameObject.Destroy(this.gameObject);
 		}
 	}
 }

@@ -8,6 +8,10 @@ public class bulletScript : MonoBehaviour {
 	
 	}
 	void OnCollisionEnter2D(Collision2D col) {
+		print ("bam");
+		if (col.transform.GetComponent<Health> ()) {
+			col.transform.SendMessage("hit");
+		}
 		Destroy (this.gameObject);
 	}
 	// Update is called once per frame

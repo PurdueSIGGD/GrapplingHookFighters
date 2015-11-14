@@ -14,15 +14,21 @@ public class FiredProjectile : MonoBehaviour {
 	//	bulletrigid2D = GetComponentInParent<Rigidbody2D>();
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-		if (col.GetComponent<player>()) {
+		if (!col.isTrigger || col.GetComponent<ExplosionScript>()) {
 			if (exploding) {
-				GameObject.Instantiate(explosion, this.transform.position, this.transform.rotation);
-			} else {
-				col.SendMessage("hit");
+				GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
+				ex.gameObject.layer = this.gameObject.layer;
 			}
-
+			if (col.GetComponent<Rigidbody2D>()) {
+				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
+			}
+			if (col.transform.GetComponent<Health> () && !exploding) {
+				col.transform.SendMessage ("hit");
+			}
+			if (dieOnAnyHit)
+				GameObject.Destroy (this.gameObject);
 		}
-		if (dieOnAnyHit) GameObject.Destroy (this.gameObject);
+	
 
 	}
 	// Update is called once per frame

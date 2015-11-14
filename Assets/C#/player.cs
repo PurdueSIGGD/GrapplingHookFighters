@@ -4,9 +4,9 @@ using System.Collections;
 public class player : MonoBehaviour {
 	private float currentX;
 	private float currentY;
-	private float timeSincePickup;
+	private float timeSincePickup = 1;
 	public int playerid;
-	private bool jumped, switchedKey, jumpedKey;
+	private bool jumped, switchedKey, jumpedKey, death;
 	private bool canMoveRight;
 	private bool canMoveLeft;
 
@@ -25,6 +25,12 @@ public class player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+	/*	gun[] guns = GameObject.FindObjectsOfType<gun>();
+		foreach (gun g in guns) {
+			Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), g.transform.GetComponent<Collider2D>());
+		}*/
+
 		GameObject.Find("Reticle" + playerid).transform.position = transform.position;
 		//switchedKey = true;
 
@@ -35,70 +41,75 @@ public class player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		currentX = transform.position.x;
-		currentY = transform.position.y;
-		time += Time.deltaTime;
-		timeSincePickup += Time.deltaTime;
+		if (!death) {
+			currentX = transform.position.x;
+			currentY = transform.position.y;
+			time += Time.deltaTime;
+			timeSincePickup += Time.deltaTime;
 
-		//layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
-		if (time >= 1.0f && changePlane()) {
-			time = 0.0f;
-			if (gameObject.layer != layer1Value) {
-				//print("augh" + gameObject.layer);
-				gameObject.layer = layer1Value;
-				transform.FindChild("TopTrigger").gameObject.layer = layer1Value;
-				if (heldItem != null) heldItem.layer = layer1Value;
-				transform.position = new Vector3(currentX, currentY, layer1Position);
-			} else 
-			if (gameObject.layer != layer2Value) {
-				//print("oof" + gameObject.layer);
-				gameObject.layer = layer2Value;				
-				transform.FindChild("TopTrigger").gameObject.layer = layer2Value;
-				if (heldItem != null) heldItem.layer = layer2Value;
-				transform.position = new Vector3(currentX, currentY, layer2Position);
+			//layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
+			if (time >= 1.0f && changePlane ()) {
+				time = 0.0f;
+				if (gameObject.layer != layer1Value) {
+					//print("augh" + gameObject.layer);
+					gameObject.layer = layer1Value;
+					transform.FindChild ("TopTrigger").gameObject.layer = layer1Value;
+					if (heldItem != null)
+						heldItem.layer = layer1Value;
+					transform.position = new Vector3 (currentX, currentY, layer1Position);
+				} else 
+				if (gameObject.layer != layer2Value) {
+					//print("oof" + gameObject.layer);
+					gameObject.layer = layer2Value;				
+					transform.FindChild ("TopTrigger").gameObject.layer = layer2Value;
+					if (heldItem != null)
+						heldItem.layer = layer2Value;
+					transform.position = new Vector3 (currentX, currentY, layer2Position);
+				}
+				this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+
 			}
-			this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+			if (this.GetComponent<Rigidbody2D> ().velocity.x > -10 && canMoveLeft && goLeft ()) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (jumped?-20:-40, 0, 0));
+			}
+			if (this.GetComponent<Rigidbody2D> ().velocity.x < 10 && canMoveRight && goRight ()) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (jumped?20:40, 0, 0));
+			} 
+			if (goDown ()) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, -10, 0));
+			}
+			if (Mathf.Abs (this.GetComponent<Rigidbody2D> ().velocity.y) < .1f && !jumped && jump ()) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 500, 0));
+				jumped = true;
+			}
 
-		}
-
-		if (this.GetComponent<Rigidbody2D>().velocity.x > -10 && canMoveLeft && goLeft ()) {
-			GetComponent<Rigidbody2D>().AddForce(new Vector3(-20, 0, 0));
-		}
-		if (this.GetComponent<Rigidbody2D>().velocity.x < 10 && canMoveRight && goRight()) {
-			GetComponent<Rigidbody2D>().AddForce(new Vector3(20, 0, 0));
-		}
-		if (goDown()) {
-			GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
-		}
-		if (Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) < .1f && !jumped && jump()) {
-			GetComponent<Rigidbody2D>().AddForce (new Vector3(0, 300, 0));
-			jumped = true;
-		}
-
-		Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
-		reticlePos.z = transform.position.z;
-		firingVector = (reticlePos-transform.position)/Vector3.Distance(reticlePos,transform.position);
-		GetComponent<LineRenderer>().SetPosition(0, transform.position);
-		GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector);
+			Vector3 reticlePos = GameObject.Find ("Reticle" + playerid).transform.position;
+			reticlePos.z = transform.position.z;
+			firingVector = (reticlePos - transform.position) / Vector3.Distance (reticlePos, transform.position);
+			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
+			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
 
-        if (pickUpKey() && heldItem != null && timeSincePickup > 1) {
-            //drop weapon
-            GameObject.Find("MouseInput").SendMessage("playerHasNotItem", playerid);
-            heldItem.GetComponent<PolygonCollider2D>().isTrigger = false;
-            timeSincePickup = 0;
-            heldItem.GetComponent<Rigidbody2D>().isKinematic = false;
-            heldItem.GetComponent<Rigidbody2D>().AddForce(130 * firingVector); //throw weapon
-            heldItem.GetComponent<Rigidbody2D>().AddTorque(3);
-            heldItem.transform.parent = null;
-            heldItem.GetComponent<gun>().unclick();
-            heldItem = null;
-        }
+			if (pickUpKey () && heldItem != null && timeSincePickup > 1) {
+				//drop weapon
+				throwWeapon(true);
+			}
+		}
     }
-
+	void throwWeapon(bool b) {
+		GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
+		heldItem.GetComponent<PolygonCollider2D> ().isTrigger = false;
+		timeSincePickup = 0;
+		heldItem.GetComponent<Rigidbody2D> ().isKinematic = false;
+		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (130 * firingVector); //throw weapon
+		heldItem.GetComponent<Rigidbody2D> ().AddTorque (3);
+		heldItem.transform.parent = null;
+		heldItem.GetComponent<gun> ().unclick ();
+		heldItem = null;
+	}
 	bool changePlane() {
 		/* If the input has its first time being pressed down   */
-		if (Input.GetAxisRaw("Switch" + playerid) > 0) {
+		if (!death && Input.GetAxisRaw("Switch" + playerid) > 0) {
 			if (switchedKey) {
 				switchedKey = false;
 				return true;
@@ -117,10 +128,10 @@ public class player : MonoBehaviour {
 		return (Input.GetAxis("HorizontalP" + playerid) > 0);
 	}
 	bool goDown() {
-		return (Input.GetAxis("VerticalP" + playerid) < 0);
+		return (!death && Input.GetAxis("VerticalP" + playerid) < 0);
 	}
 	bool jump() {
-		if (Input.GetAxis("VerticalP" + playerid) == 1) {
+		if (!death && Input.GetAxis("VerticalP" + playerid) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 
 			return true;
@@ -129,7 +140,7 @@ public class player : MonoBehaviour {
 		}
 	}
 	bool pickUpKey() {
-		return (Input.GetAxis("UseP" + playerid) > 0);
+		return (!death && Input.GetAxis("UseP" + playerid) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
 		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
@@ -139,7 +150,7 @@ public class player : MonoBehaviour {
         }
 	}
 	void OnTriggerStay2D(Collider2D col) {
-		if (col.CompareTag("Item") && pickUpKey() && col.transform.parent == null && heldItem == null && timeSincePickup > 1) { //check parent null so you can't steal weapons
+		if (col.CompareTag("Item") && pickUpKey() && col.transform.parent == null && heldItem == null && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 			timeSincePickup = 0;
 			heldItem = col.gameObject;
 			heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
@@ -152,19 +163,11 @@ public class player : MonoBehaviour {
 			GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 		}
 	}
-	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?
-		if (col.CompareTag("PlatformSideRight")) {
-			canMoveLeft = false;
-		}
-		if (col.CompareTag("PlatformSideLeft")) {
-			canMoveRight = false;
+	void Death() {
+		death = true;
+		this.GetComponent<LineRenderer> ().SetVertexCount (0);
+		if (heldItem != null) {
+			throwWeapon(false);
 		}
 	}
-
-	void OnTriggerExit2D(Collider2D col) {
-		if (col.CompareTag ("PlatformSideRight") ||  col.CompareTag("PlatformSideLeft")) {
-			canMoveLeft = true;
-			canMoveRight = true;
-		}
-	}*/
 }

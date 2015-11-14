@@ -10,6 +10,9 @@ public class Health : MonoBehaviour {
 	//player Health should not exceed 1 and armorHealth should not exceed 2
 	private int playerHealth;
 	private int armorHealth;
+	public bool dead;
+	public int deathSparkleParticle;
+	public GameObject particle;
 
 	public int getPlayerHealth() {
 		return playerHealth;
@@ -20,7 +23,7 @@ public class Health : MonoBehaviour {
 	}
 
 	//Will reduce Player health  or Armor by one
-	public void hit() {
+	void hit() {
 		if (armorHealth < 1)
 			killPlayer ();
 		if (armorHealth > 0)
@@ -28,7 +31,7 @@ public class Health : MonoBehaviour {
 	}
 
 	//Reduces Player health and/or armor by dmgAmount.
-	public void hit(int dmgAmount) {
+	public void hit(int dmgAmount) {	
 		if (dmgAmount >= playerHealth + armorHealth)
 			killPlayer ();
 		if (dmgAmount == armorHealth)
@@ -58,8 +61,21 @@ public class Health : MonoBehaviour {
 
 	//kills the player....
 	public void killPlayer() {
-		playerHealth = 0;
-		armorHealth = 0;
+		if (!dead) {
+			playerHealth = 0;
+			armorHealth = 0;
+			dead = true;
+			for (int i = 0; i < deathSparkleParticle; i++) {
+				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
+				if (this.transform.parent.parent != null)
+					particleG.GetComponent<Rigidbody2D> ().velocity = transform.parent.GetComponentInParent<Rigidbody2D> ().velocity * .6f;
+
+				particleG.GetComponent<Rigidbody2D> ().gravityScale = .05f;
+				particleG.GetComponent<Rigidbody2D> ().AddForce (.02f * (Random.insideUnitCircle + Vector2.up));
+				particleG.GetComponent<ParticleScript> ().time = .6f;
+			}
+			this.BroadcastMessage("Death");
+		}
 	}
 
 	//Restore players beginning status
