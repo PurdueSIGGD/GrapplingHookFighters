@@ -16,7 +16,7 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-		Attach(col.gameObject);
+		if (!col.isTrigger) Attach(col.gameObject);
 	}
 
 	void Attach(GameObject g) {

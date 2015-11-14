@@ -90,7 +90,7 @@ public class player : MonoBehaviour {
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
 
-			if (pickUpKey () && heldItem != null && timeSincePickup > 1) {
+			if (pickUpKey () && heldItem != null && timeSincePickup > .2f) {
 				//drop weapon
 				throwWeapon(true);
 			}
@@ -104,7 +104,7 @@ public class player : MonoBehaviour {
 		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (130 * firingVector); //throw weapon
 		heldItem.GetComponent<Rigidbody2D> ().AddTorque (3);
 		heldItem.transform.parent = null;
-		heldItem.GetComponent<gun> ().unclick ();
+		if (heldItem.GetComponent<gun> ()) heldItem.GetComponent<gun> ().unclick ();
 		heldItem = null;
 	}
 	bool changePlane() {
@@ -159,7 +159,7 @@ public class player : MonoBehaviour {
 			heldItem.transform.SetParent(center);
 			heldItem.transform.position = center.transform.position;
 			heldItem.transform.rotation = center.transform.rotation;
-			heldItem.SendMessage("SetPlayerID", playerid); 
+			if (heldItem.GetComponent<gun>()) heldItem.SendMessage("SetPlayerID", playerid); 
 			GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 		}
 	}

@@ -73,7 +73,7 @@ public class MouseInput : MonoBehaviour {
 			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
 				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
 			}
-			if (hasItem[i - 1]) {
+			if (hasItem[i - 1] && GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).GetComponent<gun>() != null) {
 				if ((bool) mice[i - 1].Buttons.GetValue(0)) {
 	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("click");
 	            } else {

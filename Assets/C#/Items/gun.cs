@@ -8,7 +8,7 @@ public class gun : MonoBehaviour, item {
 	private float timeSincelast;
 	public Vector2 itemAngle;
 	//the point at which bullets come out of
-	public Vector2 shootPoint;
+	public Vector3 shootPoint;
 	public Quaternion gunAngle;
 	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
@@ -64,7 +64,7 @@ public class gun : MonoBehaviour, item {
 				FiredProjectile FP = g.GetComponent<FiredProjectile>();
 				FP.damage = this.damage;
 				g.layer = this.transform.gameObject.layer;
-				Vector2 thing = reticlePos - shootPoint;
+				Vector2 thing = reticlePos - (Vector2)shootPoint;
 				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
 				if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootPoint, playerPos)) {
@@ -74,6 +74,7 @@ public class gun : MonoBehaviour, item {
 				thing.Normalize();			
 				g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
 				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * damage * thing); //Pushing back
+
 				for (int i = 0; i < gunGoesPoof; i++) {
 					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
 					if (this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
@@ -82,7 +83,7 @@ public class gun : MonoBehaviour, item {
 				}
 				timeSincelast = 0;
 			} else {
-				print("Click");
+				//print("Click");
 			}
 
 		}
