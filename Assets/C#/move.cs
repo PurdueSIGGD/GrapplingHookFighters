@@ -124,6 +124,7 @@ public class move : MonoBehaviour {
 			col.gameObject.transform.position = center.transform.position;
 			col.gameObject.transform.rotation = center.transform.rotation;
 			BroadcastMessage("SetPlayerID", playerid);
+			GameObject.FindGameObjectWithTag("MouseInput").SendMessage("playerHasItem", playerid);
 		}
 	}
 	/*void OnTriggerStay2D(Collider2D col) { //Please explain. Why is this necessary if we can have layer-specific colliders?

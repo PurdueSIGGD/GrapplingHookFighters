@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GrappleLauncher : MonoBehaviour {
-	private bool firing, retracting, attached;
+	private bool firing, retracting, attached, mouseReleased;
 	private GameObject firedGrapple;
 	public GameObject grappleHook;
 	// Use this for initialization
@@ -14,23 +14,7 @@ public class GrappleLauncher : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		firedGrapple.gameObject.layer = this.gameObject.layer;
-		Vector2 firingVector = GetComponent<move>().firingVector; //get the angle in which we want to launch
 
-		if (Input.GetMouseButtonDown(1)) {
-			if (!firing && !retracting) {
-				firing = true;
-				firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
-				firedGrapple.SendMessage("Launch",firingVector);
-			} else {
-				if (attached || firing) {
-					Disconnect();
-
-				} else {
-					//retracting = true;
-					//retract grapple
-				}
-			}
-		}
 		if (retracting && !firing) {
 			//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
 			if (Vector3.Distance(this.transform.position, firedGrapple.transform.position) < .3f) {
@@ -51,6 +35,31 @@ public class GrappleLauncher : MonoBehaviour {
 			}
 		}
 	}
+
+    void fire() {
+        if (!mouseReleased) {
+            return;
+        }
+        Vector2 firingVector = GetComponent<move>().firingVector; //get the angle in which we want to launch
+        if (!firing && !retracting) {
+            this.mouseReleased = false;
+            firing = true;
+            firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
+            firedGrapple.SendMessage("Launch", firingVector);
+        } else {
+            if (attached || firing) {
+                Disconnect();
+
+            } else {
+                //retracting = true;
+                //retract grapple
+            }
+        }
+    }
+
+    void mouseRelease() {
+        this.mouseReleased = true;
+    }
 
 	void Attach(GameObject g) {
 
