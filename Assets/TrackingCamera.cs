@@ -8,6 +8,7 @@ public class TrackingCamera : MonoBehaviour {
 	public float bufferX = 0, bufferY = 0;
 	private float initialCamSize;
 	private Camera cam;
+	public float zoomSpeed = 15;
 	// Use this for initialization
 	void Start () {
 		cam = GetComponentInChildren<Camera> ();
@@ -25,15 +26,17 @@ public class TrackingCamera : MonoBehaviour {
 			Vector3 avgPos = Vector3.zero;
 			int i = 0;
 			foreach (GameObject g in targets) {
-				avgX += g.transform.position.x;
-				avgY += g.transform.position.y;
-				if (i == 0) {
-					avgPos = g.transform.position;
+				if (g.activeInHierarchy) {
+					avgX += g.transform.position.x;
+					avgY += g.transform.position.y;
+					if (i == 0) {
+						avgPos = g.transform.position;
+					}
+					else {
+						avgPos+= g.transform.position;
+					}
+					i++;
 				}
-				else {
-					avgPos+= g.transform.position;
-				}
-				i++;
 			}
 			//avgX += GameObject.Find("CenterPlatform").transform.position.x;
 			//avgY += GameObject.Find("CenterPlatform").transform.position.y;
@@ -70,23 +73,27 @@ public class TrackingCamera : MonoBehaviour {
 
 	void zoomOut() {
 		//initialVisibility = false;
-		Debug.Log ("Zooming Out");
+		//Debug.Log ("Zooming Out");
+		//cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, cam.orthographicSize+0.01f, Time.deltaTime * zoomSpeed);
 		cam.orthographicSize+=5*Time.deltaTime;
 	}
 	void zoomIn() {
 		//initialVisibility = false;
 		//transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + 1);
-		Debug.Log ("Zooming In");
-		cam.orthographicSize-= 5*Time.deltaTime;
+		//Debug.Log ("Zooming In");
+		//cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, cam.orthographicSize-0.01f, Time.deltaTime * zoomSpeed);
+		cam.orthographicSize-=5*Time.deltaTime;
 	}
 	
 	bool AnyPlayersInZoomOutBounds() {
 		foreach (GameObject g in targets) {
-			//Debug.Log("Checking: " + g);
-			Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
-			//Debug.Log (viewPos);
-			if (viewPos.x < 0.1f || viewPos.x > 0.9f || viewPos.y < 0.1f || viewPos.y > 0.9f) {
-				return true;
+			if (g.activeInHierarchy) {
+				//Debug.Log("Checking: " + g);
+				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
+				//Debug.Log (viewPos);
+				if (viewPos.x < 0.1f || viewPos.x > 0.9f || viewPos.y < 0.1f || viewPos.y > 0.9f) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -94,11 +101,13 @@ public class TrackingCamera : MonoBehaviour {
 
 	bool AllPlayersInZoomInBounds() {
 		foreach (GameObject g in targets) {
-			//Debug.Log("Checking: " + g);
-			Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
-			//Debug.Log (viewPos);
-			if (viewPos.x < 0.3f || viewPos.x > 0.7f || viewPos.y < 0.3f || viewPos.y > 0.7f) {
-				return false;
+			if (g.activeInHierarchy) {
+				//Debug.Log("Checking: " + g);
+				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
+				//Debug.Log (viewPos);
+				if (viewPos.x < 0.3f || viewPos.x > 0.7f || viewPos.y < 0.3f || viewPos.y > 0.7f) {
+					return false;
+				}
 			}
 		}
 		return true;

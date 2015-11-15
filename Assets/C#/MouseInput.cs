@@ -18,6 +18,8 @@ public class MouseInput : MonoBehaviour {
 
 	//checks to see if player has item
 	private bool[] hasItem; 
+
+	public Camera mainCam;
 	
 	// Use this for initialization
 	void Start() {
@@ -32,7 +34,7 @@ public class MouseInput : MonoBehaviour {
 		}
 		
 	}
-	
+
 	void Update() {
 		
 		if (Input.GetKey ("escape"))
@@ -59,13 +61,21 @@ public class MouseInput : MonoBehaviour {
 			Vector3 playerPos;
 			//print(i);
 			if (GameObject.Find("Player" + i) == null) return;
+			Transform playerTrans = GameObject.Find("Player" + i).transform;
 			playerPos = GameObject.Find("Player" + i).transform.position;
 			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
 			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
-			GameObject.Find("Reticle" + i).transform.position += look;
-			
-			//print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
-			
+			//look = new Vector3(mice[i-1].XDelta * Time.deltaTime, -mice[i-1].YDelta * Time.deltaTime, 0);
+			Transform rectTrans = GameObject.Find("Reticle" + i).transform;
+			look = rectTrans.position + look;
+			look = playerTrans.TransformVector(look);
+			rectTrans.position = look;
+			//clamp distance
+			float dist = Vector3.Distance(rectTrans.position, playerPos);
+			if (dist > 2) {
+				rectTrans.position += (playerPos - rectTrans.position).normalized * (dist - 2);
+			}
+						
 			GameObject.Find("Player" + i).transform.FindChild("Center").LookAt(GameObject.Find("Reticle" + i).transform.position);
 			Vector3 rotation = new Vector3(0, 0, -GameObject.Find("Player" + i).transform.FindChild("Center").localEulerAngles.x);
 			GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles = rotation;
