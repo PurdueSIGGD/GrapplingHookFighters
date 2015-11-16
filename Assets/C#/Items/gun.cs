@@ -12,7 +12,7 @@ public class gun : MonoBehaviour, item {
 	public Quaternion gunAngle;
 	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
-	public int playerid;
+	public int playerid, bulletsPerShot = 1;
 	public bool automatic, raycastShoot;
 	private bool canFire = true;
 	public int ammo;
@@ -51,28 +51,32 @@ public class gun : MonoBehaviour, item {
 		//could be removed from the item interface
 		//update shooting
 		timeSincelast += Time.deltaTime;
+
 		if (!death && trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
 			if (ammo > 0) {
 
 				ammo--;
 				shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
-
 				reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
-				GameObject g;
-				
-				g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
-				FiredProjectile FP = g.GetComponent<FiredProjectile>();
-				FP.damage = this.damage;
-				g.layer = this.transform.gameObject.layer;
-				Vector2 thing = reticlePos - (Vector2)shootPoint;
-				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+				//Vector2 thing = reticlePos - (Vector2)shootPoint;
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
-				if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootPoint, playerPos)) {
-					thing *= -1;
+
+				Vector2 thing = (Vector2)shootPoint - playerPos;
+				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+
+				for (int i = 0; i < bulletsPerShot; i++) {
+					Vector2 f = thing;
+					thing += spread * Random.insideUnitCircle;
+					thing.Normalize();	
+					GameObject g;
+					g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
+					FiredProjectile FP = g.GetComponent<FiredProjectile>();
+					g.layer = this.transform.gameObject.layer;
+					FP.damage = this.damage;
+
+					g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
+					thing = f.normalized;
 				}
-				thing += spread * Random.insideUnitCircle;
-				thing.Normalize();			
-				g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
 				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * damage * thing); //Pushing back
 
 				for (int i = 0; i < gunGoesPoof; i++) {
@@ -92,4 +96,5 @@ public class gun : MonoBehaviour, item {
 	void Death() {
 		death = true;
 	}
+
 }

@@ -65,6 +65,9 @@ public class Health : MonoBehaviour {
 			playerHealth = 0;
 			armorHealth = 0;
 			dead = true;
+			BoxCollider2D col = this.gameObject.AddComponent<BoxCollider2D>();
+			col.size = 2* (Vector2.up + Vector2.right);
+			col.isTrigger = true;
 			for (int i = 0; i < deathSparkleParticle; i++) {
 				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
 				if (this.transform.parent.parent != null)

@@ -95,10 +95,11 @@ public class player : MonoBehaviour {
 				throwWeapon(true);
 			}
 		}
+
     }
 	void throwWeapon(bool b) {
 		GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
-		heldItem.GetComponent<PolygonCollider2D> ().isTrigger = false;
+		heldItem.SendMessage("retriggerSoon", this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
 		timeSincePickup = 0;
 		heldItem.GetComponent<Rigidbody2D> ().isKinematic = false;
 		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (130 * firingVector); //throw weapon
@@ -150,10 +151,16 @@ public class player : MonoBehaviour {
         }
 	}
 	void OnTriggerStay2D(Collider2D col) {
-		if (col.CompareTag("Item") && pickUpKey() && col.transform.parent == null && heldItem == null && timeSincePickup > .2f) { //check parent null so you can't steal weapons
+		if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && pickUpKey() && (col.transform.parent == null || col.GetComponent<Health>()) && heldItem == null && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 			timeSincePickup = 0;
 			heldItem = col.gameObject;
-			heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
+			/*if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
+			else {
+				foreach (BoxCollider2D b in heldItem.GetComponents<BoxCollider2D>()) {
+					b.isTrigger = true;
+				}
+			}*/
+			col.SendMessage("ignoreColl",this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
 			Transform center = this.gameObject.transform.FindChild("Center");
 			heldItem.GetComponent<Rigidbody2D>().isKinematic = true;
 			heldItem.transform.SetParent(center);
@@ -166,6 +173,7 @@ public class player : MonoBehaviour {
 	void Death() {
 		death = true;
 		this.GetComponent<LineRenderer> ().SetVertexCount (0);
+		this.gameObject.tag = "Item";
 		if (heldItem != null) {
 			throwWeapon(false);
 		}
