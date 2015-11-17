@@ -146,13 +146,12 @@ public class player : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
 			jumped = false;
-		} else {
-            //rint("hit");
-        }
+		}
 	}
 	void OnTriggerStay2D(Collider2D col) {
 		if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && pickUpKey() && (col.transform.parent == null || col.GetComponent<Health>()) && heldItem == null && timeSincePickup > .2f) { //check parent null so you can't steal weapons
-			timeSincePickup = 0;
+            Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
+            timeSincePickup = 0;
 			heldItem = col.gameObject;
 			/*if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
 			else {
@@ -166,7 +165,9 @@ public class player : MonoBehaviour {
 			heldItem.transform.SetParent(center);
 			heldItem.transform.position = center.transform.position;
 			heldItem.transform.rotation = center.transform.rotation;
-			if (heldItem.GetComponent<gun>()) heldItem.SendMessage("SetPlayerID", playerid); 
+            if (heldItem.GetComponent<gun>()) {
+                heldItem.SendMessage("SetPlayerID", playerid);
+            } 
 			GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 		}
 	}
