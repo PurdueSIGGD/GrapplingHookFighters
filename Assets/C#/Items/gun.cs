@@ -3,7 +3,7 @@ using System.Collections;
 
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death;
+	public bool trigger, death, ejecting;
 	public float timeToShoot, projectileSpeed, damage, gunGoesPoof, spread;
 	private float timeSincelast;
 	public Vector2 itemAngle;
@@ -16,7 +16,7 @@ public class gun : MonoBehaviour, item {
 	public bool automatic, raycastShoot;
 	private bool canFire = true;
 	public int ammo;
-
+	public Sprite shellSprite;
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
@@ -78,7 +78,20 @@ public class gun : MonoBehaviour, item {
 					thing = f.normalized;
 				}
 				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * damage * thing); //Pushing back
-
+				if (ejecting) {
+					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
+					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);
+					shelly.GetComponent<SpriteRenderer>().sprite = this.shellSprite;
+					shelly.AddComponent<PolygonCollider2D>();
+					shelly.GetComponent<Rigidbody2D>().gravityScale = 1;
+					shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
+					Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+					shelly.GetComponent<Rigidbody2D>().AddForceAtPosition(200 * Vector2.up * shelly.GetComponent<Rigidbody2D>().mass, shelly.transform.position);
+					//shelly.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + (Quaternion.AngleAxis(90, (Vector3)thing) * thing)));
+					shelly.GetComponent<ParticleScript>().time = 2;
+					shelly.GetComponent<ParticleScript>().shell = true;
+					shelly.layer = this.transform.gameObject.layer;
+				}
 				for (int i = 0; i < gunGoesPoof; i++) {
 					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
 					if (this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;

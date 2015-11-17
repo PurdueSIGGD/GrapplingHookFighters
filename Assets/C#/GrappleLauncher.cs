@@ -15,12 +15,13 @@ public class GrappleLauncher : MonoBehaviour {
 	void Update () {
 		if (!death) {
 			firedGrapple.gameObject.layer = this.gameObject.layer;
-
+			if (attached) this.GetComponent<Rigidbody2D>().AddForce(8 * Vector2.up);
 			if (retracting && !firing) {
 				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
 				if (Vector3.Distance (this.transform.position, firedGrapple.transform.position) < .3f) {
 					retracting = false;
 					firedGrapple.GetComponent<GrappleScript> ().retracting = false;
+					firedGrapple.SendMessage("ResetLast");
 				}
 			}
 			if (!firing && !retracting)
@@ -46,7 +47,7 @@ public class GrappleLauncher : MonoBehaviour {
             return;
         }
         Vector2 firingVector = GetComponent<player>().firingVector; //get the angle in which we want to launch
-        if (!firing && !retracting) {
+        if (!firing && !retracting && firedGrapple.GetComponent<GrappleScript>().breakTime <= 0) {
             this.mouseReleased = false;
             firing = true;
             firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
@@ -73,6 +74,7 @@ public class GrappleLauncher : MonoBehaviour {
 	}
 	void Disconnect() {
 		if (firing || retracting) {
+			attached = false;
 			firing = false;
 			retracting = true;
 			firedGrapple.SendMessage("Release");

@@ -21,9 +21,12 @@ public class TrackingCamera : MonoBehaviour {
 			float avgY = 0;
 			int i = 0;
 			foreach (GameObject g in targets) {
-				avgX += g.transform.position.x;
-				avgY += g.transform.position.y;
-				i++;
+
+				if (Vector2.SqrMagnitude(g.transform.position - this.transform.position) < 800) {
+					avgX += g.transform.position.x;
+					avgY += g.transform.position.y;
+					i++;
+				}
 			}
 			//avgX += GameObject.Find("CenterPlatform").transform.position.x;
 			//avgY += GameObject.Find("CenterPlatform").transform.position.y;

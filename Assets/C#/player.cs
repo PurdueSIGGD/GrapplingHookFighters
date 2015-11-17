@@ -6,7 +6,8 @@ public class player : MonoBehaviour {
 	private float currentY;
 	private float timeSincePickup = 1;
 	public int playerid;
-	private bool jumped, switchedKey, jumpedKey, death;
+	private bool jumped, switchedKey, jumpedKey;
+	public bool death;
 	private bool canMoveRight;
 	private bool canMoveLeft;
 
@@ -86,6 +87,7 @@ public class player : MonoBehaviour {
 			Vector3 reticlePos = GameObject.Find ("Reticle" + playerid).transform.position;
 			reticlePos.z = transform.position.z;
 			firingVector = (reticlePos - transform.position) / Vector3.Distance (reticlePos, transform.position);
+			GetComponent<LineRenderer> ().SetVertexCount(2);
 			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
@@ -97,12 +99,18 @@ public class player : MonoBehaviour {
 		}
 
     }
-	void throwWeapon(bool b) {
+	void throwWeapon(bool b) { //bool for dropping or throwing
 		GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
 		heldItem.SendMessage("retriggerSoon", this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
+		if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = false;
+		else {
+			foreach (BoxCollider2D bbbb in heldItem.GetComponents<BoxCollider2D>()) {
+				if (bbbb.size == new Vector2(1,1)) bbbb.isTrigger = false;
+			}
+		}
 		timeSincePickup = 0;
 		heldItem.GetComponent<Rigidbody2D> ().isKinematic = false;
-		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (130 * firingVector); //throw weapon
+		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (500 * heldItem.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 		heldItem.GetComponent<Rigidbody2D> ().AddTorque (3);
 		heldItem.transform.parent = null;
 		if (heldItem.GetComponent<gun> ()) heldItem.GetComponent<gun> ().unclick ();
@@ -131,6 +139,7 @@ public class player : MonoBehaviour {
 	bool goDown() {
 		return (!death && Input.GetAxis("VerticalP" + playerid) < 0);
 	}
+
 	bool jump() {
 		if (!death && Input.GetAxis("VerticalP" + playerid) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
@@ -144,7 +153,7 @@ public class player : MonoBehaviour {
 		return (!death && Input.GetAxis("UseP" + playerid) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
+		if(col.CompareTag("Platform") || ((col.CompareTag("Player") || col.CompareTag("Item")) && col.GetComponent<Rigidbody2D>() && col.GetComponent<Rigidbody2D>().velocity.y < .2f)) {
 			jumped = false;
 		}
 	}
@@ -153,12 +162,12 @@ public class player : MonoBehaviour {
             Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
             timeSincePickup = 0;
 			heldItem = col.gameObject;
-			/*if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
+			if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
 			else {
 				foreach (BoxCollider2D b in heldItem.GetComponents<BoxCollider2D>()) {
 					b.isTrigger = true;
 				}
-			}*/
+			}
 			col.SendMessage("ignoreColl",this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
 			Transform center = this.gameObject.transform.FindChild("Center");
 			heldItem.GetComponent<Rigidbody2D>().isKinematic = true;
