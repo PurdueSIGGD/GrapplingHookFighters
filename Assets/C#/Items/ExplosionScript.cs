@@ -24,5 +24,8 @@ public class ExplosionScript : MonoBehaviour {
 		if (col.GetComponent<Health> ()) {
 			col.SendMessage("hit");
 		}
+		if (col.GetComponent<grenade>()) {
+			col.SendMessage("Explode");
+		}
 	}
 }

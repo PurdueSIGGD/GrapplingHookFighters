@@ -16,6 +16,7 @@ public class grenade : MonoBehaviour {
             pullPin = false;
             pinPulled = true;
             transform.FindChild("Pin").GetComponent<Rigidbody2D>().isKinematic = false;
+			transform.FindChild("Pin").GetComponent<Rigidbody2D>().AddForce(Vector3.up);
             transform.FindChild("Pin").GetComponent<CircleCollider2D>().isTrigger = false;
             transform.FindChild("Pin").transform.parent = null;
         }
@@ -33,7 +34,9 @@ public class grenade : MonoBehaviour {
         if (!pinPulled)
             pullPin = true;
     }
-
+	void Explode() {
+		timePassed = fuseTime;
+	}
     public void unclick() {
 
     }

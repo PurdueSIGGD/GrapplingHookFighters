@@ -14,6 +14,7 @@ public class FiredProjectile : MonoBehaviour {
 	//	bulletrigid2D = GetComponentInParent<Rigidbody2D>();
 	}
 	void OnTriggerEnter2D(Collider2D col) {
+
 		if (!col.isTrigger || col.GetComponent<ExplosionScript>()) {
 			if (exploding) {
 				GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
@@ -24,6 +25,9 @@ public class FiredProjectile : MonoBehaviour {
 			}
 			if (col.transform.GetComponent<Health> () && !exploding) {
 				col.transform.SendMessage ("hit");
+			}
+			if (col.GetComponent<grenade>()) {
+				col.SendMessage("Explode");
 			}
 			if (dieOnAnyHit)
 				GameObject.Destroy (this.gameObject);
