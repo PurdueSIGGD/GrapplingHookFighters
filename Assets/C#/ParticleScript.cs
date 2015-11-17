@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ParticleScript : MonoBehaviour {
 	public float time = 1;
+	public bool shell;
 	// Use this for initialization
 	void Start () {
 	
@@ -12,7 +13,7 @@ public class ParticleScript : MonoBehaviour {
 	void Update () {
 		time -= Time.deltaTime;
 		Color c = this.GetComponent<SpriteRenderer>().color;
-		this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, time);
+		if (!shell) this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, time);
 		if (time <= 0) {
 			GameObject.Destroy(this.gameObject);
 		}

@@ -3,8 +3,11 @@ using System.Collections;
 
 public class GrappleScript : MonoBehaviour {
 	public GameObject focus;
+//	private EdgeCollider2D lineCol;
 	private bool firing, connected;
 	public bool retracting;
+	private Transform lastGrab;
+	public float breakTime;
 
 	private SpringJoint2D toPlayer, toPickup;
 	// Use this for initialization
@@ -20,9 +23,15 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void Attach(GameObject g) {
-		if (g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null &&  (firing || retracting)) {
+		if (g.transform != lastGrab && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.GetComponent<Rigidbody2D>() == null &&  (firing || retracting)) {
 //			if (focus.name == "Player1" )print(g.name);
 
+		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
+			Vector2[] vee = new Vector2[2];
+			vee[0] = Vector2.zero;
+			vee[1] = focus.transform.position - this.transform.position;
+			lineCol.points = vee;*/
+			lastGrab = g.transform;
 			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			if (g.GetComponent<gun>()) {
@@ -44,6 +53,8 @@ public class GrappleScript : MonoBehaviour {
 		} else {
 			this.GetComponent<Rigidbody2D>().isKinematic = false;
 		}		
+	//	Destroy(lineCol);
+		//lineCol = null;
 		toPlayer.enabled = false;
 		connected = false;
 		firing = false;
@@ -53,20 +64,31 @@ public class GrappleScript : MonoBehaviour {
 		firing = true;
 	}
 	void Update() {
+		if (breakTime > 0) {
+			breakTime -= Time.deltaTime;
+		} else {
+			breakTime = 0;
+		}
 		RaycastHit2D[] r;
 		if (connected) {
-			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) - .2f);
+			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) * .8f);
 			foreach (RaycastHit2D ray in r) {
 				if (ray.transform.gameObject.layer == this.gameObject.layer 
 				    && ray.transform.GetComponent<player>() == null 
 				    && ray.transform.GetComponentInParent<player>() == null 
 				    && ray.transform.GetComponent<GrappleScript>() == null
 				    && ray.transform.GetComponent<gun>() == null) {
+					breakTime = .4f; //so player wont try to disconnect and shoot again
 					focus.SendMessage("Disconnect"); //Temporarily disabled for now
 				}
 			}
 		}
-
+		/*if (lineCol != null) {
+			Vector2[] vee = new Vector2[2];
+			vee[0] = Vector2.zero;
+			vee[1] = focus.transform.position - this.transform.position;
+			lineCol.points = vee;
+		}*/
 
 		if (retracting) {
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
@@ -85,5 +107,8 @@ public class GrappleScript : MonoBehaviour {
 			lr.enabled = false;
 		}
 
+	}
+	void ResetLast() { //lastgrab is the last object we grabbed, we make sure the line doesnt grab anything on its way back
+		lastGrab = null;
 	}
 }

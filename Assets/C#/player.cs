@@ -99,12 +99,18 @@ public class player : MonoBehaviour {
 		}
 
     }
-	void throwWeapon(bool b) {
+	void throwWeapon(bool b) { //bool for dropping or throwing
 		GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
 		heldItem.SendMessage("retriggerSoon", this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
+		if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = false;
+		else {
+			foreach (BoxCollider2D bbbb in heldItem.GetComponents<BoxCollider2D>()) {
+				if (bbbb.size == new Vector2(1,1)) bbbb.isTrigger = false;
+			}
+		}
 		timeSincePickup = 0;
 		heldItem.GetComponent<Rigidbody2D> ().isKinematic = false;
-		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (130 * firingVector); //throw weapon
+		if (b) heldItem.GetComponent<Rigidbody2D> ().AddForce (500 * heldItem.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 		heldItem.GetComponent<Rigidbody2D> ().AddTorque (3);
 		heldItem.transform.parent = null;
 		if (heldItem.GetComponent<gun> ()) heldItem.GetComponent<gun> ().unclick ();
@@ -133,6 +139,7 @@ public class player : MonoBehaviour {
 	bool goDown() {
 		return (!death && Input.GetAxis("VerticalP" + playerid) < 0);
 	}
+
 	bool jump() {
 		if (!death && Input.GetAxis("VerticalP" + playerid) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
@@ -146,7 +153,7 @@ public class player : MonoBehaviour {
 		return (!death && Input.GetAxis("UseP" + playerid) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-		if(col.CompareTag("Platform") || col.CompareTag("Player")) {
+		if(col.CompareTag("Platform") || ((col.CompareTag("Player") || col.CompareTag("Item")) && col.GetComponent<Rigidbody2D>() && col.GetComponent<Rigidbody2D>().velocity.y < .2f)) {
 			jumped = false;
 		} else {
             //rint("hit");
@@ -156,12 +163,12 @@ public class player : MonoBehaviour {
 		if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && pickUpKey() && (col.transform.parent == null || col.GetComponent<Health>()) && heldItem == null && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 			timeSincePickup = 0;
 			heldItem = col.gameObject;
-			/*if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
+			if (heldItem.GetComponent<PolygonCollider2D>()) heldItem.GetComponent<PolygonCollider2D>().isTrigger = true;
 			else {
 				foreach (BoxCollider2D b in heldItem.GetComponents<BoxCollider2D>()) {
 					b.isTrigger = true;
 				}
-			}*/
+			}
 			col.SendMessage("ignoreColl",this.GetComponent<BoxCollider2D>().GetComponent<Collider2D>());
 			Transform center = this.gameObject.transform.FindChild("Center");
 			heldItem.GetComponent<Rigidbody2D>().isKinematic = true;

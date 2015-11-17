@@ -32,7 +32,7 @@ public class HeldItem : MonoBehaviour {
 			Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), lastCol);
 		}
 		else { 
-			print("hey now");
+			//print("hey now");
 			Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol);	
 		}
 	}
