@@ -51,52 +51,54 @@ public class MouseInput : MonoBehaviour {
 			} catch { }
 		}
 		for (int i = 1; i <= mousePosition.Length; i++) {
-			if (mice[i - 1] == null || GameObject.Find("Player" + i).GetComponent<Health>().dead) {
-				GameObject.Find("Reticle" + i).GetComponent<SpriteRenderer>().enabled =	 false;
-                break;
-            }
+			if (GameObject.Find ("Player" + i) != null) {
+				if (mice [i - 1] == null || GameObject.Find ("Player" + i).GetComponent<Health> ().dead) {
+					GameObject.Find ("Reticle" + i).GetComponent<SpriteRenderer> ().enabled = false;
+					break;
+				}
 
-			Vector3 look;
-			Vector3 playerPos;
-			//print(i);
-			if (GameObject.Find("Player" + i) == null) return;
-			playerPos = GameObject.Find("Player" + i).transform.position;
-			//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
-			look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
-			GameObject.Find("Reticle" + i).transform.position += look;
+				Vector3 look;
+				Vector3 playerPos;
+				//print(i);
+				if (GameObject.Find ("Player" + i) == null)
+					return;
+				playerPos = GameObject.Find ("Player" + i).transform.position;
+				//look = new Vector3(mousePosition[i-1].x, mousePosition[i-1].y, playerPos.z);
+				look = new Vector3 (mousePosition [i - 1].x - lastMousePosition [i - 1].x, mousePosition [i - 1].y - lastMousePosition [i - 1].y, 0);
+				GameObject.Find ("Reticle" + i).transform.position += look;
 			
-			//print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
+				//print(mousePosition[i-1].x + ", " + mousePosition[i-1].y);
 			
-			GameObject.Find("Player" + i).transform.FindChild("Center").LookAt(GameObject.Find("Reticle" + i).transform.position);
-			Vector3 rotation = new Vector3(0, 0, -GameObject.Find("Player" + i).transform.FindChild("Center").localEulerAngles.x);
-			GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles = rotation;
-			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
-				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
-			}
-			if (hasItem[i - 1] && GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).GetComponent<gun>() != null) {
-				if ((bool) mice[i - 1].Buttons.GetValue(0)) {
-	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("click");
-	            } else {
-	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("unclick");
-	            }
-			}
+				GameObject.Find ("Player" + i).transform.FindChild ("Center").LookAt (GameObject.Find ("Reticle" + i).transform.position);
+				Vector3 rotation = new Vector3 (0, 0, -GameObject.Find ("Player" + i).transform.FindChild ("Center").localEulerAngles.x);
+				GameObject.Find ("Player" + i).transform.FindChild ("Center").transform.localEulerAngles = rotation;
+				if (GameObject.Find ("Reticle" + i).transform.position.x < GameObject.Find ("Player" + i).transform.position.x) {
+					GameObject.Find ("Player" + i).transform.FindChild ("Center").transform.localEulerAngles += new Vector3 (0, 180, 0);
+				}
+				if (hasItem [i - 1] && GameObject.Find ("Player" + i).transform.FindChild ("Center").GetChild (0).GetComponent<gun> () != null) {
+					if ((bool)mice [i - 1].Buttons.GetValue (0)) {
+						GameObject.Find ("Player" + i).transform.FindChild ("Center").GetChild (0).SendMessage ("click");
+					} else {
+						GameObject.Find ("Player" + i).transform.FindChild ("Center").GetChild (0).SendMessage ("unclick");
+					}
+				}
 
-            if ((bool)mice[i - 1].Buttons.GetValue(1)) {
-                GameObject.Find("Player" + i).GetComponent<GrappleLauncher>().SendMessage("fire");
-            } else {
-                GameObject.Find("Player" + i).GetComponent<GrappleLauncher>().SendMessage("mouseRelease");
-            }
+				if ((bool)mice [i - 1].Buttons.GetValue (1)) {
+					GameObject.Find ("Player" + i).GetComponent<GrappleLauncher> ().SendMessage ("fire");
+				} else {
+					GameObject.Find ("Player" + i).GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+				}
 
 
-            /*print(Vector3.Distance(playerPos, look));
+				/*print(Vector3.Distance(playerPos, look));
             if (Vector3.Distance(playerPos, look) > 10) {
                 Vector3 distanceSet = (playerPos - look).normalized * 5;
                 print(distanceSet);
                 mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
                 look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
             }*/
-
-        }
+			}
+		}
 	}
 
 	public void playerHasItem(int pID){

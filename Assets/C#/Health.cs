@@ -85,6 +85,7 @@ public class Health : MonoBehaviour {
 	public void resetPlayer() {
 		playerHealth = 1;
 		armorHealth = 0;
+		dead = false;
 	}
 
 	// Use this for initialization

@@ -6,7 +6,8 @@ public class player : MonoBehaviour {
 	private float currentY;
 	private float timeSincePickup = 1;
 	public int playerid;
-	private bool jumped, switchedKey, jumpedKey, death;
+	private bool jumped, switchedKey, jumpedKey;
+	public bool death;
 	private bool canMoveRight;
 	private bool canMoveLeft;
 
@@ -86,6 +87,7 @@ public class player : MonoBehaviour {
 			Vector3 reticlePos = GameObject.Find ("Reticle" + playerid).transform.position;
 			reticlePos.z = transform.position.z;
 			firingVector = (reticlePos - transform.position) / Vector3.Distance (reticlePos, transform.position);
+			GetComponent<LineRenderer> ().SetVertexCount(2);
 			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
