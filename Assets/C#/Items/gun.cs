@@ -3,7 +3,7 @@ using System.Collections;
 
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting;
+	public bool trigger, death, ejecting, canDual;
 	public float timeToShoot, projectileSpeed, damage, gunGoesPoof, spread;
 	private float timeSincelast;
 	public Vector2 itemAngle;

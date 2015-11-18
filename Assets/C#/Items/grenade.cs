@@ -24,7 +24,7 @@ public class grenade : MonoBehaviour {
             timePassed += Time.deltaTime;
         }
         if (timePassed >= fuseTime) {
-            GameObject ex = (GameObject)GameObject.Instantiate(explosion, this.transform.position, Quaternion.identity);
+            GameObject ex = (GameObject)GameObject.Instantiate(explosion, transform.FindChild("Sphere").transform.position, Quaternion.identity);
             ex.gameObject.layer = this.gameObject.layer;
             Destroy(gameObject);
         }
