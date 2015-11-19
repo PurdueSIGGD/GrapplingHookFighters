@@ -3,16 +3,19 @@ using System.Collections;
 
 public class gun : MonoBehaviour, item {
 
-	public bool trigger;
-	public float timeToShoot;
+	public bool trigger, death;
+	public float timeToShoot, projectileSpeed, damage, gunGoesPoof, spread;
 	private float timeSincelast;
 	public Vector2 itemAngle;
 	//the point at which bullets come out of
-	public Vector2 shootpoint;
+	public Vector3 shootPoint;
 	public Quaternion gunAngle;
-	public bullet kapeeeeewm;
+	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
 	public int playerid;
+	public bool automatic, raycastShoot;
+	private bool canFire = true;
+	public int ammo;
 
 	// Use this for initialization
 	void Start () {
@@ -20,11 +23,17 @@ public class gun : MonoBehaviour, item {
 	}
 
 	public void click(){
-		trigger = true;
-        print("Player " + this.playerid + " clicked");
+		if (automatic || canFire) {
+			trigger = true;
+			canFire = false;
+		}
+		else
+			trigger = false;
+       // print("Player " + this.playerid + " clicked");
     }
 
 	public void unclick(){
+		canFire = true;
 		trigger = false;
 	}
 
@@ -37,24 +46,50 @@ public class gun : MonoBehaviour, item {
 
 	// Update is called once per frame
 	void Update () {
-
-		//this needs to be revised to get an accurate start position for the bullet
-		shootpoint = transform.FindChild("Butthole").position;
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
 		//update shooting
 		timeSincelast += Time.deltaTime;
-		if (trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
-			reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
-			kapeeeeewm = (bullet)Instantiate(kapeeeeewm,shootpoint,GetComponentInParent<Transform>().rotation);
-			//this won't work until we can differentiate mouse clicks
+		if (!death && trigger && (timeSincelast > timeToShoot) && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
+			if (ammo > 0) {
 
-			Vector2 thing = reticlePos - shootpoint;
-			thing.Normalize();
-			kapeeeeewm.GetComponent<Rigidbody2D>().AddForce(thing*5f);
-			timeSincelast = 0;
+				ammo--;
+				shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
+
+				reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
+				GameObject g;
+				
+				g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
+				FiredProjectile FP = g.GetComponent<FiredProjectile>();
+				FP.damage = this.damage;
+				g.layer = this.transform.gameObject.layer;
+				Vector2 thing = reticlePos - (Vector2)shootPoint;
+				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
+				if (Vector2.Distance(reticlePos, playerPos) < Vector2.Distance(shootPoint, playerPos)) {
+					thing *= -1;
+				}
+				thing += spread * Random.insideUnitCircle;
+				thing.Normalize();			
+				g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
+				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * damage * thing); //Pushing back
+
+				for (int i = 0; i < gunGoesPoof; i++) {
+					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
+					if (this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
+					particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
+					particleG.GetComponent<ParticleScript>().time = .6f;
+				}
+				timeSincelast = 0;
+			} else {
+				//print("Click");
+			}
+
 		}
-
+		
+	}
+	void Death() {
+		death = true;
 	}
 }

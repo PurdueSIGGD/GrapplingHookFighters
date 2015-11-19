@@ -5,31 +5,46 @@ public class GrappleScript : MonoBehaviour {
 	public GameObject focus;
 	private bool firing, connected;
 	public bool retracting;
-	// Use this for initialization
 
+	private SpringJoint2D toPlayer, toPickup;
+	// Use this for initialization
+	void Start() {
+		toPlayer = this.transform.GetComponent<SpringJoint2D>();
+	}
 	void OnCollisionEnter2D(Collision2D col) {
 		Attach(col.gameObject);
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-		Attach(col.gameObject);
+		if (!col.isTrigger) Attach(col.gameObject);
 	}
 
 	void Attach(GameObject g) {
-		if (g.GetComponent<move>() == null && g.GetComponentInParent<move>() == null &&  (firing || retracting)) {
-			if (focus.name == "Player1" )print(g.name);
-			this.GetComponent<SpringJoint2D>().distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
+		if (g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null &&  (firing || retracting)) {
+//			if (focus.name == "Player1" )print(g.name);
+
+			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			this.GetComponent<Rigidbody2D>().isKinematic = true;
-			this.GetComponent<SpringJoint2D>().enabled = true;
+			if (g.GetComponent<gun>()) {
+				//DistanceJoint2D dj = this.gameObject.AddComponent<DistanceJoint2D>();
+				//dj.distance = 0;
+				//dj.connectedBody = g.GetComponent<Rigidbody2D>();
+			} else {
+				this.GetComponent<Rigidbody2D>().isKinematic = true;
+			}
+			toPlayer.enabled = true;
 			focus.SendMessage("Attach",g);
 			retracting = false;
 			connected = true;
 		}
 	}
 	void Release() {
-		this.GetComponent<Rigidbody2D>().isKinematic = false;
-		this.GetComponent<SpringJoint2D>().enabled = false;
+		if (!this.GetComponent<Rigidbody2D>().isKinematic) {
+			//Destroy (this.GetComponent<DistanceJoint2D>());
+		} else {
+			this.GetComponent<Rigidbody2D>().isKinematic = false;
+		}		
+		toPlayer.enabled = false;
 		connected = false;
 		firing = false;
 		retracting = true;
@@ -42,9 +57,12 @@ public class GrappleScript : MonoBehaviour {
 		if (connected) {
 			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) - .2f);
 			foreach (RaycastHit2D ray in r) {
-				if (ray.transform.gameObject.layer == this.gameObject.layer && ray.transform.GetComponent<move>() == null && ray.transform.GetComponentInParent<move>() == null && ray.transform.GetComponent<GrappleScript>() == null) {
-					print(ray.transform.name);
-					focus.SendMessage("Disconnect");
+				if (ray.transform.gameObject.layer == this.gameObject.layer 
+				    && ray.transform.GetComponent<player>() == null 
+				    && ray.transform.GetComponentInParent<player>() == null 
+				    && ray.transform.GetComponent<GrappleScript>() == null
+				    && ray.transform.GetComponent<gun>() == null) {
+					focus.SendMessage("Disconnect"); //Temporarily disabled for now
 				}
 			}
 		}

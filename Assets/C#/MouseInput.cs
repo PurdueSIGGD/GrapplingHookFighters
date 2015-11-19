@@ -53,7 +53,8 @@ public class MouseInput : MonoBehaviour {
 			} catch { }
 		}
 		for (int i = 1; i <= mousePosition.Length; i++) {
-            if (mice[i - 1] == null) {
+			if (mice[i - 1] == null || GameObject.Find("Player" + i).GetComponent<Health>().dead) {
+				GameObject.Find("Reticle" + i).GetComponent<SpriteRenderer>().enabled =	 false;
                 break;
             }
 
@@ -82,8 +83,8 @@ public class MouseInput : MonoBehaviour {
 			if(GameObject.Find("Reticle" + i).transform.position.x < GameObject.Find("Player" + i).transform.position.x) {
 				GameObject.Find("Player" + i).transform.FindChild("Center").transform.localEulerAngles += new Vector3(0, 180, 0);
 			}
-			if (hasItem[i - 1]) {
-	            if ((bool) mice[i - 1].Buttons.GetValue(0)) {
+			if (hasItem[i - 1] && GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).GetComponent<gun>() != null) {
+				if ((bool) mice[i - 1].Buttons.GetValue(0)) {
 	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("click");
 	            } else {
 	                GameObject.Find("Player" + i).transform.FindChild("Center").GetChild(0).SendMessage("unclick");
@@ -111,6 +112,10 @@ public class MouseInput : MonoBehaviour {
 	public void playerHasItem(int pID){
 		hasItem [pID - 1] = true;
 	}
+	public void playerHasNotItem(int pID){
+		hasItem [pID - 1] = false;
+	}
+
 	
 	void OnGUI() {
 		GUILayout.Label("Connected:");

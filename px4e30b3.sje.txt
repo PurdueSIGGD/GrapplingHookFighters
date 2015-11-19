@@ -1,0 +1,196 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/master' into Auto_Zooming_Camera
+
+Conflicts:
+	Assets/Prefabs/pistol.prefab
+	Assets/Scenes/Scene1.unity
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Auto_Zooming_Camera
+# Your branch is up-to-date with 'origin/Auto_Zooming_Camera'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   Assets/C#/GrappleLauncher.cs
+#	modified:   Assets/C#/GrappleScript.cs
+#	new file:   Assets/C#/Hazard.cs
+#	renamed:    Assets/C#/Items/bullet.cs.meta -> Assets/C#/Hazard.cs.meta
+#	modified:   Assets/C#/Health.cs
+#	new file:   Assets/C#/Items/ExplosionScript.cs
+#	new file:   Assets/C#/Items/ExplosionScript.cs.meta
+#	new file:   Assets/C#/Items/FiredProjectile.cs
+#	new file:   Assets/C#/Items/FiredProjectile.cs.meta
+#	deleted:    Assets/C#/Items/bullet.cs
+#	new file:   Assets/C#/Items/bulletScript.cs
+#	new file:   Assets/C#/Items/bulletScript.cs.meta
+#	modified:   Assets/C#/Items/gun.cs
+#	modified:   Assets/C#/MouseInput.cs
+#	new file:   Assets/C#/ParticleScript.cs
+#	new file:   Assets/C#/ParticleScript.cs.meta
+#	deleted:    Assets/C#/move.cs
+#	new file:   Assets/C#/player.cs
+#	renamed:    Assets/C#/move.cs.meta -> Assets/C#/player.cs.meta
+#	new file:   Assets/Images.meta
+#	new file:   Assets/Images/Particle.png
+#	new file:   Assets/Images/Particle.png.meta
+#	new file:   Assets/Images/TempArt.meta
+#	new file:   Assets/Images/TempArt/Asteroid1.png
+#	new file:   Assets/Images/TempArt/Asteroid1.png.meta
+#	new file:   Assets/Images/TempArt/Big Toilet 2.png
+#	new file:   Assets/Images/TempArt/Big Toilet 2.png.meta
+#	new file:   Assets/Images/TempArt/Big Toilet.png
+#	new file:   Assets/Images/TempArt/Big Toilet.png.meta
+#	new file:   Assets/Images/TempArt/MetalCrateFood.png
+#	new file:   Assets/Images/TempArt/MetalCrateFood.png.meta
+#	new file:   Assets/Images/TempArt/ball.png
+#	new file:   Assets/Images/TempArt/ball.png.meta
+#	new file:   Assets/Images/TempArt/skull.png
+#	new file:   Assets/Images/TempArt/skull.png.meta
+#	new file:   Assets/Images/TempArt/spike.png
+#	new file:   Assets/Images/TempArt/spike.png.meta
+#	new file:   Assets/Images/Thumbs.db
+#	new file:   Assets/Images/Thumbs.db.meta
+#	new file:   Assets/Images/exploded_explosion.meta
+#	new file:   Assets/Images/exploded_explosion/New Animation.anim
+#	renamed:    Assets/Prefabs/Player.prefab.meta -> Assets/Images/exploded_explosion/New Animation.anim.meta
+#	new file:   Assets/Images/exploded_explosion/Thumbs.db
+#	new file:   Assets/Images/exploded_explosion/Thumbs.db.meta
+#	new file:   Assets/Images/exploded_explosion/Untitled-1.png
+#	new file:   Assets/Images/exploded_explosion/Untitled-1.png.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-10.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-10.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-11.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-11.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-12.controller
+#	renamed:    Assets/Prefabs/Grapple.prefab.meta -> Assets/Images/exploded_explosion/tmp-12.controller.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-12.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-12.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-13.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-13.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-14.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-14.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-15.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-15.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-16.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-16.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-17.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-17.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-18.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-18.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-19.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-19.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-20.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-20.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-21.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-21.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-22.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-22.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-23.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-23.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-24.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-24.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-8.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-8.gif.meta
+#	new file:   Assets/Images/exploded_explosion/tmp-9.gif
+#	new file:   Assets/Images/exploded_explosion/tmp-9.gif.meta
+#	renamed:    Assets/Materials/Friction.physicsMaterial2D -> Assets/Materials/PlatformFriction.physicsMaterial2D
+#	renamed:    Assets/Materials/Friction.physicsMaterial2D.meta -> Assets/Materials/PlatformFriction.physicsMaterial2D.meta
+#	deleted:    Assets/Prefabs/Grapple.prefab
+#	new file:   Assets/Prefabs/Items.meta
+#	new file:   Assets/Prefabs/Items/Ball.prefab
+#	new file:   Assets/Prefabs/Items/Ball.prefab.meta
+#	new file:   Assets/Prefabs/Items/Box.prefab
+#	new file:   Assets/Prefabs/Items/Box.prefab.meta
+#	new file:   Assets/Prefabs/Items/Toilet.prefab
+#	new file:   Assets/Prefabs/Items/Toilet.prefab.meta
+#	new file:   Assets/Prefabs/Main Camera (1).prefab
+#	new file:   Assets/Prefabs/Main Camera (1).prefab.meta
+#	new file:   Assets/Prefabs/MouseInput.prefab
+#	new file:   Assets/Prefabs/MouseInput.prefab.meta
+#	new file:   Assets/Prefabs/Particle.prefab
+#	new file:   Assets/Prefabs/Particle.prefab.meta
+#	new file:   Assets/Prefabs/Players.meta
+#	new file:   Assets/Prefabs/Players/Player1Parent.prefab
+#	new file:   Assets/Prefabs/Players/Player1Parent.prefab.meta
+#	new file:   Assets/Prefabs/Players/Player2Parent.prefab
+#	new file:   Assets/Prefabs/Players/Player2Parent.prefab.meta
+#	new file:   Assets/Prefabs/Players/Player3Parent.prefab
+#	new file:   Assets/Prefabs/Players/Player3Parent.prefab.meta
+#	new file:   Assets/Prefabs/Players/Player4Parent.prefab
+#	new file:   Assets/Prefabs/Players/Player4Parent.prefab.meta
+#	new file:   Assets/Prefabs/Weapons.meta
+#	new file:   Assets/Prefabs/Weapons/Explosion.prefab
+#	new file:   Assets/Prefabs/Weapons/Explosion.prefab.meta
+#	new file:   Assets/Prefabs/Weapons/Famas.prefab
+#	new file:   Assets/Prefabs/Weapons/Famas.prefab.meta
+#	renamed:    Assets/Prefabs/bullet.prefab -> Assets/Prefabs/Weapons/RPG.prefab
+#	new file:   Assets/Prefabs/Weapons/RPG.prefab.meta
+#	new file:   Assets/Prefabs/Weapons/bulletParticle.prefab
+#	new file:   Assets/Prefabs/Weapons/bulletParticle.prefab.meta
+#	new file:   Assets/Prefabs/Weapons/pistol.prefab
+#	renamed:    Assets/Prefabs/pistol.prefab.meta -> Assets/Prefabs/Weapons/pistol.prefab.meta
+#	renamed:    Assets/Prefabs/Player.prefab -> Assets/Prefabs/Weapons/rocket.prefab
+#	renamed:    Assets/Prefabs/bullet.prefab.meta -> Assets/Prefabs/Weapons/rocket.prefab.meta
+#	modified:   Assets/Scenes/GrappleTest.unity
+#	modified:   Assets/Scenes/Item Powerup Scene.unity
+#	modified:   Assets/Scenes/PickUpTest.unity
+#	new file:   Assets/Scenes/SpikeTest.unity
+#	new file:   Assets/Scenes/SpikeTest.unity.meta
+#	modified:   ProjectSettings/InputManager.asset
+#	modified:   ProjectSettings/TagManager.asset
+#	new file:   TempArt/Asteroid2.png
+#	new file:   TempArt/Background.png
+#	new file:   TempArt/Cell Floor Tile 12-5-12.png
+#	new file:   TempArt/Coin.png
+#	new file:   TempArt/EMP.png
+#	new file:   TempArt/EMP2.png
+#	new file:   TempArt/EMPLeft1.png
+#	new file:   TempArt/EMPLeft2.png
+#	new file:   TempArt/EMPRight1.png
+#	new file:   TempArt/EMPRight2.png
+#	new file:   TempArt/Floor Tile 2 12-5-12.png
+#	new file:   TempArt/GovtBuilding.png
+#	new file:   TempArt/Jail Bar 2.png
+#	new file:   TempArt/Jail Bar.png
+#	new file:   TempArt/LadderBottom.png
+#	new file:   TempArt/LadderMiddle.png
+#	new file:   TempArt/LadderTop.png
+#	new file:   TempArt/Laser.png
+#	new file:   TempArt/LaserLight.png
+#	new file:   TempArt/LeverOff.png
+#	new file:   TempArt/LeverOn.png
+#	new file:   TempArt/SkyBackground.png
+#	new file:   TempArt/Spikes.png
+#	new file:   TempArt/SpinningBallofDeath.png
+#	new file:   TempArt/Sun.png
+#	new file:   TempArt/Thumbs.db
+#	new file:   TempArt/Top Jail Bar 2.png
+#	new file:   TempArt/Top Jail Bar.png
+#	new file:   TempArt/Turret.png
+#	new file:   TempArt/Vertical Jail Bar 2.png
+#	new file:   TempArt/Vertical Jail Bar.png
+#	new file:   TempArt/Wall Tile 1.png
+#	new file:   TempArt/Wall Tile 2.png
+#	new file:   TempArt/Wolf 1 Right Side 1-21-13.png
+#	new file:   TempArt/arrow.png
+#	new file:   TempArt/beachTile.png
+#	new file:   TempArt/beachTileCorner.png
+#	new file:   TempArt/beachTileInner.png
+#	new file:   TempArt/beachTileInvertecCorner.png
+#	new file:   TempArt/beachTileSide.png
+#	new file:   TempArt/boyEnemy.png
+#	new file:   TempArt/boyIdleSpriteSheet.png
+#	new file:   TempArt/boyWalkSpriteSheet.png
+#	new file:   TempArt/girlEnemy.png
+#	new file:   TempArt/girlIdleSpriteSheet.png
+#	new file:   TempArt/girlWalkSpriteSheet.png
+#	new file:   TempArt/spring.png
+#
+
