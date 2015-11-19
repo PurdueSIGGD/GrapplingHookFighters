@@ -116,7 +116,7 @@ public class player : MonoBehaviour {
 					if (bbbb.size == new Vector2(1,1)) bbbb.isTrigger = false;
 				}
 			}
-			timeSincePickup = 0;
+            timeSincePickup = 0;
 			heldItem1.GetComponent<Rigidbody2D> ().isKinematic = false;
 			if (b) heldItem1.GetComponent<Rigidbody2D> ().AddForce (500 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 			heldItem1.GetComponent<Rigidbody2D> ().AddTorque (3);
@@ -206,45 +206,45 @@ public class player : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D col) {
 		if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && (col.transform.parent == null || col.GetComponent<Health>())  && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
-			if (pickUpKey()) {
-				if (heldItem1 == null) {
-					Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
-					timeSincePickup = 0;
-					heldItem1 = col.gameObject;
-					if (heldItem1.GetComponent<PolygonCollider2D>()) heldItem1.GetComponent<PolygonCollider2D>().isTrigger = true;
-					else {
-						foreach (BoxCollider2D b in heldItem1.GetComponents<BoxCollider2D>()) {
-							b.isTrigger = true;
-						}
-					}
-					col.SendMessage("ignoreColl",this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-					Transform center = this.gameObject.transform.FindChild("Center");
-					heldItem1.GetComponent<Rigidbody2D>().isKinematic = true;
-					heldItem1.transform.SetParent(center);
-					heldItem1.transform.position = (center.transform.position + .6f * this.firingVector);
-					heldItem1.transform.rotation = center.transform.rotation;
-					if (heldItem1.GetComponent<gun>()) {
-						heldItem1.SendMessage("SetPlayerID", playerid);
-					} 
-					GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
-					canPickup = false;
-				} else if (heldItem2 == null && !col.GetComponent<player>()  && ( heldItem1.GetComponent<grenade>() || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) ) {
-					Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
-					timeSincePickup = 0;
-					heldItem2 = col.gameObject;
-					if (heldItem2.GetComponent<PolygonCollider2D>()) heldItem2.GetComponent<PolygonCollider2D>().isTrigger = true;
-					else {
-						foreach (BoxCollider2D b in heldItem2.GetComponents<BoxCollider2D>()) {
-							b.isTrigger = true;
-						}
-					}
-					col.SendMessage("ignoreColl",this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-					Transform center = this.gameObject.transform.FindChild("Center");
-					heldItem2.GetComponent<Rigidbody2D>().isKinematic = true;
-					heldItem2.transform.SetParent(center);
-					heldItem2.transform.position = (center.transform.position + .4f * this.firingVector + .2f * Vector3.up);
-					heldItem2.transform.rotation = center.transform.rotation;
-					if (heldItem2.GetComponent<gun>()) {
+            if (pickUpKey()) {
+                if (heldItem1 == null) {
+                    Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
+                    timeSincePickup = 0;
+                    heldItem1 = col.gameObject;
+                    if (heldItem1.GetComponent<PolygonCollider2D>()) heldItem1.GetComponent<PolygonCollider2D>().isTrigger = true;
+                    else {
+                        foreach (BoxCollider2D b in heldItem1.GetComponents<BoxCollider2D>()) {
+                            b.isTrigger = true;
+                        }
+                    }
+                    col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
+                    Transform center = this.gameObject.transform.FindChild("Center");
+                    heldItem1.GetComponent<Rigidbody2D>().isKinematic = true;
+                    heldItem1.transform.SetParent(center);
+                    heldItem1.transform.position = (center.transform.position + .6f * this.firingVector);
+                    heldItem1.transform.rotation = center.transform.rotation;
+                    if (heldItem1.GetComponent<gun>() || heldItem1.GetComponent<PortalGun>()) {
+                        heldItem1.SendMessage("SetPlayerID", playerid);
+                    }
+                    GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
+                    canPickup = false;
+                } else if (heldItem2 == null && !col.GetComponent<player>() && (heldItem1.GetComponent<grenade>() || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual))) {
+                    Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
+                    timeSincePickup = 0;
+                    heldItem2 = col.gameObject;
+                    if (heldItem2.GetComponent<PolygonCollider2D>()) heldItem2.GetComponent<PolygonCollider2D>().isTrigger = true;
+                    else {
+                        foreach (BoxCollider2D b in heldItem2.GetComponents<BoxCollider2D>()) {
+                            b.isTrigger = true;
+                        }
+                    }
+                    col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
+                    Transform center = this.gameObject.transform.FindChild("Center");
+                    heldItem2.GetComponent<Rigidbody2D>().isKinematic = true;
+                    heldItem2.transform.SetParent(center);
+                    heldItem2.transform.position = (center.transform.position + .4f * this.firingVector + .2f * Vector3.up);
+                    heldItem2.transform.rotation = center.transform.rotation;
+                    if (heldItem2.GetComponent<gun>() || heldItem2.GetComponent<PortalGun>()) {
 						heldItem2.SendMessage("SetPlayerID", playerid);
 					} 
 					GameObject.Find("MouseInput").SendMessage("playerHasItem2", playerid);
