@@ -23,24 +23,19 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void Attach(GameObject g) {
-		if (g.transform != lastGrab && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.GetComponent<Rigidbody2D>() == null &&  (firing || retracting)) {
-//			if (focus.name == "Player1" )print(g.name);
+		if (g.transform != lastGrab && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.GetComponent<Rigidbody2D>() == null && (firing || retracting)) {
 
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
 			Vector2[] vee = new Vector2[2];
 			vee[0] = Vector2.zero;
 			vee[1] = focus.transform.position - this.transform.position;
 			lineCol.points = vee;*/
+			this.transform.parent = g.transform;
 			lastGrab = g.transform;
 			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			if (g.GetComponent<gun>()) {
-				//DistanceJoint2D dj = this.gameObject.AddComponent<DistanceJoint2D>();
-				//dj.distance = 0;
-				//dj.connectedBody = g.GetComponent<Rigidbody2D>();
-			} else {
-				this.GetComponent<Rigidbody2D>().isKinematic = true;
-			}
+			this.GetComponent<Rigidbody2D>().isKinematic = true;
+
 			toPlayer.enabled = true;
 			focus.SendMessage("Attach",g);
 			retracting = false;
@@ -48,6 +43,7 @@ public class GrappleScript : MonoBehaviour {
 		}
 	}
 	void Release() {
+		this.transform.parent = focus.transform.parent; //for if it moves
 		if (!this.GetComponent<Rigidbody2D>().isKinematic) {
 			//Destroy (this.GetComponent<DistanceJoint2D>());
 		} else {

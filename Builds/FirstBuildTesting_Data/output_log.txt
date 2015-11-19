@@ -19,7 +19,7 @@ Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBui
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\RawMouseDriver.dll (this message is harmless)
 Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\RawMouseDriver.dll into Unity Child Domain
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.076 seconds
+- Completed reload, in  1.626 seconds
 desktop: 1366x768 60Hz; virtual: 3286x1080 at -1920,-312
 <RI> Initializing input.
 <RI> Input initialized.
@@ -28,15 +28,15 @@ Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Buil
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\System.Windows.Forms.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\System.Drawing.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\Accessibility.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 4dc -> priority: 1 
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/.\libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libc
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\FirstBuildTesting_Data\Managed\Mono.Posix.dll (this message is harmless)
-Setting up 1 worker threads for Enlighten.
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/.\libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libc
-  Thread -> id: 1774 -> priority: 1 
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libX11
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/.\libX11
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/FirstBuildTesting_Data/Mono/libX11

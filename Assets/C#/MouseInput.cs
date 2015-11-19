@@ -79,24 +79,48 @@ public class MouseInput : MonoBehaviour {
 				if (Reticle.position.x < Player.position.x) {
 					Center.localEulerAngles += new Vector3 (0, 180, 0);
 				}
-				if (hasItem[i - 1] && Center.GetChild(0).childCount > 0 && !Center.GetChild (0).GetComponent<player>()) {
-                    if ((bool)mice [i - 1].Buttons.GetValue (0)) {
-						Center.GetChild (0).SendMessage ("click");
+				if (hasItem[i - 1] && Center.GetChild(0).childCount > 0 && (Center.GetChild (0).GetComponent<gun>() || Center.GetChild (0).GetComponent<grenade>())) {
+                    if (Player.GetComponent<player>().joystickController) {
+						if (Input.GetAxis("JFire" + i) > 0) {
+							Center.GetChild (0).SendMessage ("click");
+						} else {
+							Center.GetChild (0).SendMessage ("unclick");
+						}
 					} else {
-						Center.GetChild (0).SendMessage ("unclick");
+						if ((bool)mice [i - 1].Buttons.GetValue (0)) {
+							Center.GetChild (0).SendMessage ("click");
+						} else {
+							Center.GetChild (0).SendMessage ("unclick");
+						}
 					}
 				}
 				if (hasItem2[i - 1] && Center.childCount > 1 && Center.GetChild(1).childCount > 0 && !Center.GetChild (1).GetComponent<player>()) {
-					if ((bool)mice [i - 1].Buttons.GetValue (1)) {
-						Center.GetChild (1).SendMessage ("click");
+					if (Player.GetComponent<player>().joystickController) {
+						if (Input.GetAxis("AltJFire" + i) > 0) {
+							Center.GetChild (1).SendMessage ("click");
+						} else {
+							Center.GetChild (1).SendMessage ("unclick");
+						}
 					} else {
-						Center.GetChild (1).SendMessage ("unclick");
+						if ((bool)mice [i - 1].Buttons.GetValue (1)) {
+							Center.GetChild (1).SendMessage ("click");
+						} else {
+							Center.GetChild (1).SendMessage ("unclick");
+						}
 					}
 				} else {
-					if ((bool)mice [i - 1].Buttons.GetValue (1)) {
-						Player.GetComponent<GrappleLauncher> ().SendMessage ("fire");
+					if (Player.GetComponent<player>().joystickController) {
+						if (Input.GetAxis("AltJFire" + i) > 0) {
+							Player.GetComponent<GrappleLauncher> ().SendMessage ("fire");
+						} else {
+							Player.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+						}
 					} else {
-						Player.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+						if ((bool)mice [i - 1].Buttons.GetValue (1)) {
+							Player.GetComponent<GrappleLauncher> ().SendMessage ("fire");
+						} else {
+							Player.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+						}
 					}
 				}
 

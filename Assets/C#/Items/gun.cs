@@ -96,6 +96,7 @@ public class gun : MonoBehaviour, item {
 					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
 					if (this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
 					particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
+					particleG.GetComponent<Rigidbody2D>().gravityScale = -.3f;
 					particleG.GetComponent<ParticleScript>().time = .6f;
 				}
 				timeSincelast = 0;

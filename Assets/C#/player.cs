@@ -7,7 +7,7 @@ public class player : MonoBehaviour {
 	private float timeSincePickup = 1;
 	public int playerid;
 	private bool jumped, switchedKey, jumpedKey;
-	public bool death;
+	public bool death, joystickController;
 	private bool canMoveRight;
 	private bool canMoveLeft, canPickup;
 
@@ -75,10 +75,10 @@ public class player : MonoBehaviour {
 
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x > -10 && canMoveLeft && goLeft ()) {
-				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (jumped?-20:-40, 0, 0));
+				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + playerid)):-1) * new Vector3 (jumped?20:40, 0, 0));
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x < 10 && canMoveRight && goRight ()) {
-				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (jumped?20:40, 0, 0));
+				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + playerid)):1) * new Vector3 (jumped?20:40, 0, 0));
 			} 
 			if (goDown ()) {
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, -10, 0));
@@ -95,7 +95,7 @@ public class player : MonoBehaviour {
 			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
-			if (pickUpKey () && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
+			if (pickUpKey () && timeSincePickup > .15f && (!canPickup || (heldItem1 && heldItem2))) {
 				//drop weapon
 				timeSincePickup = 0;
 				if (heldItem2 != null)
@@ -140,6 +140,7 @@ public class player : MonoBehaviour {
 			if (heldItem2.GetComponent<gun> ()) heldItem2.GetComponent<gun> ().unclick ();
 			heldItem2 = null;
 		}
+		canPickup = true;
 	}
 	bool changePlane() {
 		/* If the input has its first time being pressed down   */
@@ -156,17 +157,19 @@ public class player : MonoBehaviour {
 		}
 	}
 	bool goLeft() {
-		return (Input.GetAxis("HorizontalP" + playerid) < 0);
+		//if (name == "Player1" )print(Input.GetAxis("HorizontalP" + playerid));
+
+		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + playerid) < 0);
 	}
 	bool goRight() {
-		return (Input.GetAxis("HorizontalP" + playerid) > 0);
+		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + playerid) > 0);
 	}
 	bool goDown() {
-		return (!death && Input.GetAxis("VerticalP" + playerid) < 0);
+		return (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + playerid) < -.5);
 	}
 
 	bool jump() {
-		if (!death && Input.GetAxis("VerticalP" + playerid) == 1) {
+		if (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + playerid) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 
 			return true;
@@ -178,8 +181,7 @@ public class player : MonoBehaviour {
 		return (!death && Input.GetAxis("UseP" + playerid) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-		if (!(heldItem1 && heldItem2) && //I have at least one weapon avaliable
-		    (!heldItem1 || (heldItem1.GetComponent<grenade>()) || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) && 
+		if ((!heldItem1 || (heldItem1.GetComponent<grenade>()) || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) && 
 		    col.CompareTag("Item") &&  //It is an item to pick up
 		    col.GetComponent<HeldItem>() && //it can be held
 		    (col.transform.parent == null || col.GetComponent<Health>())  &&  //check parent null so you can't steal weapons
@@ -228,7 +230,8 @@ public class player : MonoBehaviour {
 					} 
 					GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 					canPickup = false;
-				} else if (heldItem2 == null && !col.GetComponent<player>()  && ( heldItem1.GetComponent<grenade>() || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) ) {
+				} else if (heldItem2 == null && !col.GetComponent<player>()  && (((heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual) || (col.GetComponent<grenade>())) && (col.GetComponent<grenade>() || (col.GetComponent<gun>() && col.GetComponent<gun>().canDual))) ) {
+					this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
 					Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
 					timeSincePickup = 0;
 					heldItem2 = col.gameObject;
