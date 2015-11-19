@@ -13,6 +13,7 @@ public class PortalGun : MonoBehaviour {
 
 
     public void click() {
+
         if (canFire) {
             canFire = false;
             trigger = true;

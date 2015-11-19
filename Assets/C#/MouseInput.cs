@@ -79,7 +79,7 @@ public class MouseInput : MonoBehaviour {
 				if (Reticle.position.x < Player.position.x) {
 					Center.localEulerAngles += new Vector3 (0, 180, 0);
 				}
-				if (hasItem[i - 1] && Center.GetChild(0).childCount > 0 && (Center.GetChild (0).GetComponent<gun>() || Center.GetChild (0).GetComponent<grenade>())) {
+				if (hasItem[i - 1] && Center.GetChild(0).childCount > 0 && (Center.GetChild (0).GetComponent<gun>() || Center.GetChild (0).GetComponent<PortalGun>() || Center.GetChild (0).GetComponent<grenade>())) {
                     if (Player.GetComponent<player>().joystickController) {
 						if (Input.GetAxis("JFire" + i) > 0) {
 							Center.GetChild (0).SendMessage ("click");

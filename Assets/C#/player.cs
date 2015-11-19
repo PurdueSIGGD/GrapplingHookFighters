@@ -225,7 +225,8 @@ public class player : MonoBehaviour {
 					heldItem1.transform.SetParent(center);
 					heldItem1.transform.position = (center.transform.position + .6f * this.firingVector);
 					heldItem1.transform.rotation = center.transform.rotation;
-					if (heldItem1.GetComponent<gun>()) {
+					if (heldItem1.GetComponent<gun>() || heldItem1.GetComponent<PortalGun>()) {
+						print("set");
 						heldItem1.SendMessage("SetPlayerID", playerid);
 					} 
 					GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
