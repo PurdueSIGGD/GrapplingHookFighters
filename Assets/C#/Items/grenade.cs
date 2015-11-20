@@ -6,10 +6,10 @@ public class grenade : MonoBehaviour {
     private bool pullPin = false;
     private bool pinPulled = false;
 
-    public float fuseTime;
+    public float fuseTime, fuseParticleInterval;
     private float timePassed = 0;
 
-    public GameObject explosion;
+    public GameObject explosion, particle;
 
     public void Update() {
         if (pullPin) {
@@ -21,7 +21,14 @@ public class grenade : MonoBehaviour {
             transform.FindChild("Pin").transform.parent = null;
         }
         if (pinPulled) {
+			fuseParticleInterval += Time.deltaTime;
             timePassed += Time.deltaTime;
+			if (fuseParticleInterval > .3f) {
+				GameObject particleG =(GameObject) GameObject.Instantiate(particle, transform.FindChild("Cube").transform.position + Vector3.forward * .05f, this.transform.rotation);
+				particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle));
+				particleG.GetComponent<Rigidbody2D>().gravityScale = -.3f;
+				particleG.GetComponent<ParticleScript>().time = .35f;
+			}
         }
         if (timePassed >= fuseTime) {
             GameObject ex = (GameObject)GameObject.Instantiate(explosion, transform.FindChild("Sphere").transform.position, Quaternion.identity);

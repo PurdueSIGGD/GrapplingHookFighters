@@ -226,12 +226,11 @@ public class player : MonoBehaviour {
 					heldItem1.transform.position = (center.transform.position + .6f * this.firingVector);
 					heldItem1.transform.rotation = center.transform.rotation;
 					if (heldItem1.GetComponent<gun>() || heldItem1.GetComponent<PortalGun>()) {
-						print("set");
 						heldItem1.SendMessage("SetPlayerID", playerid);
 					} 
 					GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
 					canPickup = false;
-				} else if (heldItem2 == null && !col.GetComponent<player>()  && (((heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual) || (col.GetComponent<grenade>())) && (col.GetComponent<grenade>() || (col.GetComponent<gun>() && col.GetComponent<gun>().canDual))) ) {
+				} else if (heldItem2 == null && !col.GetComponent<player>()  && (((heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual) || (heldItem1.GetComponent<grenade>())) && (col.GetComponent<grenade>() || (col.GetComponent<gun>() && col.GetComponent<gun>().canDual))) ) {
 					this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
 					Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
 					timeSincePickup = 0;
