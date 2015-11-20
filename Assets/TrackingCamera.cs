@@ -26,7 +26,7 @@ public class TrackingCamera : MonoBehaviour {
 			Vector3 avgPos = Vector3.zero;
 			int i = 0;
 			foreach (GameObject g in targets) {
-				if (g.activeInHierarchy) {
+				if (!g.GetComponent<Health>().dead) {
 					avgX += g.transform.position.x;
 					avgY += g.transform.position.y;
 					if (i == 0) {
@@ -87,7 +87,7 @@ public class TrackingCamera : MonoBehaviour {
 	
 	bool AnyPlayersInZoomOutBounds() {
 		foreach (GameObject g in targets) {
-			if (g.activeInHierarchy) {
+			if (!g.GetComponent<Health>().dead) {
 				//Debug.Log("Checking: " + g);
 				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
 				//Debug.Log (viewPos);
@@ -101,7 +101,7 @@ public class TrackingCamera : MonoBehaviour {
 
 	bool AllPlayersInZoomInBounds() {
 		foreach (GameObject g in targets) {
-			if (g.activeInHierarchy) {
+			if (!g.GetComponent<Health>().dead) {
 				//Debug.Log("Checking: " + g);
 				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
 				//Debug.Log (viewPos);
