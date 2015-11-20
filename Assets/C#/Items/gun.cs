@@ -57,7 +57,7 @@ public class gun : MonoBehaviour, item {
 
 				ammo--;
 				shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
-				reticlePos = GameObject.FindGameObjectWithTag("MainCamera").transform.FindChild("Reticle" + playerid).position;
+				reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
 				//Vector2 thing = reticlePos - (Vector2)shootPoint;
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
 
