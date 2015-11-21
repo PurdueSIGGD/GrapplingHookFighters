@@ -4,7 +4,7 @@ using System.Collections;
 public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual;
-	public float timeToShoot, projectileSpeed, damage, gunGoesPoof, spread;
+	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread;
 	private float timeSincelast;
 	public Vector2 itemAngle;
 	//the point at which bullets come out of
@@ -77,7 +77,7 @@ public class gun : MonoBehaviour, item {
 					g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
 					thing = f.normalized;
 				}
-				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * damage * thing); //Pushing back
+				transform.parent.GetComponentInParent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 				if (ejecting) {
 					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
 					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);

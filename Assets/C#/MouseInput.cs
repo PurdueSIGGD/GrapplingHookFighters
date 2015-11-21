@@ -101,7 +101,7 @@ public class MouseInput : MonoBehaviour {
 
 
 
-			if (hasItem[i - 1] && center.GetChild(0).childCount > 0 && (center.GetChild (0).GetComponent<gun>() || center.GetChild (0).GetComponent<grenade>() || center.GetChild (0).GetComponent<PortalGun>())) {
+			if (hasItem[i - 1] && center.childCount >= 1 && center.GetChild(0).childCount > 0 && (center.GetChild (0).GetComponent<gun>() || center.GetChild (0).GetComponent<grenade>() || center.GetChild (0).GetComponent<PortalGun>())) {
 				if (player.GetComponent<player>().joystickController) {
 					if (Input.GetAxis("JFire" + i) > 0) {
 						center.GetChild (0).SendMessage ("click");
