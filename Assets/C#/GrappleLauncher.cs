@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GrappleLauncher : MonoBehaviour {
 	private bool firing, retracting, attached, mouseReleased, death;
+	private float grappleTimer;
 	private GameObject firedGrapple;
 	public GameObject grappleHook;
 	// Use this for initialization
@@ -13,6 +14,8 @@ public class GrappleLauncher : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
+		else grappleTimer = 0;
 		if (!death) {
 			firedGrapple.gameObject.layer = this.gameObject.layer;
 			if (attached) this.GetComponent<Rigidbody2D>().AddForce(8 * Vector2.up);
@@ -43,34 +46,35 @@ public class GrappleLauncher : MonoBehaviour {
 	}
 
     void fire() {
-        if (!mouseReleased) {
-            return;
-        }
-        Vector2 firingVector = GetComponent<player>().firingVector; //get the angle in which we want to launch
-        if (!firing && !retracting && firedGrapple.GetComponent<GrappleScript>().breakTime <= 0) {
-            this.mouseReleased = false;
-            firing = true;
-            firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
-            firedGrapple.SendMessage("Launch", firingVector);
-        } else {
-            if (attached || firing) {
-                Disconnect();
+		if (grappleTimer <= 0) {
+	        if (!mouseReleased) {
+	            return;
+	        }
+			grappleTimer = .3f;
+	        Vector2 firingVector = GetComponent<player>().firingVector; //get the angle in which we want to launch
+	        if (!firing && !retracting && firedGrapple.GetComponent<GrappleScript>().breakTime <= 0) {
+	            this.mouseReleased = false;
+	            firing = true;
+	            firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
+	            firedGrapple.SendMessage("Launch", firingVector);
+	        } else {
+	            if (attached || firing) {
+	                Disconnect();
 
-            } else {
-                //retracting = true;
-                //retract grapple
-            }
-        }
+	            } else {
+	                //retracting = true;
+	                //retract grapple
+	            }
+	        }
+		}
     }
 
     void mouseRelease() {
         this.mouseReleased = true;
     }
 
-	void Attach(GameObject g) {
-
+	void Attach() {
 		attached = true;
-
 	}
 	void Disconnect() {
 		if (firing || retracting) {

@@ -20,17 +20,13 @@ public class player : MonoBehaviour {
 
 	static int layer1Value = 8;
 	static int layer2Value = 9;
+
+	public int joystickID = 1;
 	
 	
 	private float time = 0.0f;
 
-	// Use this for initialization
 	void Start () {
-
-	/*	gun[] guns = GameObject.FindObjectsOfType<gun>();
-		foreach (gun g in guns) {
-			Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), g.transform.GetComponent<Collider2D>());
-		}*/
 
 		GameObject.Find("Reticle" + playerid).transform.position = transform.position;
 		//switchedKey = true;
@@ -75,15 +71,15 @@ public class player : MonoBehaviour {
 
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x > -10 && canMoveLeft && goLeft ()) {
-				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + playerid)):-1) * new Vector3 (jumped?20:40, 0, 0));
+				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + joystickID)):-1) * new Vector3 (jumped?20:40, 0, 0));
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x < 10 && canMoveRight && goRight ()) {
-				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + playerid)):1) * new Vector3 (jumped?20:40, 0, 0));
+				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + joystickID)):1) * new Vector3 (jumped?20:40, 0, 0));
 			} 
 			if (goDown ()) {
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, -10, 0));
 			}
-			if (Mathf.Abs (this.GetComponent<Rigidbody2D> ().velocity.y) < .1f && !jumped && jump ()) {
+			if (!jumped && jump () && Mathf.Abs (this.GetComponent<Rigidbody2D> ().velocity.y) < .1f) {
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 500, 0));
 				jumped = true;
 			}
@@ -144,7 +140,7 @@ public class player : MonoBehaviour {
 	}
 	bool changePlane() {
 		/* If the input has its first time being pressed down   */
-		if (!death && Input.GetAxisRaw("Switch" + playerid) > 0) {
+		if (!death && Input.GetAxisRaw("Switch" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) > 0) {
 			if (switchedKey) {
 				switchedKey = false;
 				return true;
@@ -159,17 +155,17 @@ public class player : MonoBehaviour {
 	bool goLeft() {
 		//if (name == "Player1" )print(Input.GetAxis("HorizontalP" + playerid));
 
-		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + playerid) < 0);
+		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) < 0);
 	}
 	bool goRight() {
-		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + playerid) > 0);
+		return (Input.GetAxis("HorizontalP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) > 0);
 	}
 	bool goDown() {
-		return (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + playerid) < -.5);
+		return (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)	) < -.5);
 	}
 
 	bool jump() {
-		if (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + playerid) == 1) {
+		if (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) == 1) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 
 			return true;
@@ -178,7 +174,7 @@ public class player : MonoBehaviour {
 		}
 	}
 	bool pickUpKey() {
-		return (!death && Input.GetAxis("UseP" + playerid) > 0);
+		return (!death && Input.GetAxis("UseP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
 		if ((!heldItem1 || (heldItem1.GetComponent<grenade>()) || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) && 

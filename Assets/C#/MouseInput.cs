@@ -15,6 +15,7 @@ public class MouseInput : MonoBehaviour {
 	private Vector2[] mousePosition;
 	private Vector2[] lastMousePosition;
 	private const int NUM_MICE = 4;
+	private Vector2 lastReticle;
 
 	//checks to see if player has item
 	private bool[] hasItem; 
@@ -24,6 +25,7 @@ public class MouseInput : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start() {
+		lastReticle = Vector2.right;
 		Cursor.visible = false;
 		mousedriver = new RawMouseDriver.RawMouseDriver();
 		mice = new RawMouse[NUM_MICE];
@@ -34,6 +36,13 @@ public class MouseInput : MonoBehaviour {
 		for(int i = 0; i< NUM_MICE;i++){
 			hasItem[i] = false;
 			hasItem2[i] = false;
+		}
+
+		int joystickNum = 0;
+		for (int i = 1; i <= mousePosition.Length; i++) {
+			if (GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
+				GameObject.Find("Player" + i).GetComponent<player>().joystickID = ++joystickNum;
+			}
 		}
 		
 	}
@@ -60,6 +69,7 @@ public class MouseInput : MonoBehaviour {
 				
 			} catch { }
 		}
+		int joystickNums = 0;
 		for (int i = 1; i <= mousePosition.Length; i++) {
             if (mice[i - 1] == null) {
                 break;
@@ -74,9 +84,23 @@ public class MouseInput : MonoBehaviour {
 			Transform playerTrans = player.transform;
 			playerPos = player.transform.position;
 			if (player.GetComponent<player>().joystickController) {
-				look = new Vector3(Input.GetAxis("JoyX" + i), Input.GetAxis("JoyY" + i), 0);
-				reticle.transform.localPosition = Vector3.right;
-				center.transform.localEulerAngles = new Vector3(0,0,0);
+				joystickNums++;
+				look = new Vector3(Input.GetAxis("JoyX" + joystickNums), Input.GetAxis("JoyY" + joystickNums), 0);
+				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
+					look = look/Vector2.SqrMagnitude(look);
+					reticle.transform.localPosition = look;
+					lastReticle = look;
+					center.LookAt(reticle.transform.position);
+					Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+					center.transform.localEulerAngles = rotation;
+					center.transform.localEulerAngles = rotation;
+					if(reticle.transform.position.x < player.transform.position.x) {
+						center.transform.localEulerAngles += new Vector3(0, 180, 0);
+					}
+					//center.transform.localEulerAngles = new Vector3(0,0,0);
+				} else {
+					reticle.transform.localPosition = lastReticle;
+				}
 			} else {
 				look = new Vector3(mousePosition[i-1].x - lastMousePosition[i-1].x, mousePosition[i-1].y - lastMousePosition[i-1].y, 0);
 				Transform rectTrans = reticle.transform;
@@ -100,10 +124,10 @@ public class MouseInput : MonoBehaviour {
 			//look = new Vector3(mice[i-1].XDelta * Time.deltaTime, -mice[i-1].YDelta * Time.deltaTime, 0);
 
 
-
 			if (hasItem[i - 1] && center.childCount >= 1 && center.GetChild(0).childCount > 0 && (center.GetChild (0).GetComponent<gun>() || center.GetChild (0).GetComponent<grenade>() || center.GetChild (0).GetComponent<PortalGun>())) {
 				if (player.GetComponent<player>().joystickController) {
-					if (Input.GetAxis("JFire" + i) > 0) {
+
+					if (Input.GetAxis("JFire" + joystickNums) < 0) {
 						center.GetChild (0).SendMessage ("click");
 					} else {
 						center.GetChild (0).SendMessage ("unclick");
@@ -118,7 +142,7 @@ public class MouseInput : MonoBehaviour {
 			}
 			if (hasItem2[i - 1] && center.childCount > 1 && center.GetChild(1).childCount > 0 && !center.GetChild (1).GetComponent<player>()) {
 				if (player.GetComponent<player>().joystickController) {
-					if (Input.GetAxis("AltJFire" + i) > 0) {
+					if (Input.GetAxis("JFire" + joystickNums) > 0) {
 						center.GetChild (1).SendMessage ("click");
 					} else {
 						center.GetChild (1).SendMessage ("unclick");
@@ -132,7 +156,7 @@ public class MouseInput : MonoBehaviour {
 			}
 				} else {
 				if (player.GetComponent<player>().joystickController) {
-					if (Input.GetAxis("AltJFire" + i) > 0) {
+					if (Input.GetAxis("JFire" + joystickNums) > 0) {
 						player.GetComponent<GrappleLauncher> ().SendMessage ("fire");
 					} else {
 						player.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
@@ -145,13 +169,7 @@ public class MouseInput : MonoBehaviour {
 					}
 				}
 			}
-            /*print(Vector3.Distance(playerPos, look));
-            if (Vector3.Distance(playerPos, look) > 10) {
-                Vector3 distanceSet = (playerPos - look).normalized * 5;
-                print(distanceSet);
-                mousePosition[i] = new Vector2(distanceSet.x, distanceSet.y);
-                look = new Vector3(mousePosition[i].x, mousePosition[i].y, playerPos.z);
-            }*/
+            
 
         }
 	}
