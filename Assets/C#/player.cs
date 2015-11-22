@@ -266,4 +266,11 @@ public class player : MonoBehaviour {
 			throwWeapon(false, 1);
 		}
 	}
+	void NotDeath() {
+		death = false;
+		this.GetComponent<Rigidbody2D>().freezeRotation = true;
+		this.GetComponent<LineRenderer> ().SetVertexCount (2);
+		this.gameObject.tag = "Player";
+
+	}
 }

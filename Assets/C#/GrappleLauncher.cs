@@ -87,4 +87,7 @@ public class GrappleLauncher : MonoBehaviour {
 	void Death() {
 		death = true;
 	}
+	void NotDeath() {
+		death = false;
+	}
 }

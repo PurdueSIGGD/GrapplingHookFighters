@@ -62,4 +62,7 @@ public class PortalGun : MonoBehaviour {
     void Death() {
         death = true;
     }
+	void NotDeath() {
+		death = false;
+	}
 }

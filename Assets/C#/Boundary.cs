@@ -7,6 +7,7 @@ public class Boundary : MonoBehaviour {
 	public GameObject p;
 	public BoxCollider2D b;
 	public float timeNow;
+	public bool respawning;
 	
 	public class deathtime{
 		public GameObject player;
@@ -38,26 +39,39 @@ public class Boundary : MonoBehaviour {
 				//checks to see if time passes to respawn the object
 				if(timeNow >= deathwait[i].timeOfDeath){
 					//The respawn point will be there for now
-					deathwait[i].player.transform.position = new Vector3(0,3,0);
-					deathwait[i].player.GetComponent<Health>().resetPlayer();
-					deathwait[i].player.SetActive(true);
-					deathwait[i].player.GetComponent<player>().death = false;
+					if (deathwait[i].player.GetComponent<Health>())  {
+						deathwait[i].player.transform.position = new Vector3(0,3,0);
 
+						deathwait[i].player.GetComponent<Health>().resetPlayer();
+						deathwait[i].player.GetComponent<player>().death = false;
+						deathwait[i].player.BroadcastMessage("NotDeath");
+						deathwait[i].player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+					}
+					//deathwait[i].player.SetActive(true);
 					deathwait.RemoveAt(i);
 				}
 			}
 		}
 	}
 
-	void OnTriggerExit2D(Collider2D col){
+	void OnTriggerEnter2D(Collider2D col){
+		print(col);
 		//checks to see if the collider belongs to a player
-		if (col.GetComponentInParent<Health>() != null) {
-			//collider->player->player#Parent
-			p = col.gameObject;
-			p.GetComponent<Health>().killPlayer();
-			p.SetActive(false);
+		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>()) {
+			SetInRespawnQueue(col.gameObject);
+		} else {
+			GameObject.Destroy(col.gameObject);
+		}
+	}
+	void SetInRespawnQueue(GameObject g) {
+		if (respawning) {
+			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer();
 			//the death waiting time is 5 seconds
-			deathwait.Add(new deathtime(p,Time.time+5));
+			deathwait.Add(new deathtime(g,Time.time+5));
+		} else {
+			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer();
+
 		}
 	}
 }

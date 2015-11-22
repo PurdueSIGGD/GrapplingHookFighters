@@ -111,5 +111,7 @@ public class gun : MonoBehaviour, item {
 	void Death() {
 		death = true;
 	}
-
+	void NotDeath() {
+		death = false;
+	}
 }
