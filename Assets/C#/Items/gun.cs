@@ -6,10 +6,8 @@ public class gun : MonoBehaviour, item {
 	public bool trigger, death, ejecting, canDual;
 	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread;
 	private float timeSincelast;
-	public Vector2 itemAngle;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
-	public Quaternion gunAngle;
 	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
 	public int playerid, bulletsPerShot = 1;
@@ -62,23 +60,20 @@ public class gun : MonoBehaviour, item {
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
 
 				Vector2 thing = (Vector2)shootPoint - playerPos;
-				//creating new gameobject, not setting our last one to be that. It will cause problems in the future.
+				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 
 				for (int i = 0; i < bulletsPerShot; i++) {
-					Vector2 f = thing;
-					thing += spread * Random.insideUnitCircle;
-					thing.Normalize();	
+					Vector2 f = (Vector2)shootPoint - playerPos;
+					f += spread * Random.insideUnitCircle;
+					f.Normalize();	
 					GameObject g;
 					g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
-					FiredProjectile FP = g.GetComponent<FiredProjectile>();
-					g.layer = this.transform.gameObject.layer;
-					FP.damage = this.damage;
 
-					g.GetComponent<Rigidbody2D>().AddForce(thing*projectileSpeed);
-					thing = f.normalized;
+					g.layer = this.transform.gameObject.layer;
+					g.GetComponent<FiredProjectile>().damage = this.damage;
+					g.GetComponent<Rigidbody2D>().AddForce(f*projectileSpeed);
 				}
 
-				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 				if (ejecting) {
 					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
 					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);

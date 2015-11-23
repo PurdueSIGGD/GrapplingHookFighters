@@ -5,9 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RawInputSharp;
+using System.Runtime.InteropServices;
+
+
 
 public class MouseInput : MonoBehaviour {
-	
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+	[DllImport("user32.dll", EntryPoint = "GetActiveWindow")]
+	static extern uint GetActiveWindow();	
+	[DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+	static extern bool SetForegroundWindow(IntPtr hWnd);
+	void resetMouse() {
+		SetForegroundWindow(unityWindow);
+	}
+#endif
 	public float sensitivity;
 	
 	RawMouseDriver.RawMouseDriver mousedriver;
@@ -16,18 +27,21 @@ public class MouseInput : MonoBehaviour {
 	private Vector2[] lastMousePosition;
 	private const int NUM_MICE = 4;
 	private Vector2 lastReticle;
+	IntPtr unityWindow;
 
 	//checks to see if player has item
 	private bool[] hasItem; 
 	private bool[] hasItem2; 
 
 	public Camera mainCam;
-	
+	 
 	// Use this for initialization
-	void Start() {
+	void Start() { 
 		lastReticle = Vector2.right;
 		Cursor.visible = false;
+		unityWindow = (IntPtr)GetActiveWindow();
 		mousedriver = new RawMouseDriver.RawMouseDriver();
+
 		mice = new RawMouse[NUM_MICE];
 		mousePosition = new Vector2[NUM_MICE];
 		lastMousePosition = new Vector2[NUM_MICE];
@@ -48,10 +62,10 @@ public class MouseInput : MonoBehaviour {
 	}
 
 	void Update() {
-		
+		if ((IntPtr)GetActiveWindow() != this.unityWindow && Time.timeSinceLevelLoad < 4) resetMouse(); //to stop getting focus stuck on the mouse starter
 		if (Input.GetKey ("escape")) {
 			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
+			Cursor.visible = true;	
 		}
 		else {
 			Cursor.lockState = CursorLockMode.Locked;

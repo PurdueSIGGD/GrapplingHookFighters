@@ -15,7 +15,7 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D col) {
 
-		if (!col.isTrigger || col.GetComponent<ExplosionScript>()) {
+		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
 			if (exploding) {
 				GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
 				ex.gameObject.layer = this.gameObject.layer;

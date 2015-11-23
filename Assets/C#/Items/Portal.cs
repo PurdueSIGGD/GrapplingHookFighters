@@ -8,7 +8,7 @@ public class Portal : MonoBehaviour {
     public float maximumVelocity;
 
     void OnTriggerEnter2D(Collider2D coll) {
-        if (bluePortal == null || orangePortal == null)
+        if (bluePortal == null || orangePortal == null || coll.isTrigger)
             return;
         
         if (coll.gameObject.GetComponent<PortalProjectile>() || coll.gameObject.GetComponent<PortalProjectile>()) {

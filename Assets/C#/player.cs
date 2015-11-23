@@ -68,7 +68,6 @@ public class player : MonoBehaviour {
 					transform.position = new Vector3 (currentX, currentY, layer2Position);
 				}
 				this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
-
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x > -10 && canMoveLeft && goLeft ()) {
 				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + joystickID)):-1) * new Vector3 (jumped?20:40, 0, 0));
@@ -79,11 +78,11 @@ public class player : MonoBehaviour {
 			if (goDown ()) {
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, -10, 0));
 			}
-			if (!jumped && jump () && Mathf.Abs (this.GetComponent<Rigidbody2D> ().velocity.y) < .1f) {
+			if (!jumped && jump () && Mathf.Abs (this.GetComponent<Rigidbody2D> ().velocity.y) < .01f) {
+				GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 500, 0));
 				jumped = true;
-			}
-
+			} 
 			Vector3 reticlePos = GameObject.Find ("Reticle" + playerid).transform.position;
 			reticlePos.z = transform.position.z;
 			firingVector = (reticlePos - transform.position) / Vector3.Distance (reticlePos, transform.position);
@@ -91,7 +90,7 @@ public class player : MonoBehaviour {
 			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
 
-			if (pickUpKey () && timeSincePickup > .15f && (!canPickup || (heldItem1 && heldItem2))) {
+			if (pickUpKey () && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
 				//drop weapon
 				timeSincePickup = 0;
 				if (heldItem2 != null)
@@ -166,7 +165,6 @@ public class player : MonoBehaviour {
 
 	bool jump() {
 		if (!death && Input.GetAxis("VerticalP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) == 1) {
-			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 
 			return true;
 		} else {
@@ -187,7 +185,7 @@ public class player : MonoBehaviour {
 		} else {
 			if (col.GetComponent<Rigidbody2D>() && !col.GetComponent<Rigidbody2D>().isKinematic) canPickup = false;
 		}
-		if(col.CompareTag("Platform") || ((col.CompareTag("Player") || col.CompareTag("Item")) && col.GetComponent<Rigidbody2D>() && col.GetComponent<Rigidbody2D>().velocity.y < .2f)) {
+		if(col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) {
 			jumped = false;
 		}
 	}
@@ -202,6 +200,8 @@ public class player : MonoBehaviour {
 		}
 	}
 	void OnTriggerStay2D(Collider2D col) {
+
+
 		if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && (col.transform.parent == null || col.GetComponent<Health>())  && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
 			if (pickUpKey()) {
@@ -219,7 +219,7 @@ public class player : MonoBehaviour {
 					Transform center = this.gameObject.transform.FindChild("Center");
 					heldItem1.GetComponent<Rigidbody2D>().isKinematic = true;
 					heldItem1.transform.SetParent(center);
-					heldItem1.transform.position = (center.transform.position + .6f * this.firingVector);
+					heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
 					heldItem1.transform.rotation = center.transform.rotation;
 					if (heldItem1.GetComponent<gun>() || heldItem1.GetComponent<PortalGun>()) {
 						heldItem1.SendMessage("SetPlayerID", playerid);

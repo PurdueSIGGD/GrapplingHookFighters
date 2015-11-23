@@ -56,7 +56,7 @@ public class Boundary : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		print(col);
+		//print(col);
 		//checks to see if the collider belongs to a player
 		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>()) {
 			SetInRespawnQueue(col.gameObject);

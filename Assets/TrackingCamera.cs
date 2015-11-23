@@ -9,6 +9,7 @@ public class TrackingCamera : MonoBehaviour {
 	private float initialCamSize;
 	private Camera cam;
 	public float zoomSpeed = 15;
+	int zooming; //-1 = zooming out, 1 = zooming in, 0 = not zooming
 	// Use this for initialization
 	void Start () {
 		cam = GetComponentInChildren<Camera> ();
@@ -18,7 +19,8 @@ public class TrackingCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		
+		cam.orthographicSize+=zooming*2*Time.deltaTime;
+
 		if (targets != null)
 		{
 			float avgX = 0;
@@ -37,6 +39,11 @@ public class TrackingCamera : MonoBehaviour {
 					}
 					i++;
 				}
+
+			}
+			if (i == 0) {
+				avgPos = this.transform.position;
+				i = -1;
 			}
 			//avgX += GameObject.Find("CenterPlatform").transform.position.x;
 			//avgY += GameObject.Find("CenterPlatform").transform.position.y;
@@ -62,36 +69,26 @@ public class TrackingCamera : MonoBehaviour {
 			else if (allPlayersVisible() && (cam.orthographicSize > initialCamSize)) {
 				zoomIn();
 			}*/
-			if (AllPlayersInZoomInBounds() && cam.orthographicSize > initialCamSize) {
-				zoomIn();
+			if (AllPlayersInZoomInBounds() && cam.orthographicSize > 5) {
+				zooming = -1;
+				//zoomIn();
 			}
-			else if (AnyPlayersInZoomOutBounds()){
-				zoomOut();
+			else if (AnyPlayersInZoomOutBounds() ){
+				zooming = 1;
+				//zoomOut();
+			} else {
+				zooming = 0;
 			}
 		}
 	}
 
-	void zoomOut() {
-		//initialVisibility = false;
-		//Debug.Log ("Zooming Out");
-		//cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, cam.orthographicSize+0.01f, Time.deltaTime * zoomSpeed);
-		cam.orthographicSize+=5*Time.deltaTime;
-	}
-	void zoomIn() {
-		//initialVisibility = false;
-		//transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + 1);
-		//Debug.Log ("Zooming In");
-		//cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, cam.orthographicSize-0.01f, Time.deltaTime * zoomSpeed);
-		cam.orthographicSize-=5*Time.deltaTime;
-	}
-	
 	bool AnyPlayersInZoomOutBounds() {
 		foreach (GameObject g in targets) {
 			if (!g.GetComponent<Health>().dead) {
 				//Debug.Log("Checking: " + g);
 				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
 				//Debug.Log (viewPos);
-				if (viewPos.x < 0.1f || viewPos.x > 0.9f || viewPos.y < 0.1f || viewPos.y > 0.9f) {
+				if (viewPos.x < 0.15f || viewPos.x > 0.85f || viewPos.y < 0.15f || viewPos.y > 0.85f) {
 					return true;
 				}
 			}
@@ -105,7 +102,7 @@ public class TrackingCamera : MonoBehaviour {
 				//Debug.Log("Checking: " + g);
 				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
 				//Debug.Log (viewPos);
-				if (viewPos.x < 0.3f || viewPos.x > 0.7f || viewPos.y < 0.3f || viewPos.y > 0.7f) {
+				if (viewPos.x < 0.35f || viewPos.x > 0.65f || viewPos.y < 0.35f || viewPos.y > 0.65f) {
 					return false;
 				}
 			}
