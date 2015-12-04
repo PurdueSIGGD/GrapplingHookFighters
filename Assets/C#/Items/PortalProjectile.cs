@@ -20,7 +20,8 @@ public class PortalProjectile : MonoBehaviour {
             RaycastHit2D hitInfo2 = Physics2D.Raycast(point, dir, 2);       //create second raycast for double checking
 
             if (hitInfo1.collider != null && hitInfo2.collider != null) {   //check raycast was a success
-                while(hitInfo1.normal != hitInfo2.normal) {                 //double check normal because collider sometimes returns wrong normals 
+                print(hitInfo1.normal + ", " + hitInfo2.normal);
+                while (hitInfo1.normal != hitInfo2.normal) {                 //double check normal because collider sometimes returns wrong normals 
                     print(hitInfo1.normal + ", " + hitInfo2.normal);
                     hitInfo1 = Physics2D.Raycast(point, dir, 2);
                     hitInfo2 = Physics2D.Raycast(point, dir, 2);
@@ -31,23 +32,20 @@ public class PortalProjectile : MonoBehaviour {
                     angle *= -1;
                 }
 
-                Vector3 pos;
-                if (angle < 0)      //changing position of portals if they are on a bottom surface due to camera angle hiding them, adjustment changes proprotionally to angle of surface with a min of + 0.1
-                    pos = coll.contacts[0].point + (Vector2)(normal * 0.1f) + (Vector2)(normal * (-angle / 90) * 0.15f);
-                else
-                    pos = coll.contacts[0].point + (Vector2)normal * 0.1f;
+                Vector3 pos = coll.contacts[0].point + (Vector2)normal * 0.1f;
 
                 GameObject g;
                 if (portalColor == 1) {
-                    g = (GameObject)Instantiate(orangePortal, pos, Quaternion.Euler(new Vector3(0, 0, angle)));
-                    print(g.GetComponent<Renderer>().bounds.size);
+                    g = (GameObject)Instantiate(orangePortal, new Vector3(pos.x, pos.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, angle)));
+                    print("size: " + g.GetComponent<Renderer>().bounds.size);
                     if (gun.GetComponent<PortalGun>().orangePortal != null) {
                         Destroy(gun.GetComponent<PortalGun>().orangePortal);
                     }
                     gun.GetComponent<PortalGun>().orangePortal = g;
 
                 } else {
-                    g = (GameObject)Instantiate(bluePortal, pos, Quaternion.Euler(new Vector3(0, 0, angle)));
+                    g = (GameObject)Instantiate(bluePortal, new Vector3(pos.x, pos.y, transform.position.z), Quaternion.Euler(new Vector3(0, 0, angle)));
+                    print("size: " + g.GetComponent<Renderer>().bounds.size);
                     if (gun.GetComponent<PortalGun>().bluePortal != null) {
                         Destroy(gun.GetComponent<PortalGun>().bluePortal);
                     }
@@ -57,6 +55,7 @@ public class PortalProjectile : MonoBehaviour {
 
                 float ySize = g.GetComponent<Renderer>().bounds.size.y;
                 float ySurfaceSize = coll.gameObject.GetComponent<Renderer>().bounds.size.y;
+                print("ysize: " + ySize + " ysurface: " + ySurfaceSize);
                 if (ySize > ySurfaceSize) {
                     Destroy(g);
                     Destroy(gameObject);

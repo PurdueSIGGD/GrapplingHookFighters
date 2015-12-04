@@ -26,8 +26,11 @@ public class Portal : MonoBehaviour {
 
         Vector2 pos = new Vector2(0, 0);
         if (gameObject == orangePortal) {
+            if (coll.gameObject.layer != bluePortal.layer)
+                coll.GetComponent<player>().switchPlanes();
             pos = bluePortal.transform.position;
-            coll.gameObject.transform.position = pos + bluePortal.GetComponent<Portal>().normal;
+            coll.gameObject.transform.position = new Vector3(pos.x, pos.y, coll.gameObject.transform.position.z) + (Vector3) bluePortal.GetComponent<Portal>().normal;
+
             float magn = rb.velocity.magnitude;
 
             if (magn > maximumVelocity)
@@ -36,8 +39,11 @@ public class Portal : MonoBehaviour {
             rb.velocity = magn * bluePortal.GetComponent<Portal>().normal;
 
         } else if (gameObject == bluePortal) {
+            if (coll.gameObject.layer != orangePortal.layer)
+                coll.GetComponent<player>().switchPlanes();
             pos = orangePortal.transform.position;
-            coll.gameObject.transform.position = pos + orangePortal.GetComponent<Portal>().normal;
+            coll.gameObject.transform.position = new Vector3(pos.x, pos.y, coll.gameObject.transform.position.z) + (Vector3) orangePortal.GetComponent<Portal>().normal;
+
             float magn = rb.velocity.magnitude;
 
             if (magn > maximumVelocity)
