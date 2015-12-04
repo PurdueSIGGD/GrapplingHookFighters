@@ -33,7 +33,7 @@ namespace FMOD
 				return attributes;
 			}
 			
-			static public ATTRIBUTES_3D to3DAttributes(GameObject go, Rigidbody rigidbody = null)
+			static public ATTRIBUTES_3D to3DAttributes(GameObject go, Rigidbody rigidbody)
 			{
 				FMOD.Studio.ATTRIBUTES_3D attributes = new FMOD.Studio.ATTRIBUTES_3D();
 				attributes.forward = toFMODVector(go.transform.forward);

@@ -7,11 +7,12 @@ public class GrappleScript : MonoBehaviour {
 	private bool firing, connected;
 	public bool retracting;
 	private Transform lastGrab;
-	public float breakTime;
+	public float breakTime, timeRetracting;
 
 	private SpringJoint2D toPlayer, toPickup;
 	// Use this for initialization
 	void Start() {
+
 		toPlayer = this.transform.GetComponent<SpringJoint2D>();
 	}
 	void OnCollisionEnter2D(Collision2D col) {
@@ -89,9 +90,12 @@ public class GrappleScript : MonoBehaviour {
 		}*/
 
 		if (retracting) {
+			timeRetracting += Time.deltaTime;
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.position, 20 * Time.deltaTime );
+			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.position, timeRetracting * 30 * Time.deltaTime );
 			//this.transform.position += 50*Time.deltaTime*(focus.transform.position - this.transform.position)/Vector3.Distance(this.transform.position, focus.transform.position);
+		} else {
+			timeRetracting = 1;
 		}
 		LineRenderer lr = this.GetComponent<LineRenderer>();
 		if (firing || retracting || this.GetComponent<Rigidbody2D>().isKinematic == true) {

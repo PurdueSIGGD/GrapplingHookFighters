@@ -6,14 +6,14 @@ public class TrackingCamera : MonoBehaviour {
 	private Vector3 velocity = Vector3.zero;
 	public GameObject[] targets;
 	public float bufferX = 0, bufferY = 0;
-	private float initialCamSize;
+//	private float initialCamSize;
 	private Camera cam;
 	public float zoomSpeed = 15;
 	int zooming; //-1 = zooming out, 1 = zooming in, 0 = not zooming
 	// Use this for initialization
 	void Start () {
 		cam = GetComponentInChildren<Camera> ();
-		initialCamSize = cam.orthographicSize;
+		//initialCamSize = cam.orthographicSize;
 	}
 	
 	// Update is called once per frame

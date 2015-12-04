@@ -11,7 +11,7 @@ public class gun : MonoBehaviour, item {
 	public GameObject projectileGameObject, particle;
 	public Vector2 reticlePos;
 	public int playerid, bulletsPerShot = 1;
-	public bool automatic, raycastShoot;
+	public bool automatic;
 	private bool canFire = true;
 	public int ammo;
 	public Sprite shellSprite;
@@ -75,13 +75,14 @@ public class gun : MonoBehaviour, item {
 				}
 
 				if (ejecting) {
+
 					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
 					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);
 					shelly.GetComponent<SpriteRenderer>().sprite = this.shellSprite;
 					shelly.AddComponent<BoxCollider2D>();
 					shelly.GetComponent<Rigidbody2D>().gravityScale = 1;
-					shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
-					Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+					//shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
+					//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
 					shelly.GetComponent<Rigidbody2D>().AddForceAtPosition(200 *  (.1f *Random.insideUnitCircle +  Vector2.up) * shelly.GetComponent<Rigidbody2D>().mass, shelly.transform.position);
 					shelly.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-20,20));					//shelly.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + (Quaternion.AngleAxis(90, (Vector3)thing) * thing)));
 					shelly.GetComponent<ParticleScript>().time = 2;

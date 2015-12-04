@@ -38,36 +38,17 @@ public class player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//CrashDetector.SetExePoint("Whateverelse");
+		//if (playerid == 1) print("Start update function player");
 		if (!death) {
 			currentX = transform.position.x;
 			currentY = transform.position.y;
-			time += Time.deltaTime;
-			timeSincePickup += Time.deltaTime;
+			if (time < 1.0f) time += Time.deltaTime;
+			if (timeSincePickup <= .2f) timeSincePickup += Time.deltaTime;
 
 			//layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
 			if (time >= 1.0f && changePlane ()) {
-				time = 0.0f;
-				if (gameObject.layer != layer1Value) {
-					//print("augh" + gameObject.layer);
-					gameObject.layer = layer1Value;
-					transform.FindChild ("TopTrigger").gameObject.layer = layer1Value;
-					if (heldItem1 != null)
-						heldItem1.layer = layer1Value;
-					if (heldItem2 != null)
-						heldItem2.layer = layer1Value;
-					transform.position = new Vector3 (currentX, currentY, layer1Position);
-				} else 
-				if (gameObject.layer != layer2Value) {
-					//print("oof" + gameObject.layer);
-					gameObject.layer = layer2Value;				
-					transform.FindChild ("TopTrigger").gameObject.layer = layer2Value;
-					if (heldItem1 != null)
-						heldItem1.layer = layer2Value;
-					if (heldItem2 != null)
-						heldItem2.layer = layer2Value;
-					transform.position = new Vector3 (currentX, currentY, layer2Position);
-				}
-				this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+				switchPlanes();
 			}
 			if (this.GetComponent<Rigidbody2D> ().velocity.x > -10 && canMoveLeft && goLeft ()) {
 				GetComponent<Rigidbody2D> ().AddForce ((this.joystickController?(Input.GetAxis("HorizontalPJ" + joystickID)):-1) * new Vector3 (jumped?20:40, 0, 0));
@@ -85,7 +66,13 @@ public class player : MonoBehaviour {
 			} 
 			Vector3 reticlePos = GameObject.Find ("Reticle" + playerid).transform.position;
 			reticlePos.z = transform.position.z;
-			firingVector = (reticlePos - transform.position) / Vector3.Distance (reticlePos, transform.position);
+			firingVector = reticlePos - transform.position;
+			firingVector.Normalize();
+			//firingVector = (reticlePos - transform.position) / f;
+			/* End danger zone
+			 * 
+			 * 
+			 */
 			GetComponent<LineRenderer> ().SetVertexCount(2);
 			GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 			GetComponent<LineRenderer> ().SetPosition (1, transform.position + 2 * firingVector);
@@ -99,8 +86,33 @@ public class player : MonoBehaviour {
 					throwWeapon(true, 0);
 			}
 		}
+		//if (playerid == 1) print("End update function player");
 
     }
+	void switchPlanes() {
+		time = 0.0f;
+		if (gameObject.layer != layer1Value) {
+			//print("augh" + gameObject.layer);
+			gameObject.layer = layer1Value;
+			transform.FindChild ("TopTrigger").gameObject.layer = layer1Value;
+			if (heldItem1 != null)
+				heldItem1.layer = layer1Value;
+			if (heldItem2 != null)
+				heldItem2.layer = layer1Value;
+			transform.position = new Vector3 (currentX, currentY, layer1Position);
+		} else 
+		if (gameObject.layer != layer2Value) {
+			//print("oof" + gameObject.layer);
+			gameObject.layer = layer2Value;				
+			transform.FindChild ("TopTrigger").gameObject.layer = layer2Value;
+			if (heldItem1 != null)
+				heldItem1.layer = layer2Value;
+			if (heldItem2 != null)
+				heldItem2.layer = layer2Value;
+			transform.position = new Vector3 (currentX, currentY, layer2Position);
+		}
+		this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+	}
 	void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
 			GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
@@ -175,15 +187,16 @@ public class player : MonoBehaviour {
 		return (!death && Input.GetAxis("UseP" + (joystickController?"J":"") + (joystickController?joystickID:playerid)) > 0);
 	}
 	void OnTriggerEnter2D(Collider2D col) {
+		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
 		if ((!heldItem1 || (heldItem1.GetComponent<grenade>()) || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) && 
 		    col.CompareTag("Item") &&  //It is an item to pick up
 		    col.GetComponent<HeldItem>() && //it can be held
 		    (col.transform.parent == null || col.GetComponent<Health>())  &&  //check parent null so you can't steal weapons
 		    timeSincePickup > .2f && //had enough time
-		    !col.GetComponent<Rigidbody2D>().isKinematic) {  //not what I am holding
+		    !colR.isKinematic) {  //not what I am holding
 			canPickup = true;
 		} else {
-			if (col.GetComponent<Rigidbody2D>() && !col.GetComponent<Rigidbody2D>().isKinematic) canPickup = false;
+			if (colR && !colR.isKinematic) canPickup = false;
 		}
 		if(col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) {
 			jumped = false;

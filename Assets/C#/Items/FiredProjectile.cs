@@ -6,13 +6,9 @@ public class FiredProjectile : MonoBehaviour {
 	//BoxCollider2D bulletBox2D;
 
 	// Use this for initialization
-	public float time, damage;
+	public float time = 6, damage;
 	public bool exploding, dieOnAnyHit;
 	public GameObject explosion;
-	void Start () {
-	//	bulletBox2D = GetComponentInParent<BoxCollider2D>();
-	//	bulletrigid2D = GetComponentInParent<Rigidbody2D>();
-	}
 	void OnTriggerEnter2D(Collider2D col) {
 
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
@@ -37,8 +33,8 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		time += Time.deltaTime;
-		if (time > 6)
+		time -= Time.deltaTime;
+		if (time <= 0)
 			GameObject.Destroy (this.gameObject);
 	}
 }
