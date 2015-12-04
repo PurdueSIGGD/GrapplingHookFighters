@@ -930,7 +930,7 @@ namespace Studio
             return FMOD_Studio_System_ResetBufferUsage(rawPtr);
         }
 
-        public RESULT setCallback(SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask = SYSTEM_CALLBACK_TYPE.ALL)
+        public RESULT setCallback(SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask)
         {
             return FMOD_Studio_System_SetCallback(rawPtr, callback, callbackmask);
         }
@@ -1231,7 +1231,7 @@ namespace Studio
         {
             return FMOD_Studio_EventDescription_ReleaseAllInstances(rawPtr);
         }
-        public RESULT setCallback(EVENT_CALLBACK callback, EVENT_CALLBACK_TYPE callbackmask = EVENT_CALLBACK_TYPE.ALL)
+        public RESULT setCallback(EVENT_CALLBACK callback, EVENT_CALLBACK_TYPE callbackmask)
         {
             return FMOD_Studio_EventDescription_SetCallback(rawPtr, callback, callbackmask);
         }
@@ -1483,7 +1483,7 @@ namespace Studio
         {
             return FMOD_Studio_EventInstance_GetCueCount(rawPtr, out count);
         }
-        public RESULT setCallback(EVENT_CALLBACK callback, EVENT_CALLBACK_TYPE callbackmask = EVENT_CALLBACK_TYPE.ALL)
+        public RESULT setCallback(EVENT_CALLBACK callback, EVENT_CALLBACK_TYPE callbackmask)
         {
             return FMOD_Studio_EventInstance_SetCallback(rawPtr, callback, callbackmask);
         }

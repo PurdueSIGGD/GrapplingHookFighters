@@ -4,11 +4,6 @@ using System.Collections;
 public class ParticleScript : MonoBehaviour {
 	public float time = 1;
 	public bool shell;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		time -= Time.deltaTime;
