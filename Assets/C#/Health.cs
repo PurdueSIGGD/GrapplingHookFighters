@@ -66,13 +66,13 @@ public class Health : MonoBehaviour {
 			playerHealth = 0;
 			armorHealth = 0;
 			dead = true;
-			box = this.gameObject.AddComponent<BoxCollider2D>();
+			box = this.gameObject.GetComponent<BoxCollider2D>();
 			box.size = 2* (Vector2.up + Vector2.right);
 			box.isTrigger = true;
 
 			for (int i = 0; i < deathSparkleParticle; i++) {
 				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
-				if (this.transform.parent.parent != null)
+				if (this.transform.parent && this.transform.parent.parent != null)
 					particleG.GetComponent<Rigidbody2D> ().velocity = transform.parent.GetComponentInParent<Rigidbody2D> ().velocity * .6f;
 
 				particleG.GetComponent<Rigidbody2D> ().gravityScale = .05f;
@@ -91,7 +91,7 @@ public class Health : MonoBehaviour {
 		playerHealth = 1;
 		armorHealth = 0;
 		dead = false;
-		Destroy(box);
+		//```Destroy(box);
 	}
 
 	// Use this for initialization

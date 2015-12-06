@@ -67,7 +67,7 @@ public class gun : MonoBehaviour, item {
 					f += spread * Random.insideUnitCircle;
 					f.Normalize();	
 					GameObject g;
-					g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, GetComponentInParent<Transform>().rotation);
+					g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
 
 					g.layer = this.transform.gameObject.layer;
 					g.GetComponent<FiredProjectile>().damage = this.damage;

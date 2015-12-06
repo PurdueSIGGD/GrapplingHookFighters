@@ -21,7 +21,7 @@ public class MouseInput : MonoBehaviour {
 	}
 #endif
 	public float sensitivity;
-	
+	private float timeSinceStart;
 	RawMouseDriver.RawMouseDriver mousedriver;
 	private RawMouse[] mice;
 	private Vector2[] mousePosition;
@@ -38,41 +38,48 @@ public class MouseInput : MonoBehaviour {
 	 
 	// Use this for initialization
 	void Start() { 
-		playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
-	//	foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player")) print(g);
-		//print(playerCount);
-		lastReticle = new Vector2[4];
-		for (int i = 0; i < 4; i++) {
-			lastReticle[i] = Vector2.right;
-		}
-		Cursor.visible = false;
-		unityWindow = (IntPtr)GetActiveWindow();
-		mousedriver = new RawMouseDriver.RawMouseDriver();
+		if (GameObject.FindObjectsOfType<MouseInput>().Length > 1) {
+			Destroy(this.gameObject);
+		} else {
+			unityWindow = (IntPtr)GetActiveWindow();
+			playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
+		//	foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player")) print(g);
+			//print(playerCount);
+			lastReticle = new Vector2[4];
+			for (int i = 0; i < 4; i++) {
+				lastReticle[i] = Vector2.right;
+			}
+			Cursor.visible = false;
 
-		mice = new RawMouse[NUM_MICE];
-		mousePosition = new Vector2[NUM_MICE];
-		lastMousePosition = new Vector2[NUM_MICE];
-		hasItem = new bool[NUM_MICE];
-		hasItem2 = new bool[NUM_MICE];
-		for(int i = 0; i< NUM_MICE;i++){
-			hasItem[i] = false;
-			hasItem2[i] = false;
-		}
+			mousedriver = new RawMouseDriver.RawMouseDriver();
+			mice = new RawMouse[NUM_MICE];
+			mousePosition = new Vector2[NUM_MICE];
+			lastMousePosition = new Vector2[NUM_MICE];
+			hasItem = new bool[NUM_MICE];
+			hasItem2 = new bool[NUM_MICE];
+			for(int i = 0; i< NUM_MICE;i++){
+				hasItem[i] = false;
+				hasItem2[i] = false;
+			}
 
-		int joystickNum = 0;
-		for (int i = 1; i <= mousePosition.Length; i++) {
-			if (GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
-				GameObject.Find("Player" + i).GetComponent<player>().joystickID = ++joystickNum;
+			int joystickNum = 0;
+			for (int i = 1; i <= mousePosition.Length; i++) {
+				if (GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
+					GameObject.Find("Player" + i).GetComponent<player>().joystickID = ++joystickNum;
+				}
 			}
 		}
 		
 	}
-
+	void Awake() {
+		DontDestroyOnLoad(this.transform);
+	}
 	void Update() {
+		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel("Scene1");
 		//print("Start update function mouse");
-
+		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
-		if ((IntPtr)GetActiveWindow() != this.unityWindow && Time.timeSinceLevelLoad < 4) resetMouse(); //to stop getting focus stuck on the mouse starter
+		if ((IntPtr)GetActiveWindow() != this.unityWindow && timeSinceStart < 5) resetMouse(); //to stop getting focus stuck on the mouse starter
 		if (Input.GetKey ("escape")) {
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;	
@@ -107,10 +114,10 @@ public class MouseInput : MonoBehaviour {
 
 			GameObject player = GameObject.Find("Player" + (i + 1));
 			GameObject reticle = GameObject.Find("Reticle" + (i+1));
-			Transform center = player.transform.FindChild("Center");
-
-			//print(i);
 			if (player == null) return;
+
+			Transform center = player.transform.FindChild("Center");
+			//print(i);
 			Transform playerTrans = player.transform;
 			playerPos = player.transform.position;
 			if (player.GetComponent<player>().joystickController) {
@@ -135,6 +142,7 @@ public class MouseInput : MonoBehaviour {
 				//we use mouse
 				mouseNums++;
 				//print("Player " + i + " is a mouse #" + mouseNums);
+				//if (i == 0) print(player.transform.position);
 
 				look = new Vector3(mousePosition[mouseNums].x - lastMousePosition[mouseNums].x, mousePosition[mouseNums].y - lastMousePosition[mouseNums].y, 0);
 				if (Vector2.SqrMagnitude(look) > 0) { //continue
@@ -158,6 +166,7 @@ public class MouseInput : MonoBehaviour {
 					lastReticle[i] = reticle.transform.position;
 				} else {
 					if (lastReticle[i] == Vector2.right) reticle.transform.localPosition = lastReticle[i];
+
 				}
 
 			}
@@ -169,6 +178,7 @@ public class MouseInput : MonoBehaviour {
 					(center.GetChild (0).GetComponent<gun>() || 
 					 center.GetChild (0).GetComponent<grenade>() || 
 					 center.GetChild (0).GetComponent<PortalGun>());
+
 			if (hasItem[i] && hasBaseItem) {
 				if (player.GetComponent<player>().joystickController) {
 
@@ -183,6 +193,17 @@ public class MouseInput : MonoBehaviour {
 					} else {
 						center.GetChild (0).SendMessage ("unclick");
 					}
+				}
+			} else {
+				if (player.GetComponent<player>().joystickController) {
+					
+					if (Input.GetAxis("JFire" + joystickNums) < 0) {
+						player.SendMessage("Punch");
+					} 
+				} else {
+					if ((bool)mice [mouseNums].Buttons.GetValue (0)) {
+						player.SendMessage("Punch");
+					} 
 				}
 			}
 			bool hasSecondaryItem = center.childCount > 1 && center.GetChild(1).childCount > 0 && !center.GetChild (1).GetComponent<player>();
@@ -236,11 +257,11 @@ public class MouseInput : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-		GUILayout.Label("Connected:");
+		/*GUILayout.Label("Connected:");
 		for (int i = 0; i < mice.Length; i++) {
 			if (mice[i] != null)
 				GUILayout.Label("");
-		}
+		}*/
 	}
 	
 	void OnApplicationQuit() {

@@ -5,6 +5,7 @@ public class HeldItem : MonoBehaviour {
 	private bool retrigger;
 	private float timeSinceDropped;
 	private Collider2D lastCol;
+	public GameObject focus; 
 	// Use this for initialization
 	void Start () {
 	
@@ -35,5 +36,9 @@ public class HeldItem : MonoBehaviour {
 			//print("hey now");
 			Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol);	
 		}
+	}
+	void NotDeath() {
+		object o = 0;
+		if (focus) focus.SendMessage("throwWeapont",o);
 	}
 }

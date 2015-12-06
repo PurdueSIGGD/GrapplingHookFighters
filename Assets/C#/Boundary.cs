@@ -40,8 +40,9 @@ public class Boundary : MonoBehaviour {
 				if(timeNow >= deathwait[i].timeOfDeath){
 					//The respawn point will be there for now
 					if (deathwait[i].player.GetComponent<Health>())  {
-						deathwait[i].player.transform.position = new Vector3(0,3,0);
-
+						deathwait[i].player.transform.parent = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
+						deathwait[i].player.transform.position = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform.position;
+						deathwait[i].player.transform.eulerAngles = Vector3.zero;
 						deathwait[i].player.GetComponent<Health>().resetPlayer();
 						deathwait[i].player.GetComponent<player>().death = false;
 						deathwait[i].player.BroadcastMessage("NotDeath");

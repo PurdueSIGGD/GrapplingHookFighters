@@ -18,7 +18,7 @@ public class GrappleLauncher : MonoBehaviour {
 		else grappleTimer = 0;
 		if (!death) {
 			firedGrapple.gameObject.layer = this.gameObject.layer;
-			if (attached) this.GetComponent<Rigidbody2D>().AddForce(8 * Vector2.up);
+			if (attached) this.GetComponent<Rigidbody2D>().AddForce(24 * Vector2.up);
 			if (retracting && !firing) {
 				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
 				if (Vector3.Distance (this.transform.position, firedGrapple.transform.position) < .3f) {

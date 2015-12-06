@@ -16,6 +16,7 @@ public class grenade : MonoBehaviour {
 
     public void Update() {
 		if (transform.parent && transform.parent.GetComponent<ExplosionScript>()) Explode();
+		//if (transform.parent) transform.localScale = new Vector3(1.2f/transform.parent.localScale.x,1.2f/transform.parent.localScale.y,1.2f/transform.parent.localScale.z);
 
         if (pullPin) {
             pullPin = false;
@@ -68,7 +69,6 @@ public class grenade : MonoBehaviour {
 		if (sticky) {
 			Destroy(this.GetComponent<Rigidbody2D>());
 			this.transform.parent = col.transform;	
-			transform.localScale = new Vector3(1.2f/col.transform.localScale.x,1.2f/col.transform.localScale.y,1.2f/col.transform.localScale.z);
 
 		}
 	}

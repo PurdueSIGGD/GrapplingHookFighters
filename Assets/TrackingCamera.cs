@@ -102,7 +102,7 @@ public class TrackingCamera : MonoBehaviour {
 				//Debug.Log("Checking: " + g);
 				Vector3 viewPos = cam.WorldToViewportPoint(g.transform.position);
 				//Debug.Log (viewPos);
-				if (viewPos.x < 0.35f || viewPos.x > 0.65f || viewPos.y < 0.35f || viewPos.y > 0.65f) {
+				if (viewPos.x < 0.25f || viewPos.x > 0.75f || viewPos.y < 0.25f || viewPos.y > 0.75f) {
 					return false;
 				}
 			}
