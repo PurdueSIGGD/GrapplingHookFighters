@@ -43,6 +43,7 @@ public class Boundary : MonoBehaviour {
 						GameObject g = deathwait[i].player;
 						Transform rePos = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
 						g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
+						g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
 						g.transform.parent = rePos;
 						g.transform.position = rePos.position;
 						g.transform.eulerAngles = Vector3.zero;

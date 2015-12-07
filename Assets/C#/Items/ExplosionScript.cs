@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class ExplosionScript : MonoBehaviour {
 	// Use this for initialization
@@ -8,13 +9,15 @@ public class ExplosionScript : MonoBehaviour {
 		foreach (grenade g in transform.GetComponentsInChildren<grenade>()) {
 			g.SendMessage("Explode");
 		}
-		this.GetComponent<CircleCollider2D> ().radius = 1.2f;
+		this.GetComponent<CircleCollider2D> ().radius = .75f;
+		print("ugh");
+		//EditorApplication.isPaused = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Debug.DrawLine(this.transform.position,this.transform.position + Vector3.right * this.GetComponent<CircleCollider2D> ().radius);
-		Animator a = this.GetComponent<Animator> ();
+		Animator a = this.GetComponentInChildren<Animator> ();
 		if (a.GetTime () > .3) 
 			this.GetComponent<CircleCollider2D> ().enabled = false;
 		else //this.GetComponent<CircleCollider2D>().radius += 7*Time.deltaTime;

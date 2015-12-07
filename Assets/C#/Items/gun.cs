@@ -57,10 +57,9 @@ public class gun : MonoBehaviour, item {
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
 				Vector2 thing = (Vector2)shootPoint - playerPos;
 				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
-
 				for (int i = 0; i < bulletsPerShot; i++) {
 					Vector2 f = (Vector2)shootPoint - playerPos;
-					f += spread * Random.insideUnitCircle;
+					f += (spread/Random.Range(1,5) * Random.insideUnitCircle) + f;
 					f.Normalize();
 					int layermask = 1 << this.gameObject.layer;
 				//	print(Vector3.Distance(playerPos, f));
@@ -68,8 +67,8 @@ public class gun : MonoBehaviour, item {
 					bool inTheWay = false;
 					if (rr.Length > 0) {
 						foreach (RaycastHit2D ray in rr) {
-							if (!ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
-								//print(ray.transform);
+							if (!ray.collider.isTrigger && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
+								print(ray.transform);
 								inTheWay = true;
 							}
 						}
