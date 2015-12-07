@@ -33,7 +33,7 @@ public class MouseInput : MonoBehaviour {
 	//checks to see if player has item
 	private bool[] hasItem; 
 	private bool[] hasItem2; 
-
+	public bool usesMouse = true;
 	public Camera mainCam;
 	 
 	// Use this for initialization
@@ -49,12 +49,13 @@ public class MouseInput : MonoBehaviour {
 			for (int i = 0; i < 4; i++) {
 				lastReticle[i] = Vector2.right;
 			}
-			Cursor.visible = false;
-
-			mousedriver = new RawMouseDriver.RawMouseDriver();
-			mice = new RawMouse[NUM_MICE];
-			mousePosition = new Vector2[NUM_MICE];
-			lastMousePosition = new Vector2[NUM_MICE];
+			if (usesMouse) {
+				Cursor.visible = false;
+				mousedriver = new RawMouseDriver.RawMouseDriver();
+				mice = new RawMouse[NUM_MICE];
+				mousePosition = new Vector2[NUM_MICE];
+				lastMousePosition = new Vector2[NUM_MICE];
+			}
 			hasItem = new bool[NUM_MICE];
 			hasItem2 = new bool[NUM_MICE];
 			for(int i = 0; i< NUM_MICE;i++){
@@ -63,7 +64,7 @@ public class MouseInput : MonoBehaviour {
 			}
 
 			int joystickNum = 0;
-			for (int i = 1; i <= mousePosition.Length; i++) {
+			for (int i = 1; i <= 4; i++) {
 				if (GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
 					GameObject.Find("Player" + i).GetComponent<player>().joystickID = ++joystickNum;
 				}
@@ -91,15 +92,17 @@ public class MouseInput : MonoBehaviour {
 		
 		// Loop through all the connected mice
 		//Debug.Log ("Start try");
-		for (int i = 0; i < mice.Length; i++) {
-			try {
-				mousedriver.GetMouse(i, ref mice[i]);
-				// Cumulative mousePositionment
-				lastMousePosition[i] = mousePosition[i];
-				
-				mousePosition[i] = new Vector3(mice[i].X / 100.0f * sensitivity, -mice[i].Y / 100.0f * sensitivity);
-				
-			} catch { }
+		if (usesMouse) {
+			for (int i = 0; i < mice.Length; i++) {
+				try {
+					mousedriver.GetMouse(i, ref mice[i]);
+					// Cumulative mousePositionment
+					lastMousePosition[i] = mousePosition[i];
+					
+					mousePosition[i] = new Vector3(mice[i].X / 100.0f * sensitivity, -mice[i].Y / 100.0f * sensitivity);
+					
+				} catch { }
+			}
 		}
 		//Debug.Log ("End try");
 
@@ -108,7 +111,8 @@ public class MouseInput : MonoBehaviour {
 		Vector3 look;
 		Vector3 playerPos;
 		for (int i = 0; i < playerCount; i++) {
-            if (mice[i] == null) {
+            
+			if (usesMouse && mice[i] == null) {
                 break;
             }
 
@@ -138,7 +142,7 @@ public class MouseInput : MonoBehaviour {
 				} else {
 					reticle.transform.localPosition = lastReticle[i];
 				}
-			} else {
+			} else if (usesMouse) {
 				//we use mouse
 				mouseNums++;
 				//print("Player " + i + " is a mouse #" + mouseNums);
@@ -182,7 +186,7 @@ public class MouseInput : MonoBehaviour {
 			if (hasItem[i] && hasBaseItem) {
 				if (player.GetComponent<player>().joystickController) {
 
-					if (Input.GetAxis("JFire" + joystickNums) < 0) {
+					if (Input.GetAxis("JFire" + joystickNums) > 0) {
 						center.GetChild (0).SendMessage ("click");
 					} else {
 						center.GetChild (0).SendMessage ("unclick");
@@ -197,7 +201,7 @@ public class MouseInput : MonoBehaviour {
 			} else {
 				if (player.GetComponent<player>().joystickController) {
 					
-					if (Input.GetAxis("JFire" + joystickNums) < 0) {
+					if (Input.GetAxis("JFire" + joystickNums) > 0) {
 						player.SendMessage("Punch");
 					} 
 				} else {
@@ -209,7 +213,7 @@ public class MouseInput : MonoBehaviour {
 			bool hasSecondaryItem = center.childCount > 1 && center.GetChild(1).childCount > 0 && !center.GetChild (1).GetComponent<player>();
 			if (hasItem2[i] && hasSecondaryItem) {
 				if (player.GetComponent<player>().joystickController) {
-					if (Input.GetAxis("JFire" + joystickNums) > 0) {
+					if (Input.GetAxis("JFireAlt" + joystickNums) > 0) {
 						center.GetChild (1).SendMessage ("click");
 					} else {
 						center.GetChild (1).SendMessage ("unclick");
@@ -223,7 +227,7 @@ public class MouseInput : MonoBehaviour {
 				}
 			} else {
 				if (player.GetComponent<player>().joystickController) {
-					if (Input.GetAxis("JFire" + joystickNums) > 0) {
+					if (Input.GetAxis("JFireAlt" + joystickNums) > 0) {
 						player.GetComponent<GrappleLauncher> ().SendMessage ("fire");
 					} else {
 						player.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
@@ -266,6 +270,6 @@ public class MouseInput : MonoBehaviour {
 	
 	void OnApplicationQuit() {
 		// Clean up
-		mousedriver.Dispose();
+		if (usesMouse) mousedriver.Dispose();
 	}
 }

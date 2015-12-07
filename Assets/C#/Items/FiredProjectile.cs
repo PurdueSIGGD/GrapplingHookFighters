@@ -7,7 +7,7 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage;
-	public bool exploding, dieOnAnyHit;
+	public bool exploding, dieOnAnyHit, nonLethal;
 	public GameObject explosion;
 	void OnTriggerEnter2D(Collider2D col) {
 
@@ -19,10 +19,10 @@ public class FiredProjectile : MonoBehaviour {
 			if (col.GetComponent<Rigidbody2D>()) {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
-			if (col.transform.GetComponent<Health> () && !exploding) {
+			if (!nonLethal && col.transform.GetComponent<Health> () && !exploding) {
 				col.transform.SendMessage ("hit");
 			}
-			if (col.GetComponent<grenade>()) {
+			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
 			if (dieOnAnyHit)

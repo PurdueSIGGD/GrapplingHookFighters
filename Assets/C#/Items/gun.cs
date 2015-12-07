@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal;
+	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread;
 	private float timeSincelast;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
-	public GameObject projectileGameObject, particle;
+	public GameObject projectileGameObject, particle; 
 	public Vector2 reticlePos;
-	public int playerid, bulletsPerShot = 1;
-	public bool automatic;
-	private bool canFire = true;
-	public int ammo;
 	public Sprite shellSprite;
 	// Use this for initialization
 	void Start () {
@@ -58,20 +55,69 @@ public class gun : MonoBehaviour, item {
 				reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
 				//Vector2 thing = reticlePos - (Vector2)shootPoint;
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
-
 				Vector2 thing = (Vector2)shootPoint - playerPos;
 				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 
 				for (int i = 0; i < bulletsPerShot; i++) {
 					Vector2 f = (Vector2)shootPoint - playerPos;
 					f += spread * Random.insideUnitCircle;
-					f.Normalize();	
-					GameObject g;
-					g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
+					f.Normalize();
+					int layermask = 1 << this.gameObject.layer;
+				//	print(Vector3.Distance(playerPos, f));
+					RaycastHit2D[] rr = Physics2D.RaycastAll(playerPos, shootPoint - (Vector3)playerPos, Vector3.Distance(playerPos, shootPoint), layermask);
+					bool inTheWay = false;
+					if (rr.Length > 0) {
+						foreach (RaycastHit2D ray in rr) {
+							if (!ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
+								//print(ray.transform);
+								inTheWay = true;
+							}
+						}
+					}
+					if (!inTheWay) {
+						if (raycastShoot) {
 
-					g.layer = this.transform.gameObject.layer;
-					g.GetComponent<FiredProjectile>().damage = this.damage;
-					g.GetComponent<Rigidbody2D>().AddForce(f*projectileSpeed);
+							//Debug.DrawLine(this.transform.position, ugh);
+							//EditorApplication.isPaused = true;
+							RaycastHit2D[] r;
+							r = Physics2D.RaycastAll(shootPoint, f, 100, layermask);
+							Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
+							Transform hit = null;
+							foreach (RaycastHit2D ray in r) {
+								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !ray.collider.isTrigger) {
+									//print(ray.transform);
+									endPoint = ray.point;
+									hit = ray.transform;
+								}
+							}
+							if (hit) {
+
+								if (hit.GetComponent<Rigidbody2D>()) {
+									hit.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
+								}
+								if (hit.transform.GetComponent<Health> ()) {
+									hit.transform.SendMessage ("hit");
+								}
+								if (hit.GetComponent<grenade>()) {
+									hit.SendMessage("Explode");
+								}
+							}
+							GameObject g;
+							g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
+							//g.transform.position = endPoint;
+							g.GetComponent<LineRenderer>().SetPosition(0, shootPoint);
+							g.GetComponent<LineRenderer>().SetPosition(1, endPoint);
+
+							
+						} else {
+							GameObject g;
+							g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
+							g.layer = this.transform.gameObject.layer;
+							g.GetComponent<FiredProjectile>().damage = this.damage;
+							g.GetComponent<FiredProjectile>().nonLethal = this.nonLethal;
+							g.GetComponent<Rigidbody2D>().AddForce(f*projectileSpeed);
+						}			
+					}
 				}
 
 				if (ejecting) {
@@ -91,7 +137,7 @@ public class gun : MonoBehaviour, item {
 				}
 				for (int i = 0; i < gunGoesPoof; i++) {
 					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
-					if (this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
+					if (this.transform.parent && this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
 					particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
 					particleG.GetComponent<Rigidbody2D>().gravityScale = -.3f;
 					particleG.GetComponent<ParticleScript>().time = .6f;
