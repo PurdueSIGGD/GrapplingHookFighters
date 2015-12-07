@@ -122,11 +122,7 @@ public class player : MonoBehaviour {
 				GameObject.Find("MouseInput").SendMessage("playerHasNotItem", playerid);
 	            heldItem1.SendMessage("retriggerSoon", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
 	            if (heldItem1.GetComponent<PolygonCollider2D>()) heldItem1.GetComponent<PolygonCollider2D>().isTrigger = false;
-	            else {
-	                foreach (BoxCollider2D bbbb in heldItem1.GetComponents<BoxCollider2D>()) {
-	                    if (bbbb.size == new Vector2(1, 1)) bbbb.isTrigger = false;
-	                }
-	            }
+	           
 	            timeSincePickup = 0;
 	            heldItem1.GetComponent<Rigidbody2D>().isKinematic = false;
 	            if (b) heldItem1.GetComponent<Rigidbody2D>().AddForce(800 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
@@ -141,11 +137,7 @@ public class player : MonoBehaviour {
 				GameObject.Find("MouseInput").SendMessage("playerHasNotItem2", playerid);
 	            heldItem2.SendMessage("retriggerSoon", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
 	            if (heldItem2.GetComponent<PolygonCollider2D>()) heldItem2.GetComponent<PolygonCollider2D>().isTrigger = false;
-	            else {
-	                foreach (BoxCollider2D bbbb in heldItem2.GetComponents<BoxCollider2D>()) {
-	                    if (bbbb.size == new Vector2(1, 1)) bbbb.isTrigger = false;
-	                }
-	            }
+	           
 	            timeSincePickup = 0;
 	            heldItem2.GetComponent<Rigidbody2D>().isKinematic = false;
 	            if (b) heldItem2.GetComponent<Rigidbody2D>().AddForce(500 * heldItem2.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon

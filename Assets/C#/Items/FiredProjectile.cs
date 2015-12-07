@@ -28,7 +28,10 @@ public class FiredProjectile : MonoBehaviour {
 			if (dieOnAnyHit)
 				GameObject.Destroy (this.gameObject);
 		}
-	
+		if (col.shapeCount == 5 && dieOnAnyHit) 
+			GameObject.Destroy (this.gameObject);
+		//if (col.isTrigger && col.GetComponent<Health>() && dieOnAnyHit)
+			//GameObject.Destroy (this.gameObject);
 
 	}
 	// Update is called once per frame

@@ -17,7 +17,7 @@ public class TrackingCamera : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		cam.orthographicSize+=zooming*2*Time.deltaTime;
 

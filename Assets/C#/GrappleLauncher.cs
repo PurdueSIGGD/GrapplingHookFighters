@@ -4,8 +4,7 @@ using System.Collections;
 public class GrappleLauncher : MonoBehaviour {
 	private bool firing, retracting, attached, mouseReleased, death;
 	private float grappleTimer;
-	private GameObject firedGrapple;
-	public GameObject grappleHook;
+	public GameObject firedGrapple;
 	// Use this for initialization
 	void Start () {
 		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);

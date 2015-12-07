@@ -40,13 +40,17 @@ public class Boundary : MonoBehaviour {
 				if(timeNow >= deathwait[i].timeOfDeath){
 					//The respawn point will be there for now
 					if (deathwait[i].player.GetComponent<Health>())  {
-						deathwait[i].player.transform.parent = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
-						deathwait[i].player.transform.position = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform.position;
-						deathwait[i].player.transform.eulerAngles = Vector3.zero;
-						deathwait[i].player.GetComponent<Health>().resetPlayer();
-						deathwait[i].player.GetComponent<player>().death = false;
-						deathwait[i].player.BroadcastMessage("NotDeath");
-						deathwait[i].player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+						GameObject g = deathwait[i].player;
+						Transform rePos = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
+						g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
+						g.transform.parent = rePos;
+						g.transform.position = rePos.position;
+						g.transform.eulerAngles = Vector3.zero;
+						g.GetComponent<Health>().resetPlayer();
+						g.GetComponent<player>().death = false;
+						g.BroadcastMessage("NotDeath");
+						g.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
 
 					}
 					//deathwait[i].player.SetActive(true);
@@ -60,7 +64,7 @@ public class Boundary : MonoBehaviour {
 		//print(col);
 		//checks to see if the collider belongs to a player
 		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>()) {
-			SetInRespawnQueue(col.gameObject);
+			if (col.GetComponent<Health>() && !col.GetComponent<Health>().dead) SetInRespawnQueue(col.gameObject);
 		} else {
 			GameObject.Destroy(col.gameObject);
 		}
