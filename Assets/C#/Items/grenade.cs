@@ -4,7 +4,7 @@ using System.Collections;
 public class grenade : MonoBehaviour {
 
     private bool pullPin = false;
-    private bool pinPulled = false;
+    public bool pinPulled = false;
 	public bool sticky;
     public float fuseTime, fuseParticleInterval;
     private float timePassed = 0;
@@ -68,7 +68,12 @@ public class grenade : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col) {
 		if (sticky) {
 			Destroy(this.GetComponent<Rigidbody2D>());
-			this.transform.parent = col.transform;	
+			this.transform.parent = col.transform;
+			float scalex = 1 / col.transform.localScale.x ; 
+			//float scaley = 1 / col.transform.localScale.y ; 
+			//float scalez = 1 / col.transform.localScale.z ; 
+			float childOrg = transform.localScale.x; 
+			transform.localScale = new Vector3(childOrg*scalex, childOrg*scalex, childOrg*scalex);
 
 		}
 	}

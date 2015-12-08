@@ -24,7 +24,7 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void Attach(GameObject g) {
-		if (g.transform != lastGrab && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.GetComponent<Rigidbody2D>() == null && (firing || retracting)) {
+		if (g.transform != lastGrab && g.GetComponent<ExplosionScript>() == null && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.GetComponent<Rigidbody2D>() == null && (firing || retracting)) {
 
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
 			Vector2[] vee = new Vector2[2];

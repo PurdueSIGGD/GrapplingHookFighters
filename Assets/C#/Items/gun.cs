@@ -12,6 +12,7 @@ public class gun : MonoBehaviour, item {
 	public GameObject projectileGameObject, particle; 
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
+	public PhysicsMaterial2D bulletPhys;
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
@@ -53,12 +54,16 @@ public class gun : MonoBehaviour, item {
 				ammo--;
 				shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
 				reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
+				Vector2 gunBase = transform.FindChild("GunBase").position;
 				//Vector2 thing = reticlePos - (Vector2)shootPoint;
 				Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
-				Vector2 thing = (Vector2)shootPoint - playerPos;
+			
+				//Vector2 thing = (Vector2)shootPoint - playerPos;
+				Vector2 thing = (Vector2)shootPoint - gunBase;
+
 				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 				for (int i = 0; i < bulletsPerShot; i++) {
-					Vector2 f = (Vector2)shootPoint - playerPos;
+					Vector2 f = thing;
 					f += (spread/Random.Range(1,5) * Random.insideUnitCircle) + f;
 					f.Normalize();
 					int layermask = 1 << this.gameObject.layer;
@@ -115,7 +120,12 @@ public class gun : MonoBehaviour, item {
 							g.layer = this.transform.gameObject.layer;
 							g.GetComponent<FiredProjectile>().damage = this.damage;
 							g.GetComponent<FiredProjectile>().nonLethal = this.nonLethal;
+							if (nonLethal) {
+								g.GetComponent<Rigidbody2D>().AddTorque(5 * Random.Range(0, 5f) * projectileSpeed);
+
+							}
 							g.GetComponent<Rigidbody2D>().AddForce(f*projectileSpeed);
+							if (g.GetComponent<grenade>()) g.GetComponent<grenade>().pinPulled = true;
 						}			
 					}
 				}
@@ -125,7 +135,12 @@ public class gun : MonoBehaviour, item {
 					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
 					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);
 					shelly.GetComponent<SpriteRenderer>().sprite = this.shellSprite;
-					shelly.AddComponent<BoxCollider2D>();
+					if (this.bulletsPerShot > 1) {
+						shelly.transform.localScale += Vector3.one/5;
+					}
+					BoxCollider2D c = shelly.AddComponent<BoxCollider2D>();
+					c.sharedMaterial = this.bulletPhys;
+					c.size = new Vector2(c.size.x, c.size.y/2);
 					shelly.GetComponent<Rigidbody2D>().gravityScale = 1;
 					//shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
 					//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
@@ -134,6 +149,7 @@ public class gun : MonoBehaviour, item {
 					shelly.GetComponent<ParticleScript>().time = 2;
 					shelly.GetComponent<ParticleScript>().shell = true;
 					shelly.layer = this.transform.gameObject.layer;
+
 				}
 				for (int i = 0; i < gunGoesPoof; i++) {
 					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);

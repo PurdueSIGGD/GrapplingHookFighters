@@ -9,7 +9,7 @@ public class ExplosionScript : MonoBehaviour {
 			g.SendMessage("Explode");
 		}
 		this.GetComponent<CircleCollider2D> ().radius = .75f;
-		print("ugh");
+		//print("ugh");
 		//EditorApplication.isPaused = true;
 	}
 	
@@ -24,6 +24,9 @@ public class ExplosionScript : MonoBehaviour {
 			Destroy (this.gameObject);
 	}
 	void OnCollisionEnter2D(Collision2D col) {
+		if (col.transform.GetComponent<grenade>()) {
+			col.transform.SendMessage("Explode");
+		}
 		if (col.transform.GetComponent<Rigidbody2D>() != null && col.transform.GetComponent<FiredProjectile>() == null) {
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (500 * col.transform.GetComponent<Rigidbody2D>().mass * (col.transform.position - this.transform.position));
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (200 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
@@ -31,9 +34,7 @@ public class ExplosionScript : MonoBehaviour {
 		if (col.transform.GetComponent<Health> ()) {
 			col.transform.SendMessage("hit");
 		}
-		if (col.transform.GetComponent<grenade>()) {
-			col.transform.SendMessage("Explode");
-		}
+
 	}
 
 }

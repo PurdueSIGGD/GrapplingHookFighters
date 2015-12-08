@@ -72,10 +72,10 @@ public class player : MonoBehaviour {
 			 * 
 			 */
             GetComponent<LineRenderer>().SetVertexCount(2);
-            GetComponent<LineRenderer>().SetPosition(0, transform.position);
-            GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector);
-
-            if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
+            GetComponent<LineRenderer>().SetPosition(0, transform.position + .1f * Vector3.forward);
+			GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector + .1f * Vector3.forward);
+			
+			if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
                 //drop weapon
                 timeSincePickup = 0;
                 if (heldItem2 != null)

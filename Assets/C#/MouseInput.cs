@@ -12,12 +12,14 @@ using System.Runtime.InteropServices;
 public class MouseInput : MonoBehaviour {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
 	IntPtr unityWindow;
+	private bool already;
 	[DllImport("user32.dll", EntryPoint = "GetActiveWindow")]
 	static extern uint GetActiveWindow();	
 	[DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
 	static extern bool SetForegroundWindow(IntPtr hWnd);
 	void resetMouse() {
 		SetForegroundWindow(unityWindow);
+		already = true;
 	}
 #endif
 	public float sensitivity;
@@ -80,7 +82,7 @@ public class MouseInput : MonoBehaviour {
 		//print("Start update function mouse");
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
-		if ((IntPtr)GetActiveWindow() != this.unityWindow && timeSinceStart < 5) resetMouse(); //to stop getting focus stuck on the mouse starter
+		if ((IntPtr)GetActiveWindow() != this.unityWindow && !already) resetMouse(); //to stop getting focus stuck on the mouse starter
 		if (Input.GetKey ("escape")) {
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;	

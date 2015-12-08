@@ -4,7 +4,7 @@ using System.Collections;
 public class Hazard : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.transform.GetComponent<Health> () && !col.isTrigger) {
-			col.GetComponent<Rigidbody2D>().drag = 4;
+			col.GetComponent<Rigidbody2D>().drag = 50;
 			col.transform.SendMessage ("hit");
 		}
 	}
