@@ -65,7 +65,7 @@ public class MouseInput : MonoBehaviour {
 
 			int joystickNum = 0;
 			for (int i = 1; i <= 4; i++) {
-				if (GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
+				if (GameObject.Find("Player" + i) && GameObject.Find("Player" + i).GetComponent<player>().joystickController) {
 					GameObject.Find("Player" + i).GetComponent<player>().joystickID = ++joystickNum;
 				}
 			}
