@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
 
 public class ExplosionScript : MonoBehaviour {
 	// Use this for initialization

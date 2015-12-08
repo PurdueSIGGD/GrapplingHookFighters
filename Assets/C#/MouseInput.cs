@@ -76,7 +76,7 @@ public class MouseInput : MonoBehaviour {
 		DontDestroyOnLoad(this.transform);
 	}
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel("Scene1");
+		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel("Demo Level");
 		//print("Start update function mouse");
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
@@ -140,7 +140,14 @@ public class MouseInput : MonoBehaviour {
 					}
 					//center.transform.localEulerAngles = new Vector3(0,0,0);
 				} else {
+
 					reticle.transform.localPosition = lastReticle[i];
+					center.LookAt(reticle.transform.position);
+					Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+					center.transform.localEulerAngles = rotation;
+					if(reticle.transform.position.x < player.transform.position.x) {
+						center.transform.localEulerAngles += new Vector3(0, 180, 0);
+					}
 				}
 			} else if (usesMouse) {
 				//we use mouse
@@ -169,7 +176,14 @@ public class MouseInput : MonoBehaviour {
 					}
 					lastReticle[i] = reticle.transform.position;
 				} else {
-					if (lastReticle[i] == Vector2.right) reticle.transform.localPosition = lastReticle[i];
+					if (lastReticle[i] == Vector2.right) {
+						center.LookAt(reticle.transform.position);
+						Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+						center.transform.localEulerAngles = rotation;
+						if(reticle.transform.position.x < player.transform.position.x) {
+							center.transform.localEulerAngles += new Vector3(0, 180, 0);
+						}
+					}
 
 				}
 

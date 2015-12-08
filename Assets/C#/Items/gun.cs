@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+
 public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal;
@@ -67,8 +67,8 @@ public class gun : MonoBehaviour, item {
 					bool inTheWay = false;
 					if (rr.Length > 0) {
 						foreach (RaycastHit2D ray in rr) {
-							if (!ray.collider.isTrigger && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
-								print(ray.transform);
+							if (!ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>() && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
+								//print(ray.transform);
 								inTheWay = true;
 							}
 						}
@@ -83,7 +83,7 @@ public class gun : MonoBehaviour, item {
 							Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
 							Transform hit = null;
 							foreach (RaycastHit2D ray in r) {
-								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !ray.collider.isTrigger) {
+								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>()) {
 									//print(ray.transform);
 									endPoint = ray.point;
 									hit = ray.transform;
@@ -92,7 +92,8 @@ public class gun : MonoBehaviour, item {
 							if (hit) {
 
 								if (hit.GetComponent<Rigidbody2D>()) {
-									hit.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
+									//print(hit);
+									hit.GetComponent<Rigidbody2D>().AddForce(damage * f	);
 								}
 								if (hit.transform.GetComponent<Health> ()) {
 									hit.transform.SendMessage ("hit");

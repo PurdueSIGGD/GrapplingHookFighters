@@ -33,7 +33,7 @@ public class GrappleLauncher : MonoBehaviour {
 				//RaycastHit2D r;
 				//r = Physics2D.Raycast(transform.position, firedGrapple.transform.position - this.transform.position);
 				
-				if (Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
+				if (firing && Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
 					//print(r.collider.name);
 					Disconnect ();
 
