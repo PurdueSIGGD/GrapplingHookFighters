@@ -41,4 +41,10 @@ public class HeldItem : MonoBehaviour {
 		object o = 0;
 		if (focus) focus.SendMessage("throwWeapont",o);
 	}
+	void click() {
+		//up to object implementation
+	}
+	void unclick() {
+
+	}
 }

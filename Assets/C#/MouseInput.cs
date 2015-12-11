@@ -195,9 +195,8 @@ public class MouseInput : MonoBehaviour {
 			//look = new Vector3(mice[i-1].XDelta * Time.deltaTime, -mice[i-1].YDelta * Time.deltaTime, 0);
 			//if (i == 1)print(center.transform.eulerAngles);
 			bool hasBaseItem = center.childCount >= 1 && center.GetChild(0).childCount > 0 && 
-					(center.GetChild (0).GetComponent<gun>() || 
-					 center.GetChild (0).GetComponent<grenade>() || 
-					 center.GetChild (0).GetComponent<PortalGun>());
+				(center.GetChild (0).CompareTag("DualItem") || 
+					center.GetChild (0).CompareTag("Item"));
 
 			if (hasItem[i] && hasBaseItem) {
 				if (player.GetComponent<player>().joystickController) {

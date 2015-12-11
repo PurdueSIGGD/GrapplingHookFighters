@@ -1,0 +1,7 @@
+In order to be an item you can hold, you must have these things:
+
+Tag as either "DualItem" or "Item"
+Script of "Held Item"
+Polygon collider for plane collision
+Box collider for trigger entering
+Rigidbody

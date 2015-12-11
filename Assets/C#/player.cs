@@ -125,7 +125,7 @@ public class player : MonoBehaviour {
 	           
 	            timeSincePickup = 0;
 	            heldItem1.GetComponent<Rigidbody2D>().isKinematic = false;
-	            if (b) heldItem1.GetComponent<Rigidbody2D>().AddForce(800 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
+	            if (b) heldItem1.GetComponent<Rigidbody2D>().AddForce(900 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 	            heldItem1.GetComponent<Rigidbody2D>().AddTorque(3);
 	            heldItem1.transform.parent = null;
 	            if (heldItem1.GetComponent<gun>()) heldItem1.GetComponent<gun>().unclick();
@@ -140,7 +140,7 @@ public class player : MonoBehaviour {
 	           
 	            timeSincePickup = 0;
 	            heldItem2.GetComponent<Rigidbody2D>().isKinematic = false;
-	            if (b) heldItem2.GetComponent<Rigidbody2D>().AddForce(500 * heldItem2.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
+	            if (b) heldItem2.GetComponent<Rigidbody2D>().AddForce(900 * heldItem2.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 	            heldItem2.GetComponent<Rigidbody2D>().AddTorque(3);
 	            heldItem2.transform.parent = null;
 	            if (heldItem2.GetComponent<gun>()) heldItem2.GetComponent<gun>().unclick();
@@ -188,8 +188,8 @@ public class player : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D col) {
         Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
-        if ((!heldItem1 || (heldItem1.GetComponent<grenade>()) || (heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual && col.GetComponent<gun>() && col.GetComponent<gun>().canDual)) &&
-            col.CompareTag("Item") &&  //It is an item to pick up
+		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
+			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
             col.GetComponent<HeldItem>() && //it can be held
             (col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
             timeSincePickup > .2f && //had enough time
@@ -205,7 +205,7 @@ public class player : MonoBehaviour {
     void OnTriggerExit2D(Collider2D col) {
 		if (punchable && col.gameObject == punchable.gameObject) punchable = null;
 
-        if (col.CompareTag("Item") &&  //It is an item to pick up
+		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
             col.GetComponent<HeldItem>() && //it can be held
             (col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
             timeSincePickup > .2f && //had enough time
@@ -218,7 +218,7 @@ public class player : MonoBehaviour {
 
 		if (col.GetComponent<player>()) punchable = col.GetComponent<Rigidbody2D>();
 
-        if (col.CompareTag("Item") && col.GetComponent<HeldItem>() && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
+		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
                 if (heldItem1 == null) {
@@ -243,7 +243,7 @@ public class player : MonoBehaviour {
                     }
                     GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
                     canPickup = false;
-                } else if (heldItem2 == null && !col.GetComponent<player>() && (((heldItem1.GetComponent<gun>() && heldItem1.GetComponent<gun>().canDual) || (heldItem1.GetComponent<grenade>())) && (col.GetComponent<grenade>() || (col.GetComponent<gun>() && col.GetComponent<gun>().canDual)))) {
+				} else if (heldItem2 == null && !col.GetComponent<player>() && heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem")) {
 
 					this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
                     Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());

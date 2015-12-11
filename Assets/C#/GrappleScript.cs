@@ -69,16 +69,20 @@ public class GrappleScript : MonoBehaviour {
 			breakTime = 0;
 		}
 		RaycastHit2D[] r;
+		//if (connected && this.transform.position.y < focus.transform.position.y) focus.SendMessage("Disconnect");
 		if (connected) {
-			r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), Vector3.Distance(this.transform.position, focus.transform.position) * .8f);
-			foreach (RaycastHit2D ray in r) {
-				if (ray.transform.gameObject.layer == this.gameObject.layer 
-				    && ray.transform.GetComponent<player>() == null 
-				    && ray.transform.GetComponentInParent<player>() == null 
-				    && ray.transform.GetComponent<GrappleScript>() == null
-				    && ray.transform.GetComponent<gun>() == null) {
-					breakTime = .4f; //so player wont try to disconnect and shoot again
-					focus.SendMessage("Disconnect"); //Temporarily disabled for now
+			float d = Vector3.Distance(this.transform.position, focus.transform.position) * .75f;
+			if (d > 0) {
+				int layermask = 1 << this.gameObject.layer;
+				r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), d, layermask);
+				foreach (RaycastHit2D ray in r) {
+					if (ray.transform.GetComponent<player>() == null 
+					    && ray.transform.GetComponentInParent<player>() == null 
+					    && ray.transform.GetComponent<GrappleScript>() == null) {
+						breakTime = .4f; //so player wont try to disconnect and shoot again
+						//print("raycast disconnect " + ray.transform.name);
+						focus.SendMessage("Disconnect"); //Temporarily disabled for now
+					}
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public class GrappleLauncher : MonoBehaviour {
 		else grappleTimer = 0;
 		if (!death) {
 			firedGrapple.gameObject.layer = this.gameObject.layer;
-			if (attached) this.GetComponent<Rigidbody2D>().AddForce(24 * Vector2.up);
+			if (attached) this.GetComponent<Rigidbody2D>().AddForce(800 *  Time.deltaTime * Vector2.up);
 			if (retracting && !firing) {
 				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
 				if (Vector3.Distance (this.transform.position, firedGrapple.transform.position) < .3f) {
@@ -33,7 +33,7 @@ public class GrappleLauncher : MonoBehaviour {
 				//RaycastHit2D r;
 				//r = Physics2D.Raycast(transform.position, firedGrapple.transform.position - this.transform.position);
 				
-				if (firing && Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
+				if (!attached && Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
 					//print(r.collider.name);
 					Disconnect ();
 
@@ -56,6 +56,7 @@ public class GrappleLauncher : MonoBehaviour {
 	            firing = true;
 	            firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
 	            firedGrapple.SendMessage("Launch", firingVector);
+
 	        } else {
 	            if (attached || firing) {
 	                Disconnect();
@@ -73,6 +74,7 @@ public class GrappleLauncher : MonoBehaviour {
     }
 
 	void Attach() {
+		//this.GetComponent<Rigidbody2D>().AddForce(Vector3.Distance(this.transform.position, firedGrapple.transform.parent.position) * 100 * (this.transform.position.y > firedGrapple.transform.parent.position.y ? Vector3.down : Vector3.up));
 		attached = true;
 	}
 	void Disconnect() {
