@@ -73,7 +73,7 @@ public class GrappleScript : MonoBehaviour {
 		if (connected) {
 			float d = Vector3.Distance(this.transform.position, focus.transform.position) * .75f;
 			if (d > 0) {
-				int layermask = 1 << this.gameObject.layer;
+				int layermask = 1 << (this.gameObject.layer + 5);
 				r = Physics2D.RaycastAll(focus.transform.position, (this.transform.position - focus.transform.position), d, layermask);
 				foreach (RaycastHit2D ray in r) {
 					if (ray.transform.GetComponent<player>() == null 

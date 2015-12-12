@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+//using UnityEditor;
 public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal;
@@ -37,9 +37,14 @@ public class gun : MonoBehaviour, item {
 	public void SetPlayerID(int playerid){
 	//will set an ID number as an Int
 		this.playerid = playerid;
-
 	}
-
+	void OnCollisionEnter2D(Collision2D col) {
+		/*print(col.transform.name);
+		if (col.transform.name == "Particle(Clone)") {
+			print(this.transform.name);
+			EditorApplication.isPaused = true;
+		}*/
+	}
 	// Update is called once per frame
 	void Update () {
 		//checked to see if there was a mouseplayer click
@@ -66,7 +71,7 @@ public class gun : MonoBehaviour, item {
 					Vector2 f = thing;
 					f += (spread/Random.Range(1,5) * Random.insideUnitCircle) + f;
 					f.Normalize();
-					int layermask = 1 << this.gameObject.layer;
+					int layermask = (1 << this.gameObject.layer) + (1 << (this.gameObject.layer + 5));
 				//	print(Vector3.Distance(playerPos, f));
 					RaycastHit2D[] rr = Physics2D.RaycastAll(playerPos, shootPoint - (Vector3)playerPos, Vector3.Distance(playerPos, shootPoint), layermask);
 					bool inTheWay = false;
@@ -143,12 +148,14 @@ public class gun : MonoBehaviour, item {
 					c.size = new Vector2(c.size.x, c.size.y/2);
 					shelly.GetComponent<Rigidbody2D>().gravityScale = 1;
 					//shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
-					//Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+					Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+					Physics2D.IgnoreCollision(GameObject.Find("Player" + playerid).GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+
 					shelly.GetComponent<Rigidbody2D>().AddForceAtPosition(200 *  (.1f *Random.insideUnitCircle +  Vector2.up) * shelly.GetComponent<Rigidbody2D>().mass, shelly.transform.position);
 					shelly.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-20,20));					//shelly.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + (Quaternion.AngleAxis(90, (Vector3)thing) * thing)));
 					shelly.GetComponent<ParticleScript>().time = 2;
 					shelly.GetComponent<ParticleScript>().shell = true;
-					shelly.layer = this.transform.gameObject.layer;
+					shelly.layer = this.gameObject.layer == 8 ? 11 : 12; //becomes the respective nocol layer
 
 				}
 				for (int i = 0; i < gunGoesPoof; i++) {

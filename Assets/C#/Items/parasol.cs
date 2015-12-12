@@ -8,6 +8,7 @@ public class parasol : MonoBehaviour {
 	private Transform myParent;
 	// Use this for initialization
 	void Start () {
+		opened = true;
 		timeSwitched = Time.time;
 	}
 
@@ -24,7 +25,7 @@ public class parasol : MonoBehaviour {
 			}
 		}
 
-
+		if (!opened && Time.time - timeSwitched > .06f) opened = true;
 	}
 	void LateUpdate() {
 		transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -37,7 +38,7 @@ public class parasol : MonoBehaviour {
 		}
 	}
 	void unclick() {
-		if (Time.time - timeSwitched > .05f) {
+		if (Time.time - timeSwitched > .05f || !this.transform.parent) {
 			opened = false;
 			timeSwitched = Time.time;
 		}

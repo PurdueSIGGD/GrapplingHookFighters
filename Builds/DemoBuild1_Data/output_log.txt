@@ -20,22 +20,23 @@ Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Buil
 Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawInputSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawMouseDriver.dll (this message is harmless)
 Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawMouseDriver.dll into Unity Child Domain
-- Completed reload, in  0.067 seconds
+- Completed reload, in  0.576 seconds
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 59Hz; virtual: 3286x1380 at 0,-612
+desktop: 1366x768 59Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
+desktop: 1366x768 59Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Windows.Forms.dll (this message is harmless)
-UnloadTime: 0.643804 ms
+UnloadTime: 13.136164 ms
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Drawing.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\Accessibility.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 744 -> priority: 1 
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 1ca8 -> priority: 1 
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\Mono.Posix.dll (this message is harmless)
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\libc
@@ -53,3 +54,119 @@ Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/Grapp
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Joystick connected ("Controller (XBOX One For Windows)").
+ 
+(Filename:  Line: 1353)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.2, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1599998 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.1, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1499996 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.2, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1599998 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.785750 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.140370 ms (FindLiveObjects: 0.087629 ms CreateObjectMapping: 0.059209 ms MarkObjects: 0.976557 ms  DeleteObjects: 0.016578 ms)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.2, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1599998 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.2, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1500006 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.2, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1599998 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+(0.0, 1.0), (0.0, 1.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+size: (1.0, 0.1, 0.2)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ysize: 0.1499996 ysurface: 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.788360 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.254446 ms (FindLiveObjects: 0.091182 ms CreateObjectMapping: 0.065130 ms MarkObjects: 1.075239 ms  DeleteObjects: 0.021315 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.329291 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.152211 ms (FindLiveObjects: 0.087234 ms CreateObjectMapping: 0.063156 ms MarkObjects: 0.984057 ms  DeleteObjects: 0.017368 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.580886 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.322734 ms (FindLiveObjects: 0.097497 ms CreateObjectMapping: 0.066709 ms MarkObjects: 1.135238 ms  DeleteObjects: 0.022104 ms)
+
+Joystick disconnected ("Controller (XBOX One For Windows)").
+ 
+(Filename:  Line: 714)
+

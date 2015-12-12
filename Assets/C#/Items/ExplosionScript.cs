@@ -15,7 +15,7 @@ public class ExplosionScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.DrawLine(this.transform.position,this.transform.position + Vector3.right * this.GetComponent<CircleCollider2D> ().radius);
+		//Debug.DrawLine(this.transform.position,this.transform.position + Vector3.right * this.GetComponent<CircleCollider2D> ().radius);
 		Animator a = this.GetComponentInChildren<Animator> ();
 		if (a.GetTime () > .3) 
 			this.GetComponent<CircleCollider2D> ().enabled = false;
@@ -24,6 +24,7 @@ public class ExplosionScript : MonoBehaviour {
 			Destroy (this.gameObject);
 	}
 	void OnCollisionEnter2D(Collision2D col) {
+		//print(col.transform.name);
 		if (col.transform.GetComponent<grenade>()) {
 			col.transform.SendMessage("Explode");
 		}

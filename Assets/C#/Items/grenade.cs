@@ -46,7 +46,7 @@ public class grenade : MonoBehaviour {
 			this.transform.parent = null;
 			GameObject ex;
 			if (smokey) 
-				ex = (GameObject)GameObject.Instantiate(smokeBomb,  transform.FindChild("Sphere").transform.position, Quaternion.identity);
+				ex = (GameObject)GameObject.Instantiate(smokeBomb,  transform.FindChild("Sphere").transform.position + Vector3.back * 3, Quaternion.identity);
 			else if (!sticky) 
            		ex = (GameObject)GameObject.Instantiate(explosion, transform.FindChild("Sphere").transform.position, Quaternion.identity);
             else

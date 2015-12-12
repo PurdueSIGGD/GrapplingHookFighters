@@ -128,7 +128,8 @@ public class player : MonoBehaviour {
 	            if (b) heldItem1.GetComponent<Rigidbody2D>().AddForce(900 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
 	            heldItem1.GetComponent<Rigidbody2D>().AddTorque(3);
 	            heldItem1.transform.parent = null;
-	            if (heldItem1.GetComponent<gun>()) heldItem1.GetComponent<gun>().unclick();
+
+				heldItem1.SendMessage("unclick");
 	            heldItem1 = null;
 			}
         } else {
