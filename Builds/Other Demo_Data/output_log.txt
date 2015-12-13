@@ -1,0 +1,55 @@
+Initialize engine version: 5.3.0f4 (2524e04062b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawInputSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawInputSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawMouseDriver.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawMouseDriver.dll into Unity Child Domain
+- Completed reload, in  0.054 seconds
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Windows.Forms.dll (this message is harmless)
+UnloadTime: 0.541567 ms
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Drawing.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Accessibility.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: d90 -> priority: 1 
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Mono.Posix.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon

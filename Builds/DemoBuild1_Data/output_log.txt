@@ -20,23 +20,22 @@ Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Buil
 Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawInputSharp.dll into Unity Child Domain
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawMouseDriver.dll (this message is harmless)
 Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\RawMouseDriver.dll into Unity Child Domain
-- Completed reload, in  0.576 seconds
+- Completed reload, in  0.054 seconds
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.dll (this message is harmless)
-desktop: 1366x768 59Hz; virtual: 1366x768 at 0,0
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-desktop: 1366x768 59Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Windows.Forms.dll (this message is harmless)
-UnloadTime: 13.136164 ms
+UnloadTime: 0.573934 ms
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\System.Drawing.dll (this message is harmless)
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\Accessibility.dll (this message is harmless)
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 744 -> priority: 1 
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: a90 -> priority: 1 
 Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\DemoBuild1_Data\Managed\Mono.Posix.dll (this message is harmless)
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/libc
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\libc
@@ -54,119 +53,63 @@ Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/Grapp
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/.\lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
 Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/DemoBuild1_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
-Joystick connected ("Controller (XBOX One For Windows)").
- 
-(Filename:  Line: 1353)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.2, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1599998 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.1, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1499996 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.2, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1599998 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.785750 ms
+UnloadTime: 0.806824 ms
 
 Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 868.
-Total: 1.140370 ms (FindLiveObjects: 0.087629 ms CreateObjectMapping: 0.059209 ms MarkObjects: 0.976557 ms  DeleteObjects: 0.016578 ms)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.2, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1599998 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.2, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1500006 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.2, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1599998 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-(0.0, 1.0), (0.0, 1.0)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-size: (1.0, 0.1, 0.2)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
-
-ysize: 0.1499996 ysurface: 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+Total: 0.516304 ms (FindLiveObjects: 0.043025 ms CreateObjectMapping: 0.032762 ms MarkObjects: 0.433016 ms  DeleteObjects: 0.007105 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.788360 ms
+UnloadTime: 0.863665 ms
 
 Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
-Total: 1.254446 ms (FindLiveObjects: 0.091182 ms CreateObjectMapping: 0.065130 ms MarkObjects: 1.075239 ms  DeleteObjects: 0.021315 ms)
+Total: 0.623670 ms (FindLiveObjects: 0.078550 ms CreateObjectMapping: 0.033157 ms MarkObjects: 0.500910 ms  DeleteObjects: 0.010262 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.329291 ms
+UnloadTime: 1.874170 ms
 
 Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
-Total: 1.152211 ms (FindLiveObjects: 0.087234 ms CreateObjectMapping: 0.063156 ms MarkObjects: 0.984057 ms  DeleteObjects: 0.017368 ms)
+Total: 1.208263 ms (FindLiveObjects: 0.095524 ms CreateObjectMapping: 0.071840 ms MarkObjects: 1.019583 ms  DeleteObjects: 0.019736 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.580886 ms
+UnloadTime: 3.550581 ms
 
 Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
-Total: 1.322734 ms (FindLiveObjects: 0.097497 ms CreateObjectMapping: 0.066709 ms MarkObjects: 1.135238 ms  DeleteObjects: 0.022104 ms)
+Total: 1.172737 ms (FindLiveObjects: 0.088024 ms CreateObjectMapping: 0.064340 ms MarkObjects: 0.998662 ms  DeleteObjects: 0.020920 ms)
 
-Joystick disconnected ("Controller (XBOX One For Windows)").
- 
-(Filename:  Line: 714)
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.109363 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.227210 ms (FindLiveObjects: 0.089998 ms CreateObjectMapping: 0.064735 ms MarkObjects: 1.049187 ms  DeleteObjects: 0.022499 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.775028 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.343655 ms (FindLiveObjects: 0.096313 ms CreateObjectMapping: 0.063945 ms MarkObjects: 1.162474 ms  DeleteObjects: 0.019341 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.168484 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.247736 ms (FindLiveObjects: 0.093945 ms CreateObjectMapping: 0.093155 ms MarkObjects: 1.040503 ms  DeleteObjects: 0.019341 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.945221 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.191290 ms (FindLiveObjects: 0.091971 ms CreateObjectMapping: 0.065524 ms MarkObjects: 1.011688 ms  DeleteObjects: 0.020525 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.830749 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.245367 ms (FindLiveObjects: 0.102234 ms CreateObjectMapping: 0.113287 ms MarkObjects: 1.010109 ms  DeleteObjects: 0.018946 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.935352 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 868.
+Total: 1.194842 ms (FindLiveObjects: 0.094734 ms CreateObjectMapping: 0.065524 ms MarkObjects: 1.014057 ms  DeleteObjects: 0.019736 ms)
 

@@ -1,0 +1,165 @@
+Initialize engine version: 5.3.0f4 (2524e04062b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawInputSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawInputSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawMouseDriver.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\RawMouseDriver.dll into Unity Child Domain
+- Completed reload, in  0.057 seconds
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Windows.Forms.dll (this message is harmless)
+UnloadTime: 0.520251 ms
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\System.Drawing.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Accessibility.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1a7c -> priority: 1 
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Managed\Mono.Posix.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/.\lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/Other Demo_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Crash!!!
+SymInit: Symbol-SearchPath: '.;C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds;C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds;C:\Windows;C:\Windows\system32;SRV*C:\websymbols*http://msdl.microsoft.com/download/symbols;', symOptions: 530, UserName: 'Lonswaya'
+OS-Version: 6.1.7601 (Service Pack 1) 0x100-0x1
+C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo.exe:Other Demo.exe (01040000), size: 17813504 (result: 0), SymType: 'PDB', PDB: '.\player_win_x86.pdb', fileVersion: 5.3.0.9440
+C:\Windows\SysWOW64\ntdll.dll:ntdll.dll (77A20000), size: 1572864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SysWOW64\ntdll.dll', fileVersion: 6.1.7601.19045
+C:\Windows\syswow64\kernel32.dll:kernel32.dll (76360000), size: 1114112 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\kernel32.dll', fileVersion: 6.1.7601.19045
+C:\Windows\syswow64\KERNELBASE.dll:KERNELBASE.dll (75F60000), size: 290816 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\KERNELBASE.dll', fileVersion: 6.1.7601.19045
+C:\Windows\system32\HID.DLL:HID.DLL (53840000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\HID.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\msvcrt.dll:msvcrt.dll (759D0000), size: 704512 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\msvcrt.dll', fileVersion: 7.0.7601.17744
+C:\Windows\syswow64\GDI32.dll:GDI32.dll (76470000), size: 589824 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\GDI32.dll', fileVersion: 6.1.7601.18898
+C:\Windows\syswow64\USER32.dll:USER32.dll (774D0000), size: 1048576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\USER32.dll', fileVersion: 6.1.7601.19061
+C:\Windows\syswow64\ADVAPI32.dll:ADVAPI32.dll (76500000), size: 659456 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\ADVAPI32.dll', fileVersion: 6.1.7601.18939
+C:\Windows\SysWOW64\sechost.dll:sechost.dll (75850000), size: 102400 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SysWOW64\sechost.dll', fileVersion: 6.1.7601.18869
+C:\Windows\syswow64\RPCRT4.dll:RPCRT4.dll (758D0000), size: 983040 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\RPCRT4.dll', fileVersion: 6.1.7601.19045
+C:\Windows\syswow64\SspiCli.dll:SspiCli.dll (75380000), size: 393216 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SspiCli.dll', fileVersion: 6.1.7601.19045
+C:\Windows\syswow64\CRYPTBASE.dll:CRYPTBASE.dll (75370000), size: 49152 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CRYPTBASE.dll', fileVersion: 6.1.7601.19045
+C:\Windows\syswow64\LPK.dll:LPK.dll (76340000), size: 40960 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\LPK.dll', fileVersion: 6.1.7601.18985
+C:\Windows\syswow64\USP10.dll:USP10.dll (75AE0000), size: 643072 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\USP10.dll', fileVersion: 1.626.7601.19054
+C:\Windows\syswow64\WS2_32.dll:WS2_32.dll (75870000), size: 217088 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\WS2_32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\NSI.dll:NSI.dll (76350000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\NSI.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\VERSION.dll:VERSION.dll (74220000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\VERSION.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\ole32.dll:ole32.dll (75FB0000), size: 1425408 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\ole32.dll', fileVersion: 6.1.7601.18915
+C:\Windows\syswow64\SHLWAPI.dll:SHLWAPI.dll (753E0000), size: 356352 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SHLWAPI.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\SHELL32.dll:SHELL32.dll (76850000), size: 12890112 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SHELL32.dll', fileVersion: 6.1.7601.18952
+C:\Windows\system32\OPENGL32.dll:OPENGL32.dll (53770000), size: 819200 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\OPENGL32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\GLU32.dll:GLU32.dll (53740000), size: 139264 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\GLU32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\DDRAW.dll:DDRAW.dll (53650000), size: 946176 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DDRAW.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\DCIMAN32.dll:DCIMAN32.dll (53850000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DCIMAN32.dll', fileVersion: 6.1.7601.18985
+C:\Windows\syswow64\SETUPAPI.dll:SETUPAPI.dll (76110000), size: 1691648 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SETUPAPI.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\CFGMGR32.dll:CFGMGR32.dll (755B0000), size: 159744 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CFGMGR32.dll', fileVersion: 6.1.7601.17621
+C:\Windows\syswow64\OLEAUT32.dll:OLEAUT32.dll (75520000), size: 585728 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\OLEAUT32.dll', fileVersion: 6.1.7601.18679
+C:\Windows\syswow64\DEVOBJ.dll:DEVOBJ.dll (774B0000), size: 73728 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\DEVOBJ.dll', fileVersion: 6.1.7601.17621
+C:\Windows\system32\dwmapi.dll:dwmapi.dll (739B0000), size: 77824 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dwmapi.dll', fileVersion: 6.1.7601.18917
+C:\Windows\system32\WINMM.dll:WINMM.dll (73E50000), size: 204800 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINMM.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\MSACM32.dll:MSACM32.dll (53610000), size: 81920 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSACM32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\IMM32.dll:IMM32.dll (75EF0000), size: 393216 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\IMM32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\MSCTF.dll:MSCTF.dll (75E20000), size: 835584 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\MSCTF.dll', fileVersion: 6.1.7601.18731
+C:\Windows\system32\DNSAPI.dll:DNSAPI.dll (742E0000), size: 278528 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DNSAPI.dll', fileVersion: 6.1.7601.17570
+C:\Windows\system32\IPHLPAPI.DLL:IPHLPAPI.DLL (742C0000), size: 114688 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\IPHLPAPI.DLL', fileVersion: 6.1.7601.17514
+C:\Windows\system32\WINNSI.DLL:WINNSI.DLL (742B0000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINNSI.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\system32\WINHTTP.dll:WINHTTP.dll (6E8D0000), size: 360448 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINHTTP.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\webio.dll:webio.dll (6E880000), size: 323584 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Windows\system32\webio.dll', fileVersion: 6.1.7601.17725
+C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Mono\mono.dll:mono.dll (10000000), size: 2293760 (result: 0), SymType: '-exported-', PDB: 'C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\Other Demo_Data\Mono\mono.dll', fileVersion: 1.0.0.1
+C:\Windows\syswow64\PSAPI.DLL:PSAPI.DLL (75E10000), size: 20480 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\PSAPI.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\system32\MSWSOCK.dll:MSWSOCK.dll (74350000), size: 245760 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSWSOCK.dll', fileVersion: 6.1.7601.18254
+C:\Windows\system32\uxtheme.dll:uxtheme.dll (73BA0000), size: 524288 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\uxtheme.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\d3d11.dll:d3d11.dll (53490000), size: 1527808 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d11.dll', fileVersion: 6.2.9200.16570
+C:\Windows\system32\dxgi.dll:dxgi.dll (53440000), size: 311296 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dxgi.dll', fileVersion: 6.2.9200.16492
+C:\Windows\syswow64\WINTRUST.dll:WINTRUST.dll (75820000), size: 192512 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\WINTRUST.dll', fileVersion: 6.1.7601.18839
+C:\Windows\syswow64\CRYPT32.dll:CRYPT32.dll (765D0000), size: 1183744 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CRYPT32.dll', fileVersion: 6.1.7601.18839
+C:\Windows\syswow64\MSASN1.dll:MSASN1.dll (765C0000), size: 49152 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\MSASN1.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\igd10umd32.dll:igd10umd32.dll (52980000), size: 11218944 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\igd10umd32.dll', fileVersion: 9.17.10.3223
+C:\Windows\system32\MMDevAPI.DLL:MMDevAPI.DLL (70BC0000), size: 233472 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MMDevAPI.DLL', fileVersion: 6.1.7601.17514
+C:\Windows\system32\PROPSYS.dll:PROPSYS.dll (73290000), size: 1003520 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\PROPSYS.dll', fileVersion: 7.0.7601.17514
+C:\Windows\system32\wdmaud.drv:wdmaud.drv (52950000), size: 196608 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\wdmaud.drv', fileVersion: 6.1.7601.17514
+C:\Windows\system32\ksuser.dll:ksuser.dll (53640000), size: 16384 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\ksuser.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\AVRT.dll:AVRT.dll (53630000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\AVRT.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\AUDIOSES.DLL:AUDIOSES.DLL (70F20000), size: 221184 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\AUDIOSES.DLL', fileVersion: 6.1.7601.18741
+C:\Windows\system32\msacm32.drv:msacm32.drv (52930000), size: 32768 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\msacm32.drv', fileVersion: 6.1.7600.16385
+C:\Windows\system32\midimap.dll:midimap.dll (52940000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\midimap.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\dsound.dll:dsound.dll (52830000), size: 466944 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dsound.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\POWRPROF.dll:POWRPROF.dll (52900000), size: 151552 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\POWRPROF.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\CLBCatQ.DLL:CLBCatQ.DLL (762B0000), size: 536576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CLBCatQ.DLL', fileVersion: 2001.12.8530.16385
+C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.18837_none_41e855142bd5705d\comctl32.dll:comctl32.dll (73390000), size: 1695744 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.18837_none_41e855142bd5705d\comctl32.dll', fileVersion: 6.10.7601.18837
+C:\Windows\system32\xinput1_3.dll:xinput1_3.dll (04B20000), size: 90112 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\xinput1_3.dll', fileVersion: 9.18.944.0
+C:\Windows\WinSxS\x86_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.7601.19061_none_72d6d48d86649709\gdiplus.dll:gdiplus.dll (739D0000), size: 1638400 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\WinSxS\x86_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.7601.19061_none_72d6d48d86649709\gdiplus.dll', fileVersion: 6.1.7601.19061
+C:\Windows\system32\dbghelp.dll:dbghelp.dll (751D0000), size: 962560 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dbghelp.dll', fileVersion: 6.1.7601.17514
+
+========== OUTPUTING STACK TRACE ==================
+
+0x01048EB5 (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\mesh.cpp:446] tessMeshAddEdgeVertex 
+0x01048F02 (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\mesh.cpp:461] tessMeshSplitEdge 
+0x0104BDD6 (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\sweep.cpp:915] ConnectLeftDegenerate 
+0x0104BED4 (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\sweep.cpp:989] ConnectLeftVertex 
+0x0104C05D (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\sweep.cpp:1044] SweepEvent 
+0x0104C261 (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\sweep.cpp:1312] tessComputeInterior 
+0x0104D4BC (Other Demo) [c:\buildslave\unity\build\external\libtess2\libtess2\tess.cpp:919] tessTesselate 
+0x013E4A2C (Other Demo) [c:\buildslave\unity\build\runtime\physics2d\polygoncollider2d.cpp:438] PolygonCollider2D::ExtractConvexShapes 
+0x013E4FA2 (Other Demo) [c:\buildslave\unity\build\runtime\physics2d\polygoncollider2d.cpp:373] PolygonCollider2D::CreateInternal 
+0x013E058F (Other Demo) [c:\buildslave\unity\build\runtime\physics2d\collider2d.cpp:196] Collider2D::RecreateCollider 
+0x013E09BF (Other Demo) [c:\buildslave\unity\build\runtime\physics2d\collider2d.cpp:519] Collider2D::TransformChanged 
+0x013E09E2 (Other Demo) [c:\buildslave\unity\build\runtime\physics2d\collider2d.cpp:57] `Collider2D::InitializeClass'::`2'::FunctorImpl_Collider2D_kTransformChanged::Call 
+0x0106DFED (Other Demo) [c:\buildslave\unity\build\runtime\baseclasses\messagehandler.cpp:19] MessageForwarder::HandleMessage 
+0x0106A44E (Other Demo) [c:\buildslave\unity\build\runtime\baseclasses\gameobject.cpp:1094] Unity::GameObject::SendMessageAny 
+0x012088A1 (Other Demo) [c:\buildslave\unity\build\runtime\graphics\transform.cpp:1003] Transform::SendTransformChanged 
+0x0120885D (Other Demo) [c:\buildslave\unity\build\runtime\graphics\transform.cpp:987] Transform::SendTransformChanged 
+0x0120CA95 (Other Demo) [c:\buildslave\unity\build\runtime\graphics\transform.cpp:711] Transform::SetRotationSafe 
+0x01321E2B (Other Demo) [c:\buildslave\unity\build\artifacts\generated\common\runtime\unityenginetransformbindings.gen.cpp:231] Transform_CUSTOM_INTERNAL_CALL_LookAt 
+0x050BB165 (Mono JIT Code) (wrapper managed-to-native) UnityEngine.Transform:INTERNAL_CALL_LookAt (UnityEngine.Transform,UnityEngine.Vector3&,UnityEngine.Vector3&)
+0x050BB0B5 (Mono JIT Code) UnityEngine.Transform:LookAt (UnityEngine.Vector3)
+0x050B9BE7 (Mono JIT Code) MouseInput:Update ()
+0x0509F541 (Mono JIT Code) (wrapper runtime-invoke) object:runtime_invoke_void__this__ (object,intptr,intptr,intptr)
+0x100F080B (mono) mono_set_defaults
+0x1005D91C (mono) mono_runtime_invoke
+0x011FAFAE (Other Demo) [c:\buildslave\unity\build\runtime\scripting\backend\mono\scriptingbackendapi_mono.cpp:446] scripting_method_invoke 
+0x0127F60A (Other Demo) [c:\buildslave\unity\build\runtime\scripting\backend\scriptinginvocationnoargs.cpp:120] ScriptingInvocationNoArgs::Invoke 
+0x0127F425 (Other Demo) [c:\buildslave\unity\build\runtime\scripting\backend\scriptinginvocationnoargs.cpp:96] ScriptingInvocationNoArgs::Invoke 
+0x011EB24A (Other Demo) [c:\buildslave\unity\build\runtime\mono\monobehaviour.cpp:456] MonoBehaviour::CallMethodIfAvailable 
+0x011ECE28 (Other Demo) [c:\buildslave\unity\build\runtime\mono\monobehaviour.cpp:545] MonoBehaviour::Update 
+0x01245AAF (Other Demo) [c:\buildslave\unity\build\runtime\misc\player.cpp:1718] PlayerLoop 
+0x012E6E02 (Other Demo) [c:\buildslave\unity\build\platformdependent\winplayer\winmain.cpp:543] MainMessageLoop 
+0x012E89EC (Other Demo) [c:\buildslave\unity\build\platformdependent\winplayer\winmain.cpp:955] PlayerWinMain 
+0x016933F8 (Other Demo) [c:\buildslave\unity\build\platformdependent\winplayer\shimmain.cpp:6] WinMain 
+0x016C279E (Other Demo) [f:\dd\vctools\crt_bld\self_x86\crt\src\crt0.c:275] __tmainCRTStartup 
+0x7637337A (kernel32) BaseThreadInitThunk
+0x77A59882 (ntdll) RtlInitializeExceptionChain
+
+========== END OF STACKTRACE ===========
+
+**** Crash! ****

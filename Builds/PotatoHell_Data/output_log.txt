@@ -1,0 +1,109 @@
+Initialize engine version: 5.3.0f4 (2524e04062b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\RawInputSharp.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\RawInputSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\RawMouseDriver.dll (this message is harmless)
+Loading C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\RawMouseDriver.dll into Unity Child Domain
+- Completed reload, in  0.061 seconds
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\System.Windows.Forms.dll (this message is harmless)
+UnloadTime: 0.612618 ms
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\System.Drawing.dll (this message is harmless)
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Accessibility.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libc
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 12a4 -> priority: 1 
+Platform assembly: C:\Users\Lonswaya\Documents\GitHub\GrapplingHookFighters\Builds\PotatoHell_Data\Managed\Mono.Posix.dll (this message is harmless)
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libc
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/libX11
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/.\lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Fallback handler could not load library C:/Users/Lonswaya/Documents/GitHub/GrapplingHookFighters/Builds/PotatoHell_Data/Mono/lib/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.011688 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.483147 ms (FindLiveObjects: 0.043814 ms CreateObjectMapping: 0.014604 ms MarkObjects: 0.417227 ms  DeleteObjects: 0.007105 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.300235 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.472489 ms (FindLiveObjects: 0.041841 ms CreateObjectMapping: 0.014999 ms MarkObjects: 0.408149 ms  DeleteObjects: 0.007105 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.233526 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.523409 ms (FindLiveObjects: 0.073814 ms CreateObjectMapping: 0.027630 ms MarkObjects: 0.414070 ms  DeleteObjects: 0.006710 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.849060 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.476831 ms (FindLiveObjects: 0.041446 ms CreateObjectMapping: 0.015394 ms MarkObjects: 0.411306 ms  DeleteObjects: 0.007894 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.617749 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.613013 ms (FindLiveObjects: 0.056840 ms CreateObjectMapping: 0.017368 ms MarkObjects: 0.529725 ms  DeleteObjects: 0.008289 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.890901 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.523804 ms (FindLiveObjects: 0.079735 ms CreateObjectMapping: 0.015394 ms MarkObjects: 0.421175 ms  DeleteObjects: 0.006710 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.724326 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.498541 ms (FindLiveObjects: 0.073419 ms CreateObjectMapping: 0.015394 ms MarkObjects: 0.401833 ms  DeleteObjects: 0.006710 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.538739 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.531304 ms (FindLiveObjects: 0.086050 ms CreateObjectMapping: 0.015789 ms MarkObjects: 0.421175 ms  DeleteObjects: 0.007105 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.209842 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 782.
+Total: 0.583803 ms (FindLiveObjects: 0.079340 ms CreateObjectMapping: 0.015789 ms MarkObjects: 0.480384 ms  DeleteObjects: 0.007894 ms)
+

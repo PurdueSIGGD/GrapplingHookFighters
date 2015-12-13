@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
 using RawInputSharp;
 using System.Runtime.InteropServices;
 
@@ -78,7 +78,7 @@ public class MouseInput : MonoBehaviour {
 		DontDestroyOnLoad(this.transform);
 	}
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel("Demo Level");
+		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel(Application.loadedLevel);
 		//print("Start update function mouse");
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
@@ -274,14 +274,7 @@ public class MouseInput : MonoBehaviour {
 	public void playerHasNotItem2( int pID){
 		hasItem2 [pID - 1] = false;
 	}
-	
-	void OnGUI() {
-		/*GUILayout.Label("Connected:");
-		for (int i = 0; i < mice.Length; i++) {
-			if (mice[i] != null)
-				GUILayout.Label("");
-		}*/
-	}
+
 	
 	void OnApplicationQuit() {
 		// Clean up
