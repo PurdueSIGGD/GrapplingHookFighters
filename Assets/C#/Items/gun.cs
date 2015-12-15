@@ -93,7 +93,7 @@ public class gun : MonoBehaviour, item {
 							Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
 							Transform hit = null;
 							foreach (RaycastHit2D ray in r) {
-								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>()) {
+								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !(ray.transform.gameObject ==this.GetComponent<HeldItem>().focus ) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>()) {
 									//print(ray.transform);
 									endPoint = ray.point;
 									hit = ray.transform;

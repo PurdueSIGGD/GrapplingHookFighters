@@ -6,10 +6,12 @@ public class parasol : MonoBehaviour {
 	public Sprite sOpen, sClosed;
 	private float timeSwitched;
 	private Transform myParent;
+	Quaternion fixedRotation;
 	// Use this for initialization
 	void Start () {
 		opened = true;
 		timeSwitched = Time.time;
+		fixedRotation = Quaternion.Euler (0, 0, 0);
 	}
 
 	// Update is called once per frame
@@ -28,7 +30,7 @@ public class parasol : MonoBehaviour {
 		if (!opened && Time.time - timeSwitched > .06f) opened = true;
 	}
 	void LateUpdate() {
-		transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		transform.rotation = fixedRotation;
 
 	}
 	void click() {
