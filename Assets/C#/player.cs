@@ -66,11 +66,16 @@ public class player : MonoBehaviour {
             reticlePos.z = transform.position.z;
             firingVector = reticlePos - transform.position;
             firingVector.Normalize();
-            //firingVector = (reticlePos - transform.position) / f;
-            /* End danger zone
-			 * 
-			 * 
-			 */
+
+			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
+			Transform center = transform.FindChild("Center");
+			center.rotation = Quaternion.Euler(0, 0, rotZ);
+			if(firingVector.x < 0) {
+				center.localScale = new Vector3(1, -1, 1);
+			} else {
+				center.localScale = Vector3.one;
+			}
+           
             GetComponent<LineRenderer>().SetVertexCount(2);
             GetComponent<LineRenderer>().SetPosition(0, transform.position + .1f * Vector3.forward);
 			GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector + .1f * Vector3.forward);
@@ -88,6 +93,9 @@ public class player : MonoBehaviour {
         //if (playerid == 1) print("End update function player");
 
     }
+	void LateUpdate() {
+		
+	}
     public void switchPlanes() {
         time = 0.0f;
         if (gameObject.layer != layer1Value) {

@@ -14,7 +14,6 @@ public class parasol : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		this.GetComponentInChildren<SpriteRenderer>().sprite = opened ? sOpen : sClosed;
 		if (this.transform.parent) { 
 			this.transform.parent.parent.GetComponent<Rigidbody2D>().gravityScale = opened ? .25f : 1.1f;
 			myParent = this.transform.parent.parent;
@@ -28,7 +27,9 @@ public class parasol : MonoBehaviour {
 		if (!opened && Time.time - timeSwitched > .06f) opened = true;
 	}
 	void LateUpdate() {
-		transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		this.GetComponentInChildren<SpriteRenderer>().sprite = opened ? sOpen : sClosed;
+		//transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+
 
 	}
 	void click() {

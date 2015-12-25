@@ -77,7 +77,7 @@ public class MouseInput : MonoBehaviour {
 	void Awake() {
 		DontDestroyOnLoad(this.transform);
 	}
-	void Update() {
+	void LateUpdate() {
 		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel(Application.loadedLevel);
 		//print("Start update function mouse");
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
@@ -134,22 +134,23 @@ public class MouseInput : MonoBehaviour {
 					look = look/Vector2.SqrMagnitude(look);
 					reticle.transform.localPosition = look;
 					lastReticle[i] = look;
-					center.LookAt(reticle.transform.position);
-					Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
-					center.transform.localEulerAngles = rotation;
-					if(reticle.transform.position.x < player.transform.position.x) {
-						center.transform.localEulerAngles += new Vector3(0, 180, 0);
-					}
+					//center.LookAt(reticle.transform.position);
+
+					//Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+					//center.transform.localEulerAngles = rotation;
+					//if(reticle.transform.position.x < player.transform.position.x) {
+						//center.transform.localEulerAngles += new Vector3(0, 180, 0);
+					//}
 					//center.transform.localEulerAngles = new Vector3(0,0,0);
 				} else {
 
 					reticle.transform.localPosition = lastReticle[i];
-					center.LookAt(reticle.transform.position);
-					Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
-					center.transform.localEulerAngles = rotation;
-					if(reticle.transform.position.x < player.transform.position.x) {
-						center.transform.localEulerAngles += new Vector3(0, 180, 0);
-					}
+					//center.LookAt(reticle.transform.position);
+					//Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+					//center.transform.localEulerAngles = rotation;
+					//if(reticle.transform.position.x < player.transform.position.x) {
+						//center.transform.localEulerAngles += new Vector3(0, 180, 0);
+					//}
 				}
 			} else if (usesMouse) {
 				//we use mouse
@@ -170,21 +171,21 @@ public class MouseInput : MonoBehaviour {
 					if (dist > 2) {
 						rectTrans.position += (playerPos - rectTrans.position).normalized * (dist - 2);
 					}
-					center.LookAt(reticle.transform.position);
-					Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
-					center.transform.localEulerAngles = rotation;
-					if(reticle.transform.position.x < player.transform.position.x) {
-						center.transform.localEulerAngles += new Vector3(0, 180, 0);
-					}
+					//center.LookAt(reticle.transform.position);
+					//Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+					//center.transform.localEulerAngles = rotation;
+					//if(reticle.transform.position.x < player.transform.position.x) {
+						//center.transform.localEulerAngles += new Vector3(0, 180, 0);
+					//}
 					lastReticle[i] = reticle.transform.position;
 				} else {
 					if (lastReticle[i] == Vector2.right) {
-						center.LookAt(reticle.transform.position);
-						Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
-						center.transform.localEulerAngles = rotation;
-						if(reticle.transform.position.x < player.transform.position.x) {
-							center.transform.localEulerAngles += new Vector3(0, 180, 0);
-						}
+						//center.LookAt(reticle.transform.position);
+						//Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
+						//center.transform.localEulerAngles = rotation;
+						//if(reticle.transform.position.x < player.transform.position.x) {
+							//center.transform.localEulerAngles += new Vector3(0, 180, 0);
+						//}
 					}
 
 				}
