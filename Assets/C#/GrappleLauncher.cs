@@ -5,8 +5,11 @@ public class GrappleLauncher : MonoBehaviour {
 	private bool firing, retracting, attached, mouseReleased, death;
 	private float grappleTimer;
 	public GameObject firedGrapple;
+	public Transform center;
 	// Use this for initialization
 	void Start () {
+		center = this.gameObject.transform.FindChild ("Center");
+
 		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);
 		firedGrapple.GetComponent<GrappleScript>().focus = this.gameObject;
 	}
@@ -20,27 +23,27 @@ public class GrappleLauncher : MonoBehaviour {
 			if (attached) this.GetComponent<Rigidbody2D>().AddForce(800 *  Time.deltaTime * Vector2.up);
 			if (retracting && !firing) {
 				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
-				if (Vector3.Distance (this.transform.position, firedGrapple.transform.position) < .3f) {
+				if (Vector3.Distance (center.position, firedGrapple.transform.position) < .3f) {
 					retracting = false;
 					firedGrapple.GetComponent<GrappleScript> ().retracting = false;
 					firedGrapple.SendMessage("ResetLast");
 				}
 			}
 			if (!firing && !retracting)
-				firedGrapple.transform.position = transform.position;
+				firedGrapple.transform.position = center.position;
 			else {
 
 				//RaycastHit2D r;
 				//r = Physics2D.Raycast(transform.position, firedGrapple.transform.position - this.transform.position);
 				
-				if (!attached && Vector3.Distance (firedGrapple.transform.position, this.transform.position) > 10) {
+				if (!attached && Vector3.Distance (firedGrapple.transform.position, center.position) > 10) {
 					//print(r.collider.name);
 					Disconnect ();
 
 				}
 			}
 		} else {
-			firedGrapple.transform.position = transform.position;
+			firedGrapple.transform.position = center.position;
 		}
 	}
 

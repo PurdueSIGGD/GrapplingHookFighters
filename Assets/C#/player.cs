@@ -53,18 +53,22 @@ public class player : MonoBehaviour {
                 switchPlanes();
             }
             if (this.GetComponent<Rigidbody2D>().velocity.x > -10 && canMoveLeft && goLeft()) {
+				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(jumped ? 20 : 40, 0, 0));
             }
             if (this.GetComponent<Rigidbody2D>().velocity.x < 10 && canMoveRight && goRight()) {
+				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(jumped ? 20 : 40, 0, 0));
             }
             if (goDown()) {
                 GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
             }
 			jumpNow(false);
+			Transform center = this.gameObject.transform.FindChild("Center");
+
             Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
             reticlePos.z = transform.position.z;
-            firingVector = reticlePos - transform.position;
+            firingVector = reticlePos - center.position;
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
@@ -77,8 +81,8 @@ public class player : MonoBehaviour {
 			}
            
             GetComponent<LineRenderer>().SetVertexCount(2);
-            GetComponent<LineRenderer>().SetPosition(0, transform.position + .1f * Vector3.forward);
-			GetComponent<LineRenderer>().SetPosition(1, transform.position + 2 * firingVector + .1f * Vector3.forward);
+            GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
+			GetComponent<LineRenderer>().SetPosition(1, center.position + 2 * firingVector + .1f * Vector3.forward);
 			
 			if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
                 //drop weapon
@@ -101,7 +105,7 @@ public class player : MonoBehaviour {
         if (gameObject.layer != layer1Value) {
             //print("augh" + gameObject.layer);
             gameObject.layer = layer1Value;
-            transform.FindChild("TopTrigger").gameObject.layer = layer1Value;
+            //transform.FindChild("TopTrigger").gameObject.layer = layer1Value;
             if (heldItem1 != null)
                 heldItem1.layer = layer1Value;
             if (heldItem2 != null)
@@ -111,7 +115,7 @@ public class player : MonoBehaviour {
         if (gameObject.layer != layer2Value) {
             //print("oof" + gameObject.layer);
             gameObject.layer = layer2Value;
-            transform.FindChild("TopTrigger").gameObject.layer = layer2Value;
+            //transform.FindChild("TopTrigger").gameObject.layer = layer2Value;
             if (heldItem1 != null)
                 heldItem1.layer = layer2Value;
             if (heldItem2 != null)
@@ -269,7 +273,7 @@ public class player : MonoBehaviour {
                     Transform center = this.gameObject.transform.FindChild("Center");
                     heldItem2.GetComponent<Rigidbody2D>().isKinematic = true;
                     heldItem2.transform.SetParent(center);
-                    heldItem2.transform.position = (center.transform.position + .4f * this.firingVector + .2f * Vector3.up);
+                    heldItem2.transform.position = (center.transform.position + .4f * this.firingVector - .2f * Vector3.up);
                     heldItem2.transform.rotation = center.transform.rotation;
                     if (heldItem2.GetComponent<gun>()) {
                         heldItem2.SendMessage("SetPlayerID", playerid);
