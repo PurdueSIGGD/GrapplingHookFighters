@@ -72,7 +72,6 @@ public class player : MonoBehaviour {
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
-			Transform center = transform.FindChild("Center");
 			center.rotation = Quaternion.Euler(0, 0, rotZ);
 			if(firingVector.x < 0) {
 				center.localScale = new Vector3(1, -1, 1);
