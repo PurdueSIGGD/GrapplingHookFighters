@@ -8,7 +8,7 @@ public class parasol : MonoBehaviour {
 	private Transform myParent;
 	// Use this for initialization
 	void Start () {
-		opened = true;
+		opened = false;
 		timeSwitched = Time.time;
 	}
 
@@ -23,11 +23,11 @@ public class parasol : MonoBehaviour {
 				myParent = null;
 			}
 		}
+		//if (!opened && Time.time - timeSwitched > .06f) opened = true;
+		this.GetComponentInChildren<SpriteRenderer>().sprite = opened ? sOpen : sClosed;
 
-		if (!opened && Time.time - timeSwitched > .06f) opened = true;
 	}
 	void LateUpdate() {
-		this.GetComponentInChildren<SpriteRenderer>().sprite = opened ? sOpen : sClosed;
 		//transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
 

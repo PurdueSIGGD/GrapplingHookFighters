@@ -8,7 +8,7 @@ public class TrackingCamera : MonoBehaviour {
 	public float bufferX = 0, bufferY = 0;
 //	private float initialCamSize;
 	private Camera cam;
-	public float zoomSpeed = 15;
+	public float zoomSpeed = 4;
 	int zooming; //-1 = zooming out, 1 = zooming in, 0 = not zooming
 	// Use this for initialization
 	void Start () {
@@ -19,7 +19,7 @@ public class TrackingCamera : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		cam.orthographicSize+=zooming*2*Time.deltaTime;
+		cam.orthographicSize+=zoomSpeed*zooming*Time.deltaTime;
 
 		if (targets != null)
 		{
