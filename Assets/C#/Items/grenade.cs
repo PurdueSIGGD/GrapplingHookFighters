@@ -56,7 +56,7 @@ public class grenade : MonoBehaviour {
 
 			if (!smokey) Destroy(gameObject);
 			else {
-				ex.transform.parent = this.transform;
+				ex.transform.SetParent (this.transform, false);
 			}
 		}
     }
@@ -74,7 +74,7 @@ public class grenade : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col) {
 		if (sticky) {
 			Destroy(this.GetComponent<Rigidbody2D>());
-			this.transform.parent = col.transform;
+			this.transform.SetParent (col.transform);
 			float scalex = 1 / col.transform.localScale.x ; 
 			//float scaley = 1 / col.transform.localScale.y ; 
 			//float scalez = 1 / col.transform.localScale.z ; 

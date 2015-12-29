@@ -47,4 +47,7 @@ public class HeldItem : MonoBehaviour {
 	void unclick() {
 
 	}
+	void OnCollisionEnter2D(Collision2D col) {
+		
+	}
 }

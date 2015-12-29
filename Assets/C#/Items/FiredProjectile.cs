@@ -6,9 +6,12 @@ public class FiredProjectile : MonoBehaviour {
 	//BoxCollider2D bulletBox2D;
 
 	// Use this for initialization
-	public float time = 6, damage;
+	public float time = 6, damage, startTime;
 	public bool exploding, dieOnAnyHit, nonLethal;
 	public GameObject explosion;
+	void Start() {
+		startTime = time;
+	}
 	void OnTriggerEnter2D(Collider2D col) {
 
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
@@ -25,7 +28,7 @@ public class FiredProjectile : MonoBehaviour {
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
-			if (dieOnAnyHit)
+			if (dieOnAnyHit && startTime - time > .05f) //can die, not too soon
 				GameObject.Destroy (this.gameObject);
 		}
 		if (col.shapeCount == 5 && dieOnAnyHit) 

@@ -76,11 +76,8 @@ public class player : MonoBehaviour {
 			Vector3 centerScale = center.localScale;
 			if(firingVector.x < 0) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
 				center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
-				//if (heldItem1) heldItem1.transform.localScale = 
 			} else {
 				center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
-
-				//center.localScale = Vector3.one;
 			}
            
             GetComponent<LineRenderer>().SetVertexCount(2);
@@ -257,7 +254,9 @@ public class player : MonoBehaviour {
                     col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
                     Transform center = this.gameObject.transform.FindChild("Center");
                     heldItem1.GetComponent<Rigidbody2D>().isKinematic = true;
-                    heldItem1.transform.SetParent(center);
+                    heldItem1.transform.SetParent(center, false);
+					heldItem1.transform.localScale = Vector3.one;
+
 				//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
                     heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
                     heldItem1.transform.rotation = center.transform.rotation;
@@ -283,7 +282,9 @@ public class player : MonoBehaviour {
                     col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
                     Transform center = this.gameObject.transform.FindChild("Center");
                     heldItem2.GetComponent<Rigidbody2D>().isKinematic = true;
-                    heldItem2.transform.SetParent(center);
+                    heldItem2.transform.SetParent(center, false);
+					heldItem2.transform.localScale = Vector3.one;
+
 				//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
                     heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
                     heldItem2.transform.rotation = center.transform.rotation;

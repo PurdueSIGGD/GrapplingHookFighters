@@ -135,7 +135,6 @@ public class MouseInput : MonoBehaviour {
 					reticle.transform.localPosition = look;
 					lastReticle[i] = look;
 					//center.LookAt(reticle.transform.position);
-
 					//Vector3 rotation = new Vector3(0, 0, -center.localEulerAngles.x);
 					//center.transform.localEulerAngles = rotation;
 					//if(reticle.transform.position.x < player.transform.position.x) {

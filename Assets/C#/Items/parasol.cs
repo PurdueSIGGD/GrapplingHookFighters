@@ -28,7 +28,10 @@ public class parasol : MonoBehaviour {
 
 	}
 	void LateUpdate() {
-		//transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		if (opened) {
+			//transform.localRotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+			//transform.rotation = Quaternion.identity;
+		}
 
 
 	}
@@ -40,6 +43,7 @@ public class parasol : MonoBehaviour {
 	}
 	void unclick() {
 		if (Time.time - timeSwitched > .05f || !this.transform.parent) {
+			transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
 			opened = false;
 			timeSwitched = Time.time;
 		}

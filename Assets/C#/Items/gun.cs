@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using UnityEditor;
+using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal, penetrating;
 	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread;
 	private float timeSincelast;
@@ -77,62 +77,96 @@ public class gun : MonoBehaviour, item {
 					bool inTheWay = false;
 					if (rr.Length > 0) {
 						foreach (RaycastHit2D ray in rr) {
-							if (!ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>() && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
+							//print(ray.transform);
+							if (!penetrating && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>() && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
 								//print(ray.transform);
 								inTheWay = true;
 							}
 						}
 					}
-					if (!inTheWay) {
+					//print (inTheWay);
 						if (raycastShoot) {
+							if (!inTheWay) {
+								//Debug.DrawLine(this.transform.position, ugh);
+								//EditorApplication.isPaused = true;
+								RaycastHit2D[] r;
+								r = Physics2D.RaycastAll (shootPoint, f, 100, layermask);
+								Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
+								Transform hit = null;
+								foreach (RaycastHit2D ray in r) {
+									if (Vector3.Distance (shootPoint, ray.point) < Vector3.Distance (shootPoint, endPoint) && !(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript> ()) {
+										//print(ray.transform);
+										hit = ray.transform;
+										if (penetrating) {
 
-							//Debug.DrawLine(this.transform.position, ugh);
-							//EditorApplication.isPaused = true;
-							RaycastHit2D[] r;
-							r = Physics2D.RaycastAll(shootPoint, f, 100, layermask);
-							Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
-							Transform hit = null;
-							foreach (RaycastHit2D ray in r) {
-								if (Vector3.Distance(shootPoint, ray.point) < Vector3.Distance(shootPoint, endPoint) && !(ray.transform.gameObject ==this.GetComponent<HeldItem>().focus ) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>()) {
-									//print(ray.transform);
-									endPoint = ray.point;
-									hit = ray.transform;
+											if (hit.GetComponent<Rigidbody2D> ()) {
+												//print(hit);
+												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
+											}
+											if (hit.transform.GetComponent<Health> ()) {
+												hit.transform.SendMessage ("hit");
+											}
+											if (hit.GetComponent<grenade> ()) {
+												hit.SendMessage ("Explode");
+											}
+										}
+										
+									}
 								}
+								if (hit && !penetrating) {
+
+									if (hit.GetComponent<Rigidbody2D> ()) {
+										//print(hit);
+										hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
+									}
+									if (hit.transform.GetComponent<Health> ()) {
+										hit.transform.SendMessage ("hit");
+									}
+									if (hit.GetComponent<grenade> ()) {
+										hit.SendMessage ("Explode");
+									}
+								}
+								GameObject g;
+								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
+								//g.transform.position = endPoint;
+								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
+								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
 							}
-							if (hit) {
-
-								if (hit.GetComponent<Rigidbody2D>()) {
-									//print(hit);
-									hit.GetComponent<Rigidbody2D>().AddForce(damage * f	);
-								}
-								if (hit.transform.GetComponent<Health> ()) {
-									hit.transform.SendMessage ("hit");
-								}
-								if (hit.GetComponent<grenade>()) {
-									hit.SendMessage("Explode");
-								}
-							}
-							GameObject g;
-							g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
-							//g.transform.position = endPoint;
-							g.GetComponent<LineRenderer>().SetPosition(0, shootPoint);
-							g.GetComponent<LineRenderer>().SetPosition(1, endPoint);
-
 							
 						} else {
-							GameObject g;
-							g = (GameObject)GameObject.Instantiate(projectileGameObject, shootPoint, transform.rotation);
-							g.layer = this.transform.gameObject.layer;
-							g.GetComponent<FiredProjectile>().damage = this.damage;
-							g.GetComponent<FiredProjectile>().nonLethal = this.nonLethal;
-							if (nonLethal) {
-								g.GetComponent<Rigidbody2D>().AddTorque(5 * Random.Range(0, 5f) * projectileSpeed);
+							Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
+							bool colliding = false;
+							foreach (Collider2D c in hitColliders) {
+								if (c.GetComponent<Rigidbody2D> () && !c.isTrigger) {
+									//print (c);
+									if (c.gameObject != GameObject.Find ("Player" + playerid)) {
+										c.GetComponent<Rigidbody2D> ().AddForce (((Vector2)shootPoint - gunBase) * projectileSpeed * .7f);
+										colliding = true;
+									}
 
+								}
 							}
-							g.GetComponent<Rigidbody2D>().AddForce(f*projectileSpeed);
-							if (g.GetComponent<grenade>()) g.GetComponent<grenade>().pinPulled = true;
+							if (!colliding) {
+								GameObject g;
+								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
+							//UnityEditor.EditorApplication.isPaused = true;
+								if (g.GetComponent<HeldItem> ()) {
+									g.SendMessage ("ignoreColl", GameObject.Find ("Player" + playerid).GetComponent<Collider2D> ());
+									g.SendMessage ("retriggerSoon");
+								}
+								g.layer = this.transform.gameObject.layer;
+								g.GetComponent<FiredProjectile> ().damage = this.damage;
+								g.GetComponent<FiredProjectile> ().nonLethal = this.nonLethal;
+								if (nonLethal) {
+									g.GetComponent<Rigidbody2D> ().AddTorque (5 * Random.Range (0, 5f) * projectileSpeed);
+								}
+
+								g.GetComponent<Rigidbody2D> ().AddForce (f * projectileSpeed);
+								if (g.GetComponent<grenade> ())
+									g.GetComponent<grenade> ().pinPulled = true;
+							}
 						}			
-					}
+
 				}
 
 				if (ejecting) {
