@@ -13,6 +13,7 @@ public class Health : MonoBehaviour {
 	public bool dead;
 	public int deathSparkleParticle;
 	public GameObject particle;
+	public GameObject[] gibs;
 	private BoxCollider2D box;
 
 	public int getPlayerHealth() {
@@ -70,7 +71,7 @@ public class Health : MonoBehaviour {
 			box.size = 2* (Vector2.up + Vector2.right);
 			box.isTrigger = true;
 
-			for (int i = 0; i < deathSparkleParticle; i++) {
+			/*for (int i = 0; i < deathSparkleParticle; i++) {
 				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
 				if (this.transform.parent && this.transform.parent.parent != null)
 					particleG.GetComponent<Rigidbody2D> ().velocity = transform.parent.GetComponentInParent<Rigidbody2D> ().velocity * .6f;
@@ -78,14 +79,20 @@ public class Health : MonoBehaviour {
 				particleG.GetComponent<Rigidbody2D> ().gravityScale = .05f;
 				particleG.GetComponent<Rigidbody2D> ().AddForce (.02f * (Random.insideUnitCircle + Vector2.up));
 				particleG.GetComponent<ParticleScript> ().time = .6f;
-			}
+			}*/
 
 			this.BroadcastMessage("Death");
 			GameObject.Find("Boundary").SendMessage("SetInRespawnQueue", this.gameObject);
 
 		}
 	}
+	public void Gib(int i) { //i being the number of gibs it requests
+		print(i);
 
+		for (int j = 0; j < i; j++) {
+			GameObject.Instantiate(gibs[Random.Range(0,gibs.Length)], transform.position, Quaternion.Euler(new Vector3(0,0,Random.Range(0,360))));
+		}
+	}
 	//Restore players beginning status
 	public void resetPlayer() {
 		playerHealth = 1;

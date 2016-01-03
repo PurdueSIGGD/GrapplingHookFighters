@@ -43,7 +43,6 @@ public class grenade : MonoBehaviour {
         } 
         if (timePassed >= fuseTime && !exploded) {
 			exploded = true;
-			this.transform.parent = null;
 			GameObject ex;
 			if (smokey) 
 				ex = (GameObject)GameObject.Instantiate(smokeBomb,  transform.FindChild("Sphere").transform.position + Vector3.back * 3, Quaternion.identity);
@@ -56,7 +55,9 @@ public class grenade : MonoBehaviour {
 
 			if (!smokey) Destroy(gameObject);
 			else {
-				ex.transform.SetParent (this.transform, false);
+				ex.transform.parent =  (this.transform);
+				ex.transform.localScale = new Vector3(ex.transform.localScale.x,ex.transform.localScale.x,ex.transform.localScale.x);
+
 			}
 		}
     }

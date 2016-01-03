@@ -14,8 +14,20 @@ public class parasol : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
 		if (this.transform.parent) { 
-			this.transform.parent.parent.GetComponent<Rigidbody2D>().gravityScale = opened ? .25f : 1.1f;
+			//print(z);
+			float z = this.transform.parent.eulerAngles.z;
+			float i = Mathf.Abs(180-z), o = Mathf.Abs(z-((z > 270)?360:0));
+			float gravScale = .25f;
+			if (i < o) {
+				gravScale += (i/90)*.85f;
+				print(i);
+			} else {
+				gravScale += (o/90)*.85f;
+				print(o);
+			}
+			this.transform.parent.parent.GetComponent<Rigidbody2D>().gravityScale = opened ? gravScale : 1.1f;
 			myParent = this.transform.parent.parent;
 		} else {
 			if (myParent) {

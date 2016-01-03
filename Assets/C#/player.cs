@@ -36,7 +36,6 @@ public class player : MonoBehaviour {
         canMoveLeft = true;
     }
 
-    // Update is called once per frame
     void Update() {
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
@@ -125,6 +124,11 @@ public class player : MonoBehaviour {
         }
         this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
     }
+	void throwWeapontr(Transform t) {
+		if (heldItem1 == t) throwWeapont(0);
+		else if (heldItem2 == t) throwWeapont(1);
+		else return;
+	}
 	void throwWeapont(int i) {
 		throwWeapon(false, i);
 	}

@@ -9,7 +9,7 @@ public class gun : MonoBehaviour, item {
 	private float timeSincelast;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
-	public GameObject projectileGameObject, particle; 
+	public GameObject projectileGameObject, particle, sparks, splats; 
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
@@ -80,7 +80,7 @@ public class gun : MonoBehaviour, item {
 							//print(ray.transform);
 							if (!penetrating && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript>() && !ray.transform.GetComponent<player>() && !ray.transform.GetComponentInParent<player>() && !ray.transform.GetComponent<GrappleScript>() && !ray.transform.GetComponent<gun>()) {
 								//print(ray.transform);
-								inTheWay = true;
+								inTheWay = true; //if the player is facing a wall, makes sure they can't shoot through it
 							}
 						}
 					}
@@ -94,23 +94,34 @@ public class gun : MonoBehaviour, item {
 								Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
-									if (Vector3.Distance (shootPoint, ray.point) < Vector3.Distance (shootPoint, endPoint) && !(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript> ()) {
-										//print(ray.transform);
-										hit = ray.transform;
+									
+									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript> ()) {
 										if (penetrating) {
+										if (hit && hit.GetComponent<player>()) {
+											GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
+										} else {
+											GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+
+										}
+
+											endPoint = ray.point;
+											hit = ray.transform;
 											if (hit.GetComponent<Rigidbody2D> ()) {
 												//print(hit);
 												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 											}
 											if (hit.transform.GetComponent<Health> ()) {
 												hit.transform.SendMessage ("hit");
-											}
+											} 
 											if (hit.GetComponent<grenade> ()) {
 												hit.SendMessage ("Explode");
 											}
+										}	
+										if (!hit) {
+											hit = ray.transform;
+											endPoint = ray.point;
 										}
-										
 									}
 								}
 								if (hit && !penetrating) {
@@ -131,6 +142,12 @@ public class gun : MonoBehaviour, item {
 								//g.transform.position = endPoint;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
+								if (hit && hit.GetComponent<player>()) {
+									GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+
+								} else {
+									GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+								}
 							}
 							
 						} else {

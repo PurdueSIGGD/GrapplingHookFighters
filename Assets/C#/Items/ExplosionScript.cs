@@ -33,6 +33,7 @@ public class ExplosionScript : MonoBehaviour {
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (200 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 		}
 		if (col.transform.GetComponent<Health> ()) {
+			col.transform.SendMessage("Gib",Random.Range(1,3));
 			col.transform.SendMessage("hit");
 		}
 
