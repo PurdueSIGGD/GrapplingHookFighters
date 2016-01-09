@@ -14,7 +14,11 @@ public class Health : MonoBehaviour {
 	public int deathSparkleParticle;
 	public GameObject particle;
 	public GameObject[] gibs;
+	private bool[] usedGibs;
 	private BoxCollider2D box;
+	public GameObject part;
+
+
 
 	public int getPlayerHealth() {
 		return playerHealth;
@@ -90,7 +94,14 @@ public class Health : MonoBehaviour {
 		print(i);
 
 		for (int j = 0; j < i; j++) {
-			GameObject.Instantiate(gibs[Random.Range(0,gibs.Length)], transform.position, Quaternion.Euler(new Vector3(0,0,Random.Range(0,360))));
+			int range = Random.Range (0, gibs.Length);
+			if (!usedGibs [range]) {
+				GameObject g = (GameObject)GameObject.Instantiate(gibs[range], transform.position, Quaternion.Euler(new Vector3(0,0,Random.Range(0,360))));
+				g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
+				g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range(0, i*10));
+				g.transform.FindChild ("GameObject").GetComponent<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+				usedGibs [range] = true;
+			}
 		}
 	}
 	//Restore players beginning status
@@ -98,11 +109,18 @@ public class Health : MonoBehaviour {
 		playerHealth = 1;
 		armorHealth = 0;
 		dead = false;
+		for (int i = 0; i < usedGibs.Length; i++)
+			usedGibs [i] = false;
+		Transform ch = transform.FindChild ("ParticleBleed");
+		if (ch) {
+			GameObject.Destroy (ch.gameObject);
+		}
 		//```Destroy(box);
 	}
 
 	// Use this for initialization
 	void Start () {
+		usedGibs = new bool[gibs.Length];
 
 		playerHealth = 1;
 		armorHealth = 0;
@@ -112,5 +130,13 @@ public class Health : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	void Bleed() {
+		if (!transform.FindChild ("ParticleBleed")) {
+			GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+			g.transform.parent = this.transform;
+			g.name = "ParticleBleed";
+		}
+
 	}
 }

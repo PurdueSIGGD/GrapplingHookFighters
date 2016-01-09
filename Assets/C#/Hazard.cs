@@ -6,12 +6,14 @@ public class Hazard : MonoBehaviour {
 		if (col.transform.GetComponent<Health> () && !col.isTrigger) {
 			col.GetComponent<Rigidbody2D>().drag = 50;
 			col.transform.SendMessage ("hit");
+			col.transform.SendMessage ("Bleed");
 		}
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (col.transform.GetComponent<Health> () && !col.isTrigger) {
 			col.GetComponent<Rigidbody2D>().drag = .5f;
 			col.transform.SendMessage ("hit");
+
 		}
 	}
 }
