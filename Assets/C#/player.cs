@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
+using System.Security.Policy;
+using FMOD.Studio;
 
 public class player : MonoBehaviour {
     private float currentX;
@@ -335,8 +338,20 @@ public class player : MonoBehaviour {
 		}
 	}
 	void jumpNow(bool b) {
+		Transform center = this.gameObject.transform.FindChild("Center");
+		RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.3f);
+		bool hitValid = false;
+		foreach (RaycastHit2D hit in hits) {
+			Collider2D col = hit.collider;
+			if (col.CompareTag("Platform") || (col.CompareTag("Player") && hit.transform.gameObject != gameObject) || col.CompareTag("Item")) {
+				hitValid = true;
+				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+				//Debug.Log (hit.transform.name);
+				break;
+			}
+		}
 
-		if ((b || jump()) && !jumped && Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) < .01f) {
+		if ((b || jump()) && !jumped && (hitValid)) {
 			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
 			GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 800, 0));
 			jumped = true;
