@@ -91,7 +91,6 @@ public class Health : MonoBehaviour {
 		}
 	}
 	public void Gib(int i) { //i being the number of gibs it requests
-		print(i);
 
 		for (int j = 0; j < i; j++) {
 			int range = Random.Range (0, gibs.Length);
