@@ -142,7 +142,7 @@ public class gun : MonoBehaviour, item {
 								//g.transform.position = endPoint;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
-								if (hit && hit.GetComponent<player>()) {
+							if (hit && hit.GetComponent<player>() && hit.GetComponent<Health>().dead) {
 									GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
 								} else {
@@ -150,7 +150,7 @@ public class gun : MonoBehaviour, item {
 								}
 							}
 							
-						} else {
+						} else { //if something is in the way
 							Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
 							bool colliding = false;
 							foreach (Collider2D c in hitColliders) {
@@ -164,6 +164,7 @@ public class gun : MonoBehaviour, item {
 								}
 							}
 							if (!colliding) {
+								//print ("shooting into wall");
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
 							//UnityEditor.EditorApplication.isPaused = true;

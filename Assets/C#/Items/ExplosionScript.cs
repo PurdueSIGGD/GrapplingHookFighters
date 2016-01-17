@@ -4,6 +4,7 @@ using System.Collections;
 public class ExplosionScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
+		//print ("starting");
 		this.GetComponent<CircleCollider2D> ().radius = 0;
 		foreach (grenade g in transform.GetComponentsInChildren<grenade>()) {
 			g.SendMessage("Explode");
@@ -33,8 +34,8 @@ public class ExplosionScript : MonoBehaviour {
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (200 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 		}
 		if (col.transform.GetComponent<Health> ()) {
-			col.transform.SendMessage("Gib",Random.Range(1,3));
 			col.transform.SendMessage("hit");
+			col.transform.SendMessage("Gib",Random.Range(1,3));
 		}
 
 	}

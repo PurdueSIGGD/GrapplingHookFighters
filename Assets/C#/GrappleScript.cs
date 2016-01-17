@@ -70,11 +70,10 @@ public class GrappleScript : MonoBehaviour {
 			breakTime = 0;
 		}
 		RaycastHit2D[] r;
-		//if (connected && this.transform.position.y < focus.transform.position.y) focus.SendMessage("Disconnect");
 		if (connected) {
 			Transform center = focus.transform.FindChild ("Center");
 			float d = Vector3.Distance(this.transform.position, center.position) * .75f;
-			if (d > 0) {
+			if (d > 1.2f) { //so getting too close won't disconnect
 				int layermask = 1 << (this.gameObject.layer + 5);
 				r = Physics2D.RaycastAll(center.position, (this.transform.position - center.position), d, layermask);
 				foreach (RaycastHit2D ray in r) {
@@ -83,6 +82,7 @@ public class GrappleScript : MonoBehaviour {
 					    && ray.transform.GetComponent<GrappleScript>() == null) {
 						breakTime = .4f; //so player wont try to disconnect and shoot again
 						//print("raycast disconnect " + ray.transform.name);
+						//print(d);
 						focus.SendMessage("Disconnect"); //Temporarily disabled for now
 					}
 				}

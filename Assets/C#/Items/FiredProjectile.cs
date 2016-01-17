@@ -7,17 +7,22 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded;
 	public GameObject explosion;
 	void Start() {
+		//print ("starting off my thing");
 		startTime = time;
 	}
 	void OnTriggerEnter2D(Collider2D col) {
 
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
-			if (exploding) {
+			if (exploding && !exploded) {
+				//print ("spawning explosion");
+				exploded = true;
 				GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
 				ex.gameObject.layer = this.gameObject.layer;
+				//GameObject.DestroyImmediate (this.gameObject);
+
 			}
 			if (col.GetComponent<Rigidbody2D>()) {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
@@ -28,10 +33,10 @@ public class FiredProjectile : MonoBehaviour {
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
-			if (dieOnAnyHit && startTime - time > .05f) //can die, not too soon
+			if (exploded || dieOnAnyHit && (startTime - time > .05f || exploding)) //can die, not too soon
 				GameObject.Destroy (this.gameObject);
 		}
-		if (col.shapeCount == 5 && dieOnAnyHit) 
+		if (col.shapeCount == 5 && dieOnAnyHit) //uhh I forgot what this does. Something about polygon colliders and biz
 			GameObject.Destroy (this.gameObject);
 		//if (col.isTrigger && col.GetComponent<Health>() && dieOnAnyHit)
 			//GameObject.Destroy (this.gameObject);

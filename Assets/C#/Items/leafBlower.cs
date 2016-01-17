@@ -9,7 +9,7 @@ public class leafBlower : MonoBehaviour {
 		p = this.GetComponentInChildren<ParticleSystem>();
 	}
 	void Update() {
-		if (blowing && transform.parent.parent) transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(transform.parent.parent.GetComponent<player>().firingVector * -5 * spool);
+		if (blowing && transform.parent.parent) transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(transform.parent.parent.GetComponent<player>().firingVector * -2 * spool);
 	}
 	// Use this for initialization
 	void click() {
@@ -28,7 +28,7 @@ public class leafBlower : MonoBehaviour {
 		if (blowing && col.GetComponent<Rigidbody2D>()) {
 			//print("move dammit");
 			
-			col.GetComponent<Rigidbody2D>().AddForce(spool * (col.transform.position - this.transform.position));
+			col.GetComponent<Rigidbody2D>().AddForce(spool * 3f * (col.transform.position - this.transform.position));
 		}
 	}
 }

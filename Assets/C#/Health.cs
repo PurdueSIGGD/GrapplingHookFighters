@@ -32,8 +32,12 @@ public class Health : MonoBehaviour {
 	void hit() {
 		if (armorHealth < 1)
 			killPlayer ();
-		if (armorHealth > 0)
+		if (armorHealth > 0) {
 			armorHealth -= 1;
+			if (armorHealth == 0) {
+				this.SendMessage ("throwWeapont", 2);
+			}
+		}
 	}
 
 	//Reduces Player health and/or armor by dmgAmount.
@@ -49,7 +53,10 @@ public class Health : MonoBehaviour {
 		if (armorHealth < 2) 
 			armorHealth += 1;
 	}
-
+	//drops armor
+	public void dropArmor() {
+		armorHealth = 0;
+	}
 	//Add armor input to armorHealth
 	public void pickUpArmor(int armor) {
 		if (armor != 0) {
@@ -91,15 +98,16 @@ public class Health : MonoBehaviour {
 		}
 	}
 	public void Gib(int i) { //i being the number of gibs it requests
-
-		for (int j = 0; j < i; j++) {
-			int range = Random.Range (0, gibs.Length);
-			if (!usedGibs [range]) {
-				GameObject g = (GameObject)GameObject.Instantiate(gibs[range], transform.position, Quaternion.Euler(new Vector3(0,0,Random.Range(0,360))));
-				g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
-				g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range(0, i*10));
-				g.transform.FindChild ("GameObject").GetComponent<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
-				usedGibs [range] = true;
+		if (dead) {
+			for (int j = 0; j < i; j++) {
+				int range = Random.Range (0, gibs.Length);
+				if (!usedGibs [range]) {
+					GameObject g = (GameObject)GameObject.Instantiate (gibs [range], transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
+					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));
+					g.transform.FindChild ("GameObject").GetComponent<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+					usedGibs [range] = true;
+				}
 			}
 		}
 	}

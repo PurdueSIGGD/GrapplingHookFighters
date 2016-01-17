@@ -15,8 +15,9 @@ public class player : MonoBehaviour {
     private bool canMoveLeft, canPickup;
 	private Rigidbody2D punchable;
 	private int punchableIndex;
-    public GameObject heldItem1, heldItem2;
-
+	public float maxMoveSpeed = 10;
+	public GameObject heldItem1, heldItem2, passiveItem;
+	public bool jetpack;
     public Vector3 firingVector;
 
     static float layer1Position = 0;
@@ -54,11 +55,11 @@ public class player : MonoBehaviour {
             if (time >= 1.0f && changePlane()) {
                 switchPlanes();
             }
-            if (this.GetComponent<Rigidbody2D>().velocity.x > -10 && canMoveLeft && goLeft()) {
+			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeed && canMoveLeft && goLeft()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(jumped ? 20 : 40, 0, 0));
             }
-            if (this.GetComponent<Rigidbody2D>().velocity.x < 10 && canMoveRight && goRight()) {
+			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeed && canMoveRight && goRight()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(jumped ? 20 : 40, 0, 0));
             }
@@ -113,6 +114,8 @@ public class player : MonoBehaviour {
                 heldItem1.layer = layer1Value;
             if (heldItem2 != null)
                 heldItem2.layer = layer1Value;
+			if (passiveItem != null)
+				passiveItem.layer = layer1Value;
             transform.position = new Vector3(currentX, currentY, layer1Position);
         } else
         if (gameObject.layer != layer2Value) {
@@ -123,55 +126,83 @@ public class player : MonoBehaviour {
                 heldItem1.layer = layer2Value;
             if (heldItem2 != null)
                 heldItem2.layer = layer2Value;
+			if (passiveItem != null)
+				passiveItem.layer = layer2Value;
             transform.position = new Vector3(currentX, currentY, layer2Position);
         }
         this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
     }
 	void throwWeapontr(Transform t) {
-		if (heldItem1 == t) throwWeapont(0);
-		else if (heldItem2 == t) throwWeapont(1);
+		if (heldItem1 == t)
+			throwWeapont (0);
+		else if (heldItem2 == t)
+			throwWeapont (1);
+		else if (passiveItem == t)
+			throwWeapont (2);
 		else return;
 	}
-	void throwWeapont(int i) {
+	void throwWeapont(int i) { 
 		throwWeapon(false, i);
 	}
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
-        if (i == 0) {
+		if (i == 0) {
 			if (heldItem1 != null) {
-				heldItem1.GetComponent<HeldItem>().focus = null;
-				GameObject.Find("MouseInput").SendMessage("playerHasNotItem", playerid);
-	            heldItem1.SendMessage("retriggerSoon", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-	            if (heldItem1.GetComponent<PolygonCollider2D>()) heldItem1.GetComponent<PolygonCollider2D>().isTrigger = false;
-	            timeSincePickup = 0;
-	            heldItem1.GetComponent<Rigidbody2D>().isKinematic = false;
-	            if (b) heldItem1.GetComponent<Rigidbody2D>().AddForce(900 * heldItem1.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
-	            heldItem1.GetComponent<Rigidbody2D>().AddTorque(3);
-	            heldItem1.transform.parent = null;
+				heldItem1.GetComponent<HeldItem> ().focus = null;
+				GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
+				heldItem1.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+				if (heldItem1.GetComponent<PolygonCollider2D> ())
+					heldItem1.GetComponent<PolygonCollider2D> ().isTrigger = false;
+				timeSincePickup = 0;
+				heldItem1.GetComponent<Rigidbody2D> ().isKinematic = false;
+				if (b)
+					heldItem1.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem1.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+				heldItem1.GetComponent<Rigidbody2D> ().AddTorque (3);
+				heldItem1.transform.parent = null;
 				heldItem1.transform.localScale = Vector3.one;
 
 
-				heldItem1.SendMessage("unclick");
-	            heldItem1 = null;
+				heldItem1.SendMessage ("unclick");
+				heldItem1 = null;
 			}
-        } else {
+		} else if (i == 1) {
 			if (heldItem2 != null) {
-				heldItem2.GetComponent<HeldItem>().focus = null;
-				GameObject.Find("MouseInput").SendMessage("playerHasNotItem2", playerid);
-	            heldItem2.SendMessage("retriggerSoon", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-	            if (heldItem2.GetComponent<PolygonCollider2D>()) heldItem2.GetComponent<PolygonCollider2D>().isTrigger = false;
+				heldItem2.GetComponent<HeldItem> ().focus = null;
+				GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem2", playerid);
+				heldItem2.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+				if (heldItem2.GetComponent<PolygonCollider2D> ())
+					heldItem2.GetComponent<PolygonCollider2D> ().isTrigger = false;
 
-	            timeSincePickup = 0;
-	            heldItem2.GetComponent<Rigidbody2D>().isKinematic = false;
-	            if (b) heldItem2.GetComponent<Rigidbody2D>().AddForce(900 * heldItem2.GetComponent<Rigidbody2D>().mass * firingVector); //throw weapon
-	            heldItem2.GetComponent<Rigidbody2D>().AddTorque(3);
-	            heldItem2.transform.parent = null;
+				timeSincePickup = 0;
+				heldItem2.GetComponent<Rigidbody2D> ().isKinematic = false;
+				if (b)
+					heldItem2.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem2.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+				heldItem2.GetComponent<Rigidbody2D> ().AddTorque (3);
+				heldItem2.transform.parent = null;
 				heldItem2.transform.localScale = Vector3.one;
 
-				heldItem2.SendMessage("unclick");
-	            heldItem2 = null;
+				heldItem2.SendMessage ("unclick");
+				heldItem2 = null;
 				canPickup = false;
 			}
-        }
+		} else if (i == 2) { //passive item
+			if (passiveItem != null) {
+				passiveItem.SendMessage("Drop",b?0:1);
+				passiveItem.GetComponent<HeldItem> ().focus = null;
+				passiveItem.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+				if (passiveItem.GetComponent<PolygonCollider2D> ())
+					passiveItem.GetComponent<PolygonCollider2D> ().isTrigger = false;
+
+				timeSincePickup = 0;
+				passiveItem.GetComponent<Rigidbody2D> ().isKinematic = false;
+				if (b)
+					passiveItem.GetComponent<Rigidbody2D> ().AddForce (80 * Random.insideUnitCircle); //throw weapon
+				passiveItem.GetComponent<Rigidbody2D> ().AddTorque (3);
+				passiveItem.transform.parent = null;
+				passiveItem.transform.localScale = Vector3.one;
+				passiveItem = null;
+				canPickup = false;
+			}
+		}
        // canPickup = true;
     }
     bool changePlane() {
@@ -223,7 +254,7 @@ public class player : MonoBehaviour {
         } else {
             if (colR && !colR.isKinematic) canPickup = false;
         }
-        if (col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) {
+		if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
             jumped = false;
         }
     }
@@ -247,62 +278,87 @@ public class player : MonoBehaviour {
 		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
-                if (heldItem1 == null) {
-                    Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
-                    timeSincePickup = 0;
-                    heldItem1 = col.gameObject;
-					heldItem1.GetComponent<HeldItem>().focus = this.gameObject;
-					if (heldItem1.GetComponent<PolygonCollider2D>()) heldItem1.GetComponent<PolygonCollider2D>().isTrigger = true;
-                    else {
-                        foreach (BoxCollider2D b in heldItem1.GetComponents<BoxCollider2D>()) {
-                            b.isTrigger = true;
-                        }
-                    }
-                    col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-                    Transform center = this.gameObject.transform.FindChild("Center");
-                    heldItem1.GetComponent<Rigidbody2D>().isKinematic = true;
-                    heldItem1.transform.SetParent(center, false);
-					heldItem1.transform.localScale = Vector3.one;
+				if (col.GetComponent<PassivePickup> () && !col.GetComponent<PassivePickup> ().broke) {
+					if (passiveItem) {
+						//drop current passiveItem
+						throwWeapon(true, 2);
 
-				//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
-                    heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
-                    heldItem1.transform.rotation = center.transform.rotation;
-                    if (heldItem1.GetComponent<gun>() || heldItem1.GetComponent<PortalGun>()) {
-                        heldItem1.SendMessage("SetPlayerID", playerid);
-                    }
-                    GameObject.Find("MouseInput").SendMessage("playerHasItem", playerid);
-                    canPickup = false;
-				} else if (heldItem2 == null && !col.GetComponent<player>() && heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem")) {
+					}
+					col.transform.parent = this.transform;
+					col.transform.localPosition = col.GetComponent<PassivePickup> ().offset;
+					col.SendMessage("Pickup",this.gameObject);
+					Physics2D.IgnoreCollision (col, GetComponent<Collider2D> ());
+					timeSincePickup = 0;
+					passiveItem = col.gameObject;
+					passiveItem.GetComponent<HeldItem> ().focus = this.gameObject;
+					if (passiveItem.GetComponent<PolygonCollider2D> ())
+						passiveItem.GetComponent<PolygonCollider2D> ().isTrigger = true;
+					
+					col.SendMessage ("ignoreColl", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+					passiveItem.GetComponent<Rigidbody2D> ().isKinematic = true;
+					passiveItem.transform.localScale = Vector3.one;
+					passiveItem.transform.rotation = Quaternion.identity;
+					canPickup = false;
+				} else {
+					if (heldItem1 == null) {
+						Physics2D.IgnoreCollision (col, GetComponent<Collider2D> ());
+						timeSincePickup = 0;
+						heldItem1 = col.gameObject;
+						heldItem1.GetComponent<HeldItem> ().focus = this.gameObject;
+						if (heldItem1.GetComponent<PolygonCollider2D> ())
+							heldItem1.GetComponent<PolygonCollider2D> ().isTrigger = true;
+						else {
+							foreach (BoxCollider2D b in heldItem1.GetComponents<BoxCollider2D>()) {
+								b.isTrigger = true;
+							}
+						}
+						col.SendMessage ("ignoreColl", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+						Transform center = this.gameObject.transform.FindChild ("Center");
+						heldItem1.GetComponent<Rigidbody2D> ().isKinematic = true;
+						heldItem1.transform.SetParent (center, false);
+						heldItem1.transform.localScale = Vector3.one;
 
-					this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
-                    Physics2D.IgnoreCollision(col, GetComponent<Collider2D>());
-                    timeSincePickup = 0;
-                    heldItem2 = col.gameObject;
+						//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
+						heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
+						heldItem1.transform.rotation = center.transform.rotation;
+						if (heldItem1.GetComponent<gun> () || heldItem1.GetComponent<PortalGun> ()) {
+							heldItem1.SendMessage ("SetPlayerID", playerid);
+						}
+						GameObject.Find ("MouseInput").SendMessage ("playerHasItem", playerid);
+						canPickup = false;
+					} else if (heldItem2 == null && !col.GetComponent<player> () && heldItem1.CompareTag ("DualItem") && col.CompareTag ("DualItem")) {
 
-					heldItem2.GetComponent<HeldItem>().focus = this.gameObject;
-					if (heldItem2.GetComponent<PolygonCollider2D>()) heldItem2.GetComponent<PolygonCollider2D>().isTrigger = true;
-                    else {
-                        foreach (BoxCollider2D b in heldItem2.GetComponents<BoxCollider2D>()) {
-                            b.isTrigger = true;
-                        }
-                    }
-                    col.SendMessage("ignoreColl", this.GetComponent<Collider2D>().GetComponent<Collider2D>());
-                    Transform center = this.gameObject.transform.FindChild("Center");
-                    heldItem2.GetComponent<Rigidbody2D>().isKinematic = true;
-                    heldItem2.transform.SetParent(center, false);
-					heldItem2.transform.localScale = Vector3.one;
+						this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+						Physics2D.IgnoreCollision (col, GetComponent<Collider2D> ());
+						timeSincePickup = 0;
+						heldItem2 = col.gameObject;
 
-				//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
-                    heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
-                    heldItem2.transform.rotation = center.transform.rotation;
-                    if (heldItem2.GetComponent<gun>()) {
-                        heldItem2.SendMessage("SetPlayerID", playerid);
-                    }
-                    GameObject.Find("MouseInput").SendMessage("playerHasItem2", playerid);
-                    canPickup = false;
-                } else {
+						heldItem2.GetComponent<HeldItem> ().focus = this.gameObject;
+						if (heldItem2.GetComponent<PolygonCollider2D> ())
+							heldItem2.GetComponent<PolygonCollider2D> ().isTrigger = true;
+						else {
+							foreach (BoxCollider2D b in heldItem2.GetComponents<BoxCollider2D>()) {
+								b.isTrigger = true;
+							}
+						}
+						col.SendMessage ("ignoreColl", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
+						Transform center = this.gameObject.transform.FindChild ("Center");
+						heldItem2.GetComponent<Rigidbody2D> ().isKinematic = true;
+						heldItem2.transform.SetParent (center, false);
+						heldItem2.transform.localScale = Vector3.one;
 
-                }
+						//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
+						heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
+						heldItem2.transform.rotation = center.transform.rotation;
+						if (heldItem2.GetComponent<gun> ()) {
+							heldItem2.SendMessage ("SetPlayerID", playerid);
+						}
+						GameObject.Find ("MouseInput").SendMessage ("playerHasItem2", playerid);
+						canPickup = false;
+					} else {
+
+					}
+				}
             }
         }
     }
@@ -317,6 +373,9 @@ public class player : MonoBehaviour {
         if (heldItem2 != null) {
             throwWeapon(false, 1);
         }
+		if (passiveItem != null) {
+			throwWeapon(false, 2);
+		}
     }
     void NotDeath() {
         death = false;
@@ -350,12 +409,23 @@ public class player : MonoBehaviour {
 				break;
 			}
 		}
-
-		if ((b || jump()) && !jumped && (hitValid)) {
-			GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0); //slowing as we hit the floor
-			GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 800, 0));
-			jumped = true;
-			
+		if (jetpack) {
+			if (jump ()) {
+				if (!transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 40, 0));
+			} else {
+				if (transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Stop ();
+				
+			}
+		} else {
+			if ((b || jump ()) && !jumped && (hitValid)) {
+				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
+				jumped = true;
+				
+			}
 		}
 
 	}
