@@ -60,7 +60,7 @@ public class PassivePickup : MonoBehaviour {
 			focus.GetComponent<Rigidbody2D> ().mass = originalMass;
 			break;
 		case 1:
-			focus.GetComponent<player> ().jetpack = true;
+			focus.GetComponent<player> ().jetpack = false;
 			break;
 		case 2:
 			focus.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = .4f;

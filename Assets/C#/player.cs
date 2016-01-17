@@ -411,11 +411,11 @@ public class player : MonoBehaviour {
 		}
 		if (jetpack) {
 			if (jump ()) {
-				if (!transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+				if (transform.FindChild ("Jetpack") && !transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 40, 0));
 			} else {
-				if (transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+				if (transform.FindChild ("Jetpack") && transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Stop ();
 				
 			}
