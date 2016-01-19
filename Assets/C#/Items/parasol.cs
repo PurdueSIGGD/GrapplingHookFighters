@@ -22,10 +22,10 @@ public class parasol : MonoBehaviour {
 			float gravScale = .25f;
 			if (i < o) {
 				gravScale += (i/90)*.85f;
-				print(i);
+				//print(i);
 			} else {
 				gravScale += (o/90)*.85f;
-				print(o);
+				//print(o);
 			}
 			this.transform.parent.parent.GetComponent<Rigidbody2D>().gravityScale = opened ? gravScale : 1.1f;
 			myParent = this.transform.parent.parent;

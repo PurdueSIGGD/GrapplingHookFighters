@@ -10,6 +10,12 @@ public class ExplosionScript : MonoBehaviour {
 			g.SendMessage("Explode");
 		}
 		this.GetComponent<CircleCollider2D> ().radius = .75f;
+		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
+		foreach (Collider2D c in hitColliders) {
+			//print (c.name);
+			if (c.GetComponent<ShootablePlatform> ())
+				c.SendMessage ("hit", 20 /Vector2.Distance(this.transform.position, c.transform.position));
+		}
 		//print("ugh");
 		//EditorApplication.isPaused = true;
 	}
@@ -26,6 +32,7 @@ public class ExplosionScript : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D col) {
 		//print(col.transform.name);
+
 		if (col.transform.GetComponent<grenade>()) {
 			col.transform.SendMessage("Explode");
 		}
@@ -36,6 +43,9 @@ public class ExplosionScript : MonoBehaviour {
 		if (col.transform.GetComponent<Health> ()) {
 			col.transform.SendMessage("hit");
 			col.transform.SendMessage("Gib",Random.Range(1,3));
+		}
+		if (col.transform.GetComponent<ShootablePlatform> ()) {
+			col.transform.SendMessage ("hit", 7);
 		}
 
 	}
