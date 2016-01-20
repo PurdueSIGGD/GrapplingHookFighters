@@ -398,13 +398,13 @@ public class player : MonoBehaviour {
 	}
 	void jumpNow(bool b) {
 		Transform center = this.gameObject.transform.FindChild("Center");
-		RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.3f);
+		RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
 		bool hitValid = false;
 		foreach (RaycastHit2D hit in hits) {
 			Collider2D col = hit.collider;
-			if (col.CompareTag("Platform") || (col.CompareTag("Player") && hit.transform.gameObject != gameObject) || col.CompareTag("Item")) {
+			if ((col.CompareTag("Platform") || (col.CompareTag("Player") && hit.transform.gameObject != gameObject) || col.CompareTag("Item")) && !col.isTrigger) {
 				hitValid = true;
-				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+				Debug.DrawLine (center.position, hit.point, Color.green, 20f);
 				//Debug.Log (hit.transform.name);
 				break;
 			}
@@ -415,6 +415,7 @@ public class player : MonoBehaviour {
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 40, 0));
 			} else {
+				
 				if (transform.FindChild ("Jetpack") && transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Stop ();
 				
@@ -424,7 +425,6 @@ public class player : MonoBehaviour {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
 				jumped = true;
-				
 			}
 		}
 
