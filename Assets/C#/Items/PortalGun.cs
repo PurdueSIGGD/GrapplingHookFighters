@@ -4,7 +4,7 @@ using System.Collections;
 public class PortalGun : MonoBehaviour {
 
     private bool canFire, trigger, death;
-    private int portalColor;
+    public int portalColor;
 
     public GameObject bluePortal, orangePortal;
     public float projectileSpeed;
@@ -51,7 +51,6 @@ public class PortalGun : MonoBehaviour {
             
             g.GetComponent<PortalProjectile>().gun = gameObject;
             g.GetComponent<PortalProjectile>().portalColor = portalColor;
-            portalColor = Mathf.Abs(portalColor - 1);
 
             g.layer = this.transform.gameObject.layer;
             g.GetComponent<Rigidbody2D>().AddForce(thing * projectileSpeed);
