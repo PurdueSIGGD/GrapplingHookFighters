@@ -7,13 +7,13 @@ using FMOD.Studio;
 public class player : MonoBehaviour {
     private float currentX;
     private float currentY;
-	private float timeSincePickup = 1, punchTime = 1;
+	private float timeSincePickup = 1, punchTime = 1, jumpTime;
     public int playerid;
     private bool jumped, switchedKey, jumpedKey;
     public bool death, joystickController;
     private bool canMoveRight;
     private bool canMoveLeft, canPickup;
-	private Rigidbody2D punchable;
+	private Transform punchable;
 	private int punchableIndex;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
@@ -254,9 +254,7 @@ public class player : MonoBehaviour {
         } else {
             if (colR && !colR.isKinematic) canPickup = false;
         }
-		if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
-            jumped = false;
-        }
+
     }
     void OnTriggerExit2D(Collider2D col) {
 		if (punchable && col.gameObject == punchable.gameObject) punchable = null;
@@ -273,8 +271,13 @@ public class player : MonoBehaviour {
     }
     void OnTriggerStay2D(Collider2D col) {
 
-		if (col.GetComponent<player>()) punchable = col.GetComponent<Rigidbody2D>();
-
+		if (col.GetComponent<player>() || col.GetComponent<ItemBox>()) {
+			//print("setting punchable" + col.name);
+			punchable = col.transform;
+		}
+		/*if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
+			jumped = false;
+		}*/
 		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
@@ -385,30 +388,27 @@ public class player : MonoBehaviour {
 
     }
 	void Punch() {
+		//print(punchable.name);
 		if (punchable != null && punchTime > .3f && !death) {
+			//print("I actually can punch");
 			punchTime = 0;
-			punchable.AddForce(300 * (punchable.gameObject.transform.position - transform.position));
-			punchable.AddForce(Vector2.up * 450);
-			object o = 0;
-			punchable.SendMessage("throwWeapont",o);
-			o = 1;
-			punchable.SendMessage("throwWeapont",o);
+			if (punchable.GetComponent<player>()) {
+				Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D>();
+				playerPunch.AddForce(300 * (punchable.gameObject.transform.position - transform.position));
+				playerPunch.AddForce(Vector2.up * 450);
+				object o = 0;
+				punchable.SendMessage("throwWeapont",o);
+				o = 1;
+				punchable.SendMessage("throwWeapont",o);
+			} else {
+				//print("drop it");
+				punchable.SendMessage("DropItem");
+			}
 
 		}
 	}
 	void jumpNow(bool b) {
-		Transform center = this.gameObject.transform.FindChild("Center");
-		RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
-		bool hitValid = false;
-		foreach (RaycastHit2D hit in hits) {
-			Collider2D col = hit.collider;
-			if ((col.CompareTag("Platform") || (col.CompareTag("Player") && hit.transform.gameObject != gameObject) || col.CompareTag("Item")) && !col.isTrigger) {
-				hitValid = true;
-				Debug.DrawLine (center.position, hit.point, Color.green, 20f);
-				//Debug.Log (hit.transform.name);
-				break;
-			}
-		}
+		
 		if (jetpack) {
 			if (jump ()) {
 				if (transform.FindChild ("Jetpack") && !transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
@@ -421,10 +421,23 @@ public class player : MonoBehaviour {
 				
 			}
 		} else {
-			if ((b || jump ()) && !jumped && (hitValid)) {
+			Transform center = this.gameObject.transform.FindChild("Center");
+			RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
+			bool hitValid = false;
+			foreach (RaycastHit2D hit in hits) {
+				Collider2D col = hit.collider;
+				if ((col.CompareTag("Platform") || col.CompareTag("Item")) && !col.isTrigger && !col.GetComponent<PassivePickup>()) {
+					hitValid = true;
+					//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+					//Debug.Log (hit.transform.name);
+					break;
+				}
+			}
+			if ((b || jump ()) && !jumped && hitValid && Time.time - jumpTime > .05f) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
-				jumped = true;
+				jumpTime = Time.time;
+				//jumped = true;
 			}
 		}
 
