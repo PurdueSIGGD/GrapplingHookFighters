@@ -22,11 +22,12 @@ public class PassivePickup : MonoBehaviour {
 		switch (itemCode) {
 		case 0:
 			originalMass = g.GetComponent<Rigidbody2D> ().mass;
-			g.GetComponent<Rigidbody2D> ().mass *= 1.3f;
+			//g.GetComponent<Rigidbody2D> ().mass *= 1.3f;
 			g.GetComponent<Health> ().SendMessage ("pickUpArmor");
 			break;
 		case 1:
 			g.GetComponent<player> ().jetpack = true;
+			if (this.transform.name != "Jetpack") transform.name = "Jetpack";
 			break;
 		case 2:
 			g.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = 0;
