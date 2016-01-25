@@ -118,11 +118,18 @@ public class Health : MonoBehaviour {
 		dead = false;
 		for (int i = 0; i < usedGibs.Length; i++)
 			usedGibs [i] = false;
+		//```Destroy(box);
 		Transform ch = transform.FindChild ("ParticleBleed");
 		if (ch) {
 			GameObject.Destroy (ch.gameObject);
 		}
-		//```Destroy(box);
+		//destroy stray stickybombs, arrows
+		FiredProjectile[] ffs = transform.GetComponentsInChildren<FiredProjectile>();
+		if (ffs.Length > 0) {
+			foreach (FiredProjectile f in ffs) {
+				GameObject.Destroy(f.gameObject);
+			}
+		}
 	}
 
 	// Use this for initialization
