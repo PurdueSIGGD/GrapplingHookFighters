@@ -75,7 +75,7 @@ public class player : MonoBehaviour {
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
-			center.rotation = Quaternion.Euler(0, 0, rotZ);
+			transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
 			Vector3 centerScale = center.localScale;
 			if(firingVector.x < 0) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
 				center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
@@ -83,9 +83,9 @@ public class player : MonoBehaviour {
 				center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
 			}
            
-            GetComponent<LineRenderer>().SetVertexCount(2);
-            GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
-			GetComponent<LineRenderer>().SetPosition(1, center.position + 2 * firingVector + .1f * Vector3.forward);
+           // GetComponent<LineRenderer>().SetVertexCount(2);
+            //GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
+			//GetComponent<LineRenderer>().SetPosition(1, center.position + 2 * firingVector + .1f * Vector3.forward);
 			//if (pickUpKey()) print(canPickup);
 			if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
                 //drop weapon
@@ -368,7 +368,8 @@ public class player : MonoBehaviour {
     void Death() {
         death = true;
         this.GetComponent<Rigidbody2D>().freezeRotation = false;
-        this.GetComponent<LineRenderer>().SetVertexCount(0);
+        //this.GetComponent<LineRenderer>().SetVertexCount(0);
+		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         this.gameObject.tag = "Item";
         if (heldItem1 != null) {
             throwWeapon(false, 0);
@@ -383,7 +384,8 @@ public class player : MonoBehaviour {
     void NotDeath() {
         death = false;
         this.GetComponent<Rigidbody2D>().freezeRotation = true;
-        this.GetComponent<LineRenderer>().SetVertexCount(2);
+		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+		//this.GetComponent<LineRenderer>().SetVertexCount(2);
         this.gameObject.tag = "Player";
 
     }

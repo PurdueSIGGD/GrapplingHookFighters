@@ -78,7 +78,7 @@ public class MouseInput : MonoBehaviour {
 		DontDestroyOnLoad(this.transform);
 	}
 	void LateUpdate() {
-		if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel(Application.loadedLevel);
+		//if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel(Application.loadedLevel);
 		//print("Start update function mouse");
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
