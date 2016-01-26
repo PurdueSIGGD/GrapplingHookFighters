@@ -3,34 +3,57 @@ using System.Collections;
 using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire = true, nonLethal, penetrating;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot;
 	public int playerid, bulletsPerShot = 1, ammo;
-	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread;
-	private float timeSincelast;
+	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread, timeToCharge;
+	private float timeSincelast, maxProjectileSpeed, chargeTime;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
-	public GameObject projectileGameObject, particle, sparks, splats; 
+	public GameObject projectileGameObject, particle, sparks, splats;
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
+
+		if (chargedShot) {
+			maxProjectileSpeed = projectileSpeed;
+			projectileSpeed = 0;
+		}
 	}
 
-	public void click(){
-		if (automatic || canFire) {
+	public void click() {
+		if ((canFire || automatic) && !chargedShot) {
 			trigger = true;
 			canFire = false;
-		}
-		else
+		} else if (chargedShot) {
 			trigger = false;
-       // print("Player " + this.playerid + " clicked");
+			canFire = true;
+			if (chargeTime + Time.deltaTime <= timeToCharge) {
+				chargeTime += Time.deltaTime;
+			} else {
+				chargeTime = timeToCharge;
+			}
+			projectileSpeed = (maxProjectileSpeed * (chargeTime / timeToCharge));
+
+		} else {
+			trigger = false;
+		}
     }
 
 	public void unclick(){
-		canFire = true;
-		trigger = false;
+		if (!chargedShot) {
+			canFire = true;
+			trigger = false;
+		} else if (chargedShot && canFire) {
+			trigger = true;
+			canFire = false;
+		} else if (chargedShot) {
+			trigger = false;
+			projectileSpeed = 0;
+			chargeTime = 0;
+		}
 	}
 
 	//a send message command

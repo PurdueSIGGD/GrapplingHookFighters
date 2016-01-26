@@ -7,14 +7,14 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal, exploded;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed;
 	public GameObject explosion;
 	void Start() {
 		//print ("starting off my thing");
 		startTime = time;
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-
+		
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
 			if (exploding && !exploded) {
 				//print ("spawning explosion");
@@ -27,8 +27,10 @@ public class FiredProjectile : MonoBehaviour {
 			if (col.GetComponent<Rigidbody2D>()) {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
-			if (!nonLethal && col.transform.GetComponent<Health> () && !exploding) {
+
+			if (!nonLethal && col.transform.GetComponent<Health> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
 				col.transform.SendMessage ("hit");
+				if (makesHimBleed) col.SendMessage("Bleed");
 			}
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
@@ -38,12 +40,23 @@ public class FiredProjectile : MonoBehaviour {
 		}
 		if (col.shapeCount == 5 && dieOnAnyHit) //uhh I forgot what this does. Something about polygon colliders and biz
 			GameObject.Destroy (this.gameObject);
+		
 		//if (col.isTrigger && col.GetComponent<Health>() && dieOnAnyHit)
 			//GameObject.Destroy (this.gameObject);
 
 	}
 	// Update is called once per frame
 	void Update () {
+		Vector2 vel = this.GetComponent<Rigidbody2D>().velocity;
+		if (pointsWhenFast && Vector2.SqrMagnitude(vel) > 10) {
+			if (this.GetComponent<Sticky>() && this.GetComponent<Sticky>().stuck) {
+
+			} else {
+				
+				float rotZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg; //moving the rotation of the center here
+				transform.rotation = Quaternion.Euler(0, 0, rotZ);
+			}
+		}
 		time -= Time.deltaTime;
 		if (time <= 0)
 			GameObject.Destroy (this.gameObject);
