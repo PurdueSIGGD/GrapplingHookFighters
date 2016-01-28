@@ -57,11 +57,11 @@ public class player : MonoBehaviour {
             }
 			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeed && canMoveLeft && goLeft()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(jumped ? 20 : 40, 0, 0));
+                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(40, 0, 0));
             }
 			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeed && canMoveRight && goRight()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(jumped ? 20 : 40, 0, 0));
+                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(40, 0, 0));
             }
             if (goDown()) {
                 GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
@@ -247,7 +247,7 @@ public class player : MonoBehaviour {
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
 			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
             col.GetComponent<HeldItem>() && //it can be held
-            (col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
+			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
             timeSincePickup > .2f && //had enough time
             !colR.isKinematic) {  //not what I am holding
             canPickup = true;
@@ -263,7 +263,7 @@ public class player : MonoBehaviour {
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
 			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
 			col.GetComponent<HeldItem>() && //it can be held
-			(col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
+			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
 			timeSincePickup > .2f && //had enough time
 			!colR.isKinematic) {  //not what I am holding
             canPickup = false;
@@ -278,10 +278,10 @@ public class player : MonoBehaviour {
 		/*if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
 			jumped = false;
 		}*/
-		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
+		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && ((col.GetComponent<HeldItem>() && col.GetComponent<HeldItem>().focus == null) || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
-				if (col.GetComponent<PassivePickup> () && !col.GetComponent<PassivePickup> ().broke) {
+				if (col.GetComponent<PassivePickup> ()) {
 					if (passiveItem) {
 						//drop current passiveItem
 						throwWeapon(true, 2);
@@ -415,7 +415,7 @@ public class player : MonoBehaviour {
 			if (jump ()) {
 				if (transform.FindChild ("Jetpack") && !transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
-				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 40, 0));
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
 			} else {
 				
 				if (transform.FindChild ("Jetpack") && transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
@@ -435,7 +435,7 @@ public class player : MonoBehaviour {
 					break;
 				}
 			}
-			if ((b || jump ()) && !jumped && hitValid && Time.time - jumpTime > .05f) {
+			if ((b || jump ()) && hitValid && Time.time - jumpTime > .05f) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
 				jumpTime = Time.time;

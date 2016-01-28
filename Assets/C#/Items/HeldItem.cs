@@ -20,8 +20,7 @@ public class HeldItem : MonoBehaviour {
 				else Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol, false);
 				retrigger = false;
 				timeSinceDropped = 0;
-			}
-			
+			}			
 		}
 	}
 	void retriggerSoon() {
