@@ -28,10 +28,10 @@ public class FiredProjectile : MonoBehaviour {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
 
-			if (!nonLethal && col.transform.GetComponent<Health> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
+		/*if (!nonLethal && col.transform.GetComponent<Health> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
 				col.transform.SendMessage ("hit");
 				if (makesHimBleed) col.SendMessage("Bleed");
-			}
+			}*/
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
@@ -47,18 +47,28 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Vector2 vel = this.GetComponent<Rigidbody2D>().velocity;
-		if (pointsWhenFast && Vector2.SqrMagnitude(vel) > 10) {
-			if (this.GetComponent<Sticky>() && this.GetComponent<Sticky>().stuck) {
+		
+		if (pointsWhenFast) {
+			Vector2 vel = this.GetComponent<Rigidbody2D>().velocity;
 
-			} else {
-				
-				float rotZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg; //moving the rotation of the center here
-				transform.rotation = Quaternion.Euler(0, 0, rotZ);
+			if (Vector2.SqrMagnitude(vel) > 10) {
+				if (this.GetComponent<Sticky>() && this.GetComponent<Sticky>().stuck) {
+
+				} else {
+					
+					float rotZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg; //moving the rotation of the center here
+					transform.rotation = Quaternion.Euler(0, 0, rotZ);
+				}
 			}
 		}
 		time -= Time.deltaTime;
 		if (time <= 0)
 			GameObject.Destroy (this.gameObject);
+	}
+	void Stickem(Transform t) {
+		if (t.GetComponent<player>()) {
+			t.transform.SendMessage ("hit");
+			if (makesHimBleed) t.SendMessage("Bleed");
+		}
 	}
 }

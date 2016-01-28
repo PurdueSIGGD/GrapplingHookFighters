@@ -33,6 +33,7 @@ public class PassivePickup : MonoBehaviour {
 			if (this.transform.name != "Jetpack") transform.name = "Jetpack";
 			break;
 		case 2:
+			focus.GetComponent<player> ().skateBoard = true;
 			g.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = 0;
 			g.GetComponent<PolygonCollider2D> ().enabled = false;
 			g.GetComponent<PolygonCollider2D> ().enabled = true; //have it reset and rebooted, unity is weird
@@ -73,6 +74,7 @@ public class PassivePickup : MonoBehaviour {
 			}
 			break;
 		case 2:
+			focus.GetComponent<player> ().skateBoard = false;
 			focus.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = .4f;
 			focus.GetComponent<PolygonCollider2D> ().enabled = false;
 			focus.GetComponent<PolygonCollider2D> ().enabled = true; //have it reset and rebooted

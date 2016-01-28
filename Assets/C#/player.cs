@@ -17,7 +17,7 @@ public class player : MonoBehaviour {
 	private int punchableIndex;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
-	public bool jetpack;
+	public bool jetpack, skateBoard;
     public Vector3 firingVector;
 
     static float layer1Position = 0;
@@ -55,11 +55,12 @@ public class player : MonoBehaviour {
             if (time >= 1.0f && changePlane()) {
                 switchPlanes();
             }
-			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeed && canMoveLeft && goLeft()) {
+			float maxMoveSpeedRevised = (skateBoard && Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) > .01f) ? maxMoveSpeed/10 : maxMoveSpeed ;
+			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeedRevised && canMoveLeft && goLeft()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(40, 0, 0));
             }
-			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeed && canMoveRight && goRight()) {
+			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(40, 0, 0));
             }

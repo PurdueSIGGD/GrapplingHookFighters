@@ -9,9 +9,11 @@ public class Sticky : MonoBehaviour {
 	 * Requirements: Rigidbody2D, collider2D (non trigger)
 	 * Oddly enough, this isn't used for stickybombs atm
 	 */
-	void OnCollisionEnter2D(Collision2D col) {
-		stuck = true;
-		colliderThing = col.transform;
+	void OnTriggerEnter2D(Collider2D col) {
+		if (!col.isTrigger && !col.transform.GetComponent<Sticky>()) {
+			stuck = true;
+			colliderThing = col.transform;
+		}
 		//this.GetComponent<Rigidbody2D>().velocity = col.transform.GetComponent<Rigidbody2D>().velocity;
 	}
 	void Update() {
@@ -26,8 +28,9 @@ public class Sticky : MonoBehaviour {
 			//this.GetComponent<Rigidbody2D>().gravityScale = 0;
 			this.GetComponent<Collider2D>().enabled = false;
 			//if (stickTime <= 0) {
-				hasBeenStuck = true;
-				this.GetComponent<Rigidbody2D>().isKinematic = true;
+			hasBeenStuck = true;
+			this.GetComponent<Rigidbody2D>().isKinematic = true;
+			this.GetComponent<FiredProjectile>().SendMessage("Stickem", colliderThing);
 			//}
 		}
 

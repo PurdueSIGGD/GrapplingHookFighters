@@ -17,6 +17,7 @@ public class TrackingCamera : MonoBehaviour {
 	void Start () {
 		cam = GetComponentInChildren<Camera> ();
 		//initialCamSize = cam.orthographicSize;
+		lastCnt = targets.Length;
 	}
 	
 	// Update is called once per frame
@@ -35,10 +36,19 @@ public class TrackingCamera : MonoBehaviour {
 			foreach (GameObject g in targets) {
 				if (!g.GetComponent<Health>().dead) {
 					//if (Vector3.Distance(transform.position, g.transform.position) > Vector3.Distance(transform.position, maxDis)) maxDis = g.transform.position;
-					if (Mathf.Abs(g.transform.position.x)  > Mathf.Abs(maxX)) maxX = g.transform.position.x;
-					if (Mathf.Abs(g.transform.position.y)  > Mathf.Abs(maxY)) maxY = g.transform.position.y;
-					if (Mathf.Abs(g.transform.position.x)  < Mathf.Abs(minX)) minX = g.transform.position.x;
-					if (Mathf.Abs(g.transform.position.y)  < Mathf.Abs(minY)) minY = g.transform.position.y;
+					//float maxXB = 17, minXB = 4, maxYB = 17, minYB = 4;
+					//if (Mathf.Abs(g.transform.position.x) > minXB && Mathf.Abs(g.transform.position.x) < maxXB)
+					if (Mathf.Abs(transform.position.x) - Mathf.Abs(g.transform.position.x)  > Mathf.Abs(transform.position.x) - Mathf.Abs(maxX)) 
+							maxX = Mathf.Abs(g.transform.position.x);
+					//if (Mathf.Abs(g.transform.position.y) > minYB && Mathf.Abs(g.transform.position.y) < maxYB)
+					if (Mathf.Abs(transform.position.y) - Mathf.Abs(g.transform.position.y)  > Mathf.Abs(transform.position.y) - Mathf.Abs(maxY)) 
+							maxY = Mathf.Abs(g.transform.position.y);
+					//if (Mathf.Abs(g.transform.position.x) > minXB && Mathf.Abs(g.transform.position.x) < maxXB)
+					if (Mathf.Abs(transform.position.x) - Mathf.Abs(g.transform.position.x)  < Mathf.Abs(transform.position.x) - Mathf.Abs(minX)) 
+							minX = Mathf.Abs(g.transform.position.x);
+					//if (Mathf.Abs(g.transform.position.x) > minYB && Mathf.Abs(g.transform.position.y) < maxYB)
+					if (Mathf.Abs(transform.position.y) - Mathf.Abs(g.transform.position.y)  < Mathf.Abs(transform.position.y) - Mathf.Abs(minY)) 
+							minY = Mathf.Abs(g.transform.position.y);
 
 					avgX += g.transform.position.x;
 					avgY += g.transform.position.y;
@@ -65,6 +75,7 @@ public class TrackingCamera : MonoBehaviour {
 
 
 			if (timeGone > 0) {
+				//print("everyones gone");
 				//lost everyone, gone
 				zooming = -.15f/(timeGone + 1);
 				cam.orthographicSize+=zoomSpeed*zooming*Time.deltaTime;
@@ -115,9 +126,10 @@ public class TrackingCamera : MonoBehaviour {
 				float bufferY = 10;
 				float sizeX = Mathf.Abs(maxX - minX) + bufferX;
 				float sizeY = Mathf.Abs(maxY - minY) + bufferY;
-				//print("x: " + sizeX + " y: " + sizeY);
+				//print("x: " + maxX + " y: " + maxY);
 				float camSize = 0.5f * (sizeX > sizeY ? sizeX : sizeY);
 				if (shifting) {
+					//print("Shifting");
 					zooming = -13f/(Mathf.Abs(cam.orthographicSize - camSize + 20));
 					cam.orthographicSize+=zoomSpeed*zooming*Time.deltaTime;
 					if (cam.orthographicSize - camSize < .2f) shifting = false;
