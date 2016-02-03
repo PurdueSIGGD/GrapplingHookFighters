@@ -30,22 +30,26 @@ public class Health : MonoBehaviour {
 
 	//Will reduce Player health  or Armor by one
 	void hit() {
-		if (armorHealth < 1)
-			killPlayer ();
-		if (armorHealth > 0) {
-			armorHealth -= 1;
-			if (armorHealth == 0) {
-				this.SendMessage ("throwWeapont", 2);
+		if (!dead) {
+			if (armorHealth < 1)
+				killPlayer ();
+			if (armorHealth > 0) {
+				armorHealth -= 1;
+				if (armorHealth == 0) {
+					this.SendMessage ("throwWeapont", 2);
+				}
 			}
 		}
 	}
 
 	//Reduces Player health and/or armor by dmgAmount.
 	public void hit(int dmgAmount) {	
-		if (dmgAmount >= playerHealth + armorHealth)
-			killPlayer ();
-		if (dmgAmount == armorHealth)
-			armorHealth = 0;
+		if (!dead) {
+			if (dmgAmount >= playerHealth + armorHealth)
+				killPlayer ();
+			if (dmgAmount == armorHealth)
+				armorHealth = 0;
+		}
 	}
 
 	//Adds armor to armorHealth
@@ -93,7 +97,13 @@ public class Health : MonoBehaviour {
 			}*/
 
 			this.BroadcastMessage("Death");
-			GameObject.Find("Boundary").SendMessage("SetInRespawnQueue", this.gameObject);
+			//print("dying");
+			if (GameObject.Find("SceneController")) {
+				GameObject.Find("SceneController").SendMessage("AddDeath"); 
+				//print("adding death");
+			}
+			else
+				if (GameObject.Find("Boundary").GetComponent<Boundary>().respawning) GameObject.Find("Boundary").SendMessage("SetInRespawnQueue", this.gameObject);
 
 		}
 	}

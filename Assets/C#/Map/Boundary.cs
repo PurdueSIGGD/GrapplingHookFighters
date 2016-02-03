@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Boundary : MonoBehaviour {
 	//This class also does programming for the respawn of the characters too
 	public GameObject p;
-	public BoxCollider2D b;
+	//public Collider2D b;
 	public float timeNow;
 	public bool respawning;
 	
@@ -26,7 +26,7 @@ public class Boundary : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		p = null;
-		b = this.GetComponentInParent<BoxCollider2D>();
+		//b = this.GetComponent<Collider2D>();
 
 	}
 	
@@ -42,17 +42,15 @@ public class Boundary : MonoBehaviour {
 					if (deathwait[i].player.GetComponent<Health>())  {
 						GameObject g = deathwait[i].player;
 						Transform rePos = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
-						g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
-						g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
 						g.transform.parent = rePos;
 						g.transform.position = rePos.position;
+						g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
+						g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
 						g.transform.eulerAngles = Vector3.zero;
 						g.GetComponent<Health>().resetPlayer();
 						g.GetComponent<player>().death = false;
 						g.BroadcastMessage("NotDeath");
 						g.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-
-
 					}
 					//deathwait[i].player.SetActive(true);
 					deathwait.RemoveAt(i);
@@ -65,8 +63,9 @@ public class Boundary : MonoBehaviour {
 		//print(col);
 		//checks to see if the collider belongs to a player
 		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>()) {
-			if (col.GetComponent<Health>() && !col.GetComponent<Health>().dead) SetInRespawnQueue(col.gameObject);
+			if (col.GetComponent<Health>() && !col.GetComponent<Health>().dead && !respawning) SetInRespawnQueue(col.gameObject);
 		} else {
+			//print("Destroyyy");
 			GameObject.Destroy(col.gameObject);
 		}
 	}

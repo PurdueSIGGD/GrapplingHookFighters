@@ -10,7 +10,7 @@ public class player : MonoBehaviour {
 	private float timeSincePickup = 1, punchTime = 1, jumpTime;
     public int playerid;
     private bool jumped, switchedKey, jumpedKey;
-    public bool death, joystickController;
+	public bool death, joystickController, tempDisabled;
     private bool canMoveRight;
     private bool canMoveLeft, canPickup;
 	private Transform punchable;
@@ -44,7 +44,7 @@ public class player : MonoBehaviour {
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
 		if (punchTime < 1) punchTime +=Time.deltaTime;
-		if (!death) {
+		if (!death && !tempDisabled) {
 
             currentX = transform.position.x;
             currentY = transform.position.y;
@@ -444,5 +444,14 @@ public class player : MonoBehaviour {
 			}
 		}
 
+	}
+	void DisablePlayers() {
+		tempDisabled = true;
+	}
+	void EnablePlayers() {
+		tempDisabled = false;
+	}
+	void OnDestroy() {
+	//	print("wtf why");
 	}
 }
