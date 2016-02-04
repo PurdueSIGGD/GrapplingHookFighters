@@ -134,7 +134,7 @@ public class gun : MonoBehaviour, item {
 												//print(hit);
 												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 											}
-										if (hit.transform.GetComponent<Health> () || hit.transform.GetComponent<ShootablePlatform>()) {
+										if (hit.transform.GetComponent<Hittable>()) {
 												hit.transform.SendMessage ("hit");
 											} 
 											if (hit.GetComponent<grenade> ()) {
@@ -153,7 +153,7 @@ public class gun : MonoBehaviour, item {
 										//print(hit);
 										hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 									}
-									if (hit.transform.GetComponent<Health> () || hit.transform.GetComponent<ShootablePlatform>()) {
+									if (hit.transform.GetComponent<Hittable>()) {
 										hit.transform.SendMessage ("hit");
 									}
 									if (hit.GetComponent<grenade> ()) {

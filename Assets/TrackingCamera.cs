@@ -37,7 +37,7 @@ public class TrackingCamera : MonoBehaviour {
 		if (transition) {
 			transform.position = Vector3.SmoothDamp(transform.position, goalPos, ref velocity, 2);  //function to move
 			//if (cam.orthographicSize < 17) cam.orthographicSize+=Time.deltaTime*.5f;
-			if (halfway) cam.orthographicSize+=Time.deltaTime*.7f;
+			if (halfway) cam.orthographicSize+=Time.deltaTime*3f;
 			else {
 				float factor = Vector2.Distance(transform.position, (goalPos + lastPos)/2)/(.5f*Vector2.Distance(goalPos,lastPos));
 				//factor will be 0 when at the halfway point, will be 1 when at the final point
@@ -178,7 +178,7 @@ public class TrackingCamera : MonoBehaviour {
 				//shifting = (Mathf.Abs(cam.orthographicSize - camSize) > .2f && !(camSize > maxSize) && !(camSize < minSize)); //if we are not close enough to the target
 				if (shifting) {
 					//print("Shifting " + Mathf.Abs(cam.orthographicSize - camSize));
-					zooming = -5f/((cam.orthographicSize - camSize + 30));
+					zooming = -5f/((cam.orthographicSize - camSize + 20));
 					cam.orthographicSize+=zoomSpeed*zooming*Time.deltaTime;
 					if (Mathf.Abs(cam.orthographicSize - camSize) < .1f) shifting = false;
 				} else {

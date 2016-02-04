@@ -16,6 +16,16 @@ public class ExplosionScript : MonoBehaviour {
 			if (c.GetComponent<ShootablePlatform> ())
 				c.SendMessage ("hit", 20 /Vector2.Distance(this.transform.position, c.transform.position));
 		}
+		if (transform.childCount > 1) {
+			for (int i = 0; i < transform.childCount; i++) {
+				if (!transform.GetChild(i).GetComponent<Animator>()) {
+					print(transform.GetChild(i).name);
+					GameObject.Destroy(transform.GetChild(i).gameObject);
+				
+				}
+					
+			}
+		}
 		//print("ugh");
 		//EditorApplication.isPaused = true;
 	}
@@ -24,11 +34,12 @@ public class ExplosionScript : MonoBehaviour {
 	void Update () {
 		//Debug.DrawLine(this.transform.position,this.transform.position + Vector3.right * this.GetComponent<CircleCollider2D> ().radius);
 		Animator a = this.GetComponentInChildren<Animator> ();
-		if (a.GetTime () > .3) 
+		if (a.GetTime () > .3) {
 			this.GetComponent<CircleCollider2D> ().enabled = false;
-		else //this.GetComponent<CircleCollider2D>().radius += 7*Time.deltaTime;
+
+		}
 		if (a.GetTime () > 1.6f)
-			Destroy (this.gameObject);
+				Destroy (this.gameObject);
 	}
 	void OnCollisionEnter2D(Collision2D col) {
 		//print(col.transform.name);
@@ -40,13 +51,13 @@ public class ExplosionScript : MonoBehaviour {
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (500 * col.transform.GetComponent<Rigidbody2D>().mass * (col.transform.position - this.transform.position));
 			col.transform.GetComponent<Rigidbody2D> ().AddForce (200 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 		}
-		if (col.transform.GetComponent<Health> ()) {
+		if (col.transform.GetComponent<Hittable> ()) {
 			col.transform.SendMessage("hit");
-			col.transform.SendMessage("Gib",Random.Range(1,3));
+			if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
 		}
-		if (col.transform.GetComponent<ShootablePlatform> ()) {
+		/*if (col.transform.GetComponent<ShootablePlatform> ()) {
 			col.transform.SendMessage ("hit", 7);
-		}
+		}*/
 
 	}
 

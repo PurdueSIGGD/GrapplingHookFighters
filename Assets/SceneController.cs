@@ -13,13 +13,13 @@ public class SceneController : MonoBehaviour {
 	public float distanceInBetween = 30;
 
 	//public int gameMode; //defaults to 0, which will be FFA
-	public GameObject[] players;
+	private GameObject[] players;
 	private Vector2[] mapPlacements;
 	private int currentMapIndex, currentMapQueue;
 	private int deathCount;
-	public float endTimer, startTimer;
-	public GameObject currentMap, lastMap;
-	public bool transitioning, readyToStart, countDown, endScene;
+	private float endTimer, startTimer;
+	private GameObject currentMap, lastMap;
+	private bool transitioning, readyToStart, countDown, endScene;
 	void Start() {
 		mapPlacements = new Vector2[9];
 		int index = 0;
@@ -140,12 +140,14 @@ public class SceneController : MonoBehaviour {
 			endTimer -= Time.deltaTime;
 			//print("done here");
 			if (endTimer <= 0 && !transitioning) {
+				//print();
 				transitioning = true;
 				endScene = false;
 				endTimer = 0;
 				int newIndex = Random.Range(0, 7);
 				if (newIndex >= currentMapIndex) newIndex++; // so we don't go to the same place as currently
 				StartNewScene(mapPlacements[newIndex]);
+				currentMapIndex = newIndex;
 				return;
 
 			}

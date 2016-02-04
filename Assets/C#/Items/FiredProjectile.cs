@@ -7,7 +7,7 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky;
 	public GameObject explosion;
 	void Start() {
 		//print ("starting off my thing");
@@ -28,10 +28,10 @@ public class FiredProjectile : MonoBehaviour {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
 
-		/*if (!nonLethal && col.transform.GetComponent<Health> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
+			if (!sticky && !nonLethal && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
 				col.transform.SendMessage ("hit");
-				if (makesHimBleed) col.SendMessage("Bleed");
-			}*/
+				if (makesHimBleed && col.GetComponent<Health>()) col.SendMessage("Bleed");
+			}
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
@@ -66,9 +66,11 @@ public class FiredProjectile : MonoBehaviour {
 			GameObject.Destroy (this.gameObject);
 	}
 	void Stickem(Transform t) {
-		if (t.GetComponent<player>()) {
-			t.transform.SendMessage ("hit");
-			if (makesHimBleed) t.SendMessage("Bleed");
+		if (sticky) {
+			if (t.GetComponent<Health>() && makesHimBleed) t.SendMessage("Bleed");
+			if (t.GetComponent<Hittable>() ) t.transform.SendMessage ("hit");
 		}
+
+			
 	}
 }
