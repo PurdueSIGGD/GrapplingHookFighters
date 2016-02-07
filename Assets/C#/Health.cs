@@ -156,7 +156,7 @@ public class Health : MonoBehaviour {
 	
 	}
 	void Bleed() {
-		if (!transform.FindChild ("ParticleBleed")) {
+		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {
 			GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 			g.transform.parent = this.transform;
 			g.name = "ParticleBleed";

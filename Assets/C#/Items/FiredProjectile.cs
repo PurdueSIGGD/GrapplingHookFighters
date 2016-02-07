@@ -67,8 +67,9 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	void Stickem(Transform t) {
 		if (sticky) {
-			if (t.GetComponent<Health>() && makesHimBleed) t.SendMessage("Bleed");
 			if (t.GetComponent<Hittable>() ) t.transform.SendMessage ("hit");
+			if (t.GetComponent<Health>() && makesHimBleed) t.SendMessage("Bleed");
+
 		}
 
 			

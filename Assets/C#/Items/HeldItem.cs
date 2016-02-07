@@ -40,6 +40,9 @@ public class HeldItem : MonoBehaviour {
 		object o = 0;
 		if (focus) focus.SendMessage("throwWeapont",o);
 	}
+	void fullClick() {
+
+	}
 	void click() {
 		//up to object implementation
 	}

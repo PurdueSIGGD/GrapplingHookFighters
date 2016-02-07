@@ -46,7 +46,7 @@ public class gun : MonoBehaviour, item {
 		if (!chargedShot) {
 			canFire = true;
 			trigger = false;
-		} else if (chargedShot && canFire) {
+		} else if (chargedShot && canFire && chargeTime > .1f) {
 			trigger = true;
 			canFire = false;
 		} else if (chargedShot) {
@@ -118,15 +118,17 @@ public class gun : MonoBehaviour, item {
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
 									
-									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript> ()) {
+									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && 
+									(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
+									!ray.transform.GetComponent<ParticleScript> ()) {
 										if (penetrating) {
-										if (hit && hit.GetComponent<player>()) {
-											GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+											if (hit && hit.GetComponent<player>()) {
+												GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
-										} else {
-											GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+											} else {
+												GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
 
-										}
+											}
 
 											endPoint = ray.point;
 											hit = ray.transform;
@@ -134,7 +136,7 @@ public class gun : MonoBehaviour, item {
 												//print(hit);
 												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 											}
-										if (hit.transform.GetComponent<Hittable>()) {
+											if (hit.transform.GetComponent<Hittable>()) {
 												hit.transform.SendMessage ("hit");
 											} 
 											if (hit.GetComponent<grenade> ()) {
@@ -163,6 +165,7 @@ public class gun : MonoBehaviour, item {
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
 								//g.transform.position = endPoint;
+							//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
 							if (hit && hit.GetComponent<player>() && hit.GetComponent<Health>().dead) {
