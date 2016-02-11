@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile;
 	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread, timeToCharge;
 	private float timeSincelast, maxProjectileSpeed, chargeTime;
@@ -70,6 +70,9 @@ public class gun : MonoBehaviour, item {
 	}
 	// Update is called once per frame
 	void Update () {
+
+
+
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
@@ -162,12 +165,16 @@ public class gun : MonoBehaviour, item {
 								}
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
+								g.GetComponent<FiredProjectile> ().sourcePlayer = GameObject.Find ("Player" + playerid);
+								if (childProjectile) {
+									g.transform.SetParent (transform);
+									g.GetComponent<Rigidbody2D> ().isKinematic = true;
+								}
 								//g.transform.position = endPoint;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
 							if (hit && hit.GetComponent<player>() && hit.GetComponent<Health>().dead) {
 									GameObject.Instantiate(splats, endPoint, Quaternion.identity);
-
 								} else {
 									GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
 								}
@@ -177,7 +184,7 @@ public class gun : MonoBehaviour, item {
 							Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
 							bool colliding = false;
 							foreach (Collider2D c in hitColliders) {
-								if (c.GetComponent<Rigidbody2D> () && !c.isTrigger) {
+								if (c.GetComponent<Rigidbody2D> () && !c.isTrigger && !shootIntoWalls) {
 									//print (c);
 									if (c.gameObject != GameObject.Find ("Player" + playerid)) {
 										c.GetComponent<Rigidbody2D> ().AddForce (((Vector2)shootPoint - gunBase) * projectileSpeed * .7f);
@@ -190,6 +197,11 @@ public class gun : MonoBehaviour, item {
 								//print ("shooting into wall");
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
+								g.GetComponent<FiredProjectile> ().sourcePlayer = GameObject.Find ("Player" + playerid);
+								if (childProjectile) {
+									g.transform.SetParent (transform);
+									g.GetComponent<Rigidbody2D> ().isKinematic = true;
+								}
 							//UnityEditor.EditorApplication.isPaused = true;
 								if (g.GetComponent<HeldItem> ()) {
 									g.SendMessage ("ignoreColl", GameObject.Find ("Player" + playerid).GetComponent<Collider2D> ());

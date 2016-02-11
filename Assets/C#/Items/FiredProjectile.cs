@@ -7,13 +7,24 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true;
 	public GameObject explosion;
+	public GameObject sourcePlayer;
 	void Start() {
 		//print ("starting off my thing");
 		startTime = time;
+		Collider2D[] cols = GetComponents<Collider2D> ();
+		if (!hitsSourcePlayer) {
+			foreach (Collider2D col in cols) {
+				Physics2D.IgnoreCollision (sourcePlayer.GetComponent<PolygonCollider2D> (), col, true);
+			}
+		}
 	}
 	void OnTriggerEnter2D(Collider2D col) {
+
+		if (!hitsSourcePlayer && col.gameObject == sourcePlayer) {
+			return;
+		}
 		
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
 			if (exploding && !exploded) {
