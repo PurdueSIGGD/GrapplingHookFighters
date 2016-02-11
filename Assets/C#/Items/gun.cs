@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, chargedShot, gunGoesPoof;
 	public int playerid, bulletsPerShot = 1, ammo;
-	public float timeToShoot, projectileSpeed, recoil, damage, gunGoesPoof, spread, timeToCharge;
+	public float timeToShoot, projectileSpeed, recoil, damage, spread, timeToCharge;
 	private float timeSincelast, maxProjectileSpeed, chargeTime;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
@@ -46,7 +46,7 @@ public class gun : MonoBehaviour, item {
 		if (!chargedShot) {
 			canFire = true;
 			trigger = false;
-		} else if (chargedShot && canFire) {
+		} else if (chargedShot && canFire && chargeTime > .1f) {
 			trigger = true;
 			canFire = false;
 		} else if (chargedShot) {
@@ -121,15 +121,17 @@ public class gun : MonoBehaviour, item {
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
 									
-									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && !ray.collider.isTrigger && !ray.transform.GetComponent<ParticleScript> ()) {
+									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && 
+									(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
+									!ray.transform.GetComponent<ParticleScript> ()) {
 										if (penetrating) {
-										if (hit && hit.GetComponent<player>()) {
-											GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+											if (hit && hit.GetComponent<player>()) {
+												GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
-										} else {
-											GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+											} else {
+												GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
 
-										}
+											}
 
 											endPoint = ray.point;
 											hit = ray.transform;
@@ -137,7 +139,7 @@ public class gun : MonoBehaviour, item {
 												//print(hit);
 												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 											}
-										if (hit.transform.GetComponent<Hittable>()) {
+											if (hit.transform.GetComponent<Hittable>()) {
 												hit.transform.SendMessage ("hit");
 											} 
 											if (hit.GetComponent<grenade> ()) {
@@ -171,6 +173,7 @@ public class gun : MonoBehaviour, item {
 									g.GetComponent<Rigidbody2D> ().isKinematic = true;
 								}
 								//g.transform.position = endPoint;
+							//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
 							if (hit && hit.GetComponent<player>() && hit.GetComponent<Health>().dead) {
@@ -223,7 +226,6 @@ public class gun : MonoBehaviour, item {
 				}
 
 				if (ejecting) {
-
 					GameObject shelly = (GameObject)GameObject.Instantiate(particle, transform.FindChild("shellEject").transform.position, GetComponentInParent<Transform>().rotation);
 					shelly.transform.localScale = new Vector3(shelly.transform.localScale.x / 2.5f, shelly.transform.localScale.z / 2.5f, shelly.transform.localScale.z / 3);
 					shelly.GetComponent<SpriteRenderer>().sprite = this.shellSprite;
@@ -245,12 +247,14 @@ public class gun : MonoBehaviour, item {
 					shelly.layer = this.gameObject.layer == 8 ? 11 : 12; //becomes the respective nocol layer
 
 				}
-				for (int i = 0; i < gunGoesPoof; i++) {
-					GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
+				if (gunGoesPoof) {
+					transform.FindChild("ParticleSmoke").GetComponent<ParticleSystem>().Play();
+
+					/*GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
 					if (this.transform.parent && this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
 					particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
 					particleG.GetComponent<Rigidbody2D>().gravityScale = -.3f;
-					particleG.GetComponent<ParticleScript>().time = .6f;
+					particleG.GetComponent<ParticleScript>().time = .6f;*/
 				}
 				timeSincelast = 0;
 			} else {

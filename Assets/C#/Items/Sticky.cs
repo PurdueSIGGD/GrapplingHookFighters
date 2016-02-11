@@ -10,7 +10,7 @@ public class Sticky : MonoBehaviour {
 	 * Oddly enough, this isn't used for stickybombs atm
 	 */
 	void OnTriggerEnter2D(Collider2D col) {
-		if (!col.isTrigger && !col.transform.GetComponent<Sticky>()) {
+		if (!col.isTrigger && !col.transform.GetComponent<Sticky>() &&  Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30) {
 			stuck = true;
 			colliderThing = col.transform;
 		}

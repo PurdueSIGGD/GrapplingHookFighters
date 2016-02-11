@@ -201,8 +201,8 @@ public class MouseInput : MonoBehaviour {
 
 				if (hasItem[i] && hasBaseItem) {
 					if (player.GetComponent<player>().joystickController) {
-
-						if (Input.GetAxis("JFire" + joystickNums) > 0) {
+						//if (Input.GetAxisRaw("JFire" + joystickNums) > 0) print(Input.GetAxisRaw("JFire" + joystickNums));
+						if (Input.GetAxisRaw("JFire" + joystickNums) > 0) {
 							center.GetChild (0).SendMessage ("click");
 						} else {
 							center.GetChild (0).SendMessage ("unclick");

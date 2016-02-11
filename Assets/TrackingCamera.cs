@@ -175,9 +175,16 @@ public class TrackingCamera : MonoBehaviour {
 				float camSize = 0.5f * (sizeX > sizeY ? sizeX : sizeY);
 				if (camSize > maxSize) camSize = maxSize;
 				if (camSize < minSize) camSize = minSize;
+					if (Mathf.Abs(cam.orthographicSize - camSize) > .45f && Mathf.Abs(cam.orthographicSize - camSize) < 2)	{
+						print(Mathf.Abs(cam.orthographicSize - camSize));
+						shifting = true;
+					} else {
+						shifting = false;
+					}
 				//shifting = (Mathf.Abs(cam.orthographicSize - camSize) > .2f && !(camSize > maxSize) && !(camSize < minSize)); //if we are not close enough to the target
 				if (shifting) {
 					//print("Shifting " + Mathf.Abs(cam.orthographicSize - camSize));
+					
 					zooming = -5f/((cam.orthographicSize - camSize + 20));
 					cam.orthographicSize+=zoomSpeed*zooming*Time.deltaTime;
 					if (Mathf.Abs(cam.orthographicSize - camSize) < .1f) shifting = false;
