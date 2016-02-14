@@ -10,18 +10,18 @@ public class FiredProjectile : MonoBehaviour {
 	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true;
 	public GameObject explosion;
 	public GameObject sourcePlayer;
+	public float forceThreshold = 30.0f;
 	void Start() {
 		//print ("starting off my thing");
 		startTime = time;
 		Collider2D[] cols = GetComponents<Collider2D> ();
-		if (!hitsSourcePlayer) {
+		if (!hitsSourcePlayer && sourcePlayer != null) {
 			foreach (Collider2D col in cols) {
 				Physics2D.IgnoreCollision (sourcePlayer.GetComponent<PolygonCollider2D> (), col, true);
 			}
 		}
 	}
 	void OnTriggerEnter2D(Collider2D col) {
-
 		if (!hitsSourcePlayer && col.gameObject == sourcePlayer) {
 			return;
 		}
@@ -39,14 +39,14 @@ public class FiredProjectile : MonoBehaviour {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
 
-			if (!sticky && !nonLethal && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > 30)) {
+			if (!sticky && !nonLethal && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
 				col.transform.SendMessage ("hit");
 				if (makesHimBleed && col.GetComponent<Health>()) col.SendMessage("Bleed");
 			}
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
-			if (exploded || dieOnAnyHit && (startTime - time > .05f || exploding)) //can die, not too soon
+			if (exploded || dieOnAnyHit && (startTime != -1 && startTime - time > .05f || exploding)) //can die, not too soon
 				GameObject.Destroy (this.gameObject);
 		}
 		if (col.shapeCount == 5 && dieOnAnyHit) //uhh I forgot what this does. Something about polygon colliders and biz
@@ -73,8 +73,9 @@ public class FiredProjectile : MonoBehaviour {
 			}
 		}
 		time -= Time.deltaTime;
-		if (time <= 0)
+		if (time <= 0 && startTime != -1) {
 			GameObject.Destroy (this.gameObject);
+		}
 	}
 	void Stickem(Transform t) {
 		if (sticky) {

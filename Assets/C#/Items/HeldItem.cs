@@ -6,13 +6,21 @@ public class HeldItem : MonoBehaviour {
 	private float timeSinceDropped;
 	private Collider2D lastCol;
 	public GameObject focus; 
+	public bool forceHazard;
+	public float forceThreshold;
+	private Rigidbody2D rb; 
+	public float throwForce = 900;
 	// Use this for initialization
 	void Start () {
-	
+		if (forceHazard) {
+			rb = GetComponent<Rigidbody2D> ();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		if (retrigger) {
 			timeSinceDropped += Time.deltaTime;
 			if (timeSinceDropped > .2f) {
@@ -49,7 +57,22 @@ public class HeldItem : MonoBehaviour {
 	void unclick() {
 
 	}
-	void OnCollisionEnter2D(Collision2D col) {
-		
+
+	void OnCollisionEnter2D(Collision2D collision) {
+		ForceHazardHit (collision);
+	}
+	void OnCollisionStay2D(Collision2D collision) {
+		ForceHazardHit (collision);
+	}
+
+	void ForceHazardHit(Collision2D collision) {
+		float colSpeed = collision.relativeVelocity.magnitude;
+		Collider2D col = collision.collider;
+		//Debug.Log ("Velocity" + rb.velocity.magnitude);
+		if (forceHazard && rb != null && colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
+			Debug.Log (gameObject.name + "Velocity" + colSpeed);
+			col.transform.SendMessage ("hit");
+			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
+		}
 	}
 }

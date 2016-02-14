@@ -156,7 +156,7 @@ public class player : MonoBehaviour {
 				timeSincePickup = 0;
 				heldItem1.GetComponent<Rigidbody2D> ().isKinematic = false;
 				if (b)
-					heldItem1.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem1.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+					heldItem1.GetComponent<Rigidbody2D> ().AddForce (heldItem1.GetComponent<HeldItem> ().throwForce * heldItem1.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
 				heldItem1.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem1.transform.parent = null;
 				heldItem1.transform.localScale = Vector3.one;
@@ -176,7 +176,7 @@ public class player : MonoBehaviour {
 				timeSincePickup = 0;
 				heldItem2.GetComponent<Rigidbody2D> ().isKinematic = false;
 				if (b)
-					heldItem2.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem2.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+					heldItem2.GetComponent<Rigidbody2D> ().AddForce (heldItem1.GetComponent<HeldItem> ().throwForce * heldItem2.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
 				heldItem2.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem2.transform.parent = null;
 				heldItem2.transform.localScale = Vector3.one;

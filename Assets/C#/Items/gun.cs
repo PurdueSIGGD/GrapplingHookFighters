@@ -16,7 +16,6 @@ public class gun : MonoBehaviour, item {
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
-
 		if (chargedShot) {
 			maxProjectileSpeed = projectileSpeed;
 			projectileSpeed = 0;
@@ -70,8 +69,6 @@ public class gun : MonoBehaviour, item {
 	}
 	// Update is called once per frame
 	void Update () {
-
-
 
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
