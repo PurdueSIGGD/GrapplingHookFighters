@@ -4,7 +4,7 @@
  */
 using UnityEngine;
 using System.Collections;
-
+using UnityEditor;
 public class Health : MonoBehaviour {
 
 	//player Health should not exceed 1 and armorHealth should not exceed 2
@@ -17,6 +17,12 @@ public class Health : MonoBehaviour {
 	private bool[] usedGibs;
 	private BoxCollider2D box;
 	public GameObject part;
+	public Vector2[] deadPoints;
+	private Vector2[] alivePoints;
+
+	public GameObject gibHolder, splatterGib;
+	public Sprite deadSprite;
+	public Sprite aliveSprite;
 
 
 
@@ -79,13 +85,34 @@ public class Health : MonoBehaviour {
 	//kills the player....
 	public void killPlayer() {
 		if (!dead) {
+			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
+			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
+			aliveSprite = this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite;
+			this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = deadSprite;
+			alivePoints = transform.GetComponent<PolygonCollider2D>().points;
+			transform.GetComponent<PolygonCollider2D>().points = deadPoints;
 			playerHealth = 0;
 			armorHealth = 0;
 			dead = true;
 			box = this.gameObject.GetComponent<BoxCollider2D>();
 			box.size = 2* (Vector2.up + Vector2.right);
 			box.isTrigger = true;
+			GameObject ragdoll = (GameObject)GameObject.Instantiate(gibHolder, transform.position, Quaternion.identity);
+			ragdoll.transform.parent = transform;
+			ragdoll.transform.localPosition = new Vector3(-.14f,-0.33f,0);
+			Rigidbody2D[] rg = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<Rigidbody2D>();
+			foreach (Rigidbody2D r in rg) {
+				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
+			}
+			SpriteRenderer[] sp = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<SpriteRenderer>();
+			Color c = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+			foreach (SpriteRenderer s in sp) {
+				s.color = c;
+			}
+			//g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
 
+			//EditorApplication.isPaused = true;
+		//	transform.FindChild("GibHolder").gameObject.SetActive(true);
 			/*for (int i = 0; i < deathSparkleParticle; i++) {
 				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
 				if (this.transform.parent && this.transform.parent.parent != null)
@@ -112,10 +139,46 @@ public class Health : MonoBehaviour {
 			for (int j = 0; j < i; j++) {
 				int range = Random.Range (0, gibs.Length);
 				if (!usedGibs [range]) {
-					GameObject g = (GameObject)GameObject.Instantiate (gibs [range], transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+					GameObject g = null;
+					switch (range) 
+					{
+						case 0: //head
+						g = transform.FindChild("GibHolder(Clone)").FindChild("Head").gameObject;
+						transform.FindChild("GibHolder(Clone)").FindChild("HeadHome").GetComponent<HingeJoint2D>().connectedBody = null;
+							break;
+						case 1: //arm1
+						g = transform.FindChild("GibHolder(Clone)").FindChild("Arm1").gameObject;
+						transform.FindChild("GibHolder(Clone)").FindChild("ArmHome1").GetComponent<HingeJoint2D>().connectedBody = null;
+							break;
+						case 2: //arm2
+						g = transform.FindChild("GibHolder(Clone)").FindChild("Arm2").gameObject;
+						transform.FindChild("GibHolder(Clone)").FindChild("ArmHome2").GetComponent<HingeJoint2D>().connectedBody = null;
+							break;
+						case 3: //leg1
+						g = transform.FindChild("GibHolder(Clone)").FindChild("Leg1").gameObject;
+						transform.FindChild("GibHolder(Clone)").FindChild("LegHome1").GetComponent<HingeJoint2D>().connectedBody = null;
+							break;
+						case 4: //leg2
+						g = transform.FindChild("GibHolder(Clone)").FindChild("Leg2").gameObject;
+						transform.FindChild("GibHolder(Clone)").FindChild("LegHome2").GetComponent<HingeJoint2D>().connectedBody = null;
+							break;
+						default:
+							break;
+					}
+					g.layer = transform.gameObject.layer;
+					//GameObject g = (GameObject)GameObject.Instantiate (gibs [range], transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+					GameObject splats = (GameObject)GameObject.Instantiate(splatterGib, transform.position, Quaternion.identity); 
+					splats.transform.parent = g.transform;
+					splats.transform.localScale = Vector3.one;
+					splats.transform.localPosition = Vector3.zero;
+					g.transform.parent = null;
 					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
 					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));
-					g.transform.FindChild ("GameObject").GetComponent<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+					BoxCollider2D b = g.AddComponent<BoxCollider2D>();
+					b.size = new Vector2(.5f, .5f);
+					g.AddComponent<HeldItem>();
+
+					g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
 					usedGibs [range] = true;
 				}
 			}
@@ -129,6 +192,11 @@ public class Health : MonoBehaviour {
 		for (int i = 0; i < usedGibs.Length; i++)
 			usedGibs [i] = false;
 		//```Destroy(box);
+		GameObject.Destroy(transform.FindChild("GibHolder(Clone)").gameObject);
+		transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = aliveSprite;
+
+		//transform.FindChild("GibHolder").gameObject.SetActive(false);
+		transform.GetComponent<PolygonCollider2D>().points = alivePoints;
 		Transform ch = transform.FindChild ("ParticleBleed");
 		if (ch) {
 			GameObject.Destroy (ch.gameObject);

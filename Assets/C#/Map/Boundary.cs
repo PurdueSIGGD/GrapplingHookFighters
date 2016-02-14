@@ -60,13 +60,13 @@ public class Boundary : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		//print(col);
+		print(col);
 		//checks to see if the collider belongs to a player
 		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>()) {
 			if (col.GetComponent<Health>() && !col.GetComponent<Health>().dead && !respawning) SetInRespawnQueue(col.gameObject);
 		} else {
 			//print("Destroyyy");
-			GameObject.Destroy(col.gameObject);
+			Destroy(col.gameObject);
 		}
 	}
 	void SetInRespawnQueue(GameObject g) {

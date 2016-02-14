@@ -94,7 +94,7 @@ public class gun : MonoBehaviour, item {
 					Vector2 f = thing;
 					f += (spread/Random.Range(1,5) * Random.insideUnitCircle) + f;
 					f.Normalize();
-					int layermask = (1 << this.gameObject.layer) + (1 << (this.gameObject.layer + 5));
+					int layermask = (1 << this.gameObject.layer) + (1 << (this.gameObject.layer + 5)) + (1 << 15);
 				//	print(Vector3.Distance(playerPos, f));
 					RaycastHit2D[] rr = Physics2D.RaycastAll(playerPos, shootPoint - (Vector3)playerPos, Vector3.Distance(playerPos, shootPoint), layermask);
 					bool inTheWay = false;
@@ -122,10 +122,11 @@ public class gun : MonoBehaviour, item {
 									(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
 									!ray.transform.GetComponent<ParticleScript> ()) {
 										if (penetrating) {
-											if (hit && hit.GetComponent<player>()) {
+										if (hit && hit.tag == "Player") {
 												GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
 											} else {
+												
 												GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
 
 											}
@@ -139,9 +140,7 @@ public class gun : MonoBehaviour, item {
 											if (hit.transform.GetComponent<Hittable>()) {
 												hit.transform.SendMessage ("hit");
 											} 
-											if (hit.GetComponent<grenade> ()) {
-												hit.SendMessage ("Explode");
-											}
+											
 										}	
 										if (!hit) {
 											hit = ray.transform;
@@ -158,9 +157,7 @@ public class gun : MonoBehaviour, item {
 									if (hit.transform.GetComponent<Hittable>()) {
 										hit.transform.SendMessage ("hit");
 									}
-									if (hit.GetComponent<grenade> ()) {
-										hit.SendMessage ("Explode");
-									}
+									
 								}
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
@@ -176,7 +173,7 @@ public class gun : MonoBehaviour, item {
 							//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
-							if (hit && hit.GetComponent<player>() && hit.GetComponent<Health>().dead) {
+							if (hit && hit.tag == "Player") {
 									GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 								} else {
 									GameObject.Instantiate(sparks, endPoint, Quaternion.identity);

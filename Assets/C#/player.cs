@@ -78,7 +78,8 @@ public class player : MonoBehaviour {
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
 			transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
 			Vector3 centerScale = center.localScale;
-			if(firingVector.x < 0) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
+
+			if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
 				center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
 			} else {
 				center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
