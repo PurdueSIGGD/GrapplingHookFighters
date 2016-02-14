@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, chargedShot, gunGoesPoof;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof;
 	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, damage, spread, timeToCharge;
 	private float timeSincelast, maxProjectileSpeed, chargeTime;
@@ -167,7 +167,10 @@ public class gun : MonoBehaviour, item {
 								}
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
-								g.GetComponent<FiredProjectile> ().sourcePlayer = GameObject.Find ("Player" + playerid);
+								FiredProjectile fp = g.GetComponent<FiredProjectile> ();
+								if (fp != null) {
+									fp.sourcePlayer = GameObject.Find ("Player" + playerid);
+								}
 								if (childProjectile) {
 									g.transform.SetParent (transform);
 									g.GetComponent<Rigidbody2D> ().isKinematic = true;
