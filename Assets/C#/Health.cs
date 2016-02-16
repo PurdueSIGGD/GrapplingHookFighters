@@ -172,7 +172,9 @@ public class Health : MonoBehaviour {
 					splats.transform.localScale = Vector3.one;
 					splats.transform.localPosition = Vector3.zero;
 					g.transform.parent = null;
-					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
+					print( this.GetComponent<Rigidbody2D>().velocity);
+					//EditorApplication.isPaused = true;
+					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + this.GetComponent<Rigidbody2D>().velocity);
 					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));
 					BoxCollider2D b = g.AddComponent<BoxCollider2D>();
 					b.isTrigger = true;

@@ -5,14 +5,25 @@ public class ExplosionScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//print ("starting");
-		this.GetComponent<CircleCollider2D> ().radius = 0;
+		//this.GetComponent<CircleCollider2D> ().radius = 0;
 		foreach (grenade g in transform.GetComponentsInChildren<grenade>()) {
 			g.SendMessage("Explode");
 		}
-		this.GetComponent<CircleCollider2D> ().radius = .75f;
+		//this.GetComponent<CircleCollider2D> ().radius = .75f;
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
 		foreach (Collider2D c in hitColliders) {
 			//print (c.name);
+			if (c.transform.GetComponent<grenade>()) {
+				c.transform.SendMessage("Explode");
+			}
+			if (c.transform.GetComponent<Rigidbody2D>() != null && c.transform.GetComponent<FiredProjectile>() == null) {
+				c.transform.GetComponent<Rigidbody2D> ().AddForce (500 * c.transform.GetComponent<Rigidbody2D>().mass * (c.transform.position - this.transform.position));
+				c.transform.GetComponent<Rigidbody2D> ().AddForce (200 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
+			}
+			if (c.transform.GetComponent<Hittable> ()) {
+				c.transform.SendMessage("hit");
+				if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
+			}
 			if (c.GetComponent<ShootablePlatform> ())
 				c.SendMessage ("hit", 20 /Vector2.Distance(this.transform.position, c.transform.position));
 		}
@@ -44,17 +55,7 @@ public class ExplosionScript : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col) {
 		//print(col.transform.name);
 
-		if (col.transform.GetComponent<grenade>()) {
-			col.transform.SendMessage("Explode");
-		}
-		if (col.transform.GetComponent<Rigidbody2D>() != null && col.transform.GetComponent<FiredProjectile>() == null) {
-			col.transform.GetComponent<Rigidbody2D> ().AddForce (500 * col.transform.GetComponent<Rigidbody2D>().mass * (col.transform.position - this.transform.position));
-			col.transform.GetComponent<Rigidbody2D> ().AddForce (200 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
-		}
-		if (col.transform.GetComponent<Hittable> ()) {
-			col.transform.SendMessage("hit");
-			if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
-		}
+
 		/*if (col.transform.GetComponent<ShootablePlatform> ()) {
 			col.transform.SendMessage ("hit", 7);
 		}*/
