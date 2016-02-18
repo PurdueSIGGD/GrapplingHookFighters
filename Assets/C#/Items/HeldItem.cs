@@ -7,6 +7,7 @@ public class HeldItem : MonoBehaviour {
 	private Collider2D lastCol;
 	public GameObject focus; 
 	public bool forceHazard;
+	public Collider2D hazardCollider;
 	public float forceThreshold;
 	private Rigidbody2D rb; 
 	public float throwForce = 900;
@@ -24,8 +25,13 @@ public class HeldItem : MonoBehaviour {
 		if (retrigger) {
 			timeSinceDropped += Time.deltaTime;
 			if (timeSinceDropped > .2f) {
-				if (this.GetComponent<player>()) Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), lastCol, false);
-				else Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol, false);
+				Collider2D[] colliders = this.GetComponents<Collider2D> ();
+				foreach (Collider2D c in colliders) {
+					Physics2D.IgnoreCollision (c, lastCol, false);
+				}
+				if (hazardCollider != null) {
+					Physics2D.IgnoreCollision (hazardCollider, lastCol, false);
+				}
 				retrigger = false;
 				timeSinceDropped = 0;
 			}			
@@ -36,13 +42,17 @@ public class HeldItem : MonoBehaviour {
 	}
 	void ignoreColl(Collider2D col) {
 		lastCol = col;
-		if (this.GetComponent<player>()){
-			Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), lastCol);
+		Collider2D[] colliders = this.GetComponents<Collider2D> ();
+		foreach (Collider2D c in colliders) {
+			Physics2D.IgnoreCollision (c, lastCol, true);
 		}
-		else { 
+		if (hazardCollider != null) {
+			Physics2D.IgnoreCollision (hazardCollider, lastCol, true);
+		}
+		//else { 
 			//print("hey now");
-			Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol);	
-		}
+			//Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), lastCol);	
+		//}
 	}
 	void NotDeath() {
 		object o = 0;
@@ -58,21 +68,45 @@ public class HeldItem : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter2D(Collision2D collision) {
-		ForceHazardHit (collision);
-	}
-	void OnCollisionStay2D(Collision2D collision) {
-		ForceHazardHit (collision);
-	}
-
-	void ForceHazardHit(Collision2D collision) {
-		float colSpeed = collision.relativeVelocity.magnitude;
-		Collider2D col = collision.collider;
-		//Debug.Log ("Velocity" + rb.velocity.magnitude);
-		if (forceHazard && rb != null && colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
-			Debug.Log (gameObject.name + "Velocity" + colSpeed);
-			col.transform.SendMessage ("hit");
-			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
+	void OnCollisionEnter2D(Collision2D c) {
+		if (forceHazard) {
+			ForceHazardHit (c);
 		}
 	}
+	/*void OnCollisionStay2D(Collision2D c) {
+		ForceHazardHit (c);
+	}*/
+
+	void ForceHazardHit(Collision2D collision) {
+		if (!forceHazard || hazardCollider == null || rb == null) {
+			return;
+		}
+
+		bool hitHazardCol = false;
+		foreach (ContactPoint2D c in collision.contacts) {
+			if (c.otherCollider == hazardCollider || c.collider == hazardCollider) {
+				hitHazardCol = true;
+				break;
+			}
+		}
+
+		if (!hitHazardCol) {
+			return;
+		}
+
+		//Debug.Log ("slam");
+
+		//float colSpeed = collision.relativeVelocity.magnitude;
+		float colSpeed = rb.velocity.magnitude;
+		Collider2D col = collision.collider;
+		//Debug.Log (gameObject.name + " velocity: " + colSpeed);
+		if (colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
+			Debug.Log (gameObject.name + " velocity: " + colSpeed);
+			col.transform.SendMessage ("hit");
+			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
+			//if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
+		}
+	}
+
+
 }

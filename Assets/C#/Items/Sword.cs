@@ -10,11 +10,6 @@ public class Sword : MonoBehaviour, item
 	void Start ()
 	{
 	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	}
 
 	void fixedUpdate() {
 	}
