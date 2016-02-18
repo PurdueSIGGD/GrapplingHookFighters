@@ -18,7 +18,9 @@ public class GrappleLauncher : MonoBehaviour {
 	void Update () {
 		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
 		else grappleTimer = 0;
+		if (firedGrapple == null) Disconnect();
 		if (!death) {
+			
 			firedGrapple.gameObject.layer = this.gameObject.layer;
 			if (attached) this.GetComponent<Rigidbody2D>().AddForce(800 *  Time.deltaTime * Vector2.up);
 			if (retracting && !firing) {
@@ -43,7 +45,7 @@ public class GrappleLauncher : MonoBehaviour {
 				}
 			}
 		} else {
-			firedGrapple.transform.position = center.position;
+			if (firedGrapple != null) firedGrapple.transform.position = center.position;
 		}
 	}
 
@@ -85,7 +87,7 @@ public class GrappleLauncher : MonoBehaviour {
 			attached = false;
 			firing = false;
 			retracting = true;
-			firedGrapple.SendMessage("Release");
+			if (firedGrapple != null) firedGrapple.SendMessage("Release");
 		}
 	}
 	void Death() {

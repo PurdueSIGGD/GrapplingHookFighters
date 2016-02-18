@@ -99,7 +99,7 @@ public class Health : MonoBehaviour {
 			box.isTrigger = true;
 			GameObject ragdoll = (GameObject)GameObject.Instantiate(gibHolder, transform.position, Quaternion.identity);
 			ragdoll.transform.parent = transform;
-			ragdoll.transform.localPosition = new Vector3(-.14f,-0.33f,0);
+			ragdoll.transform.localPosition = new Vector3(.088f,-0.002f,0);
 			Rigidbody2D[] rg = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<Rigidbody2D>();
 			foreach (Rigidbody2D r in rg) {
 				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
@@ -172,10 +172,13 @@ public class Health : MonoBehaviour {
 					splats.transform.localScale = Vector3.one;
 					splats.transform.localPosition = Vector3.zero;
 					g.transform.parent = null;
-					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle * i);
+					print( this.GetComponent<Rigidbody2D>().velocity);
+					//EditorApplication.isPaused = true;
+					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + this.GetComponent<Rigidbody2D>().velocity);
 					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));
 					BoxCollider2D b = g.AddComponent<BoxCollider2D>();
-					b.size = new Vector2(.5f, .5f);
+					b.isTrigger = true;
+					b.size = new Vector2(.4f, .4f);
 					g.AddComponent<HeldItem>();
 
 					g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;

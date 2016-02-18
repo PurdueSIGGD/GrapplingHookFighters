@@ -247,7 +247,7 @@ public class player : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col) {
         Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
-			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
+			(col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) &&  //It is an item to pick up
             col.GetComponent<HeldItem>() && //it can be held
 			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
             timeSincePickup > .2f && //had enough time
@@ -263,7 +263,7 @@ public class player : MonoBehaviour {
 		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
 
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
-			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
+			(col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) &&  //It is an item to pick up
 			col.GetComponent<HeldItem>() && //it can be held
 			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
 			timeSincePickup > .2f && //had enough time
@@ -280,7 +280,7 @@ public class player : MonoBehaviour {
 		/*if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
 			jumped = false;
 		}*/
-		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && ((col.GetComponent<HeldItem>() && col.GetComponent<HeldItem>().focus == null) || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
+		if ((col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) && ((col.GetComponent<HeldItem>() && col.GetComponent<HeldItem>().focus == null) || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
 				if (col.GetComponent<PassivePickup> ()) {

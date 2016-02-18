@@ -32,7 +32,7 @@ public class TrackingCamera : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 
 		if (transition) {
 			transform.position = Vector3.SmoothDamp(transform.position, goalPos, ref velocity, 2);  //function to move

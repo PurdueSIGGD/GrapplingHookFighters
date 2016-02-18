@@ -8,18 +8,19 @@ public class SceneController : MonoBehaviour {
 	 */
 
 	public int playerCount;
-	public int[] levelPlan;
+	public int[] levelPlan, playerScores;
 	public GameObject[] levels;
 	public float distanceInBetween = 30;
+	public int gameMode; //defaults to 0, which will be FFA
 
-	//public int gameMode; //defaults to 0, which will be FFA
 	private GameObject[] players;
 	private Vector2[] mapPlacements;
+
 	private int currentMapIndex, currentMapQueue;
 	private int deathCount;
 	private float endTimer, startTimer;
 	private GameObject currentMap, lastMap;
-	private bool transitioning, readyToStart, countDown, endScene;
+	private bool transitioning, readyToStart, countDown, endScene, pointYet;
 	void Start() {
 		mapPlacements = new Vector2[9];
 		int index = 0;
@@ -39,6 +40,7 @@ public class SceneController : MonoBehaviour {
 
 	void OnLevelWasLoaded(int level) {
 		players = new GameObject[playerCount];
+		playerScores = new int[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
 			players[i-1] = GameObject.Find("Player" + i);
 		}
@@ -113,7 +115,7 @@ public class SceneController : MonoBehaviour {
 
 	void Update () {
 		if (readyToStart && !countDown && startTimer <= 0) {
-			startTimer = 5;
+			startTimer = 3;
 			countDown = true;
 		}
 		if (countDown) {
@@ -132,15 +134,27 @@ public class SceneController : MonoBehaviour {
 			}
 
 		}
-		if (deathCount >= playerCount - 1) {
+		if (IsRoundOver()) {
 			if (!endScene && !transitioning) {
 				endScene = true;
 				endTimer = 3;
 			}
 			endTimer -= Time.deltaTime;
 			//print("done here");
+			if (endTimer < 1.5f && !transitioning && !pointYet) {
+				foreach (GameObject g in players) {
+					player ps = g.GetComponent<player>();
+					if (!ps.death) {
+						print("Counting one point for Player " + ps.playerid);
+						playerScores[ps.playerid - 1] += 1;
+					}
+				}
+				//print("Counting one point for Player ");
+				pointYet = true;
+			}
 			if (endTimer <= 0 && !transitioning) {
 				//print();
+				pointYet = false;
 				transitioning = true;
 				endScene = false;
 				endTimer = 0;
@@ -164,7 +178,7 @@ public class SceneController : MonoBehaviour {
 
 	void RespawnPlayer(int i) {
 		GameObject g = players[i];
-
+		 
 		Transform rePos = GameObject.Find("Player" + (i+1) + "Spawn").transform;
 	//	print(rePos.position);
 		//g.transform.parent = rePos;
@@ -178,6 +192,27 @@ public class SceneController : MonoBehaviour {
 		g.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 	}
 	void End() {
-		print("Its overrr");
+		
+		GUIText guit = this.gameObject.AddComponent<GUIText>();
+		guit.text = PrintRoundEnd();
+		guit.transform.position = new Vector3(0, 1, 0);
+	}
+	bool IsRoundOver() {
+		switch (gameMode) {
+			case 0: 
+				return deathCount >= playerCount - 1;
+			default: return false;
+		}
+	}
+	string PrintRoundEnd() {
+		switch (gameMode) {
+		case 0: 
+			string s = "Player Scores:\n";
+			for (int i = 0; i < playerCount; i++) {
+				s += ("Player " + (i + 1) + ": " + playerScores[i] + "\n");
+			}
+			return s;
+		default: return "";
+		}
 	}
 }
