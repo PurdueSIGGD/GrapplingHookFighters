@@ -13,7 +13,7 @@ public class MainMenus : MonoBehaviour
 
 	//char select menu
 	public GameObject vsMenu;
-	public GameObject controlsMenu;
+	//public GameObject controlsMenu;
 
 
 	//vs menu
@@ -21,10 +21,10 @@ public class MainMenus : MonoBehaviour
 	public GameObject weaponsMenu;
 
 	//controls menu
-	public GameObject player1Controls;
-	public GameObject player2Controls;
-	public GameObject player3Controls;
-	public GameObject player4Controls;
+	//public GameObject player1Controls;
+	//public GameObject player2Controls;
+	//public GameObject player3Controls;
+	//public GameObject player4Controls;
 
 
 	void Start () 
@@ -99,11 +99,11 @@ public class MainMenus : MonoBehaviour
 		vsMenu.SetActive (true);
 	}
 	//que controls menu
-	public void charSelectMenuControls()
+	/*public void charSelectMenuControls()
 	{
 		charSelectMenu.SetActive (false);
 		controlsMenu.SetActive (true);
-	}
+	}*/
 	//que back to main menu
 	public void charSelectMenuBack()
 	{
@@ -158,37 +158,7 @@ public class MainMenus : MonoBehaviour
 	}
 
 
-	//controls menu
-	//que player 1 controls menu
-	public void controlsMenuPlayer1Controls()
-	{
-		controlsMenu.SetActive (false);
-		player1Controls.SetActive (true);
-	}
-	//que player 2 controls menu
-	public void controlsMenuPlayer2Controls()
-	{
-		controlsMenu.SetActive (false);
-		player2Controls.SetActive (true);
-	}
-	//que player 3 controls menu
-	public void controlsMenuPlayer3Controls()
-	{
-		controlsMenu.SetActive (false);
-		player3Controls.SetActive (true);
-	}
-	//que player 4 controls menu
-	public void controlsMenuPlayer4Controls()
-	{
-		controlsMenu.SetActive (false);
-		player4Controls.SetActive (true);
-	}
-	//que go back to char select menu
-	public void controlsMenuBack()
-	{
-		controlsMenu.SetActive (false);
-		charSelectMenu.SetActive (true);
-	}
+
 
 
 	//maps menu
@@ -199,34 +169,69 @@ public class MainMenus : MonoBehaviour
 	//
 
 
+
+	//old stuff don't bother looking or messing with it but DON'T delete because
+
 	//player1 controls menu
 	//que back to controls menu
-	public void player1MenuBack()
+	/*public void player1MenuBack()
 	{
 		player1Controls.SetActive (false);
 		controlsMenu.SetActive (true);
-	}
+	}*/
 	//player2 controls menu
 	//que back to controls menu
-	public void player2MenuBack()
+	/*public void player2MenuBack()
 	{
 		player2Controls.SetActive (false);
 		controlsMenu.SetActive (true);
-	}
+	}*/
 	//player3 controls menu
 	//que back to controls menu
-	public void player3MenuBack()
+	/*public void player3MenuBack()
 	{
 		player3Controls.SetActive (false);
 		controlsMenu.SetActive (true);
-	}
+	}*/
 	//player4 controls menu
 	//que back to controls menu
-	public void player4MenuBack()
+	/*public void player4MenuBack()
 	{
 		player4Controls.SetActive (false);
 		controlsMenu.SetActive (true);
-	}
+	}*/
+
+	//controls menu
+	//que player 1 controls menu
+	/*public void controlsMenuPlayer1Controls()
+	{
+		controlsMenu.SetActive (false);
+		player1Controls.SetActive (true);
+	}*/
+	//que player 2 controls menu
+	/*public void controlsMenuPlayer2Controls()
+	{
+		controlsMenu.SetActive (false);
+		player2Controls.SetActive (true);
+	}*/
+	//que player 3 controls menu
+	/*public void controlsMenuPlayer3Controls()
+	{
+		controlsMenu.SetActive (false);
+		player3Controls.SetActive (true);
+	}*/
+	//que player 4 controls menu
+	/*public void controlsMenuPlayer4Controls()
+	{
+		controlsMenu.SetActive (false);
+		player4Controls.SetActive (true);
+	}*/
+	//que go back to char select menu
+	/*public void controlsMenuBack()
+	{
+		controlsMenu.SetActive (false);
+		charSelectMenu.SetActive (true);
+	}*/
 
 
 

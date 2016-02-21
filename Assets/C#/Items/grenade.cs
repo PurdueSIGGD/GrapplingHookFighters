@@ -69,6 +69,9 @@ public class grenade : MonoBehaviour {
 	public void Explode() {
 		timePassed = fuseTime;
 	}
+	public void hit() {
+		Explode();
+	}
     public void unclick() {
 
     }

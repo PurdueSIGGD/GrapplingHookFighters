@@ -16,19 +16,24 @@ public class PassivePickup : MonoBehaviour {
 	public bool broke;
 	private float originalMass;
 	private Color focusColor;
+
+
 	void Pickup(GameObject g) {
 		focus = g;
 		//print ("Ohhh you got me");
 		switch (itemCode) {
 		case 0:
 			originalMass = g.GetComponent<Rigidbody2D> ().mass;
-			g.GetComponent<Rigidbody2D> ().mass *= 1.3f;
+			//g.GetComponent<Rigidbody2D> ().mass *= 1.3f;
 			g.GetComponent<Health> ().SendMessage ("pickUpArmor");
 			break;
 		case 1:
+			broke = false;
 			g.GetComponent<player> ().jetpack = true;
+			if (this.transform.name != "Jetpack") transform.name = "Jetpack";
 			break;
 		case 2:
+			focus.GetComponent<player> ().skateBoard = true;
 			g.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = 0;
 			g.GetComponent<PolygonCollider2D> ().enabled = false;
 			g.GetComponent<PolygonCollider2D> ().enabled = true; //have it reset and rebooted, unity is weird
@@ -36,10 +41,12 @@ public class PassivePickup : MonoBehaviour {
 			break;
 		case 3:
 			focusColor = g.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
-			g.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
-			g.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
-			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
-			g.GetComponent<LineRenderer> ().SetColors (new Color (1, 1, 1, 0), new Color (1, 1, 1, 0));
+			g.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
+			g.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
+			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
+			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,.2f);
+
+//			g.GetComponent<LineRenderer> ().SetColors (new Color (1, 1, 1, 0), new Color (1, 1, 1, 0));
 			break;
 		case 4:
 			Physics2D.IgnoreCollision (g.GetComponent<Collider2D> (), transform.FindChild ("Hazard").GetComponent<Collider2D>());
@@ -61,8 +68,13 @@ public class PassivePickup : MonoBehaviour {
 			break;
 		case 1:
 			focus.GetComponent<player> ().jetpack = false;
+			if (this.GetComponentInChildren<ParticleSystem>().isPlaying) {
+				broke = true;
+				this.GetComponentInChildren<ParticleSystem>().Play();
+			}
 			break;
 		case 2:
+			focus.GetComponent<player> ().skateBoard = false;
 			focus.GetComponent<PolygonCollider2D> ().sharedMaterial.friction = .4f;
 			focus.GetComponent<PolygonCollider2D> ().enabled = false;
 			focus.GetComponent<PolygonCollider2D> ().enabled = true; //have it reset and rebooted
@@ -72,7 +84,8 @@ public class PassivePickup : MonoBehaviour {
 			focus.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color = focusColor;
 			this.GetComponentInChildren<SpriteRenderer>().color = new Color (1, 1, 1, 1);
 			focus.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
-			focus.GetComponent<LineRenderer> ().SetColors (new Color (1, 0, 0, 1), new Color (1, 0, 0, 0));
+			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,1);
+		//	focus.GetComponent<LineRenderer> ().SetColors (new Color (1, 0, 0, 1), new Color (1, 0, 0, 0));
 			break;
 		case 4:
 			transform.FindChild("Hazard").GetComponent<BoxCollider2D> ().enabled = false;
@@ -86,11 +99,16 @@ public class PassivePickup : MonoBehaviour {
 		focus = null;
 	}
 	void Update() {
-		if (broke && GetComponent<HeldItem>()) {
+		if (broke && itemCode == 0 && GetComponent<HeldItem>()) {
 			Destroy (this.GetComponent<HeldItem> ());
 			this.gameObject.tag = "Untagged";
 			this.gameObject.layer += 3;
 			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (.25f, .25f, .25f);
+		}
+
+		if (broke && itemCode == 1) { //jetpack flinging 
+			
+			this.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 500 * Time.deltaTime);
 		}
 	}
 	void OnApplicationQuit() {

@@ -7,17 +7,17 @@ using FMOD.Studio;
 public class player : MonoBehaviour {
     private float currentX;
     private float currentY;
-	private float timeSincePickup = 1, punchTime = 1;
+	private float timeSincePickup = 1, punchTime = 1, jumpTime;
     public int playerid;
     private bool jumped, switchedKey, jumpedKey;
-    public bool death, joystickController;
+	public bool death, joystickController, tempDisabled;
     private bool canMoveRight;
     private bool canMoveLeft, canPickup;
-	private Rigidbody2D punchable;
+	private Transform punchable;
 	private int punchableIndex;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
-	public bool jetpack;
+	public bool jetpack, skateBoard;
     public Vector3 firingVector;
 
     static float layer1Position = 0;
@@ -44,7 +44,7 @@ public class player : MonoBehaviour {
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
 		if (punchTime < 1) punchTime +=Time.deltaTime;
-		if (!death) {
+		if (!death && !tempDisabled) {
 
             currentX = transform.position.x;
             currentY = transform.position.y;
@@ -55,13 +55,14 @@ public class player : MonoBehaviour {
             if (time >= 1.0f && changePlane()) {
                 switchPlanes();
             }
-			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeed && canMoveLeft && goLeft()) {
+			float maxMoveSpeedRevised = (skateBoard && Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) > .01f) ? maxMoveSpeed/10 : maxMoveSpeed ;
+			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeedRevised && canMoveLeft && goLeft()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(jumped ? 20 : 40, 0, 0));
+                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(40, 0, 0));
             }
-			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeed && canMoveRight && goRight()) {
+			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(jumped ? 20 : 40, 0, 0));
+                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(40, 0, 0));
             }
             if (goDown()) {
                 GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
@@ -75,17 +76,18 @@ public class player : MonoBehaviour {
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
-			center.rotation = Quaternion.Euler(0, 0, rotZ);
+			transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
 			Vector3 centerScale = center.localScale;
-			if(firingVector.x < 0) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
+
+			if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
 				center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
 			} else {
 				center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
 			}
            
-            GetComponent<LineRenderer>().SetVertexCount(2);
-            GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
-			GetComponent<LineRenderer>().SetPosition(1, center.position + 2 * firingVector + .1f * Vector3.forward);
+           // GetComponent<LineRenderer>().SetVertexCount(2);
+            //GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
+			//GetComponent<LineRenderer>().SetPosition(1, center.position + 2 * firingVector + .1f * Vector3.forward);
 			//if (pickUpKey()) print(canPickup);
 			if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
                 //drop weapon
@@ -155,7 +157,7 @@ public class player : MonoBehaviour {
 				timeSincePickup = 0;
 				heldItem1.GetComponent<Rigidbody2D> ().isKinematic = false;
 				if (b)
-					heldItem1.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem1.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+					heldItem1.GetComponent<Rigidbody2D> ().AddForce (heldItem1.GetComponent<HeldItem> ().throwForce * heldItem1.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
 				heldItem1.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem1.transform.parent = null;
 				heldItem1.transform.localScale = Vector3.one;
@@ -175,7 +177,7 @@ public class player : MonoBehaviour {
 				timeSincePickup = 0;
 				heldItem2.GetComponent<Rigidbody2D> ().isKinematic = false;
 				if (b)
-					heldItem2.GetComponent<Rigidbody2D> ().AddForce (900 * heldItem2.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
+					heldItem2.GetComponent<Rigidbody2D> ().AddForce (heldItem1.GetComponent<HeldItem> ().throwForce * heldItem2.GetComponent<Rigidbody2D> ().mass * firingVector); //throw weapon
 				heldItem2.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem2.transform.parent = null;
 				heldItem2.transform.localScale = Vector3.one;
@@ -245,27 +247,25 @@ public class player : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col) {
         Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
-			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
+			(col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) &&  //It is an item to pick up
             col.GetComponent<HeldItem>() && //it can be held
-            (col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
+			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
             timeSincePickup > .2f && //had enough time
             !colR.isKinematic) {  //not what I am holding
             canPickup = true;
         } else {
             if (colR && !colR.isKinematic) canPickup = false;
         }
-		if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
-            jumped = false;
-        }
+
     }
     void OnTriggerExit2D(Collider2D col) {
 		if (punchable && col.gameObject == punchable.gameObject) punchable = null;
 		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
 
 		if ((!heldItem1 || (heldItem1.CompareTag("DualItem") && col.CompareTag("DualItem"))) &&
-			(col.CompareTag("Item") || col.CompareTag("DualItem")) &&  //It is an item to pick up
+			(col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) &&  //It is an item to pick up
 			col.GetComponent<HeldItem>() && //it can be held
-			(col.transform.parent == null || col.GetComponent<Health>()) &&  //check parent null so you can't steal weapons
+			(col.GetComponent<HeldItem>().focus == null || col.GetComponent<Health>()) &&  //check focus null so you can't steal weapons
 			timeSincePickup > .2f && //had enough time
 			!colR.isKinematic) {  //not what I am holding
             canPickup = false;
@@ -273,12 +273,17 @@ public class player : MonoBehaviour {
     }
     void OnTriggerStay2D(Collider2D col) {
 
-		if (col.GetComponent<player>()) punchable = col.GetComponent<Rigidbody2D>();
-
-		if ((col.CompareTag("Item") || col.CompareTag("DualItem")) && (col.transform.parent == null || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
+		if (col.GetComponent<player>() || col.GetComponent<ItemBox>()) {
+			//print("setting punchable" + col.name);
+			punchable = col.transform;
+		}
+		/*if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
+			jumped = false;
+		}*/
+		if ((col.CompareTag("Item") || col.CompareTag("DualItem") || (col.CompareTag("Player") && (!col.GetComponent<player>() || col.GetComponent<Health>().dead))) && ((col.GetComponent<HeldItem>() && col.GetComponent<HeldItem>().focus == null) || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
-				if (col.GetComponent<PassivePickup> () && !col.GetComponent<PassivePickup> ().broke) {
+				if (col.GetComponent<PassivePickup> ()) {
 					if (passiveItem) {
 						//drop current passiveItem
 						throwWeapon(true, 2);
@@ -365,7 +370,8 @@ public class player : MonoBehaviour {
     void Death() {
         death = true;
         this.GetComponent<Rigidbody2D>().freezeRotation = false;
-        this.GetComponent<LineRenderer>().SetVertexCount(0);
+        //this.GetComponent<LineRenderer>().SetVertexCount(0);
+		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         this.gameObject.tag = "Item";
         if (heldItem1 != null) {
             throwWeapon(false, 0);
@@ -380,40 +386,38 @@ public class player : MonoBehaviour {
     void NotDeath() {
         death = false;
         this.GetComponent<Rigidbody2D>().freezeRotation = true;
-        this.GetComponent<LineRenderer>().SetVertexCount(2);
+		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+		//this.GetComponent<LineRenderer>().SetVertexCount(2);
         this.gameObject.tag = "Player";
 
     }
 	void Punch() {
+		//print(punchable.name);
 		if (punchable != null && punchTime > .3f && !death) {
+			//print("I actually can punch");
 			punchTime = 0;
-			punchable.AddForce(300 * (punchable.gameObject.transform.position - transform.position));
-			punchable.AddForce(Vector2.up * 450);
-			object o = 0;
-			punchable.SendMessage("throwWeapont",o);
-			o = 1;
-			punchable.SendMessage("throwWeapont",o);
+			if (punchable.GetComponent<player>()) {
+				Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D>();
+				playerPunch.AddForce(300 * (punchable.gameObject.transform.position - transform.position));
+				playerPunch.AddForce(Vector2.up * 450);
+				object o = 0;
+				punchable.SendMessage("throwWeapont",o);
+				o = 1;
+				punchable.SendMessage("throwWeapont",o);
+			} else {
+				//print("drop it");
+				punchable.SendMessage("DropItem");
+			}
 
 		}
 	}
 	void jumpNow(bool b) {
-		Transform center = this.gameObject.transform.FindChild("Center");
-		RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
-		bool hitValid = false;
-		foreach (RaycastHit2D hit in hits) {
-			Collider2D col = hit.collider;
-			if ((col.CompareTag("Platform") || (col.CompareTag("Player") && hit.transform.gameObject != gameObject) || col.CompareTag("Item")) && !col.isTrigger) {
-				hitValid = true;
-				Debug.DrawLine (center.position, hit.point, Color.green, 20f);
-				//Debug.Log (hit.transform.name);
-				break;
-			}
-		}
+		
 		if (jetpack) {
 			if (jump ()) {
 				if (transform.FindChild ("Jetpack") && !transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
-				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 40, 0));
+				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
 			} else {
 				
 				if (transform.FindChild ("Jetpack") && transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
@@ -421,12 +425,34 @@ public class player : MonoBehaviour {
 				
 			}
 		} else {
-			if ((b || jump ()) && !jumped && (hitValid)) {
+			Transform center = this.gameObject.transform.FindChild("Center");
+			RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
+			bool hitValid = false;
+			foreach (RaycastHit2D hit in hits) {
+				Collider2D col = hit.collider;
+				if ((col.CompareTag("Platform") || col.CompareTag("Item")) && !col.isTrigger && !col.GetComponent<PassivePickup>()) {
+					hitValid = true;
+					//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+					//Debug.Log (hit.transform.name);
+					break;
+				}
+			}
+			if ((b || jump ()) && hitValid && Time.time - jumpTime > .05f) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
-				jumped = true;
+				jumpTime = Time.time;
+				//jumped = true;
 			}
 		}
 
+	}
+	void DisablePlayers() {
+		tempDisabled = true;
+	}
+	void EnablePlayers() {
+		tempDisabled = false;
+	}
+	void OnDestroy() {
+	//	print("wtf why");
 	}
 }
