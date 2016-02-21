@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 using System.Security.Policy;
 using FMOD.Studio;
 
@@ -17,7 +17,7 @@ public class player : MonoBehaviour {
 	private int punchableIndex;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
-	public bool jetpack, skateBoard;
+	public bool jetpack, jetpackPlaying, skateBoard;
     public Vector3 firingVector;
 
     static float layer1Position = 0;
@@ -414,14 +414,18 @@ public class player : MonoBehaviour {
 	void jumpNow(bool b) {
 		
 		if (jetpack) {
-			if (jump ()) {
-				if (transform.FindChild ("Jetpack") && !transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+			if (jump ()) { //we are using jetpackPlaying because there is a delay for it to stop
+				if (transform.FindChild ("Jetpack") && !jetpackPlaying) {
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
+					jetpackPlaying = true;
+				}
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
 			} else {
 				
-				if (transform.FindChild ("Jetpack") && transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().isPlaying)
+				if (transform.FindChild ("Jetpack") && jetpackPlaying) {
 					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Stop ();
+					jetpackPlaying = false;
+				}
 				
 			}
 		} else {

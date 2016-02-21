@@ -4,7 +4,7 @@
  */
 using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 public class Health : MonoBehaviour {
 
 	//player Health should not exceed 1 and armorHealth should not exceed 2

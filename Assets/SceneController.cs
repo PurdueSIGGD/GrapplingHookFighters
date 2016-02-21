@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 
 public class SceneController : MonoBehaviour {
 	/* For control of level transition 
