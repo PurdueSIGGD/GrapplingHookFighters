@@ -5,7 +5,7 @@ public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof;
 	public int playerid, bulletsPerShot = 1, ammo;
-	public float timeToShoot, projectileSpeed, recoil, damage, spread, timeToCharge;
+	public float timeToShoot, projectileSpeed, recoil, damage, spread, timeToCharge, bulletDistance = 100;
 	private float timeSincelast, maxProjectileSpeed, chargeTime;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
@@ -89,7 +89,7 @@ public class gun : MonoBehaviour, item {
 				//Vector2 thing = (Vector2)shootPoint - playerPos;
 				Vector2 thing = (Vector2)shootPoint - gunBase;
 
-				transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
+				if (transform.parent && transform.parent.parent) transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 				for (int i = 0; i < bulletsPerShot; i++) {
 					Vector2 f = thing;
 					f += (spread/Random.Range(1,5) * Random.insideUnitCircle) + f;
@@ -113,24 +113,24 @@ public class gun : MonoBehaviour, item {
 								//Debug.DrawLine(this.transform.position, ugh);
 								//EditorApplication.isPaused = true;
 								RaycastHit2D[] r;
-								r = Physics2D.RaycastAll (shootPoint, f, 100, layermask);
-								Vector3 endPoint = (shootPoint + (Vector3)(f * 100));
+								r = Physics2D.RaycastAll (shootPoint, f, bulletDistance, layermask);
+								Vector3 endPoint = (shootPoint + (Vector3)(f * bulletDistance));
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
 									
 									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && 
 									(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
-									!ray.transform.GetComponent<ParticleScript> ()) {
+									!ray.transform.GetComponent<ParticleScript> () &&
+									ray.transform != this.transform) {
 										if (penetrating) {
-										if (hit && hit.tag == "Player") {
+										if (hit) {
+											if (hit.tag == "Player") {
 												GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
 											} else {
-												
 												GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
-
 											}
-
+										}
 											endPoint = ray.point;
 											hit = ray.transform;
 											if (hit.GetComponent<Rigidbody2D> ()) {
@@ -173,10 +173,12 @@ public class gun : MonoBehaviour, item {
 							//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
-							if (hit && hit.tag == "Player") {
-									GameObject.Instantiate(splats, endPoint, Quaternion.identity);
-								} else {
-									GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+							if (hit) {
+								if (hit.tag == "Player") {
+										GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+									} else {
+										GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+									}
 								}
 							}
 							
@@ -194,10 +196,11 @@ public class gun : MonoBehaviour, item {
 								}
 							}
 							if (!colliding) {
-								//print ("shooting into wall");
+
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
 								g.GetComponent<FiredProjectile> ().sourcePlayer = GameObject.Find ("Player" + playerid);
+								
 								if (childProjectile) {
 									g.transform.SetParent (transform);
 									g.GetComponent<Rigidbody2D> ().isKinematic = true;
@@ -210,11 +213,10 @@ public class gun : MonoBehaviour, item {
 								g.layer = this.transform.gameObject.layer;
 								g.GetComponent<FiredProjectile> ().damage = this.damage;
 								g.GetComponent<FiredProjectile> ().nonLethal = this.nonLethal;
-								if (nonLethal) {
-									g.GetComponent<Rigidbody2D> ().AddTorque (5 * Random.Range (0, 5f) * projectileSpeed);
-								}
+								
 
 								g.GetComponent<Rigidbody2D> ().AddForce (f * projectileSpeed);
+
 								if (g.GetComponent<grenade> ())
 									g.GetComponent<grenade> ().pinPulled = true;
 							}
@@ -267,4 +269,5 @@ public class gun : MonoBehaviour, item {
 	void NotDeath() {
 		death = false;
 	}
+
 }

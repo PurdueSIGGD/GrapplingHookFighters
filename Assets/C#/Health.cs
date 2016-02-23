@@ -172,7 +172,7 @@ public class Health : MonoBehaviour {
 					splats.transform.localScale = Vector3.one;
 					splats.transform.localPosition = Vector3.zero;
 					g.transform.parent = null;
-					print( this.GetComponent<Rigidbody2D>().velocity);
+					//print( this.GetComponent<Rigidbody2D>().velocity);
 					//EditorApplication.isPaused = true;
 					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + this.GetComponent<Rigidbody2D>().velocity);
 					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));

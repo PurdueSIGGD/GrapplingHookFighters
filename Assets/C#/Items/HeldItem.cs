@@ -3,10 +3,10 @@ using System.Collections;
 
 public class HeldItem : MonoBehaviour {
 	private bool retrigger;
-	private float timeSinceDropped;
+	public float timeSinceDropped;
 	private Collider2D lastCol;
 	public GameObject focus; 
-	public bool forceHazard;
+	public bool forceHazard, ableToRotate, rotating;
 	public Collider2D hazardCollider;
 	public float forceThreshold;
 	private Rigidbody2D rb; 
@@ -24,7 +24,7 @@ public class HeldItem : MonoBehaviour {
 
 		if (retrigger) {
 			timeSinceDropped += Time.deltaTime;
-			if (timeSinceDropped > .2f) {
+			if (timeSinceDropped > .1f) {
 				Collider2D[] colliders = this.GetComponents<Collider2D> ();
 				foreach (Collider2D c in colliders) {
 					Physics2D.IgnoreCollision (c, lastCol, false);
@@ -33,11 +33,12 @@ public class HeldItem : MonoBehaviour {
 					Physics2D.IgnoreCollision (hazardCollider, lastCol, false);
 				}
 				retrigger = false;
-				timeSinceDropped = 0;
+				//timeSinceDropped = 0;
 			}			
 		}
 	}
 	void retriggerSoon() {
+		timeSinceDropped = 0;
 		retrigger = true;
 	}
 	void ignoreColl(Collider2D col) {
@@ -62,10 +63,16 @@ public class HeldItem : MonoBehaviour {
 
 	}
 	void click() {
+		if (ableToRotate) {
+			rotating = true;
+		}
 		//up to object implementation
 	}
 	void unclick() {
+		if (ableToRotate) {
+			rotating = false;
 
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D c) {

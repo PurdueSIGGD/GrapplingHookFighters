@@ -5,26 +5,32 @@ using System.Security.Policy;
 using FMOD.Studio;
 
 public class player : MonoBehaviour {
-    private float currentX;
-    private float currentY;
+   // private float currentX;
+   // private float currentY;
 	private float timeSincePickup = 1, punchTime = 1, jumpTime;
     public int playerid;
     private bool jumped, switchedKey, jumpedKey;
 	public bool death, joystickController, tempDisabled;
     private bool canMoveRight;
     private bool canMoveLeft, canPickup;
+	private bool spinningItem;
 	private Transform punchable;
 	private int punchableIndex;
+	private float lastItemRotation;
+	private float crouchTime;
+	private bool crouched;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
 	public bool jetpack, jetpackPlaying, skateBoard;
-    public Vector3 firingVector;
+    public Vector3 firingVector, savedReticleLocation;
+	private Vector2[] standingCol, crouchingCol;
 
-    static float layer1Position = 0;
-    static float layer2Position = 1;
 
-    static int layer1Value = 8;
-    static int layer2Value = 9;
+   // static float layer1Position = 0;
+   // static float layer2Position = 1;
+
+//    static int layer1Value = 8;
+  //  static int layer2Value = 9;
 
     public int joystickID = 1;
 
@@ -34,6 +40,15 @@ public class player : MonoBehaviour {
     void Start() {
         GameObject.Find("Reticle" + playerid).transform.position = transform.position;
         //switchedKey = true;
+		Vector2[] curCol = 	this.GetComponent<PolygonCollider2D>().points;
+
+		standingCol = new Vector2[curCol.Length];
+		crouchingCol = new Vector2[curCol.Length];
+		for (int i = 0; i < curCol.Length; i++) {
+			standingCol[i] = crouchingCol[i] = curCol[i];
+		}
+		crouchingCol[3] = new Vector2(crouchingCol[3].x, 0);
+		crouchingCol[2] = new Vector2(crouchingCol[2].x, 0);
 
         tag = "Player";
         canMoveRight = true;
@@ -46,8 +61,8 @@ public class player : MonoBehaviour {
 		if (punchTime < 1) punchTime +=Time.deltaTime;
 		if (!death && !tempDisabled) {
 
-            currentX = transform.position.x;
-            currentY = transform.position.y;
+           // currentX = transform.position.x;
+           // currentY = transform.position.y;
             if (time < 1.0f) time += Time.deltaTime;
             if (timeSincePickup <= .4f) timeSincePickup += Time.deltaTime;
 
@@ -65,25 +80,59 @@ public class player : MonoBehaviour {
                 GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(40, 0, 0));
             }
             if (goDown()) {
+				if (!crouched) this.GetComponent<PolygonCollider2D>().points = crouchingCol;
+				crouched = true;
                 GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
-            }
+				maxMoveSpeed = 4;
+			} else {
+				if (crouched) this.GetComponent<PolygonCollider2D>().points = standingCol;
+				crouched = false;
+				maxMoveSpeed = 10;
+			}
+
+			//if (playerid == 1) print(crouched);
 			jumpNow(false);
 			Transform center = this.gameObject.transform.FindChild("Center");
 
             Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
+
             reticlePos.z = transform.position.z;
             firingVector = reticlePos - center.position;
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
-			transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
-			Vector3 centerScale = center.localScale;
 
-			if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
-				center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+			if (heldItem1 && heldItem1.GetComponent<HeldItem>().rotating) {
+				if (!spinningItem) {
+					spinningItem = true;
+					savedReticleLocation = reticlePos - this.transform.position;
+				}
+				heldItem1.transform.rotation = Quaternion.Euler(0,0,(rotZ + lastItemRotation) * ((heldItem1.transform.position.x - transform.position.x < 0) ? -1 : 1));
+
 			} else {
-				center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
+				if (spinningItem) {
+					lastItemRotation = heldItem1.transform.rotation.eulerAngles.z;
+					spinningItem = false;
+					GameObject.Find("Reticle" + playerid).transform.localPosition = savedReticleLocation;
+					reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
+					reticlePos.z = transform.position.z;
+					firingVector = reticlePos - center.position;
+					firingVector.Normalize();
+					rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
+
+
+				}
+				transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
+
+				Vector3 centerScale = center.localScale;
+				if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
+					center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+				} else {
+					center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
+				}
 			}
+
+
            
            // GetComponent<LineRenderer>().SetVertexCount(2);
             //GetComponent<LineRenderer>().SetPosition(0, center.position + .1f * Vector3.forward);
@@ -107,6 +156,9 @@ public class player : MonoBehaviour {
 		
 	}
     public void switchPlanes() {
+		return;
+		//code is obsolete
+		/*
         time = 0.0f;
         if (gameObject.layer != layer1Value) {
             //print("augh" + gameObject.layer);
@@ -132,7 +184,7 @@ public class player : MonoBehaviour {
 				passiveItem.layer = layer2Value;
             transform.position = new Vector3(currentX, currentY, layer2Position);
         }
-        this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+        this.GetComponent<GrappleLauncher>().SendMessage("Disconnect");*/
     }
 	void throwWeapontr(Transform t) {
 		if (heldItem1 == t)

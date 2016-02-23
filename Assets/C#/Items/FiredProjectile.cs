@@ -7,10 +7,11 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true, takeTime;
 	public GameObject explosion;
 	public GameObject sourcePlayer;
 	public float forceThreshold = 30.0f;
+
 	void Start() {
 		//print ("starting off my thing");
 		startTime = time;
@@ -22,24 +23,48 @@ public class FiredProjectile : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D col) {
+		
 		if (!hitsSourcePlayer && col.gameObject == sourcePlayer) {
 			return;
 		}
 		
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
-			if (exploding && !exploded) {
-				//print ("spawning explosion");
-				exploded = true;
-				GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
-				ex.gameObject.layer = this.gameObject.layer;
-				//GameObject.DestroyImmediate (this.gameObject);
+			if (exploding && !exploded && !this.GetComponent<HeldItem>()) {
+				if (takeTime && startTime - time < .1f) { 
+					//turn into item you can pick up
+
+					this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+					PolygonCollider2D polyBox = this.gameObject.AddComponent<PolygonCollider2D>();
+					Vector2[] points = new Vector2[4];
+					points[0] = new Vector2(.1f, .1f);
+					points[1] = new Vector2(.1f, -.1f);
+					points[2] = new Vector2(-.1f, -.1f);
+					points[3] = new Vector2(-.1f, .1f);
+					polyBox.points = points;
+					BoxCollider2D triggerBox = this.GetComponent<BoxCollider2D>();
+					triggerBox.offset = Vector2.zero;
+					triggerBox.isTrigger = true;
+					triggerBox.size = new Vector2(1,1);
+					this.gameObject.AddComponent<Hittable>();
+					HeldItem h = this.gameObject.AddComponent<HeldItem>();
+					h.throwForce = 1200;
+					dieOnAnyHit = false;
+					GetComponent<Rigidbody2D>().gravityScale = 1;
+					this.gameObject.tag = "Item";
+				} else {
+					//print ("spawning explosion");
+					exploded = true;
+					GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
+					ex.gameObject.layer = this.gameObject.layer;
+					//GameObject.DestroyImmediate (this.gameObject);
+				}
 
 			}
 			if (col.GetComponent<Rigidbody2D>()) {
 				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			}
 
-			if (!sticky && !nonLethal && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
+			if (!sticky && !nonLethal && !this.GetComponent<HeldItem>() && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
 				col.transform.SendMessage ("hit");
 				if (makesHimBleed && col.GetComponent<Health>()) col.SendMessage("Bleed");
 			}
@@ -55,6 +80,17 @@ public class FiredProjectile : MonoBehaviour {
 		//if (col.isTrigger && col.GetComponent<Health>() && dieOnAnyHit)
 			//GameObject.Destroy (this.gameObject);
 
+	}
+	void OnCollisionEnter2D(Collision2D col) {
+		//print(this.GetComponent<HeldItem>().timeSinceDropped + " " + Vector2.SqrMagnitude(col.relativeVelocity) + " " + (startTime - time));
+		if (Vector2.SqrMagnitude(col.relativeVelocity) > 50 && exploding && startTime - time > 1 && (!this.GetComponent<HeldItem>() || this.GetComponent<HeldItem>().timeSinceDropped >= .1f)) {
+			//print ("spawning explosion");
+			exploded = true;
+			GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
+			ex.gameObject.layer = this.gameObject.layer;
+			//GameObject.DestroyImmediate (this.gameObject);
+			GameObject.Destroy (this.gameObject);
+		}
 	}
 	// Update is called once per frame
 	void Update () {
@@ -85,5 +121,15 @@ public class FiredProjectile : MonoBehaviour {
 		}
 
 			
+	}
+	void hit() {
+		if (exploding && !exploded ) {
+			//print ("spawning explosion");
+			exploded = true;
+			GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
+			ex.gameObject.layer = this.gameObject.layer;
+			//GameObject.DestroyImmediate (this.gameObject);
+			GameObject.Destroy (this.gameObject);
+		}
 	}
 }
