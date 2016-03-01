@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour {
 	/* For control of level transition 
@@ -90,6 +91,7 @@ public class SceneController : MonoBehaviour {
 		int nextMap = levelPlan[currentMapQueue];
 		int sceneIndex = nextMap;
 		SceneManager.UnloadScene (lastScene);
+		CleanScene ();
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
 		RespawnPeeps ();
@@ -229,6 +231,17 @@ public class SceneController : MonoBehaviour {
 			}
 			return s;
 		default: return "";
+		}
+	}
+
+	void CleanScene() {
+		Scene scene = SceneManager.GetActiveScene ();
+		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
+		scene.GetRootGameObjects (roots);
+		foreach (GameObject g in roots) {
+			if (g.GetComponent<HeldItem> ()) {
+				Destroy (g);
+			}
 		}
 	}
 }
