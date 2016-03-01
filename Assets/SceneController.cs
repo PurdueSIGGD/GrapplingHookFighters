@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-//using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour {
 	/* For control of level transition 
@@ -9,7 +9,8 @@ public class SceneController : MonoBehaviour {
 
 	public int playerCount;
 	public int[] levelPlan, playerScores;
-	public GameObject[] levels;
+	//public Scene[] levels;
+	private int lastScene;
 	public float distanceInBetween = 30;
 	public int gameMode; //defaults to 0, which will be FFA
 
@@ -31,14 +32,15 @@ public class SceneController : MonoBehaviour {
 				index++;
 			}
 		}
-		OnLevelWasLoaded(0);
+		StartCoroutine (LoadLevelIntitial());
+		//OnLevelWasLoaded(0);
 	}
 
 	void Awake() {
 		DontDestroyOnLoad(this.transform);
 	}
 
-	void OnLevelWasLoaded(int level) {
+	IEnumerator LoadLevelIntitial() {
 		players = new GameObject[playerCount];
 		playerScores = new int[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
@@ -52,34 +54,48 @@ public class SceneController : MonoBehaviour {
 		                     // 3  4  5
 		                     // 6  7  8
 		//Spawn map
-		currentMap = (GameObject)GameObject.Instantiate(levels[levelPlan[0]], Vector3.zero, Quaternion.identity);
+		//currentMap = (GameObject)GameObject.Instantiate(levels[levelPlan[0]], Vector3.zero, Quaternion.identity);
+		int sceneIndex = levelPlan[0];
+		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
+		lastScene = sceneIndex;
 		//Spawn players
-		for (int i = 0; i < playerCount; i++) {
+		//Scene loadedScene = SceneManager.GetSceneAt(lastScene-1);
+		//GameObject sceneRoot = loadedScene.GetRootGameObjects()[0];
+		/*for (int i = 0; i < playerCount - 1; i++) {
 			players[i].transform.position = GameObject.Find("Player" + (i+1) + "Spawn").transform.position;
-		}
+		}*/
+		RespawnPeeps ();
 		readyToStart = true;
 		/*for (int i = 0; i < playerCount; i++) {
 			//Every prefab (scene) is going to need something like Player1Spawn, except for all players.
 			GameObject.Instantiate(players[i], GameObject.Find("Player" + (i+1) + "Spawn").transform.position, Quaternion.identity); 
 		}*/
 		//print("stuff");
+		//yield break;
 	}
-	void StartNewScene(Vector2 nextPosition) {
+
+	IEnumerator StartNewScene(Vector2 nextPosition) {
 		
 		//Assign last map
-		lastMap = currentMap;
+		//lastMap = currentMap;
 		//Create new map
 		currentMapQueue++;
 		if (currentMapQueue == levelPlan.Length) {
 			//we're done, break
 			End();
-			return;
+			yield break;
 		}
 		//print(currentMapQueue);
 		int nextMap = levelPlan[currentMapQueue];
-		currentMap = (GameObject)GameObject.Instantiate(levels[nextMap], nextPosition, Quaternion.identity);
+		int sceneIndex = nextMap;
+		SceneManager.UnloadScene (lastScene);
+		CleanScene ();
+		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
+		lastScene = sceneIndex;
+		RespawnPeeps ();
+		//currentMap = (GameObject)GameObject.Instantiate(levels[nextMap], nextPosition, Quaternion.identity);
 		//Tell camera to move towards another place, will call RespawnPeeps when halfway to next location
-		GameObject.Find("AutoZoomCamParent").SendMessage("SetNewPlace", nextPosition);
+		//GameObject.Find("AutoZoomCamParent").SendMessage("SetNewPlace", nextPosition);
 		//EditorApplication.isPaused = true;
 
 
@@ -127,7 +143,7 @@ public class SceneController : MonoBehaviour {
 					players[i].SendMessage("EnablePlayers");
 				}
 				GameObject.Find("MouseInput").SendMessage("EnablePlayers");							
-				GameObject.Find("AutoZoomCamParent").SendMessage("StopNewPlace");
+				//GameObject.Find("AutoZoomCamParent").SendMessage("StopNewPlace");
 				countDown = false;
 				transitioning = false;
 				readyToStart = false;
@@ -160,7 +176,7 @@ public class SceneController : MonoBehaviour {
 				endTimer = 0;
 				int newIndex = Random.Range(0, 7);
 				if (newIndex >= currentMapIndex) newIndex++; // so we don't go to the same place as currently
-				StartNewScene(mapPlacements[newIndex]);
+				StartCoroutine(StartNewScene(mapPlacements[newIndex]));
 				currentMapIndex = newIndex;
 				return;
 
@@ -213,6 +229,17 @@ public class SceneController : MonoBehaviour {
 			}
 			return s;
 		default: return "";
+		}
+	}
+
+	void CleanScene() {
+		Scene scene = SceneManager.GetActiveScene ();
+		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
+		scene.GetRootGameObjects (roots);
+		foreach (GameObject g in roots) {
+			if (g.GetComponent<HeldItem> ()) {
+				Destroy (g);
+			}
 		}
 	}
 }

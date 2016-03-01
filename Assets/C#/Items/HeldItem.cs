@@ -114,6 +114,4 @@ public class HeldItem : MonoBehaviour {
 			//if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
 		}
 	}
-
-
 }
