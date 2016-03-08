@@ -32,7 +32,8 @@ public class player : MonoBehaviour {
 //    static int layer1Value = 8;
   //  static int layer2Value = 9;
 
-    public int joystickID = 1;
+	public int joystickID;
+	public int mouseID;
 
 
     private float time = 0.0f;
@@ -202,7 +203,7 @@ public class player : MonoBehaviour {
 		if (i == 0) {
 			if (heldItem1 != null) {
 				heldItem1.GetComponent<HeldItem> ().focus = null;
-				GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
+				//GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
 				heldItem1.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
 				if (heldItem1.GetComponent<PolygonCollider2D> ())
 					heldItem1.GetComponent<PolygonCollider2D> ().isTrigger = false;
@@ -221,7 +222,7 @@ public class player : MonoBehaviour {
 		} else if (i == 1) {
 			if (heldItem2 != null) {
 				heldItem2.GetComponent<HeldItem> ().focus = null;
-				GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem2", playerid);
+				//GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem2", playerid);
 				heldItem2.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
 				if (heldItem2.GetComponent<PolygonCollider2D> ())
 					heldItem2.GetComponent<PolygonCollider2D> ().isTrigger = false;
@@ -282,7 +283,7 @@ public class player : MonoBehaviour {
         return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
     }
     bool goDown() {
-        return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < -.5);
+        return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  == -1);
     }
 
     bool jump() {
@@ -294,7 +295,7 @@ public class player : MonoBehaviour {
         }
     }
     bool pickUpKey() {
-        return (!death && Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
+		return (!death && !tempDisabled && Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
     }
     void OnTriggerEnter2D(Collider2D col) {
         Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
@@ -381,7 +382,6 @@ public class player : MonoBehaviour {
 						if (heldItem1.GetComponent<gun> () || heldItem1.GetComponent<PortalGun> ()) {
 							heldItem1.SendMessage ("SetPlayerID", playerid);
 						}
-						GameObject.Find ("MouseInput").SendMessage ("playerHasItem", playerid);
 						canPickup = false;
 					} else if (heldItem2 == null && !col.GetComponent<player> () && heldItem1.CompareTag ("DualItem") && col.CompareTag ("DualItem")) {
 
@@ -410,7 +410,6 @@ public class player : MonoBehaviour {
 						if (heldItem2.GetComponent<gun> ()) {
 							heldItem2.SendMessage ("SetPlayerID", playerid);
 						}
-						GameObject.Find ("MouseInput").SendMessage ("playerHasItem2", playerid);
 						canPickup = false;
 					} else {
 
