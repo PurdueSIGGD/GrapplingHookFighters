@@ -113,8 +113,9 @@ public class gun : MonoBehaviour, item {
 								//Debug.DrawLine(this.transform.position, ugh);
 								//EditorApplication.isPaused = true;
 								RaycastHit2D[] r;
-								r = Physics2D.RaycastAll (shootPoint, f, bulletDistance, layermask);
-								Vector3 endPoint = (shootPoint + (Vector3)(f * bulletDistance));
+								float thisDistance = bulletDistance + Random.Range(-1f,1f);
+								r = Physics2D.RaycastAll (shootPoint, f, thisDistance, layermask);
+								Vector3 endPoint = (shootPoint + (Vector3)(f * thisDistance));
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
 									

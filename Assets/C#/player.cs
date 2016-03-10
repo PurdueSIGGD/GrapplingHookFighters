@@ -18,7 +18,7 @@ public class player : MonoBehaviour {
 	private int punchableIndex;
 	private float lastItemRotation;
 	private float crouchTime;
-	private bool crouched;
+	private bool crouched, isStandingUp;
 	public float maxMoveSpeed = 10;
 	public GameObject heldItem1, heldItem2, passiveItem;
 	public bool jetpack, jetpackPlaying, skateBoard;
@@ -83,12 +83,29 @@ public class player : MonoBehaviour {
             if (goDown()) {
 				if (!crouched) this.GetComponent<PolygonCollider2D>().points = crouchingCol;
 				crouched = true;
+				this.isStandingUp = false;
                 GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
 				maxMoveSpeed = 4;
 			} else {
-				if (crouched) this.GetComponent<PolygonCollider2D>().points = standingCol;
+				if (crouched) {
+					this.isStandingUp = true;
+				}
 				crouched = false;
-				maxMoveSpeed = 10;
+				if (isStandingUp) {
+					//start slowly moving upwards
+					Vector2 offset = this.GetComponent<PolygonCollider2D>().offset;
+					offset.y-=4*Time.deltaTime;
+					if (offset.y < -1f) {
+						//done standing up
+						this.GetComponent<PolygonCollider2D>().points = standingCol;
+						this.isStandingUp = false;
+						offset.y = 0;
+						maxMoveSpeed = 10;
+					}
+					this.GetComponent<PolygonCollider2D>().offset = offset;
+
+
+				}
 			}
 
 			//if (playerid == 1) print(crouched);
