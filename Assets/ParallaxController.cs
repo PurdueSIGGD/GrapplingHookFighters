@@ -7,13 +7,20 @@ public class ParallaxController : MonoBehaviour {
 	 * according to their distance. i.e. more distance, less movement
 	 */
 	public float[] distances;
+	Transform holder;
 
+	void Start() {
+		holder = GameObject.Find("ParalayerHolder").transform;
+	}
 	void Update () {
-		//float camSize = this.GetComponentInChildren<Camera>().orthographicSize;
+		
+
 		for (int i = 1; i <= distances.Length; i++) {
-			Transform currentDude = transform.FindChild("ParaLayer (" + i + ")");
+			Transform currentDude = holder.FindChild("ParaLayer (" + i + ")");
 			currentDude.localPosition = -1 * transform.position / distances[i - 1];
 		//	currentDude.localScale = Vector3.one * 10/(camSize * distances[i - 1]);
 		}
+		//float f = 15/transform.FindChild("Main Camera").GetComponent<Camera>().orthographicSize;
+		//holder.localScale = new Vector3(f,f,f);
 	}
 }

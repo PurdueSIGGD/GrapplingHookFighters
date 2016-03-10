@@ -148,7 +148,7 @@ public class MouseInput : MonoBehaviour {
 				} catch {
 					continue;
 				}
-				if (p == null) continue;
+				if (p == null || mice [p.mouseID] == null ) continue;
 				playerPos = p.transform.position;
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
 				Transform center = p.transform.FindChild("Center");
