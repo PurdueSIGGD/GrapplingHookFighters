@@ -19,7 +19,7 @@ public class GrappleLauncher : MonoBehaviour {
 		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
 		else grappleTimer = 0;
 		if (firedGrapple == null) Disconnect();
-		if (!death) {
+		if (!death && firedGrapple != null) {
 			
 			firedGrapple.gameObject.layer = this.gameObject.layer;
 			if (attached) this.GetComponent<Rigidbody2D>().AddForce(800 *  Time.deltaTime * Vector2.up);

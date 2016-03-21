@@ -176,7 +176,7 @@ public class TrackingCamera : MonoBehaviour {
 				if (camSize > maxSize) camSize = maxSize;
 				if (camSize < minSize) camSize = minSize;
 					if (Mathf.Abs(cam.orthographicSize - camSize) > .45f && Mathf.Abs(cam.orthographicSize - camSize) < 2)	{
-						print(Mathf.Abs(cam.orthographicSize - camSize));
+						//print(Mathf.Abs(cam.orthographicSize - camSize));
 						shifting = true;
 					} else {
 						shifting = false;

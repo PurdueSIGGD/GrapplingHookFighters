@@ -108,7 +108,7 @@ public class HeldItem : MonoBehaviour {
 		Collider2D col = collision.collider;
 		//Debug.Log (gameObject.name + " velocity: " + colSpeed);
 		if (colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
-			Debug.Log (gameObject.name + " velocity: " + colSpeed);
+			//Debug.Log (gameObject.name + " velocity: " + colSpeed);
 			col.transform.SendMessage ("hit");
 			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
 			//if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));

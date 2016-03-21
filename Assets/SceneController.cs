@@ -16,7 +16,7 @@ public class SceneController : MonoBehaviour {
 	public float distanceInBetween = 30;
 	public int gameMode; //defaults to 0, which will be FFA
 
-	private GameObject[] players;
+	public GameObject[] players;
 	private Vector2[] mapPlacements;
 
 	private int currentMapIndex, currentMapQueue;
@@ -201,8 +201,8 @@ public class SceneController : MonoBehaviour {
 	//	print(rePos.position);
 		//g.transform.parent = rePos;
 		g.transform.position = rePos.position;
-		g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
-		g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = rePos.position;
+		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
 		g.transform.eulerAngles = Vector3.zero;
 		g.GetComponent<Health>().resetPlayer();
 		g.GetComponent<player>().death = false;
@@ -240,7 +240,9 @@ public class SceneController : MonoBehaviour {
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
 			if (g.GetComponent<HeldItem> ()) {
-				Destroy (g);
+				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>()) {
+					Destroy (g);
+				}
 			}
 		}
 	}
