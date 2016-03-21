@@ -74,12 +74,26 @@ public class player : MonoBehaviour {
 			float maxMoveSpeedRevised = (skateBoard && Mathf.Abs(this.GetComponent<Rigidbody2D>().velocity.y) > .01f) ? maxMoveSpeed/10 : maxMoveSpeed ;
 			if (this.GetComponent<Rigidbody2D>().velocity.x > -1 * maxMoveSpeedRevised && canMoveLeft && goLeft()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = true;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1) * new Vector3(40, 0, 0));
+				float f = Input.GetAxis("HorizontalPD" + joystickID);
+				float force = 0;
+				if (f != 0) {
+					force = -1;
+				} else {
+					force = (this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1);
+				}
+				GetComponent<Rigidbody2D>().AddForce(force * new Vector3(40, 0, 0));
             }
 			if (this.GetComponent<Rigidbody2D>().velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
 				this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
-                GetComponent<Rigidbody2D>().AddForce((this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1) * new Vector3(40, 0, 0));
-            }
+				float f = Input.GetAxis("HorizontalPD" + joystickID);
+				float force = 0;
+				if (f != 0) {
+					force = 1;
+				} else {
+					force = (this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1);
+				}
+				GetComponent<Rigidbody2D>().AddForce(force * new Vector3(40, 0, 0));            
+			}
             if (goDown()) {
 				if (!crouched) this.GetComponent<PolygonCollider2D>().points = crouchingCol;
 				crouched = true;
@@ -292,19 +306,19 @@ public class player : MonoBehaviour {
         }
     }
     bool goLeft() {
-        //if (name == "Player1" )print(Input.GetAxis("HorizontalP" + playerid));
+       // if (name == "Player1" )print(Input.GetAxis("HorizontalPD" + joystickID));
 
-        return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < 0);
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < 0 || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) < 0):false));
     }
     bool goRight() {
-        return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0 || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) > 0):false));
     }
     bool goDown() {
-        return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  == -1);
+		return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  == -1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == -1):false));
     }
 
     bool jump() {
-        if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) == 1) {
+				if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) == 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
 
             return true;
         } else {

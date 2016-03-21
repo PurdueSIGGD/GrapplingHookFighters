@@ -91,7 +91,7 @@ public class SceneController : MonoBehaviour {
 		int nextMap = levelPlan[currentMapQueue];
 		int sceneIndex = nextMap;
 		SceneManager.UnloadScene (lastScene);
-		CleanScene ();
+
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
 		RespawnPeeps ();
@@ -113,6 +113,9 @@ public class SceneController : MonoBehaviour {
 		//EditorApplication.isPaused = true;
 		//Kill all players
 		for (int i = 0; i < playerCount; i++) KillPlayer(i);
+		//clean map, all leftoveres 
+
+		CleanScene ();
 		//respawn players
 		for (int i = 0; i < playerCount; i++) RespawnPlayer(i);
 		//set player positions
