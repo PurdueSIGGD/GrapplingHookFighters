@@ -119,4 +119,5 @@ public class GrappleScript : MonoBehaviour {
 	void ResetLast() { //lastgrab is the last object we grabbed, we make sure the line doesnt grab anything on its way back
 		lastGrab = null;
 	}
+
 }

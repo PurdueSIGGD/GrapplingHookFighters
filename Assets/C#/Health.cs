@@ -19,6 +19,9 @@ public class Health : MonoBehaviour {
 	public GameObject part;
 	public Vector2[] deadPoints;
 	private Vector2[] alivePoints;
+	public float deadTime;
+	public bool passedBoundary;
+	public Vector3 boundaryPlace;
 
 	public GameObject gibHolder, splatterGib;
 	public Sprite deadSprite;
@@ -81,10 +84,20 @@ public class Health : MonoBehaviour {
 			}
 		}
 	}
-
-	//kills the player....
 	public void killPlayer() {
+		killPlayer (false);
+	}
+
+	//params: b, if b, the player has passed the boundary.
+	//kills the player....
+	public void killPlayer(bool b) {
 		if (!dead) {
+			if (b) {
+				//passed boundary is used to know if the player has died from a boundary
+				this.passedBoundary = true;
+				//boundaryplace is used to know the last place before death
+				this.boundaryPlace = transform.position;
+			}
 			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
 			aliveSprite = this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite;
@@ -191,6 +204,7 @@ public class Health : MonoBehaviour {
 	public void resetPlayer() {
 		playerHealth = 1;
 		armorHealth = 0;
+		passedBoundary = false;
 		dead = false;
 		for (int i = 0; i < usedGibs.Length; i++)
 			usedGibs [i] = false;
@@ -224,7 +238,11 @@ public class Health : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (dead) {
+			deadTime += Time.deltaTime;
+		} else {
+			deadTime = 0;
+		}
 	}
 	void Bleed() {
 		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {

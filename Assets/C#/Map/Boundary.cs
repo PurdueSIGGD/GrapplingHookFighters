@@ -71,11 +71,12 @@ public class Boundary : MonoBehaviour {
 	}
 	void SetInRespawnQueue(GameObject g) {
 		if (respawning) {
-			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer();
+			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer(true);
 			//the death waiting time is 5 seconds
 			deathwait.Add(new deathtime(g,Time.time+5));
 		} else {
-			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer();
+			if (g.GetComponent<Health> () && !g.GetComponent<Health> ().dead) g.GetComponent<Health> ().killPlayer (true);
+			
 
 		}
 	}

@@ -226,10 +226,7 @@ public class TrackingCamera : MonoBehaviour {
 	}
 	void SetNewPlace(Vector2 pos) {
 		
-		goalPos = pos;
-		lastPos = transform.position;
-		transition = true;
-		halfway = true;
+		transform.position = pos;
 
 	}
 	void StopNewPlace() {

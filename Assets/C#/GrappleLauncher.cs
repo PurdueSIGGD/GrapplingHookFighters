@@ -91,6 +91,11 @@ public class GrappleLauncher : MonoBehaviour {
 		}
 	}
 	void Death() {
+		Disconnect ();
+		retracting = false;
+		firedGrapple.transform.position = center.position;
+		firedGrapple.GetComponent<GrappleScript> ().retracting = false;
+		firedGrapple.SendMessage("ResetLast");
 		death = true;
 	}
 	void NotDeath() {

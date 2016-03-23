@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour {
 	private int lastScene;
 	public float distanceInBetween = 30;
 	public int gameMode; //defaults to 0, which will be FFA
-
+	public GameObject myCamera;
 	public GameObject[] players;
 	private Vector2[] mapPlacements;
 
@@ -60,6 +60,8 @@ public class SceneController : MonoBehaviour {
 		int sceneIndex = levelPlan[0];
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
+
+		if (!myCamera) myCamera = GameObject.Find ("AutoZoomCamParent");
 		//Spawn players
 		//Scene loadedScene = SceneManager.GetSceneAt(lastScene-1);
 		//GameObject sceneRoot = loadedScene.GetRootGameObjects()[0];
@@ -77,7 +79,9 @@ public class SceneController : MonoBehaviour {
 	}
 
 	IEnumerator StartNewScene(Vector2 nextPosition) {
-		
+
+
+
 		//Assign last map
 		//lastMap = currentMap;
 		//Create new map
@@ -90,6 +94,7 @@ public class SceneController : MonoBehaviour {
 		//print(currentMapQueue);
 		int nextMap = levelPlan[currentMapQueue];
 		int sceneIndex = nextMap;
+		for (int i = 0; i < playerCount; i++) DisconnectPlayers (i);
 		SceneManager.UnloadScene (lastScene);
 
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
@@ -102,20 +107,21 @@ public class SceneController : MonoBehaviour {
 
 
 	}
+
 	void RespawnPeeps() {
 		//halfway there, called from camera
 		//delete last map
 	//	print(players[0].transform.position);
 		//EditorApplication.isPaused = true;
 
-		GameObject.DestroyImmediate(lastMap);
+
 	//	print(players[0].transform.position);
 		//EditorApplication.isPaused = true;
 		//Kill all players
 		for (int i = 0; i < playerCount; i++) KillPlayer(i);
 		//clean map, all leftoveres 
-
 		CleanScene ();
+		GameObject.DestroyImmediate(lastMap);
 		//respawn players
 		for (int i = 0; i < playerCount; i++) RespawnPlayer(i);
 		//set player positions
@@ -147,8 +153,7 @@ public class SceneController : MonoBehaviour {
 				for (int i = 0; i < playerCount; i++) {
 					players[i].SendMessage("EnablePlayers");
 				}
-				GameObject.Find("MouseInput").SendMessage("EnablePlayers");							
-				//GameObject.Find("AutoZoomCamParent").SendMessage("StopNewPlace");
+				GameObject.Find("MouseInput").SendMessage("EnablePlayers");			
 				countDown = false;
 				transitioning = false;
 				readyToStart = false;
@@ -162,7 +167,7 @@ public class SceneController : MonoBehaviour {
 			}
 			endTimer -= Time.deltaTime;
 			//print("done here");
-			if (endTimer < 1.5f && !transitioning && !pointYet) {
+			if (endTimer < 2.5f && !transitioning && !pointYet) {
 				foreach (GameObject g in players) {
 					player ps = g.GetComponent<player>();
 					if (!ps.death) {
@@ -196,7 +201,10 @@ public class SceneController : MonoBehaviour {
 		GameObject g = players[i];
 		g.SendMessage("killPlayer");
 	}
-
+	void DisconnectPlayers(int i) {
+		GameObject g = players[i];
+		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+	}
 	void RespawnPlayer(int i) {
 		GameObject g = players[i];
 		 
@@ -238,12 +246,16 @@ public class SceneController : MonoBehaviour {
 	}
 
 	void CleanScene() {
+		myCamera.GetComponent<SmootherTrackingCamera> ().ResetCamera ();
+
 		Scene scene = SceneManager.GetActiveScene ();
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
 			if (g.GetComponent<HeldItem> ()) {
-				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>()) {
+				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>() && 
+					!g.GetComponent<GrappleScript>() && !g.GetComponent<GrappleLauncher>() && !g.GetComponent<player>()) {
+
 					Destroy (g);
 				}
 			}
