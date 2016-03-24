@@ -69,7 +69,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			if (furthestDistance > maxZoom)
 				furthestDistance = maxZoom;
 			//add a value of 1 to give some buffer room
-			float desiredSize = furthestDistance + 1;
+			float desiredSize = furthestDistance + 2;
 
 			if (trackingPlayers != 1) {
 				GetComponentInChildren<Camera> ().orthographicSize = desiredSize;
