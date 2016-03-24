@@ -155,7 +155,7 @@ public class Health : MonoBehaviour {
 					GameObject g = null;
 					switch (range) 
 					{
-						case 0: //head
+						case 0: //headz
 						g = transform.FindChild("GibHolder(Clone)").FindChild("Head").gameObject;
 						transform.FindChild("GibHolder(Clone)").FindChild("HeadHome").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;

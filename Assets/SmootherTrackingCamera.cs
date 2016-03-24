@@ -34,24 +34,17 @@ public class SmootherTrackingCamera : MonoBehaviour {
 		Health gh;
 
 		foreach (GameObject g in targets) {
-			float thisDistance = Vector2.Distance (transform.position, g.transform.position);
 			gh = g.GetComponent<Health> ();
+
+			//if they crossed a boundary, use their last place they were before they died 
+			float thisDistance = Vector2.Distance (transform.position, gh.passedBoundary?gh.boundaryPlace:g.transform.position);
 			if (!gh.dead)
 				atLeastOneAlive = true;
 			if (gh.deadTime < 2.5f) { 
 				//calculate furthest distance
-				if (gh.passedBoundary) {
-					//if they crossed a boundary, use their last place they were before they died 
-					desiredPosition += gh.boundaryPlace;
-				} else {
-					desiredPosition += g.transform.position;
-				}
-
-				trackingPlayers++;
-
 				//if they crossed a boundary, use their last place they were before they died 
-				if (gh.passedBoundary)
-					furthestDistance = Vector2.Distance (transform.position, gh.boundaryPlace);
+				desiredPosition += gh.passedBoundary?gh.boundaryPlace:g.transform.position;
+				trackingPlayers++;
 				//calculate furthest player
 				if (thisDistance > furthestDistance) {
 					furthestDistance = thisDistance;
@@ -67,7 +60,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 		}
 		float cameraDistance = Vector2.Distance (desiredPosition, transform.position);
 		if (cameraDistance > 0)
-			transform.position += Time.deltaTime * movementSpeed * (cameraDistance + 5) * (desiredPosition - transform.position);
+			transform.position += Time.deltaTime * movementSpeed * (cameraDistance + 2) * (desiredPosition - transform.position);
 		
 		//print (furthestDistance);
 		if (furthestDistance > 0) {

@@ -48,7 +48,8 @@ public class player : MonoBehaviour {
 		for (int i = 0; i < curCol.Length; i++) {
 			standingCol[i] = crouchingCol[i] = curCol[i];
 		}
-		crouchingCol[3] = new Vector2(crouchingCol[3].x, 0);
+		crouchingCol[4] = new Vector2(crouchingCol[4].x, 0);
+		crouchingCol[3] = new Vector2(crouchingCol[3].x, (crouchingCol[2].y-crouchingCol[3].y));
 		crouchingCol[2] = new Vector2(crouchingCol[2].x, 0);
 
         tag = "Player";
