@@ -11,10 +11,13 @@ public class SmootherTrackingCamera : MonoBehaviour {
 	//how far players can be without being ignored by the camera. Careful, players may take themselves as dead but not be.
 	//public float ignoreDistance = 40;
 
+	public bool tracking;
+
 	private int playerCount;
 	private GameObject[] targets;
 	// Use this for initialization
 	void Start () {
+		tracking = true;
 		playerCount = 0;
 		while (GameObject.Find("Player" + (playerCount + 1))) {
 			playerCount++;
@@ -51,7 +54,9 @@ public class SmootherTrackingCamera : MonoBehaviour {
 				}
 			}
 		}
-		if (trackingPlayers > 0 && atLeastOneAlive) {
+		if (!tracking) {
+			desiredPosition = Vector3.zero;
+		} else if (trackingPlayers > 0 && atLeastOneAlive) {
 			//average
 			desiredPosition = desiredPosition / trackingPlayers;
 		} else {
@@ -82,6 +87,9 @@ public class SmootherTrackingCamera : MonoBehaviour {
 				
 			}
 		}
+	}
+	public void SetTracking(bool b) {
+		this.tracking = b;
 	}
 	public void ResetCamera() {
 		ResetCamera (minZoom, maxZoom);

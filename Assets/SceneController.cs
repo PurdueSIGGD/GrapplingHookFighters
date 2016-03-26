@@ -22,7 +22,7 @@ public class SceneController : MonoBehaviour {
 	private int currentMapIndex, currentMapQueue;
 	private int deathCount;
 	private float endTimer, startTimer;
-	private GameObject currentMap, lastMap;
+	private GameObject currentMap, lastMap, cameraThing;
 	private bool transitioning, readyToStart, countDown, endScene, pointYet;
 	void Start() {
 		mapPlacements = new Vector2[9];
@@ -43,6 +43,7 @@ public class SceneController : MonoBehaviour {
 	}
 
 	IEnumerator LoadLevelIntitial() {
+		cameraThing = GameObject.Find("AutoZoomCamParent");
 		players = new GameObject[playerCount];
 		playerScores = new int[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
@@ -122,11 +123,15 @@ public class SceneController : MonoBehaviour {
 		//clean map, all leftoveres 
 		CleanScene ();
 		GameObject.DestroyImmediate(lastMap);
+		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
 		//respawn players
 		for (int i = 0; i < playerCount; i++) RespawnPlayer(i);
 		//set player positions
 		for (int i = 0; i < playerCount; i++) {
 			players[i].transform.position = GameObject.Find("Player" + (i+1) + "Spawn").transform.position;
+			players[i].GetComponent<Rigidbody2D>().isKinematic = true;
+			players[i].GetComponent<Rigidbody2D>().isKinematic = false;
+
 		}
 		//set inputmanagerthing to disbale movement until we get an "all clear"
 		for (int i = 0; i < playerCount; i++) {
@@ -142,12 +147,21 @@ public class SceneController : MonoBehaviour {
 
 	void Update () {
 		if (readyToStart && !countDown && startTimer <= 0) {
+			
 			startTimer = 3;
 			countDown = true;
+			cameraThing.SendMessage("SetTracking",false);
 		}
 		if (countDown) {
 			if (startTimer > 0) {
 				startTimer -= Time.deltaTime;
+				if (startTimer > 1.5f) {
+					//not tracking
+					cameraThing.SendMessage("SetTracking",false);
+
+				} else {
+					cameraThing.SendMessage("SetTracking",true);
+				}
 			} else {
 				//Begin!!!
 				for (int i = 0; i < playerCount; i++) {
@@ -252,7 +266,7 @@ public class SceneController : MonoBehaviour {
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
-			if (g.GetComponent<HeldItem> ()) {
+			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect")) {
 				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>() && 
 					!g.GetComponent<GrappleScript>() && !g.GetComponent<GrappleLauncher>() && !g.GetComponent<player>()) {
 

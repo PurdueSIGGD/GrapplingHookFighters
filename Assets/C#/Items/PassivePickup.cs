@@ -31,6 +31,7 @@ public class PassivePickup : MonoBehaviour {
 			broke = false;
 			g.GetComponent<player> ().jetpack = true;
 			if (this.transform.name != "Jetpack") transform.name = "Jetpack";
+			this.GetComponentInChildren<ParticleSystem>().Stop();
 			break;
 		case 2:
 			focus.GetComponent<player> ().skateBoard = true;
@@ -101,7 +102,7 @@ public class PassivePickup : MonoBehaviour {
 	void Update() {
 		if (broke && itemCode == 0 && GetComponent<HeldItem>()) {
 			Destroy (this.GetComponent<HeldItem> ());
-			this.gameObject.tag = "Untagged";
+			this.gameObject.tag = "Effect";
 			this.gameObject.layer += 3;
 			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (.25f, .25f, .25f);
 		}
