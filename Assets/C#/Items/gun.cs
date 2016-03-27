@@ -133,7 +133,7 @@ public class gun : MonoBehaviour, item {
 								foreach (RaycastHit2D ray in r) {
 
 									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && 
-										(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
+										(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && (!ray.collider.GetComponent<HeldItem>() || ray.collider.GetComponent<HeldItem>().focus != this.GetComponent<HeldItem>().focus) && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
 										!ray.transform.GetComponent<ParticleScript> () &&
 										ray.transform != this.transform) {
 										if (penetrating) {
@@ -200,7 +200,7 @@ public class gun : MonoBehaviour, item {
 								Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
 								bool colliding = false;
 								foreach (Collider2D c in hitColliders) {
-									if (c.GetComponent<Hittable>()) {
+									if (!c.isTrigger && c.GetComponent<Hittable>()) {
 										if (!c.GetComponent<player>() || c.GetComponent<player>().playerid != this.playerid) {
 											//if we are sticking the end of our gun into something, cant be us
 											//print(3);

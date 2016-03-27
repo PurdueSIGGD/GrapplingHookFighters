@@ -358,10 +358,13 @@ public class player : MonoBehaviour {
     }
     void OnTriggerStay2D(Collider2D col) {
 
+		OnTriggerEnter2D(col); //makes picking up things easier
+
 		if (col.GetComponent<player>() || col.GetComponent<ItemBox>()) {
 			//print("setting punchable" + col.name);
 			punchable = col.transform;
 		}
+
 		/*if ((col.CompareTag("Platform") || col.CompareTag("Player") || col.CompareTag("Item")) && !col.isTrigger) {
 			jumped = false;
 		}*/
