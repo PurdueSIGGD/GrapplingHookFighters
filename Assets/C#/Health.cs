@@ -20,7 +20,7 @@ public class Health : MonoBehaviour {
 	public Vector2[] deadPoints;
 	private Vector2[] alivePoints;
 	public float deadTime;
-	public bool passedBoundary;
+	public bool ignorePosition;
 	public Vector3 boundaryPlace;
 
 	public GameObject gibHolder, splatterGib;
@@ -91,13 +91,16 @@ public class Health : MonoBehaviour {
 	//params: b, if b, the player has passed the boundary.
 	//kills the player....
 	public void killPlayer(bool b) {
+		if (b) {
+			//passed boundary is used to know if the player has died from a boundary
+			this.ignorePosition = true;
+			//boundaryplace is used to know the last place before death
+			this.boundaryPlace = transform.position;
+			print(b);
+		}
 		if (!dead) {
-			if (b) {
-				//passed boundary is used to know if the player has died from a boundary
-				this.passedBoundary = true;
-				//boundaryplace is used to know the last place before death
-				this.boundaryPlace = transform.position;
-			}
+			this.boundaryPlace = transform.position;
+
 			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
 			aliveSprite = this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite;
@@ -204,7 +207,7 @@ public class Health : MonoBehaviour {
 	public void resetPlayer() {
 		playerHealth = 1;
 		armorHealth = 0;
-		passedBoundary = false;
+		ignorePosition = false;
 		dead = false;
 		for (int i = 0; i < usedGibs.Length; i++)
 			usedGibs [i] = false;

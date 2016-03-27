@@ -269,7 +269,7 @@ public class SceneController : MonoBehaviour {
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
-			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect")) {
+			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect") || g.layer == 15 /* ragdoll */) {
 				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>() && 
 					!g.GetComponent<GrappleScript>() && !g.GetComponent<GrappleLauncher>() && !g.GetComponent<player>()) {
 

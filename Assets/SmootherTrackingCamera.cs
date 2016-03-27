@@ -40,19 +40,35 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			gh = g.GetComponent<Health> ();
 
 			//if they crossed a boundary, use their last place they were before they died 
-			float thisDistance = Vector2.Distance (transform.position, gh.passedBoundary?gh.boundaryPlace:g.transform.position);
+			float thisDistance = Vector2.Distance (transform.position, (gh.ignorePosition)?gh.boundaryPlace:g.transform.position);
 			if (!gh.dead)
 				atLeastOneAlive = true;
-			if (gh.deadTime < 2.5f) { 
-				//calculate furthest distance
-				//if they crossed a boundary, use their last place they were before they died 
-				desiredPosition += gh.passedBoundary?gh.boundaryPlace:g.transform.position;
-				trackingPlayers++;
-				//calculate furthest player
-				if (thisDistance > furthestDistance) {
-					furthestDistance = thisDistance;
+			//calculate furthest distance
+			if (gh.deadTime > 2.5f && atLeastOneAlive) {
+				//print("moving");
+				//if the player did not pass a boundary, ignore their position and use the new one
+				if (!gh.ignorePosition) {
+					//if it will cause problems and is the furthest, we will adjust it
+					gh.boundaryPlace = gh.transform.position;
+					gh.ignorePosition = true;
 				}
+				//this is to move the camrea back to the other positions afterwards, once we realized the player really died
+				if (thisDistance > furthestDistance) {
+					gh.boundaryPlace += .5f * Time.deltaTime * (transform.position - gh.boundaryPlace);
+				} else {
+					gh.boundaryPlace = transform.position;
+				}
+				print(gh.boundaryPlace);
+
 			}
+			//if they crossed a boundary, use their last place they were before they died 
+			desiredPosition += (gh.ignorePosition)?gh.boundaryPlace:g.transform.position;
+			trackingPlayers++;
+			//calculate furthest player
+			if (thisDistance > furthestDistance) {
+				furthestDistance = thisDistance;
+			}
+
 		}
 		if (!tracking) {
 			desiredPosition = Vector3.zero;

@@ -63,7 +63,7 @@ public class Boundary : MonoBehaviour {
 		//print(col);
 		//checks to see if the collider belongs to a player
 		if (col.GetComponentInParent<Health>() || col.GetComponent<GrappleScript>() || col.GetComponent<ParticleSystem>() || col.GetComponentInChildren<ParticleSystem>()) {
-			if (col.GetComponent<Health>() && !col.GetComponent<Health>().dead && !respawning) SetInRespawnQueue(col.gameObject);
+			if (col.GetComponent<Health>() && !respawning) SetInRespawnQueue(col.gameObject);
 		} else {
 			//print("Destroyyy");
 			Destroy(col.gameObject);
@@ -71,11 +71,11 @@ public class Boundary : MonoBehaviour {
 	}
 	void SetInRespawnQueue(GameObject g) {
 		if (respawning) {
-			if (g.GetComponent<Health>() && !g.GetComponent<Health>().dead) g.GetComponent<Health>().killPlayer(true);
+			if (g.GetComponent<Health>()) g.GetComponent<Health>().killPlayer(true);
 			//the death waiting time is 5 seconds
 			deathwait.Add(new deathtime(g,Time.time+5));
 		} else {
-			if (g.GetComponent<Health> () && !g.GetComponent<Health> ().dead) g.GetComponent<Health> ().killPlayer (true);
+			if (g.GetComponent<Health> ()) g.GetComponent<Health> ().killPlayer (true);
 			
 
 		}

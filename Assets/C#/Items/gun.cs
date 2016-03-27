@@ -152,6 +152,7 @@ public class gun : MonoBehaviour, item {
 												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 											}
 											if (hit.transform.GetComponent<Hittable>()) {
+												//print(1);
 												hit.transform.SendMessage ("hit");
 											} 
 
@@ -169,6 +170,7 @@ public class gun : MonoBehaviour, item {
 										hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
 									}
 									if (hit.transform.GetComponent<Hittable>()) {
+										//print(2);
 										hit.transform.SendMessage ("hit");
 									}
 
@@ -199,8 +201,11 @@ public class gun : MonoBehaviour, item {
 								bool colliding = false;
 								foreach (Collider2D c in hitColliders) {
 									if (c.GetComponent<Hittable>()) {
-										//if we are sticking the end of our gun into something
-										c.SendMessage("hit");
+										if (!c.GetComponent<player>() || c.GetComponent<player>().playerid != this.playerid) {
+											//if we are sticking the end of our gun into something, cant be us
+											//print(3);
+											c.SendMessage("hit");
+										}
 									}
 								}
 							}
