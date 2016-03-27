@@ -124,15 +124,20 @@ public class SceneController : MonoBehaviour {
 		CleanScene ();
 		GameObject.DestroyImmediate(lastMap);
 		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
-		//respawn players
-		for (int i = 0; i < playerCount; i++) RespawnPlayer(i);
 		//set player positions
+		ArrayList spawns = new ArrayList();
+		spawns.AddRange(GameObject.FindGameObjectsWithTag("Respawn"));
 		for (int i = 0; i < playerCount; i++) {
-			players[i].transform.position = GameObject.Find("Player" + (i+1) + "Spawn").transform.position;
+			int spawnIndex = Random.Range(0,spawns.Count);
+			players[i].transform.position = ((GameObject)spawns[spawnIndex]).transform.position;
+			spawns.Remove(spawns[spawnIndex]);
 			players[i].GetComponent<Rigidbody2D>().isKinematic = true;
 			players[i].GetComponent<Rigidbody2D>().isKinematic = false;
 
 		}
+		//respawn players
+		for (int i = 0; i < playerCount; i++) RespawnPlayer(i);
+
 		//set inputmanagerthing to disbale movement until we get an "all clear"
 		for (int i = 0; i < playerCount; i++) {
 			players[i].SendMessage("DisablePlayers");
@@ -222,11 +227,9 @@ public class SceneController : MonoBehaviour {
 	void RespawnPlayer(int i) {
 		GameObject g = players[i];
 		 
-		Transform rePos = GameObject.Find("Player" + (i+1) + "Spawn").transform;
 	//	print(rePos.position);
 		//g.transform.parent = rePos;
-		g.transform.position = rePos.position;
-		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = rePos.position;
+		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = g.transform.position;
 		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
 		g.transform.eulerAngles = Vector3.zero;
 		g.GetComponent<Health>().resetPlayer();
