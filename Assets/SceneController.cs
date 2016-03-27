@@ -25,7 +25,8 @@ public class SceneController : MonoBehaviour {
 	private GameObject currentMap, lastMap, cameraThing;
 	private bool transitioning, readyToStart, countDown, endScene, pointYet;
 	void Start() {
-		mapPlacements = new Vector2[9];
+		int index = 0;
+		/*mapPlacements = new Vector2[9];
 		int index = 0;
 		for (int y = -1; y <= 1; y++) {
 			for (int x = -1; x <= 1; x++) {
@@ -33,7 +34,7 @@ public class SceneController : MonoBehaviour {
 				mapPlacements[index] = distanceInBetween * (new Vector2(x, y));
 				index++;
 			}
-		}
+		}*/
 		StartCoroutine (LoadLevelIntitial());
 		//OnLevelWasLoaded(0);
 	}
@@ -79,7 +80,7 @@ public class SceneController : MonoBehaviour {
 		//yield break;
 	}
 
-	IEnumerator StartNewScene(Vector2 nextPosition) {
+	IEnumerator StartNewScene() {
 
 
 
@@ -121,8 +122,10 @@ public class SceneController : MonoBehaviour {
 		//Kill all players
 		for (int i = 0; i < playerCount; i++) KillPlayer(i);
 		//clean map, all leftoveres 
+		//Debug.Log("is it cleanup?");
 		CleanScene ();
-		GameObject.DestroyImmediate(lastMap);
+		//Debug.Log ("it is not cleanup");
+		//GameObject.DestroyImmediate(lastMap); //no longer needed?
 		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
 		//set player positions
 		ArrayList spawns = new ArrayList();
@@ -205,7 +208,7 @@ public class SceneController : MonoBehaviour {
 				endTimer = 0;
 				int newIndex = Random.Range(0, 7);
 				if (newIndex >= currentMapIndex) newIndex++; // so we don't go to the same place as currently
-				StartCoroutine(StartNewScene(mapPlacements[newIndex]));
+				StartCoroutine(StartNewScene());
 				currentMapIndex = newIndex;
 				return;
 
