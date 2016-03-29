@@ -25,13 +25,20 @@ public class GrappleScript : MonoBehaviour {
 	}
 
 	void Attach(GameObject g) {
-		if (g.transform != lastGrab && g.GetComponent<ExplosionScript>() == null && g.GetComponent<player>() == null && g.GetComponentInParent<player>() == null && g.tag != "Item" && g.tag != "DualItem" && (firing || retracting)) {
+		if (g.transform != lastGrab && 
+			g.GetComponent<ExplosionScript>() == null && 
+			g.GetComponent<player>() == null && 
+			g.GetComponentInParent<player>() == null && 
+			g.tag != "Item" && 
+			g.tag != "DualItem" && 
+			(firing)) {
 
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
 			Vector2[] vee = new Vector2[2];
 			vee[0] = Vector2.zero;
 			vee[1] = focus.transform.position - this.transform.position;
 			lineCol.points = vee;*/
+			print(timeRetracting);
 			this.transform.parent = g.transform;
 			transform.localScale = new Vector3(1/g.transform.localScale.x,1/g.transform.localScale.y,1/g.transform.localScale.z);
 			lastGrab = g.transform;

@@ -149,11 +149,11 @@ public class gun : MonoBehaviour, item {
 											hit = ray.transform;
 											if (hit.GetComponent<Rigidbody2D> ()) {
 												//print(hit);
-												hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
+												hit.GetComponent<Rigidbody2D> ().AddForce (100 *damage * f);
 											}
 											if (hit.transform.GetComponent<Hittable>()) {
 												//print(1);
-												hit.transform.SendMessage ("hit");
+												hit.transform.SendMessage ("hit", damage);
 											} 
 
 										}    
@@ -171,7 +171,7 @@ public class gun : MonoBehaviour, item {
 									}
 									if (hit.transform.GetComponent<Hittable>()) {
 										//print(2);
-										hit.transform.SendMessage ("hit");
+										hit.transform.SendMessage ("hit", damage);
 									}
 
 								}
@@ -204,7 +204,7 @@ public class gun : MonoBehaviour, item {
 										if (!c.GetComponent<player>() || c.GetComponent<player>().playerid != this.playerid) {
 											//if we are sticking the end of our gun into something, cant be us
 											//print(3);
-											c.SendMessage("hit");
+											c.SendMessage("hit", damage);
 										}
 									}
 								}

@@ -10,13 +10,15 @@ public class SmootherTrackingCamera : MonoBehaviour {
 	public float maxZoom = 20;
 	//how far players can be without being ignored by the camera. Careful, players may take themselves as dead but not be.
 	//public float ignoreDistance = 40;
-
+	private bool atLeastOneAlive;
 	public bool tracking;
 
+	private Vector3 lastDistance;
 	private int playerCount;
 	private GameObject[] targets;
 	// Use this for initialization
 	void Start () {
+		lastDistance = Vector3.zero;
 		tracking = true;
 		playerCount = 0;
 		while (GameObject.Find("Player" + (playerCount + 1))) {
@@ -44,7 +46,9 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			if (!gh.dead)
 				atLeastOneAlive = true;
 			//calculate furthest distance
-			if (gh.deadTime > 2.5f && atLeastOneAlive) {
+			//print(atLeastOneAlive);
+			bool b = true;
+			if (gh.deadTime > 2.5f) {
 				//print("moving");
 				//if the player did not pass a boundary, ignore their position and use the new one
 				if (!gh.ignorePosition) {
@@ -55,21 +59,29 @@ public class SmootherTrackingCamera : MonoBehaviour {
 				//this is to move the camrea back to the other positions afterwards, once we realized the player really died
 				if (thisDistance > furthestDistance) {
 					gh.boundaryPlace += .5f * Time.deltaTime * (transform.position - gh.boundaryPlace);
+					gh.boundaryPlace += lastDistance; //to prevent the camera outrunning the boundaryPlace
 				} else {
+					//print("Ignoring forever " + g.name);
 					gh.boundaryPlace = transform.position;
+					//just ignore forever
+					b = false;
+					//trackingPlayers--;
+					//desiredPosition -= gh.boundaryPlace;
 				}
-				print(gh.boundaryPlace);
-
 			}
 			//if they crossed a boundary, use their last place they were before they died 
-			desiredPosition += (gh.ignorePosition)?gh.boundaryPlace:g.transform.position;
-			trackingPlayers++;
+			if (b) {
+				desiredPosition += (gh.ignorePosition)?gh.boundaryPlace:g.transform.position;
+				trackingPlayers++;
+			}
 			//calculate furthest player
 			if (thisDistance > furthestDistance) {
 				furthestDistance = thisDistance;
 			}
 
 		}
+		//print(tempAtLeastOneAlive);
+		//atLeastOneAlive = tempAtLeastOneAlive;
 		if (!tracking) {
 			desiredPosition = Vector3.zero;
 		} else if (trackingPlayers > 0 && atLeastOneAlive) {
@@ -80,8 +92,10 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			desiredPosition = transform.position;
 		}
 		float cameraDistance = Vector2.Distance (desiredPosition, transform.position);
-		if (cameraDistance > 0)
-			transform.position += Time.deltaTime * movementSpeed * (cameraDistance + 2) * (desiredPosition - transform.position);
+		if (cameraDistance > 0) {
+			lastDistance = Time.deltaTime * movementSpeed * (cameraDistance + 2) * (desiredPosition - transform.position);
+			transform.position += lastDistance;
+		}
 		
 		//print (furthestDistance);
 		if (furthestDistance > 0) {

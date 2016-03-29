@@ -42,8 +42,8 @@ public class ExplosionScript : MonoBehaviour {
 					c.transform.GetComponent<Rigidbody2D> ().AddForce (200 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 				}
 				if (c.transform.GetComponent<Hittable> ()) {
-					c.transform.SendMessage("hit");
-					if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
+					c.transform.SendMessage("hit",  20 /Vector2.Distance(this.transform.position, c.transform.position));
+					//if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
 				}
 				if (c.GetComponent<ShootablePlatform> ())
 					c.SendMessage ("hit", 20 /Vector2.Distance(this.transform.position, c.transform.position));

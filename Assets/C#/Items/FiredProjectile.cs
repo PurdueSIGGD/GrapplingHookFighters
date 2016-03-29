@@ -65,7 +65,7 @@ public class FiredProjectile : MonoBehaviour {
 			}
 
 			if (!sticky && !nonLethal && !this.GetComponent<HeldItem>() && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
-				col.transform.SendMessage ("hit");
+				col.transform.SendMessage ("hit", damage);
 				if (makesHimBleed && col.GetComponent<Health>()) col.SendMessage("Bleed");
 			}
 			if (!nonLethal && col.GetComponent<grenade>()) {
@@ -115,7 +115,7 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	void Stickem(Transform t) {
 		if (sticky) {
-			if (t.GetComponent<Hittable>() ) t.transform.SendMessage ("hit");
+			if (t.GetComponent<Hittable>() ) t.transform.SendMessage ("hit", damage);
 			if (t.GetComponent<Health>() && makesHimBleed) t.SendMessage("Bleed");
 
 		}

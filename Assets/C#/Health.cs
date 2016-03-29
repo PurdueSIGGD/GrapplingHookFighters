@@ -8,8 +8,8 @@ using System.Collections;
 public class Health : MonoBehaviour {
 
 	//player Health should not exceed 1 and armorHealth should not exceed 2
-	private int playerHealth;
-	private int armorHealth;
+	private float playerHealth;
+	private float armorHealth;
 	public bool dead;
 	public int deathSparkleParticle;
 	public GameObject particle;
@@ -19,6 +19,7 @@ public class Health : MonoBehaviour {
 	public GameObject part;
 	public Vector2[] deadPoints;
 	private Vector2[] alivePoints;
+	private Transform healthIcon;
 	public float deadTime;
 	public bool ignorePosition;
 	public Vector3 boundaryPlace;
@@ -29,16 +30,16 @@ public class Health : MonoBehaviour {
 
 
 
-	public int getPlayerHealth() {
+	public float getPlayerHealth() {
 		return playerHealth;
 	}
 
-	public int getArmorHealth() {
+	public float getArmorHealth() {
 		return armorHealth;
 	}
 
 	//Will reduce Player health  or Armor by one
-	void hit() {
+	/*void hit() {
 		if (!dead) {
 			if (armorHealth < 1)
 				killPlayer ();
@@ -49,29 +50,53 @@ public class Health : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}*/
 
 	//Reduces Player health and/or armor by dmgAmount.
-	public void hit(int dmgAmount) {	
+	public void hit(float dmgAmount) {	
+		print(dmgAmount);
 		if (!dead) {
-			if (dmgAmount >= playerHealth + armorHealth)
-				killPlayer ();
-			if (dmgAmount == armorHealth)
-				armorHealth = 0;
+			//print(dmgAmount + " " + playerHealth + " " + armorHealth);
+			//print(dmgAmount >= playerHealth + armorHealth);
+			if (dmgAmount < playerHealth + armorHealth) {
+				float diff = armorHealth - dmgAmount;
+				if (armorHealth > 0) {
+					if (diff > 0) { //armor still remains
+						armorHealth -= dmgAmount;
+					} else { //armor eis gon
+						this.SendMessage ("throwWeapont", 2);
+						armorHealth = 0;
+					}
+				} else if (diff < 0) { //more damage than armor
+					if (diff * -1 >= playerHealth) {
+						killPlayer();
+						if (diff < -50) { //lots of damage
+							Gib((int)(diff / 50));
+						}
+					} else {
+
+						playerHealth += diff;
+					}
+				} 
+
+			} else {
+				killPlayer();
+			}
+			print(playerHealth);
+
 		}
 	}
 
 	//Adds armor to armorHealth
 	public void pickUpArmor() {
-		if (armorHealth < 2) 
-			armorHealth += 1;
+		armorHealth = 50;
 	}
 	//drops armor
 	public void dropArmor() {
 		armorHealth = 0;
 	}
 	//Add armor input to armorHealth
-	public void pickUpArmor(int armor) {
+	/*public void pickUpArmor(int armor) {
 		if (armor != 0) {
 			if (armor == 1) {
 				if (armorHealth == 1) 
@@ -83,7 +108,7 @@ public class Health : MonoBehaviour {
 				armorHealth = 2;
 			}
 		}
-	}
+	}*/
 	public void killPlayer() {
 		killPlayer (false);
 	}
@@ -96,7 +121,7 @@ public class Health : MonoBehaviour {
 			this.ignorePosition = true;
 			//boundaryplace is used to know the last place before death
 			this.boundaryPlace = transform.position;
-			print(b);
+			//print(b);
 		}
 		if (!dead) {
 			this.boundaryPlace = transform.position;
@@ -205,7 +230,7 @@ public class Health : MonoBehaviour {
 	}
 	//Restore players beginning status
 	public void resetPlayer() {
-		playerHealth = 1;
+		playerHealth = 100;
 		armorHealth = 0;
 		ignorePosition = false;
 		dead = false;
@@ -234,13 +259,16 @@ public class Health : MonoBehaviour {
 	void Start () {
 		usedGibs = new bool[gibs.Length];
 
-		playerHealth = 1;
+		playerHealth = 100;
 		armorHealth = 0;
-	
+		healthIcon = transform.FindChild("HealthIcon");
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//healthIcon;
+		healthIcon.localScale = new Vector3(playerHealth/100, 1, 1);
+		healthIcon.FindChild("Color").GetComponent<SpriteRenderer>().color = new Color(1-playerHealth/100,playerHealth/100,0);
 		if (dead) {
 			deadTime += Time.deltaTime;
 		} else {
