@@ -137,26 +137,10 @@ public class gun : MonoBehaviour, item {
 										!ray.transform.GetComponent<ParticleScript> () &&
 										ray.transform != this.transform) {
 										if (penetrating) {
-											if (hit) {
-												if (hit.tag == "Player") {
-													GameObject.Instantiate(splats, endPoint, Quaternion.identity);
-
-												} else {
-													GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
-												}
-											}
-											endPoint = ray.point;
+											Damage(ray.transform, ray.point, f);
 											hit = ray.transform;
-											if (hit.GetComponent<Rigidbody2D> ()) {
-												//print(hit);
-												hit.GetComponent<Rigidbody2D> ().AddForce (100 *damage * f);
-											}
-											if (hit.transform.GetComponent<Hittable>()) {
-												//print(1);
-												hit.transform.SendMessage ("hit", damage);
-											} 
-
-										}    
+											endPoint = ray.point;
+										} else    
 										if (!hit) {
 											hit = ray.transform;
 											endPoint = ray.point;
@@ -165,14 +149,7 @@ public class gun : MonoBehaviour, item {
 								}
 								if (hit && !penetrating) {
 
-									if (hit.GetComponent<Rigidbody2D> ()) {
-										//print(hit);
-										hit.GetComponent<Rigidbody2D> ().AddForce (damage * f);
-									}
-									if (hit.transform.GetComponent<Hittable>()) {
-										//print(2);
-										hit.transform.SendMessage ("hit", damage);
-									}
+									Damage(hit.transform, endPoint, f);
 
 								}
 								GameObject g;
@@ -204,7 +181,7 @@ public class gun : MonoBehaviour, item {
 										if (!c.GetComponent<player>() || c.GetComponent<player>().playerid != this.playerid) {
 											//if we are sticking the end of our gun into something, cant be us
 											//print(3);
-											c.SendMessage("hit", damage);
+											Damage(c.transform, shootPoint, f);
 										}
 									}
 								}
@@ -279,12 +256,6 @@ public class gun : MonoBehaviour, item {
 					}
 					if (gunGoesPoof) {
 						transform.FindChild("ParticleSmoke").GetComponent<ParticleSystem>().Play();
-
-						/*GameObject particleG =(GameObject) GameObject.Instantiate(particle, shootPoint, this.transform.rotation);
-	                    if (this.transform.parent && this.transform.parent.parent != null) particleG.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponentInParent<Rigidbody2D>().velocity * .6f;
-	                    particleG.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + thing));
-	                    particleG.GetComponent<Rigidbody2D>().gravityScale = -.3f;
-	                    particleG.GetComponent<ParticleScript>().time = .6f;*/
 					}
 					timeSincelast = 0;
 				} else {
@@ -303,6 +274,24 @@ public class gun : MonoBehaviour, item {
 	}
 	void NotDeath() {
 		death = false;
+	}
+	void Damage(Transform t, Vector2 endPoint, Vector2 angle) {
+		if (t) {
+			if (t.tag == "Player") {
+				GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+
+			} else {
+				GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+			}
+		}
+
+		if (t.GetComponent<Rigidbody2D> ()) {
+			t.GetComponent<Rigidbody2D> ().AddForce (7 * (t.GetComponent<Rigidbody2D>().mass) * damage * (angle + Vector2.up));
+		}
+		if (t.GetComponent<Hittable>()) {
+			//print(1);
+			t.SendMessage ("hit", damage);
+		} 
 	}
 
 }

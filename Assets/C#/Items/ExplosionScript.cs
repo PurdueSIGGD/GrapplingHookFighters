@@ -38,15 +38,17 @@ public class ExplosionScript : MonoBehaviour {
 					c.transform.SendMessage("Explode");
 				}
 				if (c.transform.GetComponent<Rigidbody2D>() != null && c.transform.GetComponent<FiredProjectile>() == null) {
-					c.transform.GetComponent<Rigidbody2D> ().AddForce (500 * c.transform.GetComponent<Rigidbody2D>().mass * (c.transform.position - this.transform.position));
-					c.transform.GetComponent<Rigidbody2D> ().AddForce (200 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
+					c.transform.GetComponent<Rigidbody2D> ().AddForce (300 * c.transform.GetComponent<Rigidbody2D>().mass * (c.transform.position - this.transform.position));
+					c.transform.GetComponent<Rigidbody2D> ().AddForce (150 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 				}
 				if (c.transform.GetComponent<Hittable> ()) {
-					c.transform.SendMessage("hit",  20 /Vector2.Distance(this.transform.position, c.transform.position));
+					c.transform.SendMessage("hit",  50 /Vector2.Distance(this.transform.position, c.transform.position));
 					//if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
 				}
-				if (c.GetComponent<ShootablePlatform> ())
-					c.SendMessage ("hit", 20 /Vector2.Distance(this.transform.position, c.transform.position));
+				if (c.GetComponent<ShootablePlatform> () && !c.isTrigger) {
+					print("boom");
+					c.SendMessage("hit", 150);
+				}
 			}
 		}
 		if (transform.childCount > 1) {

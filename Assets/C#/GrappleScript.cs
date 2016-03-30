@@ -38,7 +38,6 @@ public class GrappleScript : MonoBehaviour {
 			vee[0] = Vector2.zero;
 			vee[1] = focus.transform.position - this.transform.position;
 			lineCol.points = vee;*/
-			print(timeRetracting);
 			this.transform.parent = g.transform;
 			transform.localScale = new Vector3(1/g.transform.localScale.x,1/g.transform.localScale.y,1/g.transform.localScale.z);
 			lastGrab = g.transform;

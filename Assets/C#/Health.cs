@@ -19,7 +19,7 @@ public class Health : MonoBehaviour {
 	public GameObject part;
 	public Vector2[] deadPoints;
 	private Vector2[] alivePoints;
-	private Transform healthIcon;
+	private Transform healthIcon, armorIcon;
 	public float deadTime;
 	public bool ignorePosition;
 	public Vector3 boundaryPlace;
@@ -54,7 +54,7 @@ public class Health : MonoBehaviour {
 
 	//Reduces Player health and/or armor by dmgAmount.
 	public void hit(float dmgAmount) {	
-		print(dmgAmount);
+		//print(dmgAmount);
 		if (!dead) {
 			//print(dmgAmount + " " + playerHealth + " " + armorHealth);
 			//print(dmgAmount >= playerHealth + armorHealth);
@@ -82,7 +82,6 @@ public class Health : MonoBehaviour {
 			} else {
 				killPlayer();
 			}
-			print(playerHealth);
 
 		}
 	}
@@ -116,15 +115,16 @@ public class Health : MonoBehaviour {
 	//params: b, if b, the player has passed the boundary.
 	//kills the player....
 	public void killPlayer(bool b) {
-		if (b) {
-			//passed boundary is used to know if the player has died from a boundary
-			this.ignorePosition = true;
-			//boundaryplace is used to know the last place before death
-			this.boundaryPlace = transform.position;
-			//print(b);
-		}
 		if (!dead) {
-			this.boundaryPlace = transform.position;
+			if (b) {
+				//passed boundary is used to know if the player has died from a boundary
+				this.ignorePosition = true;
+				//boundaryplace is used to know the last place before death
+				this.boundaryPlace = transform.position;
+				//print(b);
+			}
+		
+			//this.boundaryPlace = transform.position;
 
 			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
@@ -262,6 +262,7 @@ public class Health : MonoBehaviour {
 		playerHealth = 100;
 		armorHealth = 0;
 		healthIcon = transform.FindChild("HealthIcon");
+		armorIcon = transform.FindChild("ArmorIcon");
 	}
 	
 	// Update is called once per frame
@@ -269,6 +270,8 @@ public class Health : MonoBehaviour {
 		//healthIcon;
 		healthIcon.localScale = new Vector3(playerHealth/100, 1, 1);
 		healthIcon.FindChild("Color").GetComponent<SpriteRenderer>().color = new Color(1-playerHealth/100,playerHealth/100,0);
+
+		armorIcon.localScale = new Vector3(armorHealth/100, 1, 1);
 		if (dead) {
 			deadTime += Time.deltaTime;
 		} else {
