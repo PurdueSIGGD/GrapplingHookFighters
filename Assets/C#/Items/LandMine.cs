@@ -7,20 +7,19 @@ public class LandMine : MonoBehaviour {
     private Transform originalorientation;
     public float droppedtime = 0.0f;
     public float fusetime = 4.0f;
-    //Bug fixes needed
-    //Needs to explode on collision
+	public GameObject explosion;
 
     // Use this for initialization
 	void Start () {
         originalorientation = this.transform;
 	}
 	
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Player" && willexplode == true && droppedtime >= fusetime)
+		if(droppedtime >= fusetime && col.GetComponent<Rigidbody2D>() && col.GetComponent<Rigidbody2D>().velocity.magnitude > 2f)
         {
-            gameObject.GetComponent<ExplosionScript>();
-            GameObject.Destroy(this);
+			GameObject.Instantiate (explosion, transform.position, Quaternion.identity);
+			GameObject.Destroy(this.gameObject);
         }
 
     }
@@ -29,12 +28,12 @@ public class LandMine : MonoBehaviour {
  
 	// Update is called once per frame
 	void Update () {
-	    if (/*this. &&*/ this.GetComponent<HeldItem>().timeSinceDropped > 0.0) //focus is player
-        {
-            willexplode = true;
-        }
+		if (droppedtime > fusetime) {
+			GetComponent<SpriteRenderer> ().color = Color.red;
+		}
 
-        if(gameObject.GetComponent<HeldItem>().timeSinceDropped > 0.0)
+
+		if(transform.parent.GetComponent<HeldItem>().timeSinceDropped > 0.0)
         {
             droppedtime += Time.deltaTime;     
         }
