@@ -109,7 +109,7 @@ public class HeldItem : MonoBehaviour {
 		//Debug.Log (gameObject.name + " velocity: " + colSpeed);
 		if (colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
 			//Debug.Log (gameObject.name + " velocity: " + colSpeed);
-			col.transform.SendMessage ("hit", this.GetComponent<Rigidbody2D>().velocity.magnitude); //TODO balance
+			col.transform.SendMessage ("hit", 7*this.GetComponent<Rigidbody2D>().velocity.magnitude); //TODO balance
 			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
 			//if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
 		}
