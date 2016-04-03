@@ -4,7 +4,7 @@ using System.Collections;
 public class grenade : MonoBehaviour {
 
     private bool pullPin = false;
-    public bool pinPulled = false, smokey;
+    public bool pinPulled = false, smokey, usePin = true;
 	public bool sticky, exploded;
     public float fuseTime, fuseParticleInterval;
     private float timePassed = 0;
@@ -21,17 +21,19 @@ public class grenade : MonoBehaviour {
         if (pullPin) {
             pullPin = false;
             pinPulled = true;
-            transform.FindChild("Pin").GetComponent<Rigidbody2D>().isKinematic = false;
-			transform.FindChild("Pin").GetComponent<Rigidbody2D>().AddForce(Vector3.up);
-            transform.FindChild("Pin").GetComponent<CircleCollider2D>().isTrigger = false;
-            transform.FindChild("Pin").transform.parent = null;
+			if (usePin) {
+				transform.FindChild ("Pin").GetComponent<Rigidbody2D> ().isKinematic = false;
+				transform.FindChild ("Pin").GetComponent<Rigidbody2D> ().AddForce (Vector3.up);
+				transform.FindChild ("Pin").GetComponent<CircleCollider2D> ().isTrigger = false;
+				transform.FindChild ("Pin").transform.parent = null;
+			}
         }
         if (pinPulled || sticky) {
 			fuseParticleInterval += Time.deltaTime;
             timePassed += Time.deltaTime;
 			if (fuseParticleInterval > .3f && !exploded) {
 				GameObject particleG;
-				if (!sticky) 
+				if (usePin) 
 					particleG =(GameObject) GameObject.Instantiate(particle, transform.FindChild("Cube").transform.position + Vector3.forward * .05f, this.transform.rotation);
 				else 
 					particleG =(GameObject) GameObject.Instantiate(particle, transform.position + Vector3.forward * .05f, this.transform.rotation);

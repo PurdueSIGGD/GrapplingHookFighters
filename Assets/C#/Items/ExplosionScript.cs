@@ -42,11 +42,11 @@ public class ExplosionScript : MonoBehaviour {
 					c.transform.GetComponent<Rigidbody2D> ().AddForce (150 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
 				}
 				if (c.transform.GetComponent<Hittable> ()) {
-					c.transform.SendMessage("hit",  50 /Vector2.Distance(this.transform.position, c.transform.position));
+					c.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, c.transform.position));
 					//if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
 				}
-				if (c.GetComponent<ShootablePlatform> () && !c.isTrigger) {
-					print("boom");
+				if (c.GetComponent<ShootableItem> () && !c.isTrigger) {
+					
 					c.SendMessage("hit", 150);
 				}
 			}

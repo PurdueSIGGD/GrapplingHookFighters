@@ -5,7 +5,7 @@ public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof, yelling;
 	public int playerid, bulletsPerShot = 1, ammo;
-	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, bulletDistance = 100;
+	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, bulletDistance = 100, chance = 0;
 	private float timeSincelast, maxProjectileSpeed, chargeTime, gunShaking, nextAngle, lastAngle;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
@@ -13,6 +13,9 @@ public class gun : MonoBehaviour, item {
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
+
+	public GameObject critGameObject;
+
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
@@ -138,8 +141,12 @@ public class gun : MonoBehaviour, item {
 										ray.transform != this.transform) {
 										if (penetrating) {
 											Damage(ray.transform, ray.point, f);
+											if (ray.transform.gameObject.tag == "Player") {
+												GameObject.Instantiate(splats, ray.point, Quaternion.identity);
+											} else {
+												GameObject.Instantiate(sparks, ray.point, Quaternion.identity);
+											}	
 											hit = ray.transform;
-											endPoint = ray.point;
 										} else    
 										if (!hit) {
 											hit = ray.transform;
@@ -166,7 +173,7 @@ public class gun : MonoBehaviour, item {
 								//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
-								if (hit) {
+								if (hit && !penetrating) {
 									if (hit.tag == "Player") {
 										GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 									} else {
@@ -221,6 +228,16 @@ public class gun : MonoBehaviour, item {
 								g.layer = this.transform.gameObject.layer;
 								g.GetComponent<FiredProjectile> ().damage = this.damage;
 								g.GetComponent<FiredProjectile> ().nonLethal = this.nonLethal;
+
+								if (GetOdds()) {
+									g.GetComponent<FiredProjectile> ().damage = 150;
+									//g.GetComponent<FiredProjectile> ().dieOnAnyHit = true;
+									g.GetComponent<FiredProjectile> ().nonLethal = false;
+									g.GetComponent<FiredProjectile> ().exploding = true;
+									Destroy (g.GetComponent<HeldItem> ()); // you aint holding this
+									GameObject cg = (GameObject)GameObject.Instantiate (critGameObject, g.transform.position, g.transform.rotation);
+									cg.transform.parent = g.transform;
+								}
 
 
 								g.GetComponent<Rigidbody2D> ().AddForce (f * projectileSpeed);
@@ -281,7 +298,7 @@ public class gun : MonoBehaviour, item {
 				GameObject.Instantiate(splats, endPoint, Quaternion.identity);
 
 			} else {
-				GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+				if (!t.GetComponent<ShootableItem>()) GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
 			}
 		}
 
@@ -292,6 +309,11 @@ public class gun : MonoBehaviour, item {
 			//print(1);
 			t.SendMessage ("hit", damage);
 		} 
+	}
+	bool GetOdds() { 
+		float rd = Random.value;
+		return (rd < chance);
+
 	}
 
 }

@@ -7,7 +7,7 @@ public class FiredProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	public float time = 6, damage, startTime;
-	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true, takeTime;
+	public bool exploding, dieOnAnyHit, nonLethal, exploded, forceInducedPain, pointsWhenFast, makesHimBleed, sticky, hitsSourcePlayer = true, takeTime, explodesOnPlayerHit;
 	public GameObject explosion;
 	public GameObject sourcePlayer;
 	public float forceThreshold = 30.0f;
@@ -32,7 +32,6 @@ public class FiredProjectile : MonoBehaviour {
 			if (exploding && !exploded && !this.GetComponent<HeldItem>()) {
 				if (takeTime && startTime - time < .1f) { 
 					//turn into item you can pick up
-
 					this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
 					PolygonCollider2D polyBox = this.gameObject.AddComponent<PolygonCollider2D>();
 					Vector2[] points = new Vector2[4];
@@ -60,9 +59,9 @@ public class FiredProjectile : MonoBehaviour {
 				}
 
 			}
-			if (col.GetComponent<Rigidbody2D>()) {
-				col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
-			}
+			//if (col.GetComponent<Rigidbody2D>()) {
+			//	col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
+			//}
 
 			if (!sticky && !nonLethal && !this.GetComponent<HeldItem>() && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
 				col.transform.SendMessage ("hit", damage);
@@ -71,11 +70,10 @@ public class FiredProjectile : MonoBehaviour {
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
-			if (exploded || dieOnAnyHit && (startTime != -1 && startTime - time > .05f || exploding)) //can die, not too soon
+			if (exploded || (dieOnAnyHit && startTime - time > .05f)) //can die, not too soon
 				GameObject.Destroy (this.gameObject);
 		}
-		if (col.shapeCount == 5 && dieOnAnyHit) //uhh I forgot what this does. Something about polygon colliders and biz
-			GameObject.Destroy (this.gameObject);
+
 		
 		//if (col.isTrigger && col.GetComponent<Health>() && dieOnAnyHit)
 			//GameObject.Destroy (this.gameObject);
@@ -83,7 +81,8 @@ public class FiredProjectile : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D col) {
 		//print(this.GetComponent<HeldItem>().timeSinceDropped + " " + Vector2.SqrMagnitude(col.relativeVelocity) + " " + (startTime - time));
-		if (Vector2.SqrMagnitude(col.relativeVelocity) > 50 && exploding && startTime - time > 1 && (!this.GetComponent<HeldItem>() || this.GetComponent<HeldItem>().timeSinceDropped >= .1f)) {
+		if (explodesOnPlayerHit && col.transform.GetComponent<player>() || 
+			(Vector2.SqrMagnitude(col.relativeVelocity) > 50 && exploding && startTime - time > 1 && (!this.GetComponent<HeldItem>() || this.GetComponent<HeldItem>().timeSinceDropped >= .1f))) {
 			//print ("spawning explosion");
 			exploded = true;
 			GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
