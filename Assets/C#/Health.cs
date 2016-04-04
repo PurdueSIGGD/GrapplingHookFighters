@@ -71,7 +71,7 @@ public class Health : MonoBehaviour {
 					if (diff * -1 >= playerHealth) {
 						killPlayer();
 						if (diff < -50) { //lots of damage
-							Gib((int)(diff / 50));
+							//Gib((int)(diff / 50));
 						}
 					} else {
 
@@ -115,7 +115,7 @@ public class Health : MonoBehaviour {
 	//params: b, if b, the player has passed the boundary.
 	//kills the player....
 	public void killPlayer(bool b) {
-		if (!dead) {
+		
 			if (b) {
 				//passed boundary is used to know if the player has died from a boundary
 				this.ignorePosition = true;
@@ -125,7 +125,7 @@ public class Health : MonoBehaviour {
 			}
 		
 			//this.boundaryPlace = transform.position;
-
+		if (!dead) {
 			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
 			aliveSprite = this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite;
@@ -175,10 +175,30 @@ public class Health : MonoBehaviour {
 
 		}
 	}
-	public void Gib(int i) { //i being the number of gibs it requests
+	public void Gib(Vector3 t) { //t being where the explosion was
 		if (dead) {
-			for (int j = 0; j < i; j++) {
-				int range = Random.Range (0, gibs.Length);
+			int length = Random.Range(0,4);
+			for (int j = 0; j < length; j++) {
+				int range = Random.Range (0, 5 + 3); //5 for each limb, 3 for position based gibbing
+
+				if (range >= 5) {
+					if (Random.Range(0,1) == 1) {
+						if (t.y > transform.position.y) 
+							range = 0;
+							//head
+						if (t.y < transform.position.y) 
+							range = Random.Range(0,1)==1?3:4;
+						//head
+					} else {
+						if (t.x < transform.position.x) 
+							range = Random.Range(0,1)==1?2:4;
+							//left arm or left leg
+						else if (t.x > transform.position.x)
+							range = Random.Range(0,1)==1?1:3;
+							//right arm or right leg
+					}
+				}
+				//print(range);
 				if (!usedGibs [range]) {
 					GameObject g = null;
 					switch (range) 
@@ -216,7 +236,7 @@ public class Health : MonoBehaviour {
 					//print( this.GetComponent<Rigidbody2D>().velocity);
 					//EditorApplication.isPaused = true;
 					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + this.GetComponent<Rigidbody2D>().velocity);
-					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0, i * 10));
+					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0,  10));
 					BoxCollider2D b = g.AddComponent<BoxCollider2D>();
 					b.isTrigger = true;
 					b.size = new Vector2(.4f, .4f);
@@ -232,6 +252,7 @@ public class Health : MonoBehaviour {
 	public void resetPlayer() {
 		playerHealth = 100;
 		armorHealth = 0;
+		deadTime = 0;
 		ignorePosition = false;
 		dead = false;
 		for (int i = 0; i < usedGibs.Length; i++)
@@ -257,7 +278,7 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		usedGibs = new bool[gibs.Length];
+		usedGibs = new bool[5];
 
 		playerHealth = 100;
 		armorHealth = 0;
@@ -280,9 +301,12 @@ public class Health : MonoBehaviour {
 	}
 	void Bleed() {
 		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {
-			GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+
 			g.transform.parent = this.transform;
-			g.name = "ParticleBleed";
+			g.transform.localScale = Vector3.one;
+			g.name = "ParticleBleed";*/
+			//lets not bleed for now
 		}
 
 	}

@@ -18,7 +18,8 @@ public class SceneController : MonoBehaviour {
 	public GameObject myCamera;
 	public GameObject[] players;
 	private Vector2[] mapPlacements;
-
+	public float timeBeforeRoundEnd = 4f;
+	public float timeForPointsAwarded = 2.5f;
 	private int currentMapIndex, currentMapQueue;
 	private int deathCount;
 	private float endTimer, startTimer;
@@ -185,11 +186,11 @@ public class SceneController : MonoBehaviour {
 		if (IsRoundOver()) {
 			if (!endScene && !transitioning) {
 				endScene = true;
-				endTimer = 3;
+				endTimer = timeBeforeRoundEnd;
 			}
 			endTimer -= Time.deltaTime;
 			//print("done here");
-			if (endTimer < 2.5f && !transitioning && !pointYet) {
+			if (endTimer < timeBeforeRoundEnd-timeForPointsAwarded && !transitioning && !pointYet) {
 				foreach (GameObject g in players) {
 					player ps = g.GetComponent<player>();
 					if (!ps.death) {
@@ -272,7 +273,7 @@ public class SceneController : MonoBehaviour {
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
-			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect") || g.layer == 15 /* ragdoll */) {
+			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect") || g.CompareTag("PlayerGibs") /* ragdoll */) {
 				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>() && 
 					!g.GetComponent<GrappleScript>() && !g.GetComponent<GrappleLauncher>() && !g.GetComponent<player>()) {
 

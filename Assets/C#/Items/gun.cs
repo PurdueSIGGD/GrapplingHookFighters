@@ -110,6 +110,7 @@ public class gun : MonoBehaviour, item {
 						Vector2 f = thing;
 						f += (spread/Random.Range(1f,5f) * Random.insideUnitCircle) + f;
 						f.Normalize();
+						//print(f + " " + Vector2Extension.Vector2Deg(f));
 						int layermask = (1 << this.gameObject.layer) + (1 << (this.gameObject.layer + 5)) + (1 << 15);
 						//    print(Vector3.Distance(playerPos, f));
 						RaycastHit2D[] rr = Physics2D.RaycastAll(playerPos, shootPoint - (Vector3)playerPos, Vector3.Distance(playerPos, shootPoint), layermask);
@@ -140,12 +141,8 @@ public class gun : MonoBehaviour, item {
 										!ray.transform.GetComponent<ParticleScript> () &&
 										ray.transform != this.transform) {
 										if (penetrating) {
+											//print(ray.transform.name);
 											Damage(ray.transform, ray.point, f);
-											if (ray.transform.gameObject.tag == "Player") {
-												GameObject.Instantiate(splats, ray.point, Quaternion.identity);
-											} else {
-												GameObject.Instantiate(sparks, ray.point, Quaternion.identity);
-											}	
 											hit = ray.transform;
 										} else    
 										if (!hit) {
@@ -173,13 +170,7 @@ public class gun : MonoBehaviour, item {
 								//EditorApplication.isPaused = true;
 								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
 								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
-								if (hit && !penetrating) {
-									if (hit.tag == "Player") {
-										GameObject.Instantiate(splats, endPoint, Quaternion.identity);
-									} else {
-										GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
-									}
-								}
+
 							} else {
 								Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
 								bool colliding = false;
@@ -294,11 +285,11 @@ public class gun : MonoBehaviour, item {
 	}
 	void Damage(Transform t, Vector2 endPoint, Vector2 angle) {
 		if (t) {
-			if (t.tag == "Player") {
-				GameObject.Instantiate(splats, endPoint, Quaternion.identity);
+			if (t.tag == "Player" || t.tag == "PlayerGibs") {
+				GameObject.Instantiate(splats, endPoint,Quaternion.Euler(0,90,Vector2Extension.Vector2Deg(angle)));
 
 			} else {
-				if (!t.GetComponent<ShootableItem>()) GameObject.Instantiate(sparks, endPoint, Quaternion.identity);
+				if (!t.GetComponent<ShootableItem>()) GameObject.Instantiate(sparks, endPoint, Quaternion.Euler(0,90,Vector2Extension.Vector2Deg(angle)));
 			}
 		}
 

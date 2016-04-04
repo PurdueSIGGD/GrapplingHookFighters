@@ -43,7 +43,7 @@ public class ExplosionScript : MonoBehaviour {
 				}
 				if (c.transform.GetComponent<Hittable> ()) {
 					c.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, c.transform.position));
-					//if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",Random.Range(1,3));
+					if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",transform.position);
 				}
 				if (c.GetComponent<ShootableItem> () && !c.isTrigger) {
 					
