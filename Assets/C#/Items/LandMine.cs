@@ -12,6 +12,7 @@ public class LandMine : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         originalorientation = this.transform;
+
 	}
 	
     void OnTriggerStay2D(Collider2D col)
@@ -42,6 +43,11 @@ public class LandMine : MonoBehaviour {
         {
             transform.rotation = originalorientation.rotation;
         }
+
+    }
+
+    public void hit()
+    {
 
     }
 }
