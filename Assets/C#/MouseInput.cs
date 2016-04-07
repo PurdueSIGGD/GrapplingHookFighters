@@ -82,8 +82,8 @@ public class MouseInput : MonoBehaviour {
 						joystickPlayers.Add(playerScript);
 						joystickNums++;
 					} else {
-						//print(playerScript + " " + mouseNums);
-						playerScript.mouseID = mouseNums;  //this number will be decided in the selection menu, so we know what mouse they plan on using
+						print(playerScript + " " + mouseNums);
+						//playerScript.mouseID = mouseNums;  //this number will be decided in the selection menu, so we know what mouse they plan on using
 						mousePlayers.Add(playerScript);
 						mouseNums++;
 						//print(playerScript + " successfully added");

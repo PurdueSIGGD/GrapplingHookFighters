@@ -19,8 +19,8 @@ public class LandMine : MonoBehaviour {
     {
 		if(droppedtime >= fusetime && col.GetComponent<Rigidbody2D>() && col.GetComponent<Rigidbody2D>().velocity.magnitude > 2f)
         {
-			GameObject.Instantiate (explosion, transform.position, Quaternion.identity);
-			GameObject.Destroy(this.gameObject);
+            GameObject.Instantiate(explosion, transform.position, Quaternion.identity);
+            GameObject.Destroy(this.gameObject);
         }
 
     }
@@ -48,6 +48,7 @@ public class LandMine : MonoBehaviour {
 
     public void hit()
     {
-
+        GameObject.Instantiate(explosion, transform.position, Quaternion.identity);
+        GameObject.Destroy(this.gameObject);
     }
 }
