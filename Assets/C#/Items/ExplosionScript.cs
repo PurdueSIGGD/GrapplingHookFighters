@@ -53,7 +53,7 @@ public class ExplosionScript : MonoBehaviour {
 		}
 		if (transform.childCount > 1) {
 			for (int i = 0; i < transform.childCount; i++) {
-				if (!transform.GetChild(i).GetComponent<Animator>()) {
+				if (!transform.GetChild(i).GetComponent<Animator>() && !transform.GetChild(i).GetComponent<SpriteRenderer>() ) { //delete stuck items, but not animator or light
 					//print(transform.GetChild(i).name);
 					GameObject.Destroy(transform.GetChild(i).gameObject);
 				
@@ -73,7 +73,7 @@ public class ExplosionScript : MonoBehaviour {
 			this.GetComponent<CircleCollider2D> ().enabled = false;
 
 		}
-		if (a.GetTime () > 1.6f)
+		if (a.GetTime () > .4f)
 				Destroy (this.gameObject);
 	}
 	void OnCollisionEnter2D(Collision2D col) {

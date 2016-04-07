@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,10 +12,10 @@ public class SceneController : MonoBehaviour {
 	public int[] levelPlan, playerScores;
 	//public Scene[] levels;
 	private int lastScene;
-	public float distanceInBetween = 30;
+	//public float distanceInBetween = 30;
 	public int gameMode; //defaults to 0, which will be FFA
-	public GameObject myCamera;
-	public GameObject[] players;
+	private GameObject myCamera;
+	private GameObject[] players;
 	private Vector2[] mapPlacements;
 	public float timeBeforeRoundEnd = 4f;
 	public float timeForPointsAwarded = 2.5f;
@@ -46,11 +45,18 @@ public class SceneController : MonoBehaviour {
 
 	IEnumerator LoadLevelIntitial() {
 		cameraThing = GameObject.Find("AutoZoomCamParent");
+		/*playerCount = 0;
+		GameObject g;
+		while ((g=GameObject.Find("Player" + playerCount)) != null && g.activeInHierarchy) playerCount++; */
 		players = new GameObject[playerCount];
 		playerScores = new int[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
-			players[i-1] = GameObject.Find("Player" + i);
+			GameObject gg = GameObject.Find("Player" + i);
+			if (gg.activeInHierarchy)
+				players[i-1] = gg;
 		}
+
+		for (int i = playerCount + 1; i <= 4; i++) GameObject.Find("Player" + i).transform.parent.gameObject.SetActive(false);
 		for (int i = 0; i < playerCount; i++) {
 			players[i].SendMessage("DisablePlayers");
 		}
@@ -92,6 +98,7 @@ public class SceneController : MonoBehaviour {
 		if (currentMapQueue == levelPlan.Length) {
 			//we're done, break
 			End();
+
 			yield break;
 		}
 		//print(currentMapQueue);
@@ -215,7 +222,15 @@ public class SceneController : MonoBehaviour {
 
 			}
 		}
+		if (Input.GetKeyDown(KeyCode.Backspace)) RestartNewGame();
 
+	}
+	void RestartNewGame() {
+		GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+		foreach (GameObject o in objects) {
+			GameObject.Destroy(o.gameObject);
+		}
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	void AddDeath() {
 		deathCount++;
@@ -268,7 +283,6 @@ public class SceneController : MonoBehaviour {
 
 	void CleanScene() {
 		myCamera.GetComponent<SmootherTrackingCamera> ().ResetCamera ();
-
 		Scene scene = SceneManager.GetActiveScene ();
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);

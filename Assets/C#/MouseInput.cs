@@ -268,4 +268,5 @@ public class MouseInput : MonoBehaviour {
 	void EnablePlayers() {
 		tempMoveDisable = false;
 	}
+
 }

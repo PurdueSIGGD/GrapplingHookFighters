@@ -20,9 +20,10 @@ public class SmootherTrackingCamera : MonoBehaviour {
 	void Start () {
 		lastDistance = Vector3.zero;
 		tracking = true;
-		playerCount = 0;
-		while (GameObject.Find("Player" + (playerCount + 1))) {
-			playerCount++;
+		if (GameObject.Find("SceneController")) {
+			playerCount = GameObject.Find("SceneController").GetComponent<SceneController>().playerCount;
+		} else {
+			playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
 		}
 		targets = new GameObject[playerCount];
 		for (int i = 1; i <= playerCount; i++) {

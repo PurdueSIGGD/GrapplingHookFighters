@@ -60,6 +60,10 @@ public class player : MonoBehaviour {
     void Update() {
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
+		if (tempDisabled) {
+			transform.FindChild("AimerBody").rotation = transform.FindChild("Center").rotation = Quaternion.Euler(0, 0, 0);
+			this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
+		}
 		if (punchTime < 1) punchTime +=Time.deltaTime;
 		if (!death && !tempDisabled) {
 
@@ -246,6 +250,9 @@ public class player : MonoBehaviour {
 				heldItem1.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem1.transform.parent = null;
 				heldItem1.transform.localScale = Vector3.one;
+				if (heldItem1.GetComponent<RecoilSimulator>()) {
+					heldItem1.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
+				}
 
 
 				heldItem1.SendMessage ("unclick");
@@ -266,7 +273,9 @@ public class player : MonoBehaviour {
 				heldItem2.GetComponent<Rigidbody2D> ().AddTorque (3);
 				heldItem2.transform.parent = null;
 				heldItem2.transform.localScale = Vector3.one;
-
+				if (heldItem2.GetComponent<RecoilSimulator>()) {
+					heldItem2.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
+				}
 				heldItem2.SendMessage ("unclick");
 				heldItem2 = null;
 				canPickup = false;

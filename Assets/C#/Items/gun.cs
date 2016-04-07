@@ -5,7 +5,7 @@ public class gun : MonoBehaviour, item {
 
 	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof, yelling;
 	public int playerid, bulletsPerShot = 1, ammo;
-	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, bulletDistance = 100, chance = 0;
+	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, minChargeTime, bulletDistance = 100, chance = 0;
 	private float timeSincelast, maxProjectileSpeed, chargeTime, gunShaking, nextAngle, lastAngle;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
@@ -23,6 +23,7 @@ public class gun : MonoBehaviour, item {
 			maxProjectileSpeed = projectileSpeed;
 			projectileSpeed = 0;
 		}
+		chargeTime = minChargeTime;
 	}
 
 	public void click() {
@@ -54,7 +55,7 @@ public class gun : MonoBehaviour, item {
 		} else if (chargedShot) {
 			trigger = false;
 			projectileSpeed = 0;
-			chargeTime = 0;
+			chargeTime = minChargeTime;
 		}
 	}
 
@@ -99,10 +100,12 @@ public class gun : MonoBehaviour, item {
 					Vector2 thing = Vector2Extension.Deg2Vector(transform.parent.eulerAngles.z);
 					//Vector2 thing = Vector2.zero;
 					//if (yelling) print(thing);
-					if (gunShaking < .5f) gunShaking += (aimRecoil)*Time.deltaTime;
-					thing += (gunShaking * Random.insideUnitCircle);
-					float angle = Vector2Extension.Vector2Deg(thing);
-					transform.rotation = Quaternion.Euler(0,0,angle);
+					if (gunShaking < .5f) gunShaking += (aimRecoil);
+					//thing += (gunShaking * Random.insideUnitCircle);
+					//float angle = Vector2Extension.Vector2Deg(thing);
+					//transform.rotation = Quaternion.Euler(0,0,angle);
+					//print(gunShaking);
+					if (gunShaking > 0) this.GetComponent<RecoilSimulator>().SendMessage("AddTorque",gunShaking);
 					thing = (Vector2)shootPoint - gunBase;
 
 					if (transform.parent && transform.parent.parent) transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
@@ -168,8 +171,11 @@ public class gun : MonoBehaviour, item {
 								}
 								//g.transform.position = endPoint;
 								//EditorApplication.isPaused = true;
-								g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
-								g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
+								foreach (LineRenderer rrr in g.GetComponents<LineRenderer>()) {
+									g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
+									g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
+								}
+
 
 							} else {
 								Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
@@ -216,7 +222,7 @@ public class gun : MonoBehaviour, item {
 									g.SendMessage ("ignoreColl", GameObject.Find ("Player" + playerid).GetComponent<Collider2D> ());
 									g.SendMessage ("retriggerSoon");
 								}
-								g.layer = this.transform.gameObject.layer;
+								if (!this.raycastShoot) g.layer = this.transform.gameObject.layer; //want it to be light if not a projectile
 								g.GetComponent<FiredProjectile> ().damage = this.damage;
 								g.GetComponent<FiredProjectile> ().nonLethal = this.nonLethal;
 

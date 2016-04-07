@@ -150,6 +150,16 @@ public class Health : MonoBehaviour {
 			foreach (SpriteRenderer s in sp) {
 				s.color = c;
 			}
+			foreach (Sticky s in transform.GetComponentsInChildren<Sticky>()) {
+				//stickybombs, arrows, or anything else stuck in our legs iwll move to them
+				if (s.transform.localPosition.y < 0) {
+					if (s.transform.localPosition.x > 0) {
+						s.transform.parent = transform.FindChild("GibHolder(Clone)").FindChild("Leg1");
+					} else {
+						s.transform.parent = transform.FindChild("GibHolder(Clone)").FindChild("Leg2");
+					}
+				}
+			}
 			//g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
 
 			//EditorApplication.isPaused = true;
