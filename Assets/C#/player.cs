@@ -25,6 +25,8 @@ public class player : MonoBehaviour {
     public Vector3 firingVector, savedReticleLocation;
 	private Vector2[] standingCol, crouchingCol;
 
+	private Transform center, aimingParent, aimer, aimerBody;
+
 
    // static float layer1Position = 0;
    // static float layer2Position = 1;
@@ -39,6 +41,10 @@ public class player : MonoBehaviour {
     private float time = 0.0f;
 
     void Start() {
+		aimingParent = transform.FindChild("AimingParent"); //aiming parent retains recoil
+		center = aimingParent.FindChild("Center"); //center holds items and weapons
+		aimerBody = aimingParent.FindChild("AimerBody"); //aimerbody is what holds the aimer for easy rotation and scaling
+		aimer = aimerBody.FindChild("Aimer"); //aimer is a sprite
         GameObject.Find("Reticle" + playerid).transform.position = transform.position;
         //switchedKey = true;
 		Vector2[] curCol = 	this.GetComponent<PolygonCollider2D>().points;
@@ -61,7 +67,8 @@ public class player : MonoBehaviour {
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
 		if (tempDisabled) {
-			transform.FindChild("AimerBody").rotation = transform.FindChild("Center").rotation = Quaternion.Euler(0, 0, 0);
+			aimingParent.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
+			aimingParent.rotation = Quaternion.Euler(0, 0, 0);
 			this.transform.FindChild("Sprite").GetComponent<SpriteRenderer> ().flipX = false;
 		}
 		if (punchTime < 1) punchTime +=Time.deltaTime;
@@ -129,12 +136,12 @@ public class player : MonoBehaviour {
 
 			//if (playerid == 1) print(crouched);
 			jumpNow(false);
-			Transform center = this.gameObject.transform.FindChild("Center");
+			//Transform center = this.gameObject.transform.FindChild("AimingParent");
 
             Vector3 reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
 
             reticlePos.z = transform.position.z;
-            firingVector = reticlePos - center.position;
+            firingVector = reticlePos - aimingParent.position;
             firingVector.Normalize();
 
 			float rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
@@ -153,13 +160,13 @@ public class player : MonoBehaviour {
 					GameObject.Find("Reticle" + playerid).transform.localPosition = savedReticleLocation;
 					reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
 					reticlePos.z = transform.position.z;
-					firingVector = reticlePos - center.position;
+					firingVector = reticlePos - aimingParent.position;
 					firingVector.Normalize();
 					rotZ = Mathf.Atan2(firingVector.y, firingVector.x) * Mathf.Rad2Deg; //moving the rotation of the center here
 
 
 				}
-				transform.FindChild("AimerBody").rotation = center.rotation = Quaternion.Euler(0, 0, rotZ);
+				aimerBody.localRotation = center.localRotation = Quaternion.Euler(0, 0, rotZ);
 
 				Vector3 centerScale = center.localScale;
 				if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
@@ -238,6 +245,8 @@ public class player : MonoBehaviour {
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
 			if (heldItem1 != null) {
+				this.aimingParent.SendMessage("StopRotation");
+				aimingParent.localRotation = Quaternion.Euler(0,0,0);
 				heldItem1.GetComponent<HeldItem> ().focus = null;
 				//GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem", playerid);
 				heldItem1.SendMessage ("retriggerSoon", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
@@ -252,6 +261,7 @@ public class player : MonoBehaviour {
 				heldItem1.transform.localScale = Vector3.one;
 				if (heldItem1.GetComponent<RecoilSimulator>()) {
 					heldItem1.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
+					aimingParent.localRotation = Quaternion.Euler(0,0,0);
 				}
 
 
@@ -275,6 +285,7 @@ public class player : MonoBehaviour {
 				heldItem2.transform.localScale = Vector3.one;
 				if (heldItem2.GetComponent<RecoilSimulator>()) {
 					heldItem2.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
+					aimingParent.localRotation = Quaternion.Euler(0,0,0);
 				}
 				heldItem2.SendMessage ("unclick");
 				heldItem2 = null;
@@ -415,10 +426,18 @@ public class player : MonoBehaviour {
 							}
 						}
 						col.SendMessage ("ignoreColl", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
-						Transform center = this.gameObject.transform.FindChild ("Center");
+						//Transform center = this.gameObject.transform.FindChild ("Center");
 						heldItem1.GetComponent<Rigidbody2D> ().isKinematic = true;
 						heldItem1.transform.SetParent (center, false);
 						heldItem1.transform.localScale = Vector3.one;
+						//transfer all recoil parts
+						RecoilSimulator heldR = heldItem1.GetComponent<RecoilSimulator>();
+						if (heldR) {
+							aimingParent.GetComponent<RecoilSimulator>().maxAngle = heldR.maxAngle;
+							aimingParent.GetComponent<RecoilSimulator>().pullDelay = heldR.pullDelay;
+							aimingParent.GetComponent<RecoilSimulator>().recoverSpeed = heldR.recoverSpeed;
+						}
+
 
 						//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
 						heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
@@ -443,10 +462,17 @@ public class player : MonoBehaviour {
 							}
 						}
 						col.SendMessage ("ignoreColl", this.GetComponent<Collider2D> ().GetComponent<Collider2D> ());
-						Transform center = this.gameObject.transform.FindChild ("Center");
+						//Transform center = this.gameObject.transform.FindChild ("Center");
 						heldItem2.GetComponent<Rigidbody2D> ().isKinematic = true;
 						heldItem2.transform.SetParent (center, false);
 						heldItem2.transform.localScale = Vector3.one;
+						//transfer recoil
+						RecoilSimulator heldR = heldItem2.GetComponent<RecoilSimulator>();
+						if (heldR) {
+							aimingParent.GetComponent<RecoilSimulator>().maxAngle = heldR.maxAngle;
+							aimingParent.GetComponent<RecoilSimulator>().pullDelay = heldR.pullDelay;
+							aimingParent.GetComponent<RecoilSimulator>().recoverSpeed = heldR.recoverSpeed;
+						}
 
 						//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
 						heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
@@ -466,7 +492,7 @@ public class player : MonoBehaviour {
         death = true;
         this.GetComponent<Rigidbody2D>().freezeRotation = false;
         //this.GetComponent<LineRenderer>().SetVertexCount(0);
-		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+		aimer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
         this.gameObject.tag = "Item";
         if (heldItem1 != null) {
             throwWeapon(false, 0);
@@ -485,7 +511,7 @@ public class player : MonoBehaviour {
 		this.isStandingUp = false;
 		maxMoveSpeed = 10;
         this.GetComponent<Rigidbody2D>().freezeRotation = true;
-		transform.FindChild("AimerBody").FindChild("Aimer").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+		aimer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 		//this.GetComponent<LineRenderer>().SetVertexCount(2);
         this.gameObject.tag = "Player";
 
@@ -528,7 +554,7 @@ public class player : MonoBehaviour {
 				
 			}
 		} else {
-			Transform center = this.gameObject.transform.FindChild("Center");
+			//Transform center = this.gameObject.transform.FindChild("Center");
 			RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
 			bool hitValid = false;
 			foreach (RaycastHit2D hit in hits) {

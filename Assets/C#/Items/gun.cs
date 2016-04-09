@@ -103,12 +103,12 @@ public class gun : MonoBehaviour, item {
 					if (gunShaking < .5f) gunShaking += (aimRecoil);
 					//thing += (gunShaking * Random.insideUnitCircle);
 					//float angle = Vector2Extension.Vector2Deg(thing);
-					//transform.rotation = Quaternion.Euler(0,0,angle);
+					//transform.rotation = Quaternion.Euler(0,0,angle);	
 					//print(gunShaking);
-					if (gunShaking > 0) this.GetComponent<RecoilSimulator>().SendMessage("AddTorque",gunShaking);
+					if (gunShaking > 0) transform.parent.GetComponentInParent<RecoilSimulator>().SendMessage("AddTorque",gunShaking);
 					thing = (Vector2)shootPoint - gunBase;
 
-					if (transform.parent && transform.parent.parent) transform.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
+					if (transform.parent && transform.parent.parent) transform.parent.parent.parent.GetComponent<Rigidbody2D>().AddForce(-40 * recoil * thing); //Pushing back
 					for (int i = 0; i < bulletsPerShot; i++) {
 						Vector2 f = thing;
 						f += (spread/Random.Range(1f,5f) * Random.insideUnitCircle) + f;
@@ -172,14 +172,14 @@ public class gun : MonoBehaviour, item {
 								//g.transform.position = endPoint;
 								//EditorApplication.isPaused = true;
 								foreach (LineRenderer rrr in g.GetComponents<LineRenderer>()) {
-									g.GetComponent<LineRenderer> ().SetPosition (0, shootPoint);
-									g.GetComponent<LineRenderer> ().SetPosition (1, endPoint);
+									rrr.SetPosition (0, shootPoint);
+									rrr.SetPosition (1, endPoint);
 								}
 
 
 							} else {
 								Collider2D[] hitColliders = Physics2D.OverlapCircleAll (shootPoint, .1f, layermask);
-								bool colliding = false;
+
 								foreach (Collider2D c in hitColliders) {
 									if (!c.isTrigger && c.GetComponent<Hittable>()) {
 										if (!c.GetComponent<player>() || c.GetComponent<player>().playerid != this.playerid) {

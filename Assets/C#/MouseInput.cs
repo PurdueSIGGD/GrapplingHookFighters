@@ -151,7 +151,7 @@ public class MouseInput : MonoBehaviour {
 				if (p == null || mice [p.mouseID] == null ) continue;
 				playerPos = p.transform.position;
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
-				Transform center = p.transform.FindChild("Center");
+				Transform center =  p.transform.FindChild("AimingParent").FindChild("Center");
 				//we use mouse
 
 				//print(mousePosition[mouseNums].x + " " + mousePosition[mouseNums].y);
@@ -211,7 +211,7 @@ public class MouseInput : MonoBehaviour {
 				if (p == null) break;
 
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
-				Transform center = p.transform.FindChild("Center");
+				Transform center = p.transform.FindChild("AimingParent").FindChild("Center");
 				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0);
 				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
 					look = look/Vector2.SqrMagnitude(look);

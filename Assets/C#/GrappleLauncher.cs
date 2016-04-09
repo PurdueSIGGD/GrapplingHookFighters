@@ -8,7 +8,7 @@ public class GrappleLauncher : MonoBehaviour {
 	public Transform center;
 	// Use this for initialization
 	void Start () {
-		center = this.gameObject.transform.FindChild ("Center");
+		center = this.transform.FindChild("AimingParent").FindChild ("Center");
 
 		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);
 		firedGrapple.GetComponent<GrappleScript>().focus = this.gameObject;

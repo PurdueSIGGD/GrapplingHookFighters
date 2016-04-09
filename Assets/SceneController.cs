@@ -25,7 +25,7 @@ public class SceneController : MonoBehaviour {
 	private GameObject currentMap, lastMap, cameraThing;
 	private bool transitioning, readyToStart, countDown, endScene, pointYet;
 	void Start() {
-		int index = 0;
+		//int index = 0;
 		/*mapPlacements = new Vector2[9];
 		int index = 0;
 		for (int y = -1; y <= 1; y++) {

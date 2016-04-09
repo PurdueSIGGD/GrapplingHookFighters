@@ -27,8 +27,9 @@ public class parasol : MonoBehaviour {
 				gravScale += (o/90)*.85f;
 				//print(o);
 			}
-			this.transform.parent.parent.GetComponent<Rigidbody2D>().gravityScale = opened ? gravScale : 1.1f;
-			myParent = this.transform.parent.parent;
+			myParent = this.transform.parent.parent.parent;
+			myParent.GetComponent<Rigidbody2D>().gravityScale = opened ? gravScale : 1.1f;
+
 		} else {
 			if (myParent) {
 				myParent.GetComponent<Rigidbody2D>().gravityScale = opened ? .25f : 1.1f;

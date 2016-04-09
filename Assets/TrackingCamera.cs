@@ -4,7 +4,7 @@ using System.Collections;
 public class TrackingCamera : MonoBehaviour {
 	public float dampTime = 0.15f;
 	private Vector3 velocity = Vector3.zero;
-	private Vector2 lastPos, goalPos;
+	private Vector2 lastPos = Vector2.zero, goalPos = Vector2.zero;
 	public float initialCamSize = 10;
 	public GameObject[] targets;
 	public float bufferX = 4, bufferY = 4;

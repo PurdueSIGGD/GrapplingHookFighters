@@ -41,7 +41,7 @@ public class GrappleScript : MonoBehaviour {
 			this.transform.parent = g.transform;
 			transform.localScale = new Vector3(1/g.transform.localScale.x,1/g.transform.localScale.y,1/g.transform.localScale.z);
 			lastGrab = g.transform;
-			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("Center").position);
+			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position);
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			this.GetComponent<Rigidbody2D>().isKinematic = true;
 
@@ -77,7 +77,7 @@ public class GrappleScript : MonoBehaviour {
 		}
 		RaycastHit2D[] r;
 		if (connected) {
-			Transform center = focus.transform.FindChild ("Center");
+			Transform center = focus.transform.FindChild("AimingParent").FindChild ("Center");
 			float d = Vector3.Distance(this.transform.position, center.position) * .75f;
 			if (d > 1.2f) { //so getting too close won't disconnect
 				int layermask = 1 << (this.gameObject.layer + 5);
@@ -104,7 +104,7 @@ public class GrappleScript : MonoBehaviour {
 		if (retracting) {
 			timeRetracting += Time.deltaTime;
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.FindChild("Center").position, timeRetracting * 30 * Time.deltaTime );
+			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position, timeRetracting * 30 * Time.deltaTime );
 			//this.transform.position += 50*Time.deltaTime*(focus.transform.position - this.transform.position)/Vector3.Distance(this.transform.position, focus.transform.position);
 		} else {
 			timeRetracting = 1;
@@ -113,7 +113,7 @@ public class GrappleScript : MonoBehaviour {
 		if (firing || retracting || this.GetComponent<Rigidbody2D>().isKinematic == true) {
 			lr.enabled = true;
 			lr.SetPosition(0, this.transform.position);
-			lr.SetPosition(1, focus.transform.FindChild("Center").position);
+			lr.SetPosition(1, focus.transform.FindChild("AimingParent").FindChild("Center").position);
 		} else {
 			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			lr.SetPosition(0, this.transform.position);

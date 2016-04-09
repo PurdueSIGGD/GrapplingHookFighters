@@ -32,6 +32,7 @@ public class ExplosionScript : MonoBehaviour {
 
 				}
 			//}
+			if (Vector2.Distance(c.transform.position,transform.position) < .5f) hit = true;
 			if (hit) {
 			//print (c.name); 
 				if (c.transform.GetComponent<grenade>()) {
