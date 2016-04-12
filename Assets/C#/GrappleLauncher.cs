@@ -6,12 +6,17 @@ public class GrappleLauncher : MonoBehaviour {
 	private float grappleTimer;
 	public GameObject firedGrapple;
 	public Transform center;
+
+	private Rigidbody2D myRigid;
+	private GrappleScript firedGrappleScript;
 	// Use this for initialization
 	void Start () {
+		myRigid = this.GetComponent<Rigidbody2D>();
 		center = this.transform.FindChild("AimingParent").FindChild ("Center");
 
 		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);
-		firedGrapple.GetComponent<GrappleScript>().focus = this.gameObject;
+		firedGrappleScript = firedGrapple.GetComponent<GrappleScript>();
+		firedGrappleScript.focus = this.gameObject;
 	}
 	
 	// Update is called once per frame
@@ -22,12 +27,11 @@ public class GrappleLauncher : MonoBehaviour {
 		if (!death && firedGrapple != null) {
 			
 			firedGrapple.gameObject.layer = this.gameObject.layer;
-			if (attached) this.GetComponent<Rigidbody2D>().AddForce(800 *  Time.deltaTime * Vector2.up);
+			if (attached) myRigid.AddForce(800 *  Time.deltaTime * Vector2.up);
 			if (retracting && !firing) {
-				//firedGrapple.GetComponent<Rigidbody2D>().AddForce((this.transform.position - firedGrapple.transform.position)/(100 * Vector3.Distance(this.transform.position, firedGrapple.transform.position)));
 				if (Vector3.Distance (center.position, firedGrapple.transform.position) < .3f) {
 					retracting = false;
-					firedGrapple.GetComponent<GrappleScript> ().retracting = false;
+					firedGrappleScript.retracting = false;
 					firedGrapple.SendMessage("ResetLast");
 				}
 			}
@@ -56,7 +60,7 @@ public class GrappleLauncher : MonoBehaviour {
 	        }
 			grappleTimer = .3f;
 	        Vector2 firingVector = GetComponent<player>().firingVector; //get the angle in which we want to launch
-	        if (!firing && !retracting && firedGrapple.GetComponent<GrappleScript>().breakTime <= 0) {
+			if (!firing && !retracting && firedGrappleScript.breakTime <= 0) {
 	            this.mouseReleased = false;
 	            firing = true;
 	            firedGrapple.GetComponent<Rigidbody2D>().AddForce(firingVector * 80); //add force to move it
@@ -79,7 +83,6 @@ public class GrappleLauncher : MonoBehaviour {
     }
 
 	void Attach() {
-		//this.GetComponent<Rigidbody2D>().AddForce(Vector3.Distance(this.transform.position, firedGrapple.transform.parent.position) * 100 * (this.transform.position.y > firedGrapple.transform.parent.position.y ? Vector3.down : Vector3.up));
 		attached = true;
 	}
 	void Disconnect() {
@@ -94,7 +97,7 @@ public class GrappleLauncher : MonoBehaviour {
 		Disconnect ();
 		retracting = false;
 		firedGrapple.transform.position = center.position;
-		firedGrapple.GetComponent<GrappleScript> ().retracting = false;
+		firedGrappleScript.retracting = false;
 		firedGrapple.SendMessage("ResetLast");
 		death = true;
 	}

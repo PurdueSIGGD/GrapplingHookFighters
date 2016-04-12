@@ -9,15 +9,16 @@ public class RecoilSimulator : MonoBehaviour {
 
 	private float torque, time;
 	private bool canAddTorque, rotating;
-
+	private Transform center;
 	// Use this for initialization
 	void Start () {
 		StopRotation();
+		center = transform.FindChild("Center");
 	}
 	
 	void LateUpdate () {
 		if (!valueHolder) {
-			Transform center = transform.FindChild("Center");
+			
 			int factor = center.localEulerAngles.z  < 90 || center.localEulerAngles.z > 270 ? 1:-1;
 			//print(factor);
 			//print(torque);

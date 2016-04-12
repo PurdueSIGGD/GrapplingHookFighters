@@ -11,8 +11,13 @@ public class HeldItem : MonoBehaviour {
 	public float forceThreshold;
 	private Rigidbody2D rb; 
 	public float throwForce = 900;
+
+	private Rigidbody2D myRigid;
+	private Collider2D[] myColliders;
 	// Use this for initialization
 	void Start () {
+		myRigid = this.GetComponent<Rigidbody2D>();
+		myColliders = this.GetComponents<Collider2D>();
 		if (forceHazard) {
 			rb = GetComponent<Rigidbody2D> ();
 		}
@@ -25,7 +30,7 @@ public class HeldItem : MonoBehaviour {
 		if (retrigger) {
 			timeSinceDropped += Time.deltaTime;
 			if (timeSinceDropped > .1f) {
-				Collider2D[] colliders = this.GetComponents<Collider2D> ();
+				Collider2D[] colliders = myColliders;
 				foreach (Collider2D c in colliders) {
 					Physics2D.IgnoreCollision (c, lastCol, false);
 				}
@@ -43,7 +48,7 @@ public class HeldItem : MonoBehaviour {
 	}
 	void ignoreColl(Collider2D col) {
 		lastCol = col;
-		Collider2D[] colliders = this.GetComponents<Collider2D> ();
+		Collider2D[] colliders = this.GetComponents<Collider2D>();
 		foreach (Collider2D c in colliders) {
 			Physics2D.IgnoreCollision (c, lastCol, true);
 		}
@@ -109,7 +114,7 @@ public class HeldItem : MonoBehaviour {
 		//Debug.Log (gameObject.name + " velocity: " + colSpeed);
 		if (colSpeed >= forceThreshold && col.GetComponent<Hittable>() && !col.isTrigger) {
 			//Debug.Log (gameObject.name + " velocity: " + colSpeed);
-			col.transform.SendMessage ("hit", 7*this.GetComponent<Rigidbody2D>().velocity.magnitude); //TODO balance
+			col.transform.SendMessage ("hit", 7*myRigid.velocity.magnitude); //TODO balance
 			if (col.transform.GetComponent<Health> () ) col.transform.SendMessage ("Bleed");
 			//if (col.transform.GetComponent<Health>()) col.transform.SendMessage("Gib",Random.Range(1,3));
 		}

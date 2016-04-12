@@ -44,8 +44,9 @@ public class Boundary : MonoBehaviour {
 						Transform rePos = GameObject.Find("Player" + deathwait[i].player.GetComponent<player>().playerid + "Parent").transform;
 						g.transform.parent = rePos;
 						g.transform.position = rePos.position;
-						g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = rePos.position;
-						g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+						GrappleLauncher gr = g.GetComponent<GrappleLauncher>();
+						gr.firedGrapple.transform.position = rePos.position;
+						gr.SendMessage("Disconnect");
 						g.transform.eulerAngles = Vector3.zero;
 						g.GetComponent<Health>().resetPlayer();
 						g.GetComponent<player>().death = false;
@@ -70,12 +71,14 @@ public class Boundary : MonoBehaviour {
 		}
 	}
 	void SetInRespawnQueue(GameObject g) {
+		Health h;
 		if (respawning) {
-			if (g.GetComponent<Health>()) g.GetComponent<Health>().killPlayer(true);
+			
+			if (h=g.GetComponent<Health>()) h.killPlayer(true);
 			//the death waiting time is 5 seconds
 			deathwait.Add(new deathtime(g,Time.time+5));
 		} else {
-			if (g.GetComponent<Health> ()) g.GetComponent<Health> ().killPlayer (true);
+			if (h=g.GetComponent<Health> ()) h.killPlayer (true);
 			
 
 		}

@@ -7,8 +7,10 @@ public class ExplodingProp : MonoBehaviour {
     bool flame = false;
     int hitThre = 5;
     float flameCountdown = 10;
+	ParticleSystem ps;
     // Use this for initialization
 	void Start () {
+		ps = this.GetComponent<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
@@ -32,7 +34,7 @@ public class ExplodingProp : MonoBehaviour {
         if (!flame)
         {
             flame = true;
-            this.GetComponentInChildren<ParticleSystem>().Play();
+			if (ps) ps.Play();
         }
         hitThre -= 1;
     }

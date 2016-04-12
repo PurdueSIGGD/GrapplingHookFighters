@@ -12,8 +12,9 @@ public class Hazard : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col) {
 		if (active && col.GetComponent<Hittable>() && !col.isTrigger) {
-			col.GetComponent<Rigidbody2D>().drag = 50;
-			col.GetComponent<Rigidbody2D>().angularDrag = 3;
+			Rigidbody2D rg = col.GetComponent<Rigidbody2D>();
+			rg.drag = 50;
+			rg.angularDrag = 3;
 			col.transform.SendMessage ("hit", 150);
 			if (col.transform.GetComponent<Health> () ) {
 				col.transform.SendMessage ("Bleed");
@@ -28,8 +29,9 @@ public class Hazard : MonoBehaviour {
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (active && col.GetComponent<Hittable>() && (!col.isTrigger || col.GetComponent<player>())) { //if player is held
-			col.GetComponent<Rigidbody2D>().drag = .5f;
-			col.GetComponent<Rigidbody2D>().angularDrag = .05f;
+			Rigidbody2D rg = col.GetComponent<Rigidbody2D>();
+			rg.drag = .5f;
+			rg.angularDrag = .05f;
 			if (col.transform.GetComponent<Health> () ) {
 				stuckers.Remove(col.gameObject);
 			}
@@ -40,8 +42,9 @@ public class Hazard : MonoBehaviour {
 
 	void OnDestroy() {
 		foreach (Object o in stuckers) {
+			Rigidbody2D rg;
 			if (o != null) {
-				Rigidbody2D rg = ((GameObject)o).GetComponent<Rigidbody2D>();
+				rg = ((GameObject)o).GetComponent<Rigidbody2D>();
 				rg.drag = .5f;
 				rg.angularDrag = .05f;
 			}

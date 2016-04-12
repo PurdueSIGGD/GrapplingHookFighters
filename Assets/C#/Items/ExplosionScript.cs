@@ -4,12 +4,9 @@ using System.Collections;
 public class ExplosionScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
-		//print ("starting");
-		//this.GetComponent<CircleCollider2D> ().radius = 0;
 		foreach (grenade g in transform.GetComponentsInChildren<grenade>()) {
 			g.SendMessage("Explode");
 		}
-		//this.GetComponent<CircleCollider2D> ().radius = .75f;
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
 		foreach (Collider2D c in hitColliders) {
 			int layermask = (1 << this.gameObject.layer) + (1 << 13) + (1 << 15);
@@ -38,9 +35,10 @@ public class ExplosionScript : MonoBehaviour {
 				if (c.transform.GetComponent<grenade>()) {
 					c.transform.SendMessage("Explode");
 				}
-				if (c.transform.GetComponent<Rigidbody2D>() != null && c.transform.GetComponent<FiredProjectile>() == null) {
-					c.transform.GetComponent<Rigidbody2D> ().AddForce (300 * c.transform.GetComponent<Rigidbody2D>().mass * (c.transform.position - this.transform.position));
-					c.transform.GetComponent<Rigidbody2D> ().AddForce (150 * c.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
+				Rigidbody2D rg;
+				if ((rg = c.transform.GetComponent<Rigidbody2D>()) != null && c.transform.GetComponent<FiredProjectile>() == null) {
+					rg.AddForce (300 * rg.mass * (c.transform.position - this.transform.position));
+					rg.AddForce (150 * rg.mass * Vector2.up);
 				}
 				if (c.transform.GetComponent<Hittable> ()) {
 					c.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, c.transform.position));

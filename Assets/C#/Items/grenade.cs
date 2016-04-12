@@ -11,7 +11,11 @@ public class grenade : MonoBehaviour {
 
     public GameObject explosion, particle, smokeBomb;
 
+	Transform pin;
+
 	public void Start() {
+		if (usePin) pin = transform.FindChild("Pin");
+
 	}
 
     public void Update() {
@@ -22,10 +26,10 @@ public class grenade : MonoBehaviour {
             pullPin = false;
             pinPulled = true;
 			if (usePin) {
-				transform.FindChild ("Pin").GetComponent<Rigidbody2D> ().isKinematic = false;
-				transform.FindChild ("Pin").GetComponent<Rigidbody2D> ().AddForce (Vector3.up);
-				transform.FindChild ("Pin").GetComponent<CircleCollider2D> ().isTrigger = false;
-				transform.FindChild ("Pin").transform.parent = null;
+				pin.GetComponent<Rigidbody2D> ().isKinematic = false;
+				pin.GetComponent<Rigidbody2D> ().AddForce (Vector3.up);
+				pin.GetComponent<CircleCollider2D> ().isTrigger = false;
+				pin.transform.parent = null;
 			}
         }
         if (pinPulled || sticky) {
@@ -46,11 +50,11 @@ public class grenade : MonoBehaviour {
         if (timePassed >= fuseTime && !exploded) {
 			exploded = true;
 			GameObject ex;
-			if (smokey) 
-				ex = (GameObject)GameObject.Instantiate(smokeBomb,  transform.FindChild("Sphere").transform.position + Vector3.back * 3, Quaternion.identity);
-			else if (!sticky) 
+			if (smokey) //smokebomb
+				ex = (GameObject)GameObject.Instantiate(smokeBomb, transform.FindChild("Sphere").transform.position, Quaternion.identity);
+			else if (!sticky) //regular grenade
            		ex = (GameObject)GameObject.Instantiate(explosion, transform.FindChild("Sphere").transform.position, Quaternion.identity);
-            else
+            else //stickybomb
 				ex = (GameObject)GameObject.Instantiate(explosion, transform.position, Quaternion.identity);
 			ex.gameObject.layer = this.gameObject.layer;
 

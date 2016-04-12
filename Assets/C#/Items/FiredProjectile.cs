@@ -12,7 +12,10 @@ public class FiredProjectile : MonoBehaviour {
 	public GameObject sourcePlayer;
 	public float forceThreshold = 30.0f;
 
+	private HeldItem myHeldItem;
+
 	void Start() {
+		myHeldItem = this.GetComponent<HeldItem>();
 		//print ("starting off my thing");
 		startTime = time;
 		Collider2D[] cols = GetComponents<Collider2D> ();
@@ -29,9 +32,9 @@ public class FiredProjectile : MonoBehaviour {
 		}
 		
 		if ((!col.isTrigger || col.GetComponent<ExplosionScript>()) && !col.GetComponent<FiredProjectile>()) {
-			if (exploding && !exploded && !this.GetComponent<HeldItem>()) {
+			if (exploding && !exploded && !myHeldItem) {
 				if (takeTime && startTime - time < .1f) { 
-					//turn into item you can pick up
+					//turn into item you can pick up, like if you launch a rocket too close to you
 					this.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
 					PolygonCollider2D polyBox = this.gameObject.AddComponent<PolygonCollider2D>();
 					Vector2[] points = new Vector2[4];
@@ -63,7 +66,7 @@ public class FiredProjectile : MonoBehaviour {
 			//	col.GetComponent<Rigidbody2D>().AddForce(damage * this.GetComponent<Rigidbody2D>().velocity);
 			//}
 
-			if (!sticky && !nonLethal && !this.GetComponent<HeldItem>() && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
+			if (!sticky && !nonLethal && !myHeldItem && col.transform.GetComponent<Hittable> () && !exploding && (!forceInducedPain || Vector2.SqrMagnitude(this.GetComponent<Rigidbody2D>().velocity) > forceThreshold)) {
 				col.transform.SendMessage ("hit", damage);
 				if (makesHimBleed && col.GetComponent<Health>()) col.SendMessage("Bleed");
 			}

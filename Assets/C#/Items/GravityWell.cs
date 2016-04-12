@@ -39,26 +39,27 @@ public class GravityWell : MonoBehaviour {
         }
         else
         {
-            ps.enableEmission = false;
+			ps.Stop();
         }
 	}
 
     void OnTriggerStay2D(Collider2D col)
     {
+		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
         if (force < 0)
         {
-            if (col.transform.GetComponent<Rigidbody2D>() != null && col.transform.GetComponent<FiredProjectile>() == null)
+			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null)
             {
-                col.transform.GetComponent<Rigidbody2D>().AddForce((force) * Time.deltaTime * col.transform.GetComponent<Rigidbody2D>().mass * (col.transform.position - this.transform.position));
+				colR.AddForce((force)* 2 * Time.deltaTime * colR.mass * (col.transform.position - this.transform.position));
             }
         }
         else if(force > 0 && force < 35 / 2)
         {
             this.GetComponent<CircleCollider2D>().radius = 3f;
-            if (col.transform.GetComponent<Rigidbody2D>() != null && col.transform.GetComponent<FiredProjectile>() == null)
+			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null)
             {
-                col.transform.GetComponent<Rigidbody2D>().AddForce(50 * col.transform.GetComponent<Rigidbody2D>().mass * (col.transform.position - this.transform.position));
-                col.transform.GetComponent<Rigidbody2D>().AddForce(50 * col.transform.GetComponent<Rigidbody2D>().mass * Vector2.up);
+				colR.AddForce(100 * colR.mass * (col.transform.position - this.transform.position));
+				colR.AddForce(100 * colR.mass * Vector2.up);
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LandMine : MonoBehaviour {
 
-	private bool willexplode = false;
+	//private bool willexplode = false;
     private Transform originalorientation;
     public float droppedtime = 0.0f;
     public float fusetime = 4.0f;

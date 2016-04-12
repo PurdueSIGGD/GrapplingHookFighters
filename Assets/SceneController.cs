@@ -230,7 +230,8 @@ public class SceneController : MonoBehaviour {
 		foreach (GameObject o in objects) {
 			GameObject.Destroy(o.gameObject);
 		}
-		Application.LoadLevel(Application.loadedLevel);
+		SceneManager.LoadScene(0);
+		//Application.LoadLevel(Application.loadedLevel);
 	}
 	void AddDeath() {
 		deathCount++;

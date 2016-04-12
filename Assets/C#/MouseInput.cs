@@ -82,7 +82,7 @@ public class MouseInput : MonoBehaviour {
 						joystickPlayers.Add(playerScript);
 						joystickNums++;
 					} else {
-						print(playerScript + " " + mouseNums);
+						//print(playerScript + " " + mouseNums);
 						//playerScript.mouseID = mouseNums;  //this number will be decided in the selection menu, so we know what mouse they plan on using
 						mousePlayers.Add(playerScript);
 						mouseNums++;
@@ -144,6 +144,7 @@ public class MouseInput : MonoBehaviour {
 				//print(currentMiceAmount + " " + p.mouseID);
 				try {
 					RawMouse r = mice[p.mouseID];
+					r.ToString();
 					//see if said mouse exists
 				} catch {
 					continue;

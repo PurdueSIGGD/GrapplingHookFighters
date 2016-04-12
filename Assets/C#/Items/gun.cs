@@ -14,6 +14,10 @@ public class gun : MonoBehaviour, item {
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
 
+	private HeldItem myHeldItem;
+	private Transform butthole, reticle, gunbase;
+	private ParticleSystem particleSmoke;
+
 	public GameObject critGameObject;
 
 	// Use this for initialization
@@ -24,6 +28,13 @@ public class gun : MonoBehaviour, item {
 			projectileSpeed = 0;
 		}
 		chargeTime = minChargeTime;
+
+		butthole = transform.FindChild("Butthole");
+		gunbase = transform.FindChild("GunBase");
+		myHeldItem = this.GetComponent<HeldItem>();
+		Transform t;
+		if (t = transform.FindChild("ParticleSmoke")) 
+			particleSmoke = t.GetComponent<ParticleSystem>();
 	}
 
 	public void click() {
@@ -73,7 +84,7 @@ public class gun : MonoBehaviour, item {
 	}
 	// Update is called once per frame
 	void Update () {
-
+		if (playerid >= 0) reticle = GameObject.Find("Reticle" + playerid).transform;
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface
@@ -90,9 +101,9 @@ public class gun : MonoBehaviour, item {
 				if (ammo > 0) {
 
 					ammo--;
-					shootPoint = transform.FindChild("Butthole").position; //only need to set when player decides to shoot
-					reticlePos = GameObject.Find("Reticle" + playerid).transform.position;
-					Vector2 gunBase = transform.FindChild("GunBase").position;
+					shootPoint = butthole.position; //only need to set when player decides to shoot
+					reticlePos = reticle.position;
+					Vector2 gunBase = gunbase.position;
 					//Vector2 thing = reticlePos - (Vector2)shootPoint;
 					Vector2 playerPos = GameObject.Find("Player" + playerid).transform.position;
 
@@ -139,8 +150,8 @@ public class gun : MonoBehaviour, item {
 								Transform hit = null;
 								foreach (RaycastHit2D ray in r) {
 
-									if (!(ray.transform.gameObject == this.GetComponent<HeldItem> ().focus) && 
-										(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && (!ray.collider.GetComponent<HeldItem>() || ray.collider.GetComponent<HeldItem>().focus != this.GetComponent<HeldItem>().focus) && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
+									if (!(ray.transform.gameObject == myHeldItem.focus) && 
+										(!ray.collider.isTrigger || (ray.collider.GetComponent<Hittable>() && (!ray.collider.GetComponent<HeldItem>() || ray.collider.GetComponent<HeldItem>().focus != myHeldItem.focus) && ray.collider.GetType() == typeof(PolygonCollider2D))) && //so we can hit select items that someone is holding
 										!ray.transform.GetComponent<ParticleScript> () &&
 										ray.transform != this.transform) {
 										if (penetrating) {
@@ -211,7 +222,8 @@ public class gun : MonoBehaviour, item {
 
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);
-								g.GetComponent<FiredProjectile> ().sourcePlayer = GameObject.Find ("Player" + playerid);
+								FiredProjectile fp = g.GetComponent<FiredProjectile>();
+								fp.sourcePlayer = myHeldItem.focus;
 
 								if (childProjectile) {
 									g.transform.SetParent (transform);
@@ -219,18 +231,18 @@ public class gun : MonoBehaviour, item {
 								}
 								//UnityEditor.EditorApplication.isPaused = true;
 								if (g.GetComponent<HeldItem> ()) {
-									g.SendMessage ("ignoreColl", GameObject.Find ("Player" + playerid).GetComponent<Collider2D> ());
+									g.SendMessage ("ignoreColl", myHeldItem.focus.GetComponent<Collider2D> ());
 									g.SendMessage ("retriggerSoon");
 								}
 								if (!this.raycastShoot) g.layer = this.transform.gameObject.layer; //want it to be light if not a projectile
-								g.GetComponent<FiredProjectile> ().damage = this.damage;
-								g.GetComponent<FiredProjectile> ().nonLethal = this.nonLethal;
+								fp.damage = this.damage;
+								fp.nonLethal = this.nonLethal;
 
-								if (GetOdds()) {
-									g.GetComponent<FiredProjectile> ().damage = 150;
-									//g.GetComponent<FiredProjectile> ().dieOnAnyHit = true;
-									g.GetComponent<FiredProjectile> ().nonLethal = false;
-									g.GetComponent<FiredProjectile> ().exploding = true;
+								if (GetOdds()) { //lethal round, potato salad
+									fp.damage = 150;
+									//fp.dieOnAnyHit = true;
+									fp.nonLethal = false;
+									fp.exploding = true;
 									Destroy (g.GetComponent<HeldItem> ()); // you aint holding this
 									GameObject cg = (GameObject)GameObject.Instantiate (critGameObject, g.transform.position, g.transform.rotation);
 									cg.transform.parent = g.transform;
@@ -238,9 +250,9 @@ public class gun : MonoBehaviour, item {
 
 
 								g.GetComponent<Rigidbody2D> ().AddForce (f * projectileSpeed);
-
-								if (g.GetComponent<grenade> ())
-									g.GetComponent<grenade> ().pinPulled = true;
+								grenade gre;
+								if (gre = g.GetComponent<grenade> ())
+									gre.GetComponent<grenade> ().pinPulled = true;
 							}
 						}            
 
@@ -256,20 +268,22 @@ public class gun : MonoBehaviour, item {
 						BoxCollider2D c = shelly.AddComponent<BoxCollider2D>();
 						c.sharedMaterial = this.bulletPhys;
 						c.size = new Vector2(c.size.x, c.size.y/2);
-						shelly.GetComponent<Rigidbody2D>().gravityScale = 1;
-						//shelly.GetComponent<Rigidbody2D>().mass = float.MinValue;
-						Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
-						Physics2D.IgnoreCollision(GameObject.Find("Player" + playerid).GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
+						Rigidbody2D shellyRigid = shelly.GetComponent<Rigidbody2D>();
+						shellyRigid.gravityScale = 1;
+						shellyRigid.mass = float.MinValue;
+						Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), shellyRigid.GetComponent<Collider2D>());
+						Physics2D.IgnoreCollision(myHeldItem.focus.GetComponent<Collider2D>(), shelly.GetComponent<Collider2D>());
 
-						shelly.GetComponent<Rigidbody2D>().AddForceAtPosition(200 *  (.1f *Random.insideUnitCircle +  Vector2.up) * shelly.GetComponent<Rigidbody2D>().mass, shelly.transform.position);
-						shelly.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-20,20));                    //shelly.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + (Quaternion.AngleAxis(90, (Vector3)thing) * thing)));
-						shelly.GetComponent<ParticleScript>().time = 2;
-						shelly.GetComponent<ParticleScript>().shell = true;
+						shellyRigid.AddForceAtPosition(200 *  (.1f *Random.insideUnitCircle +  Vector2.up) * shelly.GetComponent<Rigidbody2D>().mass, shelly.transform.position);
+						shellyRigid.AddTorque(Random.Range(-20,20));                    //shelly.GetComponent<Rigidbody2D>().AddForce(.015f * (Random.insideUnitCircle + (Quaternion.AngleAxis(90, (Vector3)thing) * thing)));
+						ParticleScript ps = shelly.GetComponent<ParticleScript>();
+						ps.time = 2;
+						ps.shell = true;
 						shelly.layer = this.gameObject.layer == 8 ? 11 : 12; //becomes the respective nocol layer
 
 					}
 					if (gunGoesPoof) {
-						transform.FindChild("ParticleSmoke").GetComponent<ParticleSystem>().Play();
+						particleSmoke.Play();
 					}
 					timeSincelast = 0;
 				} else {
@@ -298,9 +312,9 @@ public class gun : MonoBehaviour, item {
 				if (!t.GetComponent<ShootableItem>()) GameObject.Instantiate(sparks, endPoint, Quaternion.Euler(0,90,Vector2Extension.Vector2Deg(angle)));
 			}
 		}
-
-		if (t.GetComponent<Rigidbody2D> ()) {
-			t.GetComponent<Rigidbody2D> ().AddForce (7 * (t.GetComponent<Rigidbody2D>().mass) * damage * (angle + Vector2.up));
+		Rigidbody2D rb;
+		if (rb = t.GetComponent<Rigidbody2D> ()) {
+			rb.AddForce (7 * (rb.mass) * damage * (angle + Vector2.up));
 		}
 		if (t.GetComponent<Hittable>()) {
 			//print(1);
@@ -310,7 +324,6 @@ public class gun : MonoBehaviour, item {
 	bool GetOdds() { 
 		float rd = Random.value;
 		return (rd < chance);
-
 	}
 
 }

@@ -6,15 +6,16 @@ public class GrappleScript : MonoBehaviour {
 //	private EdgeCollider2D lineCol;
 	private bool firing, connected;
 	public bool retracting;
-	private Transform lastGrab;
+	private Transform lastGrab, center;
 	public float breakTime, timeRetracting;
 
-
+	private Rigidbody2D myRigid;
 	private SpringJoint2D toPlayer, toPickup;
 	// Use this for initialization
 	void Start() {
-
+		myRigid = this.GetComponent<Rigidbody2D>();
 		toPlayer = this.transform.GetComponent<SpringJoint2D>();
+
 	}
 	void OnCollisionEnter2D(Collision2D col) {
 		Attach(col.gameObject);
@@ -42,8 +43,8 @@ public class GrappleScript : MonoBehaviour {
 			transform.localScale = new Vector3(1/g.transform.localScale.x,1/g.transform.localScale.y,1/g.transform.localScale.z);
 			lastGrab = g.transform;
 			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position);
-			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			this.GetComponent<Rigidbody2D>().isKinematic = true;
+			myRigid.velocity = Vector2.zero;
+			myRigid.isKinematic = true;
 
 			toPlayer.enabled = true;
 			focus.SendMessage("Attach");
@@ -54,10 +55,10 @@ public class GrappleScript : MonoBehaviour {
 	void Release() {
 		this.transform.parent = focus.transform.parent; //for if it moves
 		transform.localScale = new Vector3(1,1,1);
-		if (!this.GetComponent<Rigidbody2D>().isKinematic) {
-			//Destroy (this.GetComponent<DistanceJoint2D>());
+		if (!myRigid.isKinematic) {
+		
 		} else {
-			this.GetComponent<Rigidbody2D>().isKinematic = false;
+			myRigid.isKinematic = false;
 		}		
 	//	Destroy(lineCol);
 		//lineCol = null;
@@ -70,6 +71,7 @@ public class GrappleScript : MonoBehaviour {
 		firing = true;
 	}
 	void Update() {
+		if (focus != null) center = focus.transform.FindChild("AimingParent").FindChild ("Center");
 		if (breakTime > 0) {
 			breakTime -= Time.deltaTime;
 		} else {
@@ -77,7 +79,7 @@ public class GrappleScript : MonoBehaviour {
 		}
 		RaycastHit2D[] r;
 		if (connected) {
-			Transform center = focus.transform.FindChild("AimingParent").FindChild ("Center");
+			
 			float d = Vector3.Distance(this.transform.position, center.position) * .75f;
 			if (d > 1.2f) { //so getting too close won't disconnect
 				int layermask = 1 << (this.gameObject.layer + 5);
@@ -103,19 +105,19 @@ public class GrappleScript : MonoBehaviour {
 
 		if (retracting) {
 			timeRetracting += Time.deltaTime;
-			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			transform.position = Vector3.MoveTowards(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position, timeRetracting * 30 * Time.deltaTime );
+			myRigid.velocity = Vector2.zero;
+			transform.position = Vector3.MoveTowards(this.transform.position, center.position, timeRetracting * 30 * Time.deltaTime );
 			//this.transform.position += 50*Time.deltaTime*(focus.transform.position - this.transform.position)/Vector3.Distance(this.transform.position, focus.transform.position);
 		} else {
 			timeRetracting = 1;
 		}
 		LineRenderer lr = this.GetComponent<LineRenderer>();
-		if (firing || retracting || this.GetComponent<Rigidbody2D>().isKinematic == true) {
+		if (firing || retracting || myRigid.isKinematic == true) {
 			lr.enabled = true;
 			lr.SetPosition(0, this.transform.position);
-			lr.SetPosition(1, focus.transform.FindChild("AimingParent").FindChild("Center").position);
+			lr.SetPosition(1, center.position);
 		} else {
-			this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			myRigid.velocity = Vector2.zero;
 			lr.SetPosition(0, this.transform.position);
 			lr.SetPosition(1, this.transform.position);
 			lr.enabled = false;

@@ -6,6 +6,7 @@ public class parasol : MonoBehaviour {
 	public Sprite sOpen, sClosed;
 	private float timeSwitched;
 	private Transform myParent;
+	private Rigidbody2D myParentsRigidbody;
 	// Use this for initialization
 	void Start () {
 		opened = false;
@@ -28,12 +29,14 @@ public class parasol : MonoBehaviour {
 				//print(o);
 			}
 			myParent = this.transform.parent.parent.parent;
-			myParent.GetComponent<Rigidbody2D>().gravityScale = opened ? gravScale : 1.1f;
+			if (!myParentsRigidbody) myParentsRigidbody = myParent.GetComponent<Rigidbody2D>();
+			myParentsRigidbody.gravityScale = opened ? gravScale : 1.1f;
 
 		} else {
 			if (myParent) {
-				myParent.GetComponent<Rigidbody2D>().gravityScale = opened ? .25f : 1.1f;
+				myParentsRigidbody.gravityScale = opened ? .25f : 1.1f;
 				myParent = null;
+				myParentsRigidbody = null;
 			}
 		}
 		//if (!opened && Time.time - timeSwitched > .06f) opened = true;

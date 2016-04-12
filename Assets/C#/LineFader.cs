@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LineFader : MonoBehaviour {
-	public Color startColor;
+	public Color startStartColor, startEndColor;
 	public float time;
 	private float startTime;
 	LineRenderer[] reds;
@@ -12,9 +12,9 @@ public class LineFader : MonoBehaviour {
 	}
 	
 	void Update () {
-		Color ac = new Color(startColor.r, startColor.g, startColor.b, (time/startTime));
+		Color sc = new Color(startStartColor.r, startStartColor.g, startStartColor.b, (time/startTime));
 		foreach (LineRenderer r in reds) {
-			r.SetColors(ac, ac);
+			r.SetColors(sc, startEndColor);
 		}
 		time -= Time.deltaTime;
 		if (time <= 0) {

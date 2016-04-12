@@ -28,6 +28,9 @@ public class Health : MonoBehaviour {
 	public Sprite deadSprite;
 	public Sprite aliveSprite;
 
+	private Rigidbody2D myRigid;
+	private PolygonCollider2D myPolygon;
+	private SpriteRenderer mySprite, healthSprite;
 
 
 	public float getPlayerHealth() {
@@ -126,12 +129,12 @@ public class Health : MonoBehaviour {
 		
 			//this.boundaryPlace = transform.position;
 		if (!dead) {
-			transform.GetComponent<Rigidbody2D>().AddForce(200 * (Vector2.up + Random.insideUnitCircle));
+			myRigid.AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
-			aliveSprite = this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite;
-			this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = deadSprite;
-			alivePoints = transform.GetComponent<PolygonCollider2D>().points;
-			transform.GetComponent<PolygonCollider2D>().points = deadPoints;
+			aliveSprite = mySprite.sprite;
+			mySprite.sprite = deadSprite;
+			alivePoints = myPolygon.points;
+			myPolygon.points = deadPoints;
 			playerHealth = 0;
 			armorHealth = 0;
 			dead = true;
@@ -146,7 +149,7 @@ public class Health : MonoBehaviour {
 				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
 			}
 			SpriteRenderer[] sp = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<SpriteRenderer>();
-			Color c = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+			Color c = mySprite.color;
 			foreach (SpriteRenderer s in sp) {
 				s.color = c;
 			}
@@ -160,19 +163,6 @@ public class Health : MonoBehaviour {
 					}
 				}
 			}
-			//g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
-
-			//EditorApplication.isPaused = true;
-		//	transform.FindChild("GibHolder").gameObject.SetActive(true);
-			/*for (int i = 0; i < deathSparkleParticle; i++) {
-				GameObject particleG = (GameObject)GameObject.Instantiate (particle, this.transform.position + Vector3.back, this.transform.rotation);
-				if (this.transform.parent && this.transform.parent.parent != null)
-					particleG.GetComponent<Rigidbody2D> ().velocity = transform.parent.GetComponentInParent<Rigidbody2D> ().velocity * .6f;
-
-				particleG.GetComponent<Rigidbody2D> ().gravityScale = .05f;
-				particleG.GetComponent<Rigidbody2D> ().AddForce (.02f * (Random.insideUnitCircle + Vector2.up));
-				particleG.GetComponent<ParticleScript> ().time = .6f;
-			}*/
 
 			this.BroadcastMessage("Death");
 			//print("dying");
@@ -245,14 +235,14 @@ public class Health : MonoBehaviour {
 					g.transform.parent = null;
 					//print( this.GetComponent<Rigidbody2D>().velocity);
 					//EditorApplication.isPaused = true;
-					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + this.GetComponent<Rigidbody2D>().velocity);
+					g.GetComponent<Rigidbody2D> ().AddForce (Random.insideUnitCircle + myRigid.velocity);
 					g.GetComponent<Rigidbody2D> ().AddTorque (Random.Range (0,  10));
 					BoxCollider2D b = g.AddComponent<BoxCollider2D>();
 					b.isTrigger = true;
 					b.size = new Vector2(.4f, .4f);
 					g.AddComponent<HeldItem>();
 
-					g.transform.GetComponentInChildren<SpriteRenderer> ().color = transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
+					g.transform.GetComponentInChildren<SpriteRenderer> ().color = mySprite.color;
 					usedGibs [range] = true;
 				}
 			}
@@ -269,10 +259,10 @@ public class Health : MonoBehaviour {
 			usedGibs [i] = false;
 		//```Destroy(box);
 		GameObject.Destroy(transform.FindChild("GibHolder(Clone)").gameObject);
-		transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = aliveSprite;
+		mySprite.sprite = aliveSprite;
 
 		//transform.FindChild("GibHolder").gameObject.SetActive(false);
-		transform.GetComponent<PolygonCollider2D>().points = alivePoints;
+		myPolygon.points = alivePoints;
 		Transform ch = transform.FindChild ("ParticleBleed");
 		if (ch) {
 			GameObject.Destroy (ch.gameObject);
@@ -288,19 +278,24 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		usedGibs = new bool[5];
 
 		playerHealth = 100;
 		armorHealth = 0;
 		healthIcon = transform.FindChild("HealthIcon");
 		armorIcon = transform.FindChild("ArmorIcon");
+		myRigid = this.GetComponent<Rigidbody2D>();
+		myPolygon = transform.GetComponent<PolygonCollider2D>();
+		healthSprite = healthIcon.FindChild("Color").GetComponent<SpriteRenderer>();
+		mySprite = transform.FindChild("Sprite").GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//healthIcon;
 		healthIcon.localScale = new Vector3(playerHealth/100, 1, 1);
-		healthIcon.FindChild("Color").GetComponent<SpriteRenderer>().color = new Color(1-playerHealth/100,playerHealth/100,0);
+		healthSprite.color = new Color(1-playerHealth/100,playerHealth/100,0);
 
 		armorIcon.localScale = new Vector3(armorHealth/100, 1, 1);
 		if (dead) {
