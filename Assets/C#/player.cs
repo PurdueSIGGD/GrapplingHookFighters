@@ -102,7 +102,7 @@ public class player : MonoBehaviour {
 				} else {
 					force = (this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : -1);
 				}
-				GetComponent<Rigidbody2D>().AddForce(force * new Vector3(40, 0, 0));
+				myRigid.AddForce(force * new Vector3(40, 0, 0));
             }
 			if (myRigid.velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
 				mySprite.flipX = false;
@@ -113,13 +113,13 @@ public class player : MonoBehaviour {
 				} else {
 					force = (this.joystickController ? (Input.GetAxis("HorizontalPJ" + joystickID)) : 1);
 				}
-				GetComponent<Rigidbody2D>().AddForce(force * new Vector3(40, 0, 0));            
+				myRigid.AddForce(force * new Vector3(40, 0, 0));            
 			}
             if (goDown()) {
 				if (!crouched) myPolygon.points = crouchingCol;
 				crouched = true;
 				this.isStandingUp = false;
-                GetComponent<Rigidbody2D>().AddForce(new Vector3(0, -10, 0));
+                myRigid.AddForce(new Vector3(0, -10, 0));
 				maxMoveSpeed = 4;
 			} else {
 				if (crouched) {
@@ -316,14 +316,16 @@ public class player : MonoBehaviour {
     bool goDown() {
 		return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  < -.5f || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == -1):false));
     }
-
-    bool jump() {
-		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > .5f || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
+	bool jump() {
+		return jump(false);
+	}
+    bool jump(bool usingJetpack) {
+		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
 			RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
-			bool hitValid = false;
+			bool hitValid = usingJetpack; 
 			foreach (RaycastHit2D hit in hits) {
 				Collider2D col = hit.collider;
-				if ((col.CompareTag("Platform") || col.CompareTag("Item")) && !col.isTrigger && col.gameObject != this.passiveItem) {
+				if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
 					hitValid = true;
 					//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
 					//Debug.Log (hit.transform.name);
@@ -531,16 +533,17 @@ public class player : MonoBehaviour {
 	void jumpNow(bool b) {
 		
 		if (jetpack) {
-			if (jump ()) { //we are using jetpackPlaying because there is a delay for it to stop
-				if (transform.FindChild ("Jetpack") && !jetpackPlaying) {
-					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Play ();
+			Transform myJetpack = transform.FindChild("Jetpack");
+			if (jump (true)) { //we are using jetpackPlaying because there is a delay for it to stop
+				if (myJetpack && !jetpackPlaying) {
+					myJetpack.GetComponentInChildren<ParticleSystem> ().Play ();
 					jetpackPlaying = true;
 				}
-				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
+				myRigid.AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
 			} else {
 				
-				if (transform.FindChild ("Jetpack") && jetpackPlaying) {
-					transform.FindChild ("Jetpack").GetComponentInChildren<ParticleSystem> ().Stop ();
+				if (myJetpack && jetpackPlaying) {
+					myJetpack.GetComponentInChildren<ParticleSystem> ().Stop ();
 					jetpackPlaying = false;
 				}
 				
