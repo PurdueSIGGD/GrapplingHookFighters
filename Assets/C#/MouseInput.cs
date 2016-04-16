@@ -11,6 +11,11 @@ using System.Collections;
 
 
 public class MouseInput : MonoBehaviour {
+	struct PlayerInfo {
+		public bool usesJoystick;
+		public int id;
+	}
+
 	#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 	//for setting the foreground window, so when opening the editor we go back to the main screen
 	IntPtr unityWindow;
@@ -38,59 +43,107 @@ public class MouseInput : MonoBehaviour {
 	private bool[] hasItem; 
 	private bool[] hasItem2; 
 	//if player uses a joystick
+	private ArrayList players; //players with a player struct, used during SetUpRound
 	private ArrayList joystickPlayers;
 	private ArrayList mousePlayers;
 	public bool usesMouse = true, tempMoveDisable;
 	public Camera mainCam;
 
-	// Use this for initialization
-	void Start() { 
+	bool init, levelReady, beforeRound, menuPointersOn;
+	public bool singleMouse, forceStart;
+
+	private Transform[] pointers;
+
+
+	void Start() {
+		players = new ArrayList();
+		//init should be false now, so nothing will initialize
+		if (forceStart) {
+			PlayerInfo tempPlayer1 = new PlayerInfo();
+			tempPlayer1.id = 0;
+			tempPlayer1.usesJoystick = false;
+			PlayerInfo tempPlayer2 = new PlayerInfo();
+			tempPlayer2.id = 1;
+			tempPlayer2.usesJoystick = true;
+			players.Add(tempPlayer1);
+			players.Add(tempPlayer2);
+			//forcestart is when we have a level that is not selected by the main menu thingy
+			Init();
+			SetUpRound();
+		}
+	}
+
+	/* To be called after the players array is populated
+	 * Sets up player info and makes the round ready to go
+	 */
+	public void SetUpRound() {
+		int numPlayers = 4;
+		joystickPlayers = new ArrayList();
+		mousePlayers = new ArrayList();
+		menuPointersOn = false;
+		int joystickNums = 1;
+		int mouseNums = 0;
+		int i = 0;
+		foreach (PlayerInfo p in players) {
+			GameObject curPlayer = GameObject.Find("Player" + (i + 1));
+			if (curPlayer) {
+				player playerScript = curPlayer.GetComponent<player>();
+				playerScript.joystickController = p.usesJoystick;
+				if (p.usesJoystick) {
+					joystickPlayers.Add(playerScript);
+					playerScript.joystickID = p.id;
+					joystickNums++;
+				} else {
+					mousePlayers.Add(playerScript);
+					playerScript.mouseID = p.id;
+					mouseNums++;
+				}
+			
+			} else {
+				
+			}
+			i++;
+		}
+		levelReady = true;
+	}
+	/* TO be called after singleMouse is delegated
+	 * 
+	 */
+	public void Init() { 
 		if (GameObject.FindObjectsOfType<MouseInput>().Length > 1) {
 			//if this instanced and there is another open, delete the other
 			Destroy(this.gameObject);
 		} else {
-			unityWindow = (IntPtr)GetActiveWindow();
-			//    foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player")) print(g);
-			//print(playerCount);
+			pointers = new Transform[4];
 			lastReticle = new Vector2[4];
+			Transform canvas = transform.FindChild("PointerCanvas");
+			canvas.gameObject.SetActive(true);
 			for (int i = 0; i < 4; i++) {
-				lastReticle[i] = Vector2.right;
+				//print(transform.name);
+				lastReticle[i] = Vector2.zero;
+				pointers[i] = canvas.FindChild("Pointer" + (i+1));
+				pointers[i].gameObject.SetActive(true);
+				pointers[i].position = new Vector3(Screen.width / 2, Screen.height / 2);
 			}
-			if (usesMouse) {
-				Cursor.visible = false;
-				mousedriver = new RawMouseDriver.RawMouseDriver();
-				mice = new RawMouse[NUM_MICE];
-				mousePosition = new Vector2[NUM_MICE];
-				lastMousePosition = new Vector2[NUM_MICE];
-			}
+			mousePosition = new Vector2[NUM_MICE];
+			lastMousePosition = new Vector2[NUM_MICE];
+			Cursor.visible = false;
+			if (!singleMouse) {
+				//set up multiple mice
+				unityWindow = (IntPtr)GetActiveWindow();
+				//    foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player")) print(g);
+				//print(playerCount);
 
+				if (usesMouse) {
+					mousedriver = new RawMouseDriver.RawMouseDriver();
+					mice = new RawMouse[NUM_MICE];
 
-			int numPlayers = 4;
-			joystickPlayers = new ArrayList();
-			mousePlayers = new ArrayList();
-
-			int joystickNums = 1;
-			int mouseNums = 0;
-
-			for (int i = 0; i < numPlayers; i++) {
-				GameObject curPlayer = GameObject.Find("Player" + (i + 1));
-				if (curPlayer) {
-					player playerScript = curPlayer.GetComponent<player>();
-					//print(playerScript);
-					if (playerScript.joystickController) {
-						playerScript.joystickID = joystickNums; //this number will be decided in the selection menu, so we know what joystick they plan on using
-						joystickPlayers.Add(playerScript);
-						joystickNums++;
-					} else {
-						//print(playerScript + " " + mouseNums);
-						//playerScript.mouseID = mouseNums;  //this number will be decided in the selection menu, so we know what mouse they plan on using
-						mousePlayers.Add(playerScript);
-						mouseNums++;
-						//print(playerScript + " successfully added");
-					}
 				}
+				//TODO set up individual pointers
 			}
 		}
+		menuPointersOn = true;
+		init = true;
 
 	}
 	void Awake() {
@@ -98,12 +151,12 @@ public class MouseInput : MonoBehaviour {
 		DontDestroyOnLoad(this.transform);
 	}
 	void LateUpdate() {
-		//if (Input.GetKeyDown(KeyCode.Space)) Application.LoadLevel(Application.loadedLevel);
-		//print("Start update function mouse");
+		//we dont want to do any of this if not ready
+		if (!init) return;
 		if (timeSinceStart < 5) timeSinceStart += Time.deltaTime;
 		//CrashDetector.SetExePoint("Whatever");
 		if ((IntPtr)GetActiveWindow() != this.unityWindow && !already) resetMouse(); //to stop getting focus stuck on the mouse starter
-		if (Input.GetKey ("escape")) {
+		if (Input.GetKey ("escape") || (singleMouse && !levelReady)) {
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;    
 		}
@@ -111,10 +164,7 @@ public class MouseInput : MonoBehaviour {
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
 		}
-
-		// Loop through all the connected mice
-		//Debug.Log ("Start try");
-		if (usesMouse) {
+		if (!singleMouse) {
 			for (int i = 0; i < mice.Length; i++) {
 				try {
 					mousedriver.GetMouse(i, ref mice[i]);
@@ -129,8 +179,49 @@ public class MouseInput : MonoBehaviour {
 				}
 			}
 
+		} else {
+			//print(Input.GetAxis("Mouse0") + " " + Input.GetAxis("MouseX") + " " + Input.GetAxis("MouseY"));
+			lastMousePosition[0] = mousePosition[0];
+			mousePosition[0] =  new Vector3(Input.GetAxis("MouseX")/100f * sensitivity, Input.GetAxis("MouseY")/100f * sensitivity, 0);
 		}
-		//Debug.Log ("End try");
+
+		if (menuPointersOn) {
+			Camera c = GameObject.Find("Main Camera").GetComponent<Camera>();
+			Vector3 defaultV = new Vector3(Screen.width / 2, Screen.height / 2);
+			for (int i = 0; i < pointers.Length; i++) {
+				
+				if (this.singleMouse) {
+					Vector3 oldPos = pointers[i].position;
+
+					pointers[i].position = 500 * c.ScreenToWorldPoint(new Vector3(oldPos.x,oldPos.y, c.nearClipPlane));
+
+				} else {
+					Vector3 toGo = 100 * new Vector3(mousePosition[i].x - lastMousePosition[i].x, mousePosition[i].y - lastMousePosition[i].y  );
+
+					pointers[i].position += 100 * new Vector3(mousePosition[i].x - lastMousePosition[i].x, mousePosition[i].y - lastMousePosition[i].y  );
+
+				}
+				if (pointers[i].position.x == defaultV.x && pointers[i].position.y == defaultV.y) {
+					pointers[i].gameObject.SetActive(false);
+				} else {
+					pointers[i].gameObject.SetActive(true);
+					if (!singleMouse) {
+						if ((bool)mice [i].Buttons.GetValue (0)) {
+							print("Click " + i + " at "  + pointers[i].position);
+						}
+					}
+				}
+
+			}
+
+		} else {
+			for (int i = 0; i < pointers.Length; i++) {
+				pointers[i].gameObject.SetActive(false);
+			}
+		}
+
+		if (!levelReady) return;
+
 
 
 		Vector3 look;
@@ -142,21 +233,25 @@ public class MouseInput : MonoBehaviour {
 			//print(mousePlayers.Count);
 			foreach (player p in mousePlayers) {
 				//print(currentMiceAmount + " " + p.mouseID);
-				try {
-					RawMouse r = mice[p.mouseID];
-					r.ToString();
-					//see if said mouse exists
-				} catch {
-					continue;
+				if (!singleMouse) {
+					try {
+						RawMouse r = mice[p.mouseID];
+						r.ToString();
+						//see if said mouse exists
+					} catch {
+						continue;
+					}
+					if (p == null || mice [p.mouseID] == null ) continue;
+					look = new Vector3(mousePosition[p.mouseID].x - lastMousePosition[p.mouseID].x, mousePosition[p.mouseID].y - lastMousePosition[p.mouseID].y, 0);
+				} else {
+					look = new Vector3(mousePosition[0].x, mousePosition[0].y);
 				}
-				if (p == null || mice [p.mouseID] == null ) continue;
 				playerPos = p.transform.position;
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
 				Transform center =  p.transform.FindChild("AimingParent").FindChild("Center");
 				//we use mouse
 
 				//print(mousePosition[mouseNums].x + " " + mousePosition[mouseNums].y);
-				look = new Vector3(mousePosition[p.mouseID].x - lastMousePosition[p.mouseID].x, mousePosition[p.mouseID].y - lastMousePosition[p.mouseID].y, 0);
 				if (Vector2.SqrMagnitude(look) > 0) { //continue
 
 					Transform rectTrans = reticle.transform;
@@ -176,34 +271,65 @@ public class MouseInput : MonoBehaviour {
 				}
 				bool hasItem1 = center.childCount >= 1;
 				bool hasItem2 = center.childCount == 2;
+				if (!this.singleMouse) {
+					if ((bool)mice [p.mouseID].Buttons.GetValue (0)) {
+						if (hasItem1) {
+							center.GetChild (0).SendMessage ("click");
+						} else {
+							p.SendMessage("Punch");
+						}
 
-				if ((bool)mice [p.mouseID].Buttons.GetValue (0)) {
-					if (hasItem1) {
-						center.GetChild (0).SendMessage ("click");
 					} else {
-						p.SendMessage("Punch");
+						if (hasItem1) {
+							center.GetChild (0).SendMessage ("unclick");
+						}
 					}
+				 
 
+
+					if (hasItem2) {
+						if ((bool)mice [p.mouseID].Buttons.GetValue (1)) {
+							center.GetChild (1).SendMessage ("click");
+						} else {
+							center.GetChild (1).SendMessage ("unclick");
+						}
+
+					} else {
+						if ((bool)mice [p.mouseID].Buttons.GetValue (1)) {
+							p.GetComponent<GrappleLauncher> ().SendMessage ("fire");
+						} else {
+							p.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+						}    
+					}
 				} else {
-					if (hasItem1) {
-						center.GetChild (0).SendMessage ("unclick");
-					}
-				}
-
-
-				if (hasItem2) {
-					if ((bool)mice [p.mouseID].Buttons.GetValue (1)) {
-						center.GetChild (1).SendMessage ("click");
+					//for when we have a single mouse
+					if (Input.GetAxis("Mouse0") > 0) {
+						if (hasItem1) {
+							center.GetChild (0).SendMessage ("click");
+						} else {
+							p.SendMessage("Punch");
+						}
 					} else {
-						center.GetChild (1).SendMessage ("unclick");
+						if (hasItem1) {
+							center.GetChild (0).SendMessage ("unclick");
+						}
+					}
+					if (hasItem2) {
+						if (Input.GetAxis("Mouse1") > 0) {
+							center.GetChild (1).SendMessage ("click");
+						} else {
+							center.GetChild (1).SendMessage ("unclick");
+						}
+
+					} else {
+						if (Input.GetAxis("Mouse1") > 0) {
+							p.GetComponent<GrappleLauncher> ().SendMessage ("fire");
+						} else {
+							p.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
+						}    
 					}
 
-				} else {
-					if ((bool)mice [p.mouseID].Buttons.GetValue (1)) {
-						p.GetComponent<GrappleLauncher> ().SendMessage ("fire");
-					} else {
-						p.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
-					}    
+
 				}
 
 				lastReticleIndex++;
@@ -257,11 +383,14 @@ public class MouseInput : MonoBehaviour {
 				lastReticleIndex++;
 			}
 		}
+	
 	}
 
 	void OnApplicationQuit() {
 		// Clean up
-		if (usesMouse) mousedriver.Dispose();
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;  
+		if (!this.singleMouse) mousedriver.Dispose();
 	}
 	void DisablePlayers() {
 		tempMoveDisable = true;
