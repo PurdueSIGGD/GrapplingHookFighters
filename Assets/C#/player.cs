@@ -431,7 +431,8 @@ public class player : MonoBehaviour {
 							aimingR.recoverSpeed = heldR.recoverSpeed;
 						}
 						//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
-						heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
+						//heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
+						heldItem1.transform.localPosition = aimerBody.transform.FindChild("Held1").transform.localPosition;
 						heldItem1.transform.rotation = center.transform.rotation;
 						if (heldItem1.GetComponent<gun> () || heldItem1.GetComponent<PortalGun> ()) {
 							heldItem1.SendMessage ("SetPlayerID", playerid);
@@ -468,7 +469,9 @@ public class player : MonoBehaviour {
 						}
 
 						//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
-						heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
+						//heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
+						heldItem2.transform.localPosition = this.aimerBody.transform.FindChild("Held2").transform.localPosition;
+
 						heldItem2.transform.rotation = center.transform.rotation;
 						if (heldItem2.GetComponent<gun> ()) {
 							heldItem2.SendMessage ("SetPlayerID", playerid);

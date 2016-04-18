@@ -43,7 +43,7 @@ public class MouseInput : MonoBehaviour {
 	private bool[] hasItem; 
 	private bool[] hasItem2; 
 	//if player uses a joystick
-	private ArrayList players; //players with a player struct, used during SetUpRound
+	public ArrayList players; //players with a player struct, used during SetUpRound
 	private ArrayList joystickPlayers;
 	private ArrayList mousePlayers;
 	public bool usesMouse = true, tempMoveDisable;

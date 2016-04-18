@@ -6,6 +6,10 @@ using System.Linq;
 
 public class MainMenus : MonoBehaviour 
 {
+	struct PlayerInfo {
+		public bool usesJoystick;
+		public int id;
+	}
 	public GameObject mouseController;
 	private MouseInput mouseControllerRef;
 
@@ -75,7 +79,9 @@ public class MainMenus : MonoBehaviour
 		//if there are animations or such, we want it to the same function
 		from.SetActive(false);
 		to.SetActive(true);
-		this.mainEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(to.transform.GetChild(0).GetComponentInChildren<Button>().gameObject);
+		GameObject selected = to.transform.GetChild(0).GetComponentInChildren<Button>().gameObject;
+		print(selected.name);
+		this.mainEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(selected);
 	}
 
 	//main menu
