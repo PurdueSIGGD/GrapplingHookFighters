@@ -93,6 +93,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			desiredPosition = transform.position;
 		}
 		float cameraDistance = Vector2.Distance (desiredPosition, transform.position);
+		float movementSizeInflation = Time.deltaTime * 2.5f * Vector3.Magnitude(desiredPosition - transform.position);
 		if (cameraDistance > 0) {
 			lastDistance = Time.deltaTime * movementSpeed * (cameraDistance + 3) * (desiredPosition - transform.position);
 			transform.position += lastDistance;
@@ -111,8 +112,10 @@ public class SmootherTrackingCamera : MonoBehaviour {
 					GetComponentInChildren<Camera> ().orthographicSize = desiredSize;
 				} else {
 					//idk, do something less jerky
-					if (desiredSize < GetComponentInChildren<Camera> ().orthographicSize) 
-						GetComponentInChildren<Camera> ().orthographicSize = desiredSize;
+					if (desiredSize < GetComponentInChildren<Camera> ().orthographicSize) {
+						
+						GetComponentInChildren<Camera> ().orthographicSize = desiredSize+ movementSizeInflation;
+					}
 					//if zoomed into one player, it tries to zoom out if they get too close.
 					//this just won't let it zoon out. Yay!
 					

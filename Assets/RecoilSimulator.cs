@@ -59,17 +59,17 @@ public class RecoilSimulator : MonoBehaviour {
 			}
 			if (compressing) {
 				//print(recoilSpeed);
-				recoilSpeed -= compressionRecovery * Time.deltaTime;
-				//print("stopping " + (aimerSprite.transform.localPosition + Vector3.left * recoilSpeed).x + " " + (startPos.x - maxCompression));
+				recoilSpeed += compressionRecovery * Time.deltaTime;
+				//print("stopping " + (aimerSprite.transform.localPosition + Vector3.right * recoilSpeed).x + " " + (startPos.x - maxCompression));
 
-				if ((aimerSprite.transform.localPosition + Vector3.left * recoilSpeed).x > startPos.x) {
+				if ((aimerSprite.transform.localPosition + Vector3.right * recoilSpeed).x > startPos.x) {
 					StopCompression();
-					SetRecoilPos(0);
-					print("stopping");
+					//SetRecoilPos(0);
+					//print("stopping");
 
-				} else if ((aimerSprite.transform.localPosition + Vector3.left * recoilSpeed).x < startPos.x - maxCompression) {
+				} else if ((aimerSprite.transform.localPosition + Vector3.right * recoilSpeed).x < startPos.x - maxCompression) {
 					//recoilSpeed = 0;
-					SetRecoilPos(maxCompression);
+					//SetRecoilPos(maxCompression);
 				} else {
 					SetRecoilPos(recoilSpeed);
 				}
@@ -78,24 +78,25 @@ public class RecoilSimulator : MonoBehaviour {
 		}
 	}
 	void SetRecoilPos(float factor) {
-		aimerSprite.transform.localPosition = startPos + Vector2.left*factor;
+		aimerSprite.transform.localPosition = startPos + Vector2.right*factor;
 		//set for both weapons, if they exist
 		if (center.childCount == 2) {
-			center.GetChild(1).transform.localPosition = startH2 + Vector2.left*factor;
+			center.GetChild(1).transform.localPosition = startH2 + Vector2.right*factor;
 		} 
 		if (center.childCount >= 1) {
-			center.GetChild(0).transform.localPosition = startH1 + Vector2.left*factor;
+			center.GetChild(0).transform.localPosition = startH1 + Vector2.right*factor;
 		}
 	}
 	//Add a force to the local rotation of the item
 	void AddTorque(float f) {
 		rotating = true;
 		if (canAddTorque) {
-			if (torque > 150) {
+			/*if (torque > 150) {
 				torque += f*Random.Range(-10/time,2f);
 			} else {
 				torque += f*Random.Range(0,2f);
-			}
+			}*/
+			torque += f;
 		}
 		else torque = 0;
 
@@ -104,10 +105,10 @@ public class RecoilSimulator : MonoBehaviour {
 	}
 	void AddCompression(float f) {
 		if (f > .5f) f = .5f;
-		recoilSpeed += f;
+		recoilSpeed -= f;
 		compressing = true;
 
-		print(recoilSpeed);
+		//print(recoilSpeed);
 
 	}
 	void StopCompression() {
