@@ -114,7 +114,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 					//idk, do something less jerky
 					if (desiredSize < GetComponentInChildren<Camera> ().orthographicSize) {
 						
-						GetComponentInChildren<Camera> ().orthographicSize = desiredSize+ movementSizeInflation;
+						GetComponentInChildren<Camera> ().orthographicSize = desiredSize;//+ movementSizeInflation;
 					}
 					//if zoomed into one player, it tries to zoom out if they get too close.
 					//this just won't let it zoon out. Yay!
