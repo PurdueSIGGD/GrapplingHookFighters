@@ -10,7 +10,7 @@ public class RecoilSimulator : MonoBehaviour {
 	private float torque, recoilSpeed, time;
 	private bool canAddTorque, rotating, compressing;
 	private Transform center, aimerSprite;
-	private Vector2 startPos, startH1, startH2;
+	private Vector2 startPos;
 	// Use this for initialization
 	void Start () {
 		lastFactor = 0;
@@ -20,8 +20,6 @@ public class RecoilSimulator : MonoBehaviour {
 			Transform aimerBody = transform.FindChild("AimerBody");
 			aimerSprite = aimerBody.FindChild("Aimer").transform;
 			startPos = aimerSprite.transform.localPosition;
-			startH1 = aimerBody.FindChild("Held1").transform.localPosition;
-			startH2 = aimerBody.FindChild("Held2").transform.localPosition;
 		}
 	}
 	

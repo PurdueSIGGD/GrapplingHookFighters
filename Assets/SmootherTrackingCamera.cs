@@ -16,8 +16,12 @@ public class SmootherTrackingCamera : MonoBehaviour {
 	private Vector3 lastDistance;
 	private int playerCount;
 	private GameObject[] targets;
+	private Health[] targetHealths;
+
+	private Camera cam;
 	// Use this for initialization
 	void Start () {
+		cam = transform.GetComponentInChildren<Camera>();
 		lastDistance = Vector3.zero;
 		tracking = true;
 		if (GameObject.Find("SceneController")) {
@@ -26,8 +30,10 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
 		}
 		targets = new GameObject[playerCount];
+		targetHealths = new Health[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
 			targets[i-1] = GameObject.Find("Player" + i);
+			targetHealths[i-1] = targets[i-1].GetComponent<Health>();
 		}
 	}
 	
@@ -37,11 +43,11 @@ public class SmootherTrackingCamera : MonoBehaviour {
 		int trackingPlayers = 0;
 		float furthestDistance = 0;
 		bool atLeastOneAlive = false;
-		Health gh;
 
+		int i = 0;
 		foreach (GameObject g in targets) {
-			gh = g.GetComponent<Health> ();
-
+			Health gh = targetHealths[i];
+			i++;
 			//if they crossed a boundary, use their last place they were before they died 
 			float thisDistance = Vector2.Distance (transform.position, (gh.ignorePosition)?gh.boundaryPlace:g.transform.position);
 			if (!gh.dead)
@@ -108,18 +114,8 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			//add a value of 1 to give some buffer room
 			float desiredSize = furthestDistance + 2;
 			if (atLeastOneAlive) {
-				if (trackingPlayers != 1) {
-					GetComponentInChildren<Camera> ().orthographicSize = desiredSize;
-				} else {
-					//idk, do something less jerky
-					if (desiredSize < GetComponentInChildren<Camera> ().orthographicSize) {
-						
-						GetComponentInChildren<Camera> ().orthographicSize = desiredSize;//+ movementSizeInflation;
-					}
-					//if zoomed into one player, it tries to zoom out if they get too close.
-					//this just won't let it zoon out. Yay!
-					
-				}
+				//TODO fix this broken shit
+				//cam.orthographicSize = desiredSize;
 			}
 		}
 	}

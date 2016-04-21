@@ -64,7 +64,7 @@ public class MouseInput : MonoBehaviour {
 			tempPlayer1.usesJoystick = false;
 			PlayerInfo tempPlayer2 = new PlayerInfo();
 			tempPlayer2.id = 1;
-			tempPlayer2.usesJoystick = true;
+			tempPlayer2.usesJoystick = false;
 			players.Add(tempPlayer1);
 			players.Add(tempPlayer2);
 			//forcestart is when we have a level that is not selected by the main menu thingy

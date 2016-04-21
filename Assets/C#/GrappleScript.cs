@@ -32,8 +32,9 @@ public class GrappleScript : MonoBehaviour {
 			g.GetComponentInParent<player>() == null && 
 			g.tag != "Item" && 
 			g.tag != "DualItem" && 
+			g.tag != "Grapple" &&
 			(firing)) {
-
+			//print(g.name);
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
 			Vector2[] vee = new Vector2[2];
 			vee[0] = Vector2.zero;
@@ -45,8 +46,9 @@ public class GrappleScript : MonoBehaviour {
 			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position);
 			myRigid.velocity = Vector2.zero;
 			myRigid.isKinematic = true;
+			//transform.FindChild("GrappleAttached").GetComponent<Rigidbody2D>().isKinematic = true;
 
-			toPlayer.enabled = true;
+			//toPlayer.enabled = true;
 			focus.SendMessage("Attach");
 			retracting = false;
 			connected = true;
@@ -59,6 +61,8 @@ public class GrappleScript : MonoBehaviour {
 		
 		} else {
 			myRigid.isKinematic = false;
+			//transform.FindChild("GrappleAttached").GetComponent<Rigidbody2D>().isKinematic = false;
+
 		}		
 	//	Destroy(lineCol);
 		//lineCol = null;
@@ -80,7 +84,7 @@ public class GrappleScript : MonoBehaviour {
 		RaycastHit2D[] r;
 		if (connected) {
 			
-			float d = Vector3.Distance(this.transform.position, center.position) * .75f;
+			/*float d = Vector3.Distance(this.transform.position, center.position) * .75f;
 			if (d > 1.2f) { //so getting too close won't disconnect
 				int layermask = 1 << (this.gameObject.layer + 5);
 				r = Physics2D.RaycastAll(center.position, (this.transform.position - center.position), d, layermask);
@@ -94,7 +98,7 @@ public class GrappleScript : MonoBehaviour {
 						focus.SendMessage("Disconnect"); //Temporarily disabled for now
 					}
 				}
-			}
+			}*/
 		}
 		/*if (lineCol != null) {
 			Vector2[] vee = new Vector2[2];
@@ -111,7 +115,7 @@ public class GrappleScript : MonoBehaviour {
 		} else {
 			timeRetracting = 1;
 		}
-		LineRenderer lr = this.GetComponent<LineRenderer>();
+		/*LineRenderer lr = this.GetComponent<LineRenderer>();
 		if (firing || retracting || myRigid.isKinematic == true) {
 			lr.enabled = true;
 			lr.SetPosition(0, this.transform.position);
@@ -121,7 +125,7 @@ public class GrappleScript : MonoBehaviour {
 			lr.SetPosition(0, this.transform.position);
 			lr.SetPosition(1, this.transform.position);
 			lr.enabled = false;
-		}
+		}*/
 
 	}
 	void ResetLast() { //lastgrab is the last object we grabbed, we make sure the line doesnt grab anything on its way back
