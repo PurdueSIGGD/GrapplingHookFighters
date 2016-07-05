@@ -65,7 +65,7 @@ public class GrappleLauncher : MonoBehaviour {
 			}
 
 
-			if (attached) myRigid.AddForce(800 *  Time.deltaTime * Vector2.up);
+			if (attached) myRigid.AddForce(400 *  Time.deltaTime * (firedGrapple.transform.position - center.position));//Vector2.up);
 			if (retracting && !firing) {
 				if (Vector3.Distance (center.position, firedGrapple.transform.position) < .3f) {
 					retracting = false;
@@ -154,7 +154,7 @@ public class GrappleLauncher : MonoBehaviour {
 
 	void Attach() {
 		attached = true;
-		myRigid.AddForce(30 * (firedGrapple.transform.position - transform.position));
+		myRigid.AddForce(60 * (firedGrapple.transform.position - transform.position));
 
 	}
 	void Disconnect() {
