@@ -17,7 +17,7 @@ public class GrappleLauncher : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		myRigid = this.GetComponent<Rigidbody2D>();
-		center = this.transform.FindChild("AimingParent").FindChild ("Center");
+		center = this.transform.FindChild("AimingParent");
 		rigids = new Rigidbody2D[grapples.Length];
 		edges = new EdgeCollider2D[grapples.Length];
 		lines = new LineRenderer[grapples.Length];

@@ -248,7 +248,8 @@ public class MouseInput : MonoBehaviour {
 				}
 				playerPos = p.transform.position;
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
-				Transform center =  p.transform.FindChild("AimingParent").FindChild("Center");
+				Transform center1 = p.transform.FindChild ("AimingParent").FindChild ("CenterR");
+				Transform center2 = p.transform.FindChild ("AimingParent").FindChild ("CenterL");
 				//we use mouse
 
 				//print(mousePosition[mouseNums].x + " " + mousePosition[mouseNums].y);
@@ -269,19 +270,19 @@ public class MouseInput : MonoBehaviour {
 				} else {
 					//empty, so we aren't throwing 0's around like hotcakes
 				}
-				bool hasItem1 = center.childCount >= 1;
-				bool hasItem2 = center.childCount == 2;
+				bool hasItem1 = center1.childCount == 2;
+				bool hasItem2 = center2.childCount == 2;
 				if (!this.singleMouse) {
 					if ((bool)mice [p.mouseID].Buttons.GetValue (0)) {
 						if (hasItem1) {
-							center.GetChild (0).SendMessage ("click");
+							center1.GetChild (1).SendMessage ("click");
 						} else {
 							p.SendMessage("Punch");
 						}
 
 					} else {
 						if (hasItem1) {
-							center.GetChild (0).SendMessage ("unclick");
+							center1.GetChild (1).SendMessage ("unclick");
 						}
 					}
 				 
@@ -289,9 +290,9 @@ public class MouseInput : MonoBehaviour {
 
 					if (hasItem2) {
 						if ((bool)mice [p.mouseID].Buttons.GetValue (1)) {
-							center.GetChild (1).SendMessage ("click");
+							center2.GetChild (1).SendMessage ("click");
 						} else {
-							center.GetChild (1).SendMessage ("unclick");
+							center2.GetChild (1).SendMessage ("unclick");
 						}
 
 					} else {
@@ -305,20 +306,20 @@ public class MouseInput : MonoBehaviour {
 					//for when we have a single mouse
 					if (Input.GetAxis("Mouse0") > 0) {
 						if (hasItem1) {
-							center.GetChild (0).SendMessage ("click");
+							center1.GetChild (1).SendMessage ("click");
 						} else {
 							p.SendMessage("Punch");
 						}
 					} else {
 						if (hasItem1) {
-							center.GetChild (0).SendMessage ("unclick");
+							center1.GetChild (1).SendMessage ("unclick");
 						}
 					}
 					if (hasItem2) {
 						if (Input.GetAxis("Mouse1") > 0) {
-							center.GetChild (1).SendMessage ("click");
+							center2.GetChild (1).SendMessage ("click");
 						} else {
-							center.GetChild (1).SendMessage ("unclick");
+							center2.GetChild (1).SendMessage ("unclick");
 						}
 
 					} else {
@@ -338,7 +339,8 @@ public class MouseInput : MonoBehaviour {
 				if (p == null) break;
 
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
-				Transform center = p.transform.FindChild("AimingParent").FindChild("Center");
+				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterL");
+				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterR");
 				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0);
 				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
 					look = look/Vector2.SqrMagnitude(look);
@@ -348,33 +350,33 @@ public class MouseInput : MonoBehaviour {
 					reticle.localPosition = lastReticle[lastReticleIndex];
 				}
 
-
-				bool hasItem1 = center.childCount >= 1;
-				bool hasItem2 = center.childCount == 2;
+				//normally 2 for each arm, 4 when you have two items
+				bool hasItem1 = center1.childCount == 2;
+				bool hasItem2 = center2.childCount == 2;
 
 				if (Input.GetAxisRaw("JFire" + p.joystickID) > 0) {                    
 					if (hasItem1) {
-						center.GetChild (0).SendMessage ("click");
+						center1.GetChild (1).SendMessage ("click");
 					} else {
 						p.SendMessage("Punch");
 					}
 
 				} else {
 					if (hasItem1) {
-						center.GetChild (0).SendMessage ("unclick");
+						center1.GetChild (1).SendMessage ("unclick");
 					}
 				}
 				if (Input.GetAxisRaw("JFireAlt" + p.joystickID) > 0) {                    
 
 					if (hasItem2) {
-						center.GetChild (1).SendMessage ("click");
+						center2.GetChild (1).SendMessage ("click");
 					} else {
 						p.GetComponent<GrappleLauncher> ().SendMessage ("fire");
 					}
 
 				} else {
 					if (hasItem2) {
-						center.GetChild (1).SendMessage ("unclick");
+						center2.GetChild (1).SendMessage ("unclick");
 					} else {
 						p.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
 					}

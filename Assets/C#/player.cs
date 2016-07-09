@@ -24,8 +24,12 @@ public class player : MonoBehaviour {
 	public bool jetpack, jetpackPlaying, skateBoard;
     public Vector3 firingVector, savedReticleLocation;
 	private Vector2[] standingCol, crouchingCol;
+	public AnimationHandler myAnim;
 
-	private Transform center, aimingParent, aimer, aimerBody, reticle;
+	public Vector2 leftGunPos, rightGunPos;
+
+
+	private Transform center1, center2, aimingParent, aimer, aimerBody, reticle;
 	private Rigidbody2D myRigid;
 	private Collider2D myCollider;
 	private PolygonCollider2D myPolygon;
@@ -46,13 +50,14 @@ public class player : MonoBehaviour {
 
     void Start() {
 		aimingParent = transform.FindChild("AimingParent"); //aiming parent retains recoil
-		center = aimingParent.FindChild("Center"); //center holds items and weapons
+		center1 = aimingParent.FindChild("CenterR"); //center1 holds items and weapons on one side
+		center2 = aimingParent.FindChild("CenterL"); //center holds items and weapons on the other
 		aimerBody = aimingParent.FindChild("AimerBody"); //aimerbody is what holds the aimer for easy rotation and scaling
 		aimer = aimerBody.FindChild("Aimer"); //aimer is a sprite
 		reticle = GameObject.Find("Reticle" + playerid).transform; //where the reticle we will aim to will be
         GameObject.Find("Reticle" + playerid).transform.position = transform.position;
 		myCollider = this.GetComponent<Collider2D>();
-		mySprite = transform.FindChild("Sprite").GetComponent<SpriteRenderer> ();
+		mySprite = transform.FindChild("Hip").GetComponent<SpriteRenderer> ();
 		myRigid = this.GetComponent<Rigidbody2D>();
         //switchedKey = true;
 		myPolygon = this.GetComponent<PolygonCollider2D>();
@@ -78,7 +83,8 @@ public class player : MonoBehaviour {
 		if (tempDisabled) {
 			aimingParent.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
 			aimingParent.rotation = Quaternion.Euler(0, 0, 0);
-			this.mySprite.flipX = false;
+			//this.mySprite.flipX = false;
+
 		}
 		if (punchTime < 1) punchTime +=Time.deltaTime;
 		if (!death && !tempDisabled) {
@@ -94,7 +100,7 @@ public class player : MonoBehaviour {
             }
 			float maxMoveSpeedRevised = (skateBoard && Mathf.Abs(myRigid.velocity.y) > .01f) ? maxMoveSpeed/10 : maxMoveSpeed ;
 			if (myRigid.velocity.x > -1 * maxMoveSpeedRevised && canMoveLeft && goLeft()) {
-				this.mySprite.flipX = true;
+				myAnim.direction = true;
 				float f = Input.GetAxis("HorizontalPD" + joystickID);
 				float force = 0;
 				if (f != 0) {
@@ -105,7 +111,7 @@ public class player : MonoBehaviour {
 				myRigid.AddForce(force * new Vector3(40, 0, 0));
             }
 			if (myRigid.velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
-				mySprite.flipX = false;
+				myAnim.direction = false;
 				float f = Input.GetAxis("HorizontalPD" + joystickID);
 				float force = 0;
 				if (f != 0) {
@@ -175,13 +181,15 @@ public class player : MonoBehaviour {
 
 
 				}
-				aimerBody.localRotation = center.localRotation = Quaternion.Euler(0, 0, rotZ);
+				aimerBody.localRotation = center1.localRotation = center2.localRotation = Quaternion.Euler(0, 0, rotZ);
 
-				Vector3 centerScale = center.localScale;
-				if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
-					center.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+				Vector3 centerScale = center1.localScale;
+				if(false && firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
+					center1.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+					center2.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
 				} else {
-					center.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
+					center1.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
+					center2.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
 				}
 			}
 			if (pickUpKey() && timeSincePickup > .2f && (!canPickup || (heldItem1 && heldItem2))) {
@@ -321,7 +329,7 @@ public class player : MonoBehaviour {
 	}
     bool jump(bool usingJetpack) {
 		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
-			RaycastHit2D[] hits = Physics2D.RaycastAll(center.position, Vector2.down, 1.4f);
+			RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
 			bool hitValid = usingJetpack; 
 			foreach (RaycastHit2D hit in hits) {
 				Collider2D col = hit.collider;
@@ -420,7 +428,7 @@ public class player : MonoBehaviour {
 						col.SendMessage ("ignoreColl", myCollider);
 						//Transform center = this.gameObject.transform.FindChild ("Center");
 						heldItem1.GetComponent<Rigidbody2D> ().isKinematic = true;
-						heldItem1.transform.SetParent (center, false);
+						heldItem1.transform.SetParent (center1, false);
 						heldItem1.transform.localScale = Vector3.one;
 						//transfer all recoil parts
 						RecoilSimulator heldR = heldItem1.GetComponent<RecoilSimulator>();
@@ -432,8 +440,8 @@ public class player : MonoBehaviour {
 						}
 						//	heldItem1.transform.localScale = new Vector3(Mathf.Abs(heldItem1.transform.localScale.x),Mathf.Abs(heldItem1.transform.localScale.y),Mathf.Abs(heldItem1.transform.localScale.z));
 						//heldItem1.transform.position = (center.transform.position + .7f * this.firingVector);
-						heldItem1.transform.localPosition = aimerBody.transform.FindChild("Held1").transform.localPosition;
-						heldItem1.transform.rotation = center.transform.rotation;
+						heldItem1.transform.localPosition = rightGunPos;//aimerBody.transform.FindChild("Held1").transform.localPosition;
+						heldItem1.transform.rotation = center1.transform.rotation;
 						if (heldItem1.GetComponent<gun> () || heldItem1.GetComponent<PortalGun> ()) {
 							heldItem1.SendMessage ("SetPlayerID", playerid);
 						}
@@ -457,7 +465,7 @@ public class player : MonoBehaviour {
 						col.SendMessage ("ignoreColl", myCollider);
 						//Transform center = this.gameObject.transform.FindChild ("Center");
 						heldItem2.GetComponent<Rigidbody2D> ().isKinematic = true;
-						heldItem2.transform.SetParent (center, false);
+						heldItem2.transform.SetParent (center2, false);
 						heldItem2.transform.localScale = Vector3.one;
 						//transfer recoil
 						RecoilSimulator heldR = heldItem2.GetComponent<RecoilSimulator>();
@@ -470,9 +478,9 @@ public class player : MonoBehaviour {
 
 						//	heldItem2.transform.localScale = new Vector3(Mathf.Abs(heldItem2.transform.localScale.x),Mathf.Abs(heldItem2.transform.localScale.y),Mathf.Abs(heldItem2.transform.localScale.z));
 						//heldItem2.transform.position = (center.transform.position + .4f * this.firingVector);
-						heldItem2.transform.localPosition = this.aimerBody.transform.FindChild("Held2").transform.localPosition;
+						heldItem2.transform.localPosition = leftGunPos;//this.aimerBody.transform.FindChild("Held2").transform.localPosition;
 
-						heldItem2.transform.rotation = center.transform.rotation;
+						heldItem2.transform.rotation = center2.transform.rotation;
 						if (heldItem2.GetComponent<gun> ()) {
 							heldItem2.SendMessage ("SetPlayerID", playerid);
 						}

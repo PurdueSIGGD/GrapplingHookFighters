@@ -41,8 +41,8 @@ public class PassivePickup : MonoBehaviour {
 			g.GetComponent<player> ().maxMoveSpeed = 25;
 			break;
 		case 3:
-			focusColor = g.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color;
-			g.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
+			focusColor = g.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color;
+			g.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
 			g.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
 			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
 			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,.2f);
@@ -82,7 +82,7 @@ public class PassivePickup : MonoBehaviour {
 			focus.GetComponent<player> ().maxMoveSpeed = 10;
 			break;
 		case 3:
-			focus.transform.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color = focusColor;
+			focus.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color = focusColor;
 			this.GetComponentInChildren<SpriteRenderer>().color = new Color (1, 1, 1, 1);
 			focus.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
 			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,1);

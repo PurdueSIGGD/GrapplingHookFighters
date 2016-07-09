@@ -43,7 +43,7 @@ public class GrappleScript : MonoBehaviour {
 			this.transform.parent = g.transform;
 			transform.localScale = new Vector3(1/g.transform.localScale.x,1/g.transform.localScale.y,1/g.transform.localScale.z);
 			lastGrab = g.transform;
-			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("AimingParent").FindChild("Center").position);
+			toPlayer.distance = .2f * Vector3.Distance(this.transform.position, focus.transform.FindChild("AimingParent").position);
 			myRigid.velocity = Vector2.zero;
 			myRigid.isKinematic = true;
 			//transform.FindChild("GrappleAttached").GetComponent<Rigidbody2D>().isKinematic = true;
@@ -75,7 +75,7 @@ public class GrappleScript : MonoBehaviour {
 		firing = true;
 	}
 	void Update() {
-		if (focus != null) center = focus.transform.FindChild("AimingParent").FindChild ("Center");
+		if (focus != null) center = focus.transform.FindChild("AimingParent");
 		if (breakTime > 0) {
 			breakTime -= Time.deltaTime;
 		} else {

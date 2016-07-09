@@ -9,14 +9,15 @@ public class RecoilSimulator : MonoBehaviour {
 	private int lastFactor;
 	private float torque, recoilSpeed, time;
 	private bool canAddTorque, rotating, compressing;
-	private Transform center, aimerSprite;
+	private Transform center1, center2, aimerSprite;
 	private Vector2 startPos;
 	// Use this for initialization
 	void Start () {
 		lastFactor = 0;
 		if (!valueHolder) {
 			StopRotation();
-			center = transform.FindChild("Center");
+			center1 = transform.FindChild("CenterR"); //temporary since center's purpose changed
+			center2 = transform.FindChild("CenterL");
 			Transform aimerBody = transform.FindChild("AimerBody");
 			aimerSprite = aimerBody.FindChild("Aimer").transform;
 			startPos = aimerSprite.transform.localPosition;
@@ -26,7 +27,7 @@ public class RecoilSimulator : MonoBehaviour {
 	void LateUpdate () {
 		if (!valueHolder) {
 			
-			int factor = center.localEulerAngles.z  < 90 || center.localEulerAngles.z > 270 ? 1:-1;
+			int factor = center1.localEulerAngles.z  < 90 || center1.localEulerAngles.z > 270 ? 1:-1;
 			if (lastFactor != factor) {
 				transform.rotation = Quaternion.Euler(Vector3.zero);
 				rotating = false;
@@ -82,11 +83,11 @@ public class RecoilSimulator : MonoBehaviour {
 		aimerSprite.transform.localPosition += Vector3.right*factor*Time.deltaTime ;
 		//print("o " + aimerSprite.transform.localPosition);
 		//set for both weapons, if they exist
-		if (center.childCount == 2) {
-			center.GetChild(1).transform.localPosition += Vector3.right*factor*Time.deltaTime ;
+		if (center1.childCount == 2) {
+			center1.GetChild(1).transform.localPosition += Vector3.right*factor*Time.deltaTime ;
 		} 
-		if (center.childCount >= 1) {
-			center.GetChild(0).transform.localPosition += Vector3.right*factor*Time.deltaTime;
+		if (center2.childCount == 2) {
+			center2.GetChild(1).transform.localPosition += Vector3.right*factor*Time.deltaTime;
 		}
 	}
 	//Add a force to the local rotation of the item
