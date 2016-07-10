@@ -68,9 +68,9 @@ public class player : MonoBehaviour {
 		for (int i = 0; i < curCol.Length; i++) {
 			standingCol[i] = crouchingCol[i] = curCol[i];
 		}
-		crouchingCol[4] = new Vector2(crouchingCol[4].x, 0);
+		crouchingCol[4] = new Vector2(crouchingCol[4].x, -.3f);
 		crouchingCol[3] = new Vector2(crouchingCol[3].x, (crouchingCol[2].y-crouchingCol[3].y));
-		crouchingCol[2] = new Vector2(crouchingCol[2].x, 0);
+		crouchingCol[2] = new Vector2(crouchingCol[2].x, -.3f);
 
         tag = "Player";
         canMoveRight = true;
@@ -78,6 +78,7 @@ public class player : MonoBehaviour {
     }
 
     void Update() {
+		isAirborne ();
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
 		if (tempDisabled) {
@@ -86,6 +87,7 @@ public class player : MonoBehaviour {
 			//this.mySprite.flipX = false;
 
 		}
+
 		if (punchTime < 1) punchTime +=Time.deltaTime;
 		if (!death && !tempDisabled) {
 
@@ -99,10 +101,10 @@ public class player : MonoBehaviour {
                 switchPlanes();
             }
 			float maxMoveSpeedRevised = (skateBoard && Mathf.Abs(myRigid.velocity.y) > .01f) ? maxMoveSpeed/10 : maxMoveSpeed ;
+			float force = 0;
 			if (myRigid.velocity.x > -1 * maxMoveSpeedRevised && canMoveLeft && goLeft()) {
 				myAnim.direction = true;
 				float f = Input.GetAxis("HorizontalPD" + joystickID);
-				float force = 0;
 				if (f != 0) {
 					force = -1;
 				} else {
@@ -113,7 +115,6 @@ public class player : MonoBehaviour {
 			if (myRigid.velocity.x < maxMoveSpeedRevised && canMoveRight && goRight()) {
 				myAnim.direction = false;
 				float f = Input.GetAxis("HorizontalPD" + joystickID);
-				float force = 0;
 				if (f != 0) {
 					force = 1;
 				} else {
@@ -121,17 +122,21 @@ public class player : MonoBehaviour {
 				}
 				myRigid.AddForce(force * new Vector3(40, 0, 0));            
 			}
+			myAnim.moving = (goRight() || goLeft());
+		
             if (goDown()) {
 				if (!crouched) myPolygon.points = crouchingCol;
 				crouched = true;
+				myAnim.crouching = true;
 				this.isStandingUp = false;
                 myRigid.AddForce(new Vector3(0, -10, 0));
-				maxMoveSpeed = 4;
+				maxMoveSpeed = 0;
 			} else {
 				if (crouched) {
 					this.isStandingUp = true;
 				}
 				crouched = false;
+				myAnim.crouching = false;
 				if (isStandingUp) {
 					//start slowly moving upwards
 					Vector2 offset = myPolygon.offset;
@@ -182,11 +187,23 @@ public class player : MonoBehaviour {
 
 				}
 				aimerBody.localRotation = center1.localRotation = center2.localRotation = Quaternion.Euler(0, 0, rotZ);
+				//if(firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
 
 				Vector3 centerScale = center1.localScale;
-				if(false && firingVector.x < 0 && (!heldItem1 || !heldItem1.GetComponent<player>())) { //set the y scale to be 0 in order to quickly set the correct orientation of gun when aiming behind yourself
-					center1.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
-					center2.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+				if (heldItem1) {
+					if (mySprite.flipX) {
+						heldItem1.transform.localScale = new Vector3 (centerScale.x, -1 * Mathf.Abs (centerScale.y), centerScale.z);
+						if (heldItem2) {
+							heldItem2.transform.localScale = new Vector3 (centerScale.x, -1 * Mathf.Abs (centerScale.y), centerScale.z);
+						}
+						/*center1.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);
+						center2.localScale = new Vector3(centerScale.x, -1 * Mathf.Abs(centerScale.y), centerScale.z);*/
+					} else {
+						heldItem1.transform.localScale = Vector3.one;
+						if (heldItem2) {
+							heldItem2.transform.localScale = Vector3.one;
+						}
+					}
 				} else {
 					center1.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
 					center2.localScale = new Vector3(centerScale.x, Mathf.Abs(centerScale.y), centerScale.z);
@@ -251,6 +268,7 @@ public class player : MonoBehaviour {
 
 				heldItem1.SendMessage ("unclick");
 				heldItem1 = null;
+				myAnim.heldType = 0;
 			}
 		} else if (i == 1) {
 			if (heldItem2 != null) {
@@ -276,6 +294,7 @@ public class player : MonoBehaviour {
 				heldItem2.SendMessage ("unclick");
 				heldItem2 = null;
 				canPickup = false;
+				myAnim.heldType = 1;
 			}
 		} else if (i == 2) { //passive item
 			if (passiveItem != null) {
@@ -329,22 +348,30 @@ public class player : MonoBehaviour {
 	}
     bool jump(bool usingJetpack) {
 		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
-			RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
-			bool hitValid = usingJetpack; 
-			foreach (RaycastHit2D hit in hits) {
-				Collider2D col = hit.collider;
-				if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
-					hitValid = true;
-					//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
-					//Debug.Log (hit.transform.name);
-					break;
-				}
-			}
-            return hitValid; //hitvalid is if we can jump, because something may be in our way
+			return isAirborne (usingJetpack);
         } else {
+			
             return false;
         }
     }
+	bool isAirborne() {
+		return isAirborne (false);
+	}
+	bool isAirborne(bool usingJetpack) {
+		RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
+		bool hitValid = usingJetpack; 
+		foreach (RaycastHit2D hit in hits) {
+			Collider2D col = hit.collider;
+			if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
+				hitValid = true;
+				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+				//Debug.Log (hit.transform.name);
+				break;
+			}
+		}
+		myAnim.airborne = !hitValid;
+		return hitValid; //hitvalid is if we can jump, because something may be in our way
+	}
     bool pickUpKey() {
 		return (!death && !tempDisabled && Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
     }
@@ -434,7 +461,7 @@ public class player : MonoBehaviour {
 						RecoilSimulator heldR = heldItem1.GetComponent<RecoilSimulator>();
 						RecoilSimulator aimingR = aimingParent.GetComponent<RecoilSimulator>();
 						if (heldR) {
-							aimingR.maxAngle = heldR.maxAngle;
+							//aimingR.maxAngle = heldR.maxAngle;
 							aimingR.pullDelay = heldR.pullDelay;
 							aimingR.recoverSpeed = heldR.recoverSpeed;
 						}
@@ -446,6 +473,11 @@ public class player : MonoBehaviour {
 							heldItem1.SendMessage ("SetPlayerID", playerid);
 						}
 						canPickup = false;
+						if (heldItem1.CompareTag ("DualItem")) {
+							myAnim.heldType = 1;
+						} else {
+							myAnim.heldType = 3;
+						}
 					} else if (heldItem2 == null && !pl && heldItem1.CompareTag ("DualItem") && col.CompareTag ("DualItem")) { //assign values to helditem2
 
 						this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect"); 
@@ -471,7 +503,7 @@ public class player : MonoBehaviour {
 						RecoilSimulator heldR = heldItem2.GetComponent<RecoilSimulator>();
 						RecoilSimulator aimingR = aimingParent.GetComponent<RecoilSimulator>();
 						if (heldR) {
-							aimingR.maxAngle = heldR.maxAngle;
+							//aimingR.maxAngle = heldR.maxAngle;
 							aimingR.pullDelay = heldR.pullDelay;
 							aimingR.recoverSpeed = heldR.recoverSpeed;
 						}
@@ -484,6 +516,7 @@ public class player : MonoBehaviour {
 						if (heldItem2.GetComponent<gun> ()) {
 							heldItem2.SendMessage ("SetPlayerID", playerid);
 						}
+						myAnim.heldType = 2;
 						canPickup = false;
 					} else {
 
@@ -494,6 +527,7 @@ public class player : MonoBehaviour {
     }
     void Death() {
         death = true;
+		myAnim.Death ();
         this.myRigid.freezeRotation = false;
         //this.GetComponent<LineRenderer>().SetVertexCount(0);
 		aimer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
@@ -509,6 +543,7 @@ public class player : MonoBehaviour {
 		}
     }
     void NotDeath() {
+		myAnim.NotDeath ();
         death = false;
 		crouched = false;
 		myPolygon.points = standingCol;
@@ -522,21 +557,25 @@ public class player : MonoBehaviour {
     }
 	void Punch() {
 		//print(punchable.name);
-		if (punchable != null && punchTime > .3f && !death) {
+		if (punchTime > .3f && !death) {
 			//print("I actually can punch");
 			punchTime = 0;
 			//punch animation here
-			if (punchable.GetComponent<player>()) {
-				Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D>();
-				playerPunch.AddForce(300 * (punchable.gameObject.transform.position - transform.position));
-				playerPunch.AddForce(Vector2.up * 450);
-				object o = 0;
-				punchable.SendMessage("throwWeapont",o);
-				o = 1;
-				punchable.SendMessage("throwWeapont",o);
-			} else {
-				//print("drop it");
-				punchable.SendMessage("DropItem");
+			myAnim.Punch ();
+			if (punchable) {
+				if (punchable.GetComponent<player> ()) {
+					
+					Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
+					playerPunch.AddForce (300 * (punchable.gameObject.transform.position - transform.position));
+					playerPunch.AddForce (Vector2.up * 450);
+					object o = 0;
+					punchable.SendMessage ("throwWeapont", o);
+					o = 1;
+					punchable.SendMessage ("throwWeapont", o);
+				} else {
+					//print("drop it");
+					punchable.SendMessage ("DropItem");
+				}
 			}
 
 		}
@@ -580,4 +619,5 @@ public class player : MonoBehaviour {
 	void OnDestroy() {
 	//	print("wtf why");
 	}
+
 }

@@ -7,6 +7,7 @@ public class GrappleLauncher : MonoBehaviour {
 	public GameObject firedGrapple;
 	public Transform center;
 	public GameObject[] grapples;
+	public Transform grappleArm, armL;
 	private Rigidbody2D[] rigids;
 	private EdgeCollider2D[] edges;
 	private LineRenderer[] lines;
@@ -30,6 +31,7 @@ public class GrappleLauncher : MonoBehaviour {
 			springs[i] = g.GetComponent<SpringJoint2D>();
 			i++;
 		}
+		grappleArm.gameObject.SetActive (false);
 		firedGrapple = GameObject.Find("Grapple" + this.GetComponent<player>().playerid);
 		firedGrappleScript = firedGrapple.GetComponent<GrappleScript>();
 		grappleRigid = firedGrapple.GetComponent<Rigidbody2D>();
@@ -85,9 +87,17 @@ public class GrappleLauncher : MonoBehaviour {
 			}
 			if (!firing && !retracting) {
 				firedGrapple.transform.position = center.position;
+				grappleArm.gameObject.SetActive (false);
+				armL.gameObject.SetActive (true);
 			}
 			else {
+				
 				//if firing or retracting
+
+				//this is to make sure the arm is aiming towards that
+				grappleArm.gameObject.SetActive (true);
+				armL.gameObject.SetActive (false);
+				grappleArm.localEulerAngles = new Vector3 (0, 0, Vector2Extension.Vector2Deg (((firing || retracting)?grapples[grapples.Length-1].transform.position:grapples [1].transform.position) - center.position) - 55);
 				for (int i = 0; i < grapples.Length; i++) {
 					Vector2[] points = new Vector2[3];
 					if (i == 0) {
@@ -169,7 +179,7 @@ public class GrappleLauncher : MonoBehaviour {
 		}
 	}
 	void Death() {
-		Disconnect ();
+		/*Disconnect ();
 		retracting = false;
 		firedGrapple.transform.position = center.position;
 		firedGrappleScript.retracting = false;
@@ -177,10 +187,12 @@ public class GrappleLauncher : MonoBehaviour {
 		death = true;
 		for ( int i = 0; i < grapples.Length; i++) {
 			lines[i].enabled = false;
-		}
+		}*/
+		grappleArm.gameObject.SetActive (false);
 	}
 	void NotDeath() {
 		death = false;
+		grappleArm.gameObject.SetActive (true);
 		for ( int i = 0; i < grapples.Length; i++) {
 			grapples[i].transform.localPosition = Vector3.zero;
 			lines[i].SetVertexCount(2);

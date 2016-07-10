@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class RecoilSimulator : MonoBehaviour {
-	public float recoverSpeed = 10, pullDelay = .5f, maxAngle = 45, compressionRecovery = 20, maxCompression = 1;
+	public float recoverSpeed = 10, pullDelay = .5f, maxAngle, compressionRecovery = 20, maxCompression = 1;
 	public bool valueHolder = true;
 	//recover speed is the rate that it takes to bring your gun baack down
 	//pull delay is the time in between shooting and starting pulling down
@@ -24,7 +24,7 @@ public class RecoilSimulator : MonoBehaviour {
 		}
 	}
 	
-	void LateUpdate () {
+	void Update () {
 		if (!valueHolder) {
 			
 			int factor = center1.localEulerAngles.z  < 90 || center1.localEulerAngles.z > 270 ? 1:-1;
