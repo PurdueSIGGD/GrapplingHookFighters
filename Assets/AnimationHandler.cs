@@ -17,7 +17,7 @@ public class AnimationHandler : MonoBehaviour {
 
 
 	private bool lastCrouching, lastAirborne, lastDirection, lastMoving; //used for knowing when to flip
-	private bool punchIndex;
+	private bool punchIndex, death;
 
 	private Vector2 localArmL, localArmR;
 	private Transform centerR, centerL;
@@ -38,6 +38,8 @@ public class AnimationHandler : MonoBehaviour {
 		centerL = armL.transform.parent;
 	}
 	void Update() {
+		if (death)
+			return;
 		hip.flipX = legR.flipX = legL.flipX = torso.flipX = head.flipX = armL.flipX = armR.flipX = direction;
 
 		if (direction != lastDirection) {
@@ -158,7 +160,6 @@ public class AnimationHandler : MonoBehaviour {
 		punchIndex = !punchIndex;
 		//armLA.Stop ();
 		//armRA.Stop ();
-		print(punchIndex);
 		if (!armLA.isActiveAndEnabled) {
 			armRA.Play ("MonkRPunch");
 			armRA.SetTrigger ("Punch");
@@ -180,9 +181,21 @@ public class AnimationHandler : MonoBehaviour {
 		armRA.Play ("Swing");
 	}
 	public void Death() {
+		death = true;
+		legRA.SetBool ("Airborne", false);
+		legLA.SetBool ("Airborne", false);
+		legRA.SetBool ("Crouching", false);
+		legLA.SetBool ("Crouching", false);
+		legRA.SetBool ("Running", false);
+		legLA.SetBool ("Running", false);
+		moving = airborne = crouching = false;
+		//armRA.SetInteger("HeldType", 0);
+		//armLA.SetInteger("HeldType", 0);
 		hip.enabled = legR.enabled = legL.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = false;
+
 	}
 	public void NotDeath() {
+		death = false;
 		legRA.SetBool ("Airborne", false);
 		legLA.SetBool ("Airborne", false);
 		legRA.SetBool ("Crouching", false);
@@ -190,9 +203,9 @@ public class AnimationHandler : MonoBehaviour {
 		legRA.SetBool ("Running", false);
 		legLA.SetBool ("Running", false);
 
-		armRA.SetInteger("HeldType", 0);
-		armLA.SetInteger("HeldType", 0);
-
+		//armRA.SetInteger("HeldType", 0);
+		//armLA.SetInteger("HeldType", 0);
+		moving = airborne = crouching = false;
 		hip.enabled = legR.enabled = legL.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = true;
 
 

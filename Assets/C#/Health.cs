@@ -28,6 +28,8 @@ public class Health : MonoBehaviour {
 	public Sprite deadSprite;
 	public Sprite aliveSprite;
 
+	private GameObject ragdoll;
+
 	private Rigidbody2D myRigid;
 	private PolygonCollider2D myPolygon;
 	private SpriteRenderer mySprite, healthSprite;
@@ -141,14 +143,14 @@ public class Health : MonoBehaviour {
 			box = this.gameObject.GetComponent<BoxCollider2D>();
 			box.size = 2* (Vector2.up + Vector2.right);
 			box.isTrigger = true;
-			GameObject ragdoll = (GameObject)GameObject.Instantiate(gibHolder, transform.position, Quaternion.identity);
+			ragdoll = (GameObject)GameObject.Instantiate(gibHolder, transform.position, Quaternion.identity);
 			ragdoll.transform.parent = transform;
 			ragdoll.transform.localPosition = new Vector3(.088f,-0.002f,0);
-			Rigidbody2D[] rg = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<Rigidbody2D>();
+			Rigidbody2D[] rg = ragdoll.GetComponentsInChildren<Rigidbody2D>();
 			foreach (Rigidbody2D r in rg) {
 				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
 			}
-			SpriteRenderer[] sp = transform.FindChild("GibHolder(Clone)").GetComponentsInChildren<SpriteRenderer>();
+			SpriteRenderer[] sp = ragdoll.GetComponentsInChildren<SpriteRenderer>();
 			Color c = mySprite.color;
 			foreach (SpriteRenderer s in sp) {
 				s.color = c;
@@ -157,9 +159,9 @@ public class Health : MonoBehaviour {
 				//stickybombs, arrows, or anything else stuck in our legs iwll move to them
 				if (s.transform.localPosition.y < 0) {
 					if (s.transform.localPosition.x > 0) {
-						s.transform.parent = transform.FindChild("GibHolder(Clone)").FindChild("Leg1");
+						s.transform.parent = ragdoll.transform.FindChild("Leg1");
 					} else {
-						s.transform.parent = transform.FindChild("GibHolder(Clone)").FindChild("Leg2");
+						s.transform.parent = ragdoll.transform.FindChild("Leg2");
 					}
 				}
 			}
@@ -204,24 +206,24 @@ public class Health : MonoBehaviour {
 					switch (range) 
 					{
 						case 0: //headz
-						g = transform.FindChild("GibHolder(Clone)").FindChild("Head").gameObject;
-						transform.FindChild("GibHolder(Clone)").FindChild("HeadHome").GetComponent<HingeJoint2D>().connectedBody = null;
+						g = ragdoll.transform.FindChild("Head").gameObject;
+						ragdoll.transform.FindChild("HeadHome").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;
 						case 1: //arm1
-						g = transform.FindChild("GibHolder(Clone)").FindChild("Arm1").gameObject;
-						transform.FindChild("GibHolder(Clone)").FindChild("ArmHome1").GetComponent<HingeJoint2D>().connectedBody = null;
+						g = ragdoll.transform.FindChild("Arm1").gameObject;
+						ragdoll.transform.FindChild("ArmHome1").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;
 						case 2: //arm2
-						g = transform.FindChild("GibHolder(Clone)").FindChild("Arm2").gameObject;
-						transform.FindChild("GibHolder(Clone)").FindChild("ArmHome2").GetComponent<HingeJoint2D>().connectedBody = null;
+						g = ragdoll.transform.FindChild("Arm2").gameObject;
+						ragdoll.transform.FindChild("ArmHome2").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;
 						case 3: //leg1
-						g = transform.FindChild("GibHolder(Clone)").FindChild("Leg1").gameObject;
-						transform.FindChild("GibHolder(Clone)").FindChild("LegHome1").GetComponent<HingeJoint2D>().connectedBody = null;
+						g = ragdoll.transform.FindChild("Leg1").gameObject;
+						ragdoll.transform.FindChild("Hip").FindChild("LegHome1").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;
 						case 4: //leg2
-						g = transform.FindChild("GibHolder(Clone)").FindChild("Leg2").gameObject;
-						transform.FindChild("GibHolder(Clone)").FindChild("LegHome2").GetComponent<HingeJoint2D>().connectedBody = null;
+						g = ragdoll.transform.FindChild("Leg2").gameObject;
+						ragdoll.transform.FindChild("Hip").FindChild("LegHome2").GetComponent<HingeJoint2D>().connectedBody = null;
 							break;
 						default:
 							break;
@@ -258,7 +260,7 @@ public class Health : MonoBehaviour {
 		for (int i = 0; i < usedGibs.Length; i++)
 			usedGibs [i] = false;
 		//```Destroy(box);
-		GameObject.Destroy(transform.FindChild("GibHolder(Clone)").gameObject);
+		GameObject.Destroy(ragdoll);
 		mySprite.sprite = aliveSprite;
 
 		//transform.FindChild("GibHolder").gameObject.SetActive(false);

@@ -335,10 +335,10 @@ public class player : MonoBehaviour {
     bool goLeft() {
        // if (name == "Player1" )print(Input.GetAxis("HorizontalPD" + joystickID));
 
-		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < 0 || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) < 0):false));
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < -.4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) < 0):false));
     }
     bool goRight() {
-		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0 || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) > 0):false));
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > .4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) > 0):false));
     }
     bool goDown() {
 		return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  < -.5f || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == -1):false));
@@ -541,6 +541,14 @@ public class player : MonoBehaviour {
 		if (passiveItem != null) {
 			throwWeapon(false, 2);
 		}
+		//stop crouching
+		Vector2 offset = myPolygon.offset;
+		offset.y = -1.1f;
+		myPolygon.points = standingCol;
+		this.isStandingUp = false;
+		offset.y = 0;
+		maxMoveSpeed = 10;
+		myPolygon.offset = offset;
     }
     void NotDeath() {
 		myAnim.NotDeath ();

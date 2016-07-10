@@ -51,7 +51,7 @@ public class MouseInput : MonoBehaviour {
 
 	bool init, levelReady, beforeRound, menuPointersOn;
 	public bool singleMouse, forceStart;
-
+	private bool firstValues;
 	private Transform[] pointers;
 
 
@@ -64,7 +64,7 @@ public class MouseInput : MonoBehaviour {
 			tempPlayer1.usesJoystick = false;
 			PlayerInfo tempPlayer2 = new PlayerInfo();
 			tempPlayer2.id = 1;
-			tempPlayer2.usesJoystick = false;
+			tempPlayer2.usesJoystick = true;
 			players.Add(tempPlayer1);
 			players.Add(tempPlayer2);
 			//forcestart is when we have a level that is not selected by the main menu thingy
@@ -120,7 +120,7 @@ public class MouseInput : MonoBehaviour {
 			canvas.gameObject.SetActive(true);
 			for (int i = 0; i < 4; i++) {
 				//print(transform.name);
-				lastReticle[i] = Vector2.zero;
+				lastReticle[i] = new Vector2(1,0);
 				pointers[i] = canvas.FindChild("Pointer" + (i+1));
 				pointers[i].gameObject.SetActive(true);
 				pointers[i].position = new Vector3(Screen.width / 2, Screen.height / 2);
@@ -251,7 +251,9 @@ public class MouseInput : MonoBehaviour {
 				Transform center1 = p.transform.FindChild ("AimingParent").FindChild ("CenterR");
 				Transform center2 = p.transform.FindChild ("AimingParent").FindChild ("CenterL");
 				//we use mouse
-
+				if (firstValues) {
+					look = Vector3.right;
+				}
 				//print(mousePosition[mouseNums].x + " " + mousePosition[mouseNums].y);
 				if (Vector2.SqrMagnitude(look) > 0) { //continue
 
@@ -269,6 +271,7 @@ public class MouseInput : MonoBehaviour {
 					lastReticle[lastReticleIndex] = reticle.position;
 				} else {
 					//empty, so we aren't throwing 0's around like hotcakes
+
 				}
 				bool hasItem1 = center1.childCount == 2;
 				bool hasItem2 = center2.childCount == 2;
@@ -342,6 +345,7 @@ public class MouseInput : MonoBehaviour {
 				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterL");
 				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterR");
 				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0);
+
 				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
 					look = look/Vector2.SqrMagnitude(look);
 					reticle.localPosition = look;
@@ -385,7 +389,7 @@ public class MouseInput : MonoBehaviour {
 				lastReticleIndex++;
 			}
 		}
-	
+		firstValues = false;
 	}
 
 	void OnApplicationQuit() {
@@ -399,6 +403,7 @@ public class MouseInput : MonoBehaviour {
 	}
 	void EnablePlayers() {
 		tempMoveDisable = false;
+		firstValues = true;
 	}
 
 }

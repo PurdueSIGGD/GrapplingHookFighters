@@ -44,7 +44,7 @@ public class GrappleLauncher : MonoBehaviour {
 		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
 		else grappleTimer = 0;
 		if (firedGrapple == null) Disconnect();
-		if (!death && firedGrapple != null) {
+		if (firedGrapple != null) {
 			for (int i = 0; i < grapples.Length; i++) {
 				Vector3[] linePoints;
 				if (i + 1 >= grapples.Length) {
@@ -78,6 +78,7 @@ public class GrappleLauncher : MonoBehaviour {
 						grapples[i].transform.localPosition = Vector3.zero;
 						edges[i].enabled = false;
 						springs[i].distance =  0;//Vector3.Distance (firedGrapple.transform.position, center.position) / 5; //because we have 5 joints
+						edges[i].isTrigger = true;
 						//set the distance 
 					}
 					foreach (Rigidbody2D r in rigids) {
@@ -95,9 +96,11 @@ public class GrappleLauncher : MonoBehaviour {
 				//if firing or retracting
 
 				//this is to make sure the arm is aiming towards that
-				grappleArm.gameObject.SetActive (true);
-				armL.gameObject.SetActive (false);
-				grappleArm.localEulerAngles = new Vector3 (0, 0, Vector2Extension.Vector2Deg (((firing || retracting)?grapples[grapples.Length-1].transform.position:grapples [1].transform.position) - center.position) - 55);
+				if (!death) {
+					grappleArm.gameObject.SetActive (true);
+					armL.gameObject.SetActive (false);
+					grappleArm.localEulerAngles = new Vector3 (0, 0, Vector2Extension.Vector2Deg (((firing || retracting) ? grapples [grapples.Length - 1].transform.position : grapples [1].transform.position) - center.position) - 55);
+				}
 				for (int i = 0; i < grapples.Length; i++) {
 					Vector2[] points = new Vector2[3];
 					if (i == 0) {
@@ -124,13 +127,14 @@ public class GrappleLauncher : MonoBehaviour {
 				}
 			}
 		} else {
+			grappleArm.gameObject.SetActive (false);
 			if (firedGrapple != null) firedGrapple.transform.position = center.position;
 		}
 	}
 
     void fire() {
 		if (grappleTimer <= 0) {
-	        if (!mouseReleased) {
+	        if (!mouseReleased || death) {
 	            return;
 	        }
 			grappleTimer = .3f;
@@ -139,6 +143,7 @@ public class GrappleLauncher : MonoBehaviour {
 
 				for (int i = 0; i < grapples.Length; i++) {
 					edges[i].enabled = true;
+					edges[i].isTrigger = false;
 				}
 	            this.mouseReleased = false;
 	            firing = true;
@@ -159,7 +164,8 @@ public class GrappleLauncher : MonoBehaviour {
     }
 
     void mouseRelease() {
-        this.mouseReleased = true;
+		if (!death) 
+        	this.mouseReleased = true;
     }
 
 	void Attach() {
@@ -184,10 +190,11 @@ public class GrappleLauncher : MonoBehaviour {
 		firedGrapple.transform.position = center.position;
 		firedGrappleScript.retracting = false;
 		firedGrapple.SendMessage("ResetLast");
-		death = true;
+
 		for ( int i = 0; i < grapples.Length; i++) {
 			lines[i].enabled = false;
 		}*/
+		death = true;
 		grappleArm.gameObject.SetActive (false);
 	}
 	void NotDeath() {
