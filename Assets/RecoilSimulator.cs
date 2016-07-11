@@ -92,7 +92,7 @@ public class RecoilSimulator : MonoBehaviour {
 	}
 	//Add a force to the local rotation of the item
 	void AddTorque(float f) {
-		print("shoot");
+		//print("shoot");
 		rotating = true;
 		if (canAddTorque) {
 			/*if (torque > 150) {

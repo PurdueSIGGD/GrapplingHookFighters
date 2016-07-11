@@ -16,7 +16,7 @@ public class player : MonoBehaviour {
 	private bool spinningItem;
 	private Transform punchable;
 	private int punchableIndex;
-	private float lastItemRotation;
+	private float lastItemRotation; 
 	private float crouchTime;
 	private bool crouched, isStandingUp;
 	public float maxMoveSpeed = 10;
@@ -544,11 +544,11 @@ public class player : MonoBehaviour {
 		//stop crouching
 		Vector2 offset = myPolygon.offset;
 		offset.y = -1.1f;
-		myPolygon.points = standingCol;
+		//myPolygon.points = standingCol;
 		this.isStandingUp = false;
 		offset.y = 0;
 		maxMoveSpeed = 10;
-		myPolygon.offset = offset;
+		//myPolygon.offset = offset;
     }
     void NotDeath() {
 		myAnim.NotDeath ();

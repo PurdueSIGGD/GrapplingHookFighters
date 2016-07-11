@@ -1,52 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+//using UnityEditor;
 public class ExplosionScript : MonoBehaviour {
+
+	public float samples = 8; //how many pieces of shrapnel will be shot out of the explosion
+	public float range = 1.5f; //how far shots go
+
 	// Use this for initialization
 	void Start () {
 		foreach (grenade g in transform.GetComponentsInChildren<grenade>()) {
 			g.SendMessage("Explode");
 		}
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(this.transform.position, 3);
-		foreach (Collider2D c in hitColliders) {
+		for (int i = 0; i < samples; i++) {
+			
+			Vector2 rand = Random.insideUnitCircle;
+			rand = rand / rand.magnitude;
+			//turn into unit vector
+
 			int layermask = (1 << this.gameObject.layer) + (1 << 13) + (1 << 15);
-			RaycastHit2D[] rr = Physics2D.RaycastAll(transform.position, c.transform.position - transform.position, Vector2.Distance(transform.position, c.transform.position), layermask);
-			bool hit = true;
+			RaycastHit2D[] rr = Physics2D.RaycastAll(transform.position, rand, range, layermask);
+			Debug.DrawLine (transform.position, transform.position + range*(Vector3)rand, Color.green, 100f);
+			bool hit = false;
 			//bool tooCloseToCare = Vector2.Distance(transform.position, c.transform.position) < .2f;
 			//if (c.GetComponent<player>()) print(Vector2.Distance(transform.position, c.transform.position));
 			//if (!tooCloseToCare) {
-				foreach (RaycastHit2D r in rr) {
-					if (r.transform != c.transform && 
-						r.transform != transform && 
-						!r.transform.GetComponent<FiredProjectile>() &&
-						!r.transform.GetComponentInParent<player>() &&
-					Vector2.Distance(r.point, transform.position) > .05f) //last one is to make sure if it is basically inside an object, the object isnt counted
-					{
-						//print(r.transform.name);
-						hit = false;
-						break;
-					}
-
+			//EditorApplication.isPaused = true;
+			RaycastHit2D myHit;
+			foreach (RaycastHit2D r in rr) {
+				//print(r.transform.name);
+				//reasons that we want to ignore this thing we are hitting 
+				if (r.transform != transform && 
+					!r.transform.GetComponent<FiredProjectile>() &&
+					!r.transform.GetComponent<ExplosionScript>() &&
+					!r.collider.isTrigger 
+					//(r.transform.gameObject.layer != 13 || Vector2.Distance(r.transform.position, transform.position ) < )
+				)
+				{
+					//print(r.transform.name);
+					myHit = r;
+					hit = true;
+					break;
 				}
-			//}
-			if (Vector2.Distance(c.transform.position,transform.position) < .5f) hit = true;
+
+			}
+
 			if (hit) {
-			//print (c.name); 
-				if (c.transform.GetComponent<grenade>()) {
-					c.transform.SendMessage("Explode");
+				//print (myHit.transform.name); 
+				if (myHit.transform.GetComponent<grenade>()) {
+					myHit.transform.SendMessage("Explode");
 				}
 				Rigidbody2D rg;
-				if ((rg = c.transform.GetComponent<Rigidbody2D>()) != null && c.transform.GetComponent<FiredProjectile>() == null) {
-					rg.AddForce (300 * rg.mass * (c.transform.position - this.transform.position));
+				if ((rg = myHit.transform.GetComponent<Rigidbody2D>()) != null && myHit.transform.GetComponent<FiredProjectile>() == null) {
+					rg.AddForce (300 * rg.mass * (myHit.transform.position - this.transform.position));
 					rg.AddForce (150 * rg.mass * Vector2.up);
 				}
-				if (c.transform.GetComponent<Hittable> ()) {
-					c.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, c.transform.position));
-					if (c.transform.GetComponent<Health>()) c.transform.SendMessage("Gib",transform.position);
+				if (myHit.transform.GetComponent<Hittable> ()) {
+					myHit.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, myHit.transform.position));
+					if (myHit.transform.GetComponent<Health>()) myHit.transform.SendMessage("Gib",transform.position);
 				}
-				if (c.GetComponent<ShootableItem> () && !c.isTrigger) {
+				if (myHit.transform.GetComponent<ShootableItem> () && !myHit.transform.GetComponent<Collider2D>().isTrigger) {
 					
-					c.SendMessage("hit", 150);
+					myHit.transform.SendMessage("hit", 150);
 				}
 			}
 		}

@@ -99,7 +99,7 @@ public class GrappleLauncher : MonoBehaviour {
 				if (!death) {
 					grappleArm.gameObject.SetActive (true);
 					armL.gameObject.SetActive (false);
-					grappleArm.localEulerAngles = new Vector3 (0, 0, Vector2Extension.Vector2Deg (((firing || retracting) ? grapples [grapples.Length - 1].transform.position : grapples [1].transform.position) - center.position) - 55);
+					grappleArm.localEulerAngles = new Vector3 (0, 0, Vector2Extension.Vector2Deg (((firing || retracting) ? grapples [grapples.Length - 1].transform.position : grapples [1].transform.position) - center.position) - 85);
 				}
 				for (int i = 0; i < grapples.Length; i++) {
 					Vector2[] points = new Vector2[3];
