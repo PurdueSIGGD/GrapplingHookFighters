@@ -145,7 +145,7 @@ public class Health : MonoBehaviour {
 			box.isTrigger = true;
 			ragdoll = (GameObject)GameObject.Instantiate(gibHolder, transform.position, Quaternion.identity);
 			ragdoll.transform.parent = transform;
-			ragdoll.transform.localPosition = new Vector3(.088f,-0.002f,0);
+			ragdoll.transform.localPosition = new Vector3(-.088f,0,0);
 			Rigidbody2D[] rg = ragdoll.GetComponentsInChildren<Rigidbody2D>();
 			foreach (Rigidbody2D r in rg) {
 				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());

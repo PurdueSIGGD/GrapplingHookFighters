@@ -9,16 +9,32 @@ public class grenade : MonoBehaviour {
     public float fuseTime, fuseParticleInterval;
     private float timePassed = 0;
 
+	private Rigidbody2D myRigid;
+
     public GameObject explosion, particle, smokeBomb;
 
 	Transform pin;
 
 	public void Start() {
 		if (usePin) pin = transform.FindChild("Pin");
-
+		myRigid = this.GetComponent<Rigidbody2D> ();
 	}
 
     public void Update() {
+		if (sticky && myRigid && timePassed > .2f) {
+			int layermask = (1 << this.gameObject.layer) + (1 << 13) + (1 << 15);
+			RaycastHit2D[] rr = Physics2D.RaycastAll(transform.position, myRigid.velocity, Time.deltaTime, layermask);
+			RaycastHit2D myHit;
+			foreach (RaycastHit2D r in rr) {
+				if (r.transform != this.transform) {
+					//stick it to one frame back
+					transform.position = (Vector3)r.point - (Vector3)(myRigid.velocity * 5);//- (Vector3)(myRigid.velocity * Time.deltaTime);
+					Stick (r.transform);
+					break;
+				}
+			}
+		}
+
 		if (transform.parent && transform.parent.GetComponent<ExplosionScript>()) Explode();
 		//if (transform.parent) transform.localScale = new Vector3(1.2f/transform.parent.localScale.x,1.2f/transform.parent.localScale.y,1.2f/transform.parent.localScale.z);
 
@@ -83,15 +99,18 @@ public class grenade : MonoBehaviour {
     }
 	void OnCollisionEnter2D(Collision2D col) {
 		if (sticky) {
-			Destroy(this.GetComponent<Rigidbody2D>());
-			this.transform.SetParent (col.transform);
-			float scalex = 1 / col.transform.localScale.x ; 
-			//float scaley = 1 / col.transform.localScale.y ; 
-			//float scalez = 1 / col.transform.localScale.z ; 
-			float childOrg = transform.localScale.x; 
-			transform.localScale = new Vector3(childOrg*scalex, childOrg*scalex, childOrg*scalex);
+			Stick (col.transform);
 
 		}
+	}
+	void Stick(Transform col) {
+		Destroy(this.GetComponent<Rigidbody2D>());
+		this.transform.SetParent (col.transform);
+		float scalex = 1 / col.transform.localScale.x ; 
+		//float scaley = 1 / col.transform.localScale.y ; 
+		//float scalez = 1 / col.transform.localScale.z ; 
+		float childOrg = transform.localScale.x; 
+		transform.localScale = new Vector3(childOrg*scalex, childOrg*scalex, childOrg*scalex);
 	}
 	void OnCollisionStay2D(Collision2D col) {
 		//print(col);
