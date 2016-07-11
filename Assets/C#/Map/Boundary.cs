@@ -8,7 +8,9 @@ public class Boundary : MonoBehaviour {
 	//public Collider2D b;
 	public float timeNow;
 	public bool respawning;
-	
+
+	public float minZoom = 4, maxZoom = 20, cameraSpeed = 0.3f;
+
 	public class deathtime{
 		public GameObject player;
 		public float timeOfDeath;

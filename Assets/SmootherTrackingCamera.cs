@@ -123,7 +123,11 @@ public class SmootherTrackingCamera : MonoBehaviour {
 		this.tracking = b;
 	}
 	public void ResetCamera() {
-		ResetCamera (minZoom, maxZoom);
+		Boundary boundary = GameObject.Find ("Boundary").GetComponent<Boundary> ();
+		minZoom = boundary.minZoom;
+		maxZoom = boundary.maxZoom;
+		movementSpeed = boundary.cameraSpeed;
+		ResetCamera (boundary.minZoom, boundary.maxZoom);
 	}
 	public void ResetCamera(float newMinZoom, float newMaxZoom) {
 		minZoom = newMinZoom;

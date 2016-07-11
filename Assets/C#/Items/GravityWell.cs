@@ -48,7 +48,7 @@ public class GravityWell : MonoBehaviour {
 		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
         if (force < 0)
         {
-			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null)
+			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null && !colR.CompareTag ("Grapple"))
             {
 				colR.AddForce((force)* 2 * Time.deltaTime * colR.mass * (col.transform.position - this.transform.position));
             }
@@ -56,7 +56,7 @@ public class GravityWell : MonoBehaviour {
         else if(force > 0 && force < 35 / 2)
         {
             this.GetComponent<CircleCollider2D>().radius = 3f;
-			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null)
+			if (colR != null && col.transform.GetComponent<FiredProjectile>() == null && !colR.CompareTag ("Grapple"))
             {
 				colR.AddForce(100 * colR.mass * (col.transform.position - this.transform.position));
 				colR.AddForce(100 * colR.mass * Vector2.up);
