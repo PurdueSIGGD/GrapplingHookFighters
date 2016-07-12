@@ -195,6 +195,7 @@ public class AnimationHandler : MonoBehaviour {
 
 	}
 	public void NotDeath() {
+		heldType = 0;
 		death = false;
 		legRA.SetBool ("Airborne", false);
 		legLA.SetBool ("Airborne", false);

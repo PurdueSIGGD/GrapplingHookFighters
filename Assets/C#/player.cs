@@ -358,7 +358,8 @@ public class player : MonoBehaviour {
 		return isAirborne (false);
 	}
 	bool isAirborne(bool usingJetpack) {
-		RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
+		RaycastHit2D[] hits = Physics2D.BoxCastAll (center1.position, new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
+		//RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
 		bool hitValid = usingJetpack; 
 		foreach (RaycastHit2D hit in hits) {
 			Collider2D col = hit.collider;
