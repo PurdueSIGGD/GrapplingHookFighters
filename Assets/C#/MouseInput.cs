@@ -353,8 +353,8 @@ public class MouseInput : MonoBehaviour {
 				if (p == null) break;
 
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
-				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterL");
-				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterR");
+				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterR");
+				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterL");
 				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0);
 
 				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
@@ -365,11 +365,56 @@ public class MouseInput : MonoBehaviour {
 					reticle.localPosition = lastReticle[lastReticleIndex];
 				}
 
-				//normally 2 for each arm, 4 when you have two items
-				bool hasItem1 = center1.childCount == 2;
-				bool hasItem2 = center2.childCount == 2;
+                //normally 2 for each arm, 4 when you have two items
+                bool hasItem1 = center1.childCount == 2;
+                bool hasItem2 = center2.childCount == 2;
+               // print(hasItem1 + " " + hasItem2);
+                if (Input.GetAxisRaw("JFire" + p.joystickID) > 0)
+                {
+                    if (hasItem1)
+                    {
+                        center1.GetChild(1).SendMessage("click");
+                    }
+                    else
+                    {
+                        p.SendMessage("Punch");
+                    }
 
-				if (Input.GetAxisRaw("JFire" + p.joystickID) > 0) {                    
+                }
+                else
+                {
+                    if (hasItem1)
+                    {
+                        center1.GetChild(1).SendMessage("unclick");
+                    }
+                }
+
+
+
+                if (hasItem2)
+                {
+                    if (Input.GetAxisRaw("JFireAlt" + p.joystickID) > 0)
+                    {
+                        center2.GetChild(1).SendMessage("click");
+                    }
+                    else
+                    {
+                        center2.GetChild(1).SendMessage("unclick");
+                    }
+
+                }
+                else
+                {
+                    if (Input.GetAxisRaw("JFireAlt" + p.joystickID) > 0)
+                    {
+                        p.GetComponent<GrappleLauncher>().SendMessage("fire");
+                    }
+                    else
+                    {
+                        p.GetComponent<GrappleLauncher>().SendMessage("mouseRelease");
+                    }
+                }
+                /*if (Input.GetAxisRaw("JFire" + p.joystickID) > 0) {                    
 					if (hasItem1) {
 						center1.GetChild (1).SendMessage ("click");
 					} else {
@@ -381,7 +426,8 @@ public class MouseInput : MonoBehaviour {
 						center1.GetChild (1).SendMessage ("unclick");
 					}
 				}
-				if (Input.GetAxisRaw("JFireAlt" + p.joystickID) > 0) {                    
+               
+                if (Input.GetAxisRaw("JFireAlt" + p.joystickID) > 0) {                    
 
 					if (hasItem2) {
 						center2.GetChild (1).SendMessage ("click");
@@ -396,8 +442,8 @@ public class MouseInput : MonoBehaviour {
 						p.GetComponent<GrappleLauncher> ().SendMessage ("mouseRelease");
 					}
 
-				}
-				lastReticleIndex++;
+				}*/
+                lastReticleIndex++;
 			}
 		}
 		firstValues = false;
