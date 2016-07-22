@@ -65,10 +65,21 @@ public class MouseInput : MonoBehaviour {
 			PlayerInfo tempPlayer2 = new PlayerInfo();
 			tempPlayer2.id = 1;
 			tempPlayer2.usesJoystick = true;
-			players.Add(tempPlayer1);
-			players.Add(tempPlayer2);
-			//forcestart is when we have a level that is not selected by the main menu thingy
-			Init();
+            PlayerInfo tempPlayer3 = new PlayerInfo();
+            tempPlayer3.id = 2;
+            tempPlayer3.usesJoystick = false;
+            PlayerInfo tempPlayer4 = new PlayerInfo();
+            tempPlayer4.id = 3;
+            tempPlayer4.usesJoystick = false;
+
+
+
+            players.Add(tempPlayer1);
+            players.Add(tempPlayer2);
+            players.Add(tempPlayer3);
+            players.Add(tempPlayer4);
+            //forcestart is when we have a level that is not selected by the main menu thingy
+            Init();
 			SetUpRound();
 		}
 	}

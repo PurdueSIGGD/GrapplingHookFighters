@@ -111,11 +111,12 @@ public class SmootherTrackingCamera : MonoBehaviour {
 				furthestDistance = minZoom;
 			if (furthestDistance > maxZoom)
 				furthestDistance = maxZoom;
-			//add a value of 1 to give some buffer room
-			float desiredSize = furthestDistance + 2;
+			//I call the square root because I want the size to follow the furthest distance in a square root curve.
+            //This way, the camera size changes drastically when smaller, but not very much when larger
+			float desiredSize = Mathf.Sqrt(furthestDistance) * 3.5f;
 			if (atLeastOneAlive) {
 				//TODO fix this broken shit
-				//cam.orthographicSize = desiredSize;
+				cam.orthographicSize = desiredSize;
 			}
 		}
 	}
