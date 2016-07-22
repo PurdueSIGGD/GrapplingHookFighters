@@ -6,7 +6,7 @@ public class AnimationHandler : MonoBehaviour {
      * For each player, you have to change the following values if their outfit changes:
      * Change sprites: larm, rarm, rleg, lleg, grapplearm, hip, torso, head
      * Change animators: L1, R1, ArmL, ArmR
-     * Change ragdollholder
+     * Change gibholder
      */
 
 
