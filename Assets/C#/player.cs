@@ -57,7 +57,7 @@ public class player : MonoBehaviour {
 		reticle = GameObject.Find("Reticle" + playerid).transform; //where the reticle we will aim to will be
         GameObject.Find("Reticle" + playerid).transform.position = transform.position;
 		myCollider = this.GetComponent<Collider2D>();
-		mySprite = transform.FindChild("Hip").GetComponent<SpriteRenderer> ();
+		mySprite = transform.FindChild("AnimationController").FindChild("Legs").GetComponent<SpriteRenderer> ();
 		myRigid = this.GetComponent<Rigidbody2D>();
         //switchedKey = true;
 		myPolygon = this.GetComponent<PolygonCollider2D>();
@@ -125,12 +125,20 @@ public class player : MonoBehaviour {
 			myAnim.moving = (goRight() || goLeft());
 		
             if (goDown()) {
-				if (!crouched) myPolygon.points = crouchingCol;
-				crouched = true;
-				myAnim.crouching = true;
-				this.isStandingUp = false;
-                myRigid.AddForce(new Vector3(0, -10, 0));
-				maxMoveSpeed = 0;
+                if (!isAirborne())
+                {
+                    myRigid.AddForce(new Vector3(0, -10, 0));
+                } else
+                {
+                    if (!crouched) myPolygon.points = crouchingCol;
+                    crouched = true;
+                    myAnim.crouching = true;
+                    this.isStandingUp = false;
+                    maxMoveSpeed = 0;
+                }
+				
+                
+				
 			} else {
 				if (crouched) {
 					this.isStandingUp = true;

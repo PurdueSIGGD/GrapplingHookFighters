@@ -4,15 +4,16 @@ using System.Collections;
 public class AnimationHandler : MonoBehaviour {
     /* Notes for changing animations
      * For each player, you have to change the following values if their outfit changes:
-     * Change sprites: larm, rarm, rleg, lleg, grapplearm, hip, torso, head
+     * Change sprites: larm, rarm, leg, grapplearm, hip, torso, head
      * Change animators: L1, R1, ArmL, ArmR
      * Change gibholder
      */
+    
+    public Transform hip;
 
-
-	public SpriteRenderer hip, legR, legL, torso, head, armL, armR;
-	public Animator legRA, legLA, armLA, armRA;
-	public Sprite singleR, singleL, dualR, dualL, heavyR, heavyL, legLS, legRS, armLS, armRS;
+	public SpriteRenderer leg, torso, head, armL, armR;
+	public Animator legA, armLA, armRA;
+	public Sprite singleR, singleL, dualR, dualL, heavyR, heavyL, legS, armLS, armRS;
 
 	public Transform AimingParent;
 	//I need aiming parent to set the rotation to zero if we change direction, because it is causing problems with my resetting of positions
@@ -30,9 +31,11 @@ public class AnimationHandler : MonoBehaviour {
 	private Vector2 localArmL, localArmR;
 	private Transform centerR, centerL;
 
+    private float swingCooldown = 0.4179f;
+    private float lastSwing;
 	// Use this for initialization
 	void Start () {
-		hip.color = legR.color = legL.color = torso.color = head.color = armL.color = armR.color = startColor;
+		leg.color = torso.color = head.color = armL.color = armR.color = startColor;
 		//armLA.Stop ();
 		//armRA.Stop ();
 		armL.sprite = armLS;
@@ -48,15 +51,17 @@ public class AnimationHandler : MonoBehaviour {
 	void Update() {
 		if (death)
 			return;
-		hip.flipX = legR.flipX = legL.flipX = torso.flipX = head.flipX = armL.flipX = armR.flipX = direction;
+
+        lastSwing += Time.deltaTime;
+		leg.flipX = torso.flipX = head.flipX = armL.flipX = armR.flipX = direction;
 
 		if (direction != lastDirection) {
 			//This is my method of hard coding in position when the player changes direction. It uses the hip as a center axis of flipping
 
 			AimingParent.rotation = Quaternion.Euler(Vector3.zero);
 			if (direction) {
-				legR.transform.position = new Vector3(hip.transform.position.x - (legR.transform.position.x - hip.transform.position.x), legR.transform.position.y, legR.transform.position.z);
-				legL.transform.position = new Vector3(hip.transform.position.x - (legL.transform.position.x - hip.transform.position.x), legL.transform.position.y, legL.transform.position.z);
+				leg.transform.position = new Vector3(hip.transform.position.x - (leg.transform.position.x - hip.transform.position.x), leg.transform.position.y, leg.transform.position.z);
+				//legL.transform.position = new Vector3(hip.transform.position.x - (legL.transform.position.x - hip.transform.position.x), legL.transform.position.y, legL.transform.position.z);
 				torso.transform.position = new Vector3(hip.transform.position.x - (torso.transform.position.x - hip.transform.position.x), torso.transform.position.y, torso.transform.position.z);
 				head.transform.position = new Vector3(hip.transform.position.x - (head.transform.position.x - hip.transform.position.x), head.transform.position.y, head.transform.position.z);
 				centerR.transform.position = new Vector3(hip.transform.position.x - (centerR.transform.position.x - hip.transform.position.x), centerR.transform.position.y, centerR.transform.position.z);
@@ -75,8 +80,8 @@ public class AnimationHandler : MonoBehaviour {
 
 				//0.1167769, 01501417 (anchor)
 			} else {
-				legR.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - legR.transform.position.x), legR.transform.position.y, legR.transform.position.z);
-				legL.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - legL.transform.position.x), legL.transform.position.y, legL.transform.position.z);
+				leg.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - leg.transform.position.x), leg.transform.position.y, leg.transform.position.z);
+				//legL.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - legL.transform.position.x), legL.transform.position.y, legL.transform.position.z);
 				torso.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - torso.transform.position.x), torso.transform.position.y, torso.transform.position.z);
 				head.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - head.transform.position.x), head.transform.position.y, head.transform.position.z);
 				centerR.transform.position = new Vector3(hip.transform.position.x + (hip.transform.position.x - centerR.transform.position.x), centerR.transform.position.y, centerR.transform.position.z);
@@ -112,18 +117,17 @@ public class AnimationHandler : MonoBehaviour {
 
 
 		//______________Animation Handling for Legs _______________
-		//armL.enabled = !grappling;
-		legRA.SetBool ("Airborne", airborne);
-		legLA.SetBool ("Airborne", airborne);
-		legRA.SetBool ("Crouching", crouching);
-		legLA.SetBool ("Crouching", crouching);
-		legRA.SetBool ("Running", moving);
-		legLA.SetBool ("Running", moving);
+		legA.SetBool ("Airborne", airborne);
+		//legLA.SetBool ("Airborne", airborne);
+		legA.SetBool ("Crouching", crouching);
+		//legLA.SetBool ("Crouching", crouching);
+		legA.SetBool ("Running", moving);
+		//legLA.SetBool ("Running", moving);
 
 		if (airborne) {
 			if (airborne != lastAirborne) {
-				legRA.Play ("MonkRAirborne");
-				legLA.Play ("MonkLAirborne");
+				legA.Play ("Airborne");
+				//legLA.Play ("MonkLAirborne");
 			}
 		} else {
 			
@@ -131,8 +135,8 @@ public class AnimationHandler : MonoBehaviour {
 				
 				if (crouching) {
 					if (crouching != lastCrouching) {
-						legRA.Play ("MonkRCrouch");
-						legLA.Play ("MonkLCrouch");
+						legA.Play ("Crouch");
+						//legLA.Play ("MonkLCrouch");
 					}
 					//legRA.runtimeAnimatorController = crouchingR;
 					//legLA.runtimeAnimatorController = crouchingL;
@@ -141,8 +145,8 @@ public class AnimationHandler : MonoBehaviour {
 					//legLA.runtimeAnimatorController = runningL;
 
 					if (moving != lastMoving) {
-						legRA.Play ("MonkRRunning");
-						legLA.Play ("MonkLRunning");
+						legA.Play ("Running");
+						//legRA.Play ("MonkLRunning");
 					}
 
 				}
@@ -152,8 +156,8 @@ public class AnimationHandler : MonoBehaviour {
 					//legLA.Stop ();
 					//legL.sprite = legLS;
 					//legR.sprite = legRS;
-					legRA.Play ("MonkRIdle");
-					legLA.Play ("MonkLIdle");
+					legA.Play ("Idle");
+					//legLA.Play ("MonkLIdle");
 				}
 			}
 
@@ -186,36 +190,49 @@ public class AnimationHandler : MonoBehaviour {
 		}
 	}
 	public void Swing() {
-		armRA.Play ("Swing");
-	}
-	public void Death() {
+        //armRA.Play ("Swing");
+        //print("Swing");
+        if (lastSwing > swingCooldown)
+        {
+            lastSwing = 0;
+            armRA.SetTrigger("Swing");
+
+        }
+    }
+    public void UnSwing()
+    {
+        //armRA.settr("Swing");
+
+
+    }
+    public void Death() {
 		death = true;
-		legRA.SetBool ("Airborne", false);
-		legLA.SetBool ("Airborne", false);
-		legRA.SetBool ("Crouching", false);
-		legLA.SetBool ("Crouching", false);
-		legRA.SetBool ("Running", false);
-		legLA.SetBool ("Running", false);
+		legA.SetBool ("Airborne", false);
+		//legLA.SetBool ("Airborne", false);
+		legA.SetBool ("Crouching", false);
+		//legLA.SetBool ("Crouching", false);
+		legA.SetBool ("Running", false);
+		//legLA.SetBool ("Running", false);
 		moving = airborne = crouching = false;
 		//armRA.SetInteger("HeldType", 0);
 		//armLA.SetInteger("HeldType", 0);
-		hip.enabled = legR.enabled = legL.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = false;
+		leg.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = false;
 
 	}
 	public void NotDeath() {
 		heldType = 0;
 		death = false;
-		legRA.SetBool ("Airborne", false);
-		legLA.SetBool ("Airborne", false);
-		legRA.SetBool ("Crouching", false);
-		legLA.SetBool ("Crouching", false);
-		legRA.SetBool ("Running", false);
-		legLA.SetBool ("Running", false);
+		legA.SetBool ("Airborne", false);
+		//legLA.SetBool ("Airborne", false);
+		legA.SetBool ("Crouching", false);
+		//legLA.SetBool ("Crouching", false);
+		legA.SetBool ("Running", false);
+		//legLA.SetBool ("Running", false);
 
 		//armRA.SetInteger("HeldType", 0);
 		//armLA.SetInteger("HeldType", 0);
 		moving = airborne = crouching = false;
-		hip.enabled = legR.enabled = legL.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = true;
+		leg.enabled = torso.enabled = head.enabled = armL.enabled = armR.enabled = true;
 
 
 	}

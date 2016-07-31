@@ -290,7 +290,7 @@ public class Health : MonoBehaviour {
 		myRigid = this.GetComponent<Rigidbody2D>();
 		myPolygon = transform.GetComponent<PolygonCollider2D>();
 		healthSprite = healthIcon.FindChild("Color").GetComponent<SpriteRenderer>();
-		mySprite = transform.FindChild("Hip").GetComponent<SpriteRenderer>();
+		mySprite = transform.FindChild("AnimationController").FindChild("Legs").GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame

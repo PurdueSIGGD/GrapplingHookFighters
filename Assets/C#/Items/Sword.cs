@@ -9,6 +9,7 @@ public class Sword : MonoBehaviour, item
 	// Use this for initialization
 	void Start ()
 	{
+        heldItem = this.GetComponent<HeldItem>();
 	}
 
 	void fixedUpdate() {
@@ -16,14 +17,23 @@ public class Sword : MonoBehaviour, item
 
 	public void click() {
 		Swing ();
-	}
+        if (heldItem.focus)
+        {
+            heldItem.focus.transform.FindChild("AnimationController").SendMessage("Swing");
+        }
+    }
 
 	public void unclick() {
-
-	}
+        /*if (heldItem.focus)
+        {
+            heldItem.focus.transform.FindChild("AnimationController").SendMessage("UnSwing");
+        }*/
+    }
 
 	public void Swing() {
 		anim.Play ("SwordSlice");
+        
+        
 	}
 
 }
