@@ -11,10 +11,7 @@ using System.Collections;
 
 
 public class MouseInput : MonoBehaviour {
-	struct PlayerInfo {
-		public bool usesJoystick;
-		public int id;
-	}
+	
 
 	#if UNITY_STANDALONE_WIN || UNITY_EDITOR
 	//for setting the foreground window, so when opening the editor we go back to the main screen
@@ -107,6 +104,7 @@ public class MouseInput : MonoBehaviour {
 				} else {
 					mousePlayers.Add(playerScript);
 					playerScript.mouseID = p.id;
+                    playerScript.joystickID = 1;
 					mouseNums++;
 				}
 			
@@ -127,15 +125,6 @@ public class MouseInput : MonoBehaviour {
 		} else {
 			pointers = new Transform[4];
 			lastReticle = new Vector2[4];
-			Transform canvas = transform.FindChild("PointerCanvas");
-			canvas.gameObject.SetActive(true);
-			for (int i = 0; i < 4; i++) {
-				//print(transform.name);
-				lastReticle[i] = new Vector2(1,0);
-				pointers[i] = canvas.FindChild("Pointer" + (i+1));
-				pointers[i].gameObject.SetActive(true);
-				pointers[i].position = new Vector3(Screen.width / 2, Screen.height / 2);
-			}
 			mousePosition = new Vector2[NUM_MICE];
 			lastMousePosition = new Vector2[NUM_MICE];
 			Cursor.visible = false;
@@ -153,7 +142,7 @@ public class MouseInput : MonoBehaviour {
 				//TODO set up individual pointers
 			}
 		}
-		menuPointersOn = true;
+		//menuPointersOn = true;
 		init = true;
 
 	}
@@ -196,7 +185,7 @@ public class MouseInput : MonoBehaviour {
 			mousePosition[0] =  new Vector3(Input.GetAxis("MouseX")/100f * sensitivity, Input.GetAxis("MouseY")/100f * sensitivity, 0);
 		}
 
-		if (menuPointersOn) {
+		/*if (menuPointersOn) {
 			Camera c = GameObject.Find("Main Camera").GetComponent<Camera>();
 			Vector3 defaultV = new Vector3(Screen.width / 2, Screen.height / 2);
 			for (int i = 0; i < pointers.Length; i++) {
@@ -229,7 +218,7 @@ public class MouseInput : MonoBehaviour {
 			for (int i = 0; i < pointers.Length; i++) {
 				pointers[i].gameObject.SetActive(false);
 			}
-		}
+		}*/
 
 		if (!levelReady) return;
 
