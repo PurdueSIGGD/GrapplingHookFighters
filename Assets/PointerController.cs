@@ -8,7 +8,7 @@ public class PointerController : MonoBehaviour {
 
     public float lowerBoundX, lowerBoundY, upperBoundX, upperBoundY;
 
-    private Transform[] targets;
+    public Transform[] targets;
     private Health[] targetHealth;
     private int playerCount;
 
@@ -35,8 +35,14 @@ public class PointerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-	    for (int i = 0; i < playerCount; i++)
+	    for (int i = 0; i < 4; i++)
         {
+            if (i > playerCount - 1)
+            {
+                pointers[i].gameObject.SetActive(false);
+                continue;
+            } 
+            
             Vector2 screenPos = myCamera.WorldToScreenPoint(targets[i].position);
             float xPos = screenPos.x / Screen.width;
             float yPos = screenPos.y / Screen.height;

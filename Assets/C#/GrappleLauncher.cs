@@ -198,13 +198,29 @@ public class GrappleLauncher : MonoBehaviour {
 		grappleArm.gameObject.SetActive (false);
 	}
 	void NotDeath() {
-		death = false;
+        Disconnect();
+        retracting = false;
+        firedGrapple.transform.position = center.position;
+        firedGrappleScript.retracting = false;
+        firedGrapple.SendMessage("ResetLast");
+        death = false;
 		grappleArm.gameObject.SetActive (true);
-		for ( int i = 0; i < grapples.Length; i++) {
+        for (int i = 0; i < grapples.Length; i++)
+        {
+            //we set kinematic to ignore all freaky physics changes here
+            rigids[i].isKinematic = true;
+        }
+        for ( int i = 0; i < grapples.Length; i++) {
 			grapples[i].transform.localPosition = Vector3.zero;
 			lines[i].SetVertexCount(2);
 			lines[i].SetPositions(new Vector3[2]);
 			lines[i].enabled = true;
-		}
-	}
+            springs[i].distance = 0.005f;
+
+        }
+        for (int i = 0; i < grapples.Length; i++)
+        {
+            rigids[i].isKinematic = false;
+        }
+    }
 }

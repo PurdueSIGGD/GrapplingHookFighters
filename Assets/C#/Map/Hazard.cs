@@ -11,7 +11,7 @@ public class Hazard : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-		if (active && col.GetComponent<Hittable>() && !col.isTrigger) {
+		if (active && col.GetComponent<Hittable>() && !col.isTrigger && !col.CompareTag("Grapple")) {
 			Rigidbody2D rg = col.GetComponent<Rigidbody2D>();
 			rg.drag = 50;
 			rg.angularDrag = 3;

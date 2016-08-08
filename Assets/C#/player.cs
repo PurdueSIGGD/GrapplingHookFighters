@@ -412,7 +412,7 @@ public class player : MonoBehaviour {
 		player pl = col.GetComponent<player>();
 		HeldItem hi = col.GetComponent<HeldItem>();
 
-		if (col.GetComponent<player>() || col.GetComponent<ItemBox>()) {
+		if (col.CompareTag("Player") || col.GetComponent<ItemBox>()) {
 			//print("setting punchable" + col.name);
 			punchable = col.transform;
 		}
@@ -580,7 +580,7 @@ public class player : MonoBehaviour {
 			//punch animation here
 			myAnim.Punch ();
 			if (punchable) {
-				if (punchable.GetComponent<player> ()) {
+				if (punchable.CompareTag("Player")) {
 					
 					Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
 					playerPunch.AddForce (300 * (punchable.gameObject.transform.position - transform.position));

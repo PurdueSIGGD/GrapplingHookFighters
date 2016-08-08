@@ -28,7 +28,7 @@ public class MouseInput : MonoBehaviour {
 	#endif
 	public float sensitivity;
 	private float timeSinceStart;
-	RawMouseDriver.RawMouseDriver mousedriver;
+	public RawMouseDriver.RawMouseDriver mousedriver;
 	private RawMouse[] mice;
 	private Vector2[] mousePosition;
 	private Vector2[] lastMousePosition;
@@ -118,7 +118,11 @@ public class MouseInput : MonoBehaviour {
 	/* TO be called after singleMouse is delegated
 	 * 
 	 */
-	public void Init() { 
+    public void Init()
+    {
+        Init(null);
+    }
+	public void Init(RawMouseDriver.RawMouseDriver raw) { 
 		if (GameObject.FindObjectsOfType<MouseInput>().Length > 1) {
 			//if this instanced and there is another open, delete the other
 			Destroy(this.gameObject);
@@ -135,11 +139,19 @@ public class MouseInput : MonoBehaviour {
 				//print(playerCount);
 
 				if (usesMouse) {
-					mousedriver = new RawMouseDriver.RawMouseDriver();
-					mice = new RawMouse[NUM_MICE];
+                    print("new mouse");
+                    if (raw != null)
+                    {
+                        
+                        mousedriver = raw;
+                    } else
+                    {
+                        mousedriver = new RawMouseDriver.RawMouseDriver();
+                    }
+                    mice = new RawMouse[NUM_MICE];
 
 				}
-				//TODO set up individual pointers
+			
 			}
 		}
 		//menuPointersOn = true;
@@ -439,11 +451,15 @@ public class MouseInput : MonoBehaviour {
 	}
 
 	void OnApplicationQuit() {
-		// Clean up
-		Cursor.lockState = CursorLockMode.None;
-		Cursor.visible = true;  
+        Cleanup();
 		if (!this.singleMouse) mousedriver.Dispose();
 	}
+    void Cleanup()
+    {
+        // Clean up
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 	void DisablePlayers() {
 		tempMoveDisable = true;
 	}

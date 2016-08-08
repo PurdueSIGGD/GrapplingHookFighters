@@ -6,9 +6,11 @@ using System.Linq;
 
 public class MainMenus : MonoBehaviour 
 {
-
+    private int deathCount;
+    private bool allDead;
+    private float allDeadTimer, checkTimer;
     public GameObject map;
-	
+    public GameObject explosion;
 	public GameObject mouseController;
 	private MouseInput mouseControllerRef;
 
@@ -44,6 +46,9 @@ public class MainMenus : MonoBehaviour
     public int player1Controls, player2Controls, player3Controls, player4Controls;
     public GameObject[] playerSelections;
     public Sprite[] sPlayerSelections;
+    private GameObject player1, player2, player3, player4;
+
+    RawMouseDriver.RawMouseDriver miceController;
 
 	//controls menu
 	//public GameObject player1Controls;
@@ -82,6 +87,10 @@ public class MainMenus : MonoBehaviour
 		player3Controls.SetActive (false);
 		player4Controls.SetActive (false);*/
 	}
+    void Update()
+    {
+        
+    }
 	public void switchScreens(GameObject from, GameObject to) {
 		//if there are animations or such, we want it to the same function
 		from.SetActive(false);
@@ -515,14 +524,12 @@ public class MainMenus : MonoBehaviour
 	//usesmousemenu
 	
 	private void createMouse(ArrayList playerList) {
-		if (mouseControllerRef != null) {
-			GameObject.Destroy(mouseControllerRef.gameObject);
-
-			print("Destroyed");
-		}
+		
 		GameObject newObject = (GameObject)GameObject.Instantiate(mouseController, Vector3.zero, Quaternion.identity);
+        newObject.name = "MouseInput";
 		mouseControllerRef = newObject.GetComponent<MouseInput>();
         mouseControllerRef.players = playerList;
+        
         int mouseCount = 0;
        foreach (PlayerInfo o in playerList) {
             if (!o.usesJoystick)
@@ -530,10 +537,11 @@ public class MainMenus : MonoBehaviour
                 mouseCount++;
             }
         }
-        mouseControllerRef.singleMouse = mouseCount <= 1;
+        mouseControllerRef.singleMouse = (mouseCount <= 1 && miceController == null);
 		mouseControllerRef.SetUpRound();
-        mouseControllerRef.Init();
-	}
+        mouseControllerRef.Init(miceController);
+        miceController = mouseControllerRef.mousedriver;
+    }
 
     public void charSelectMenuDone()
     {
@@ -562,7 +570,7 @@ public class MainMenus : MonoBehaviour
         Set PlayerID to x
         Set joystickID
         Set MouseID*/
-        GameObject player1 = (GameObject)GameObject.Instantiate(playerSelections[player1Index], new Vector3(-7, 2, 0), Quaternion.identity);
+        player1 = (GameObject)GameObject.Instantiate(playerSelections[player1Index], new Vector3(-7, 2, 0), Quaternion.identity);
         
         player1.transform.name = "Player" + count + "Parent";
         player1.transform.FindChild("Grapple").name = "Grapple" + count;
@@ -586,7 +594,7 @@ public class MainMenus : MonoBehaviour
         count++;
         if (maxPlayers == count - 1) return playerList;
 
-        GameObject player2 = (GameObject)GameObject.Instantiate(playerSelections[player2Index], new Vector3(-3, 2, 0), Quaternion.identity);
+        player2 = (GameObject)GameObject.Instantiate(playerSelections[player2Index], new Vector3(-3, 2, 0), Quaternion.identity);
         player2.transform.name = "Player" + count + "Parent";
         player2.transform.FindChild("Grapple").name = "Grapple" + count;
         player2.transform.FindChild("Player").FindChild("Reticle").name = "Reticle" + count;
@@ -611,7 +619,7 @@ public class MainMenus : MonoBehaviour
         count++;
         if (maxPlayers == count - 1) return playerList;
 
-        GameObject player3 = (GameObject)GameObject.Instantiate(playerSelections[player3Index], new Vector3(3, 2, 0), Quaternion.identity);
+        player3 = (GameObject)GameObject.Instantiate(playerSelections[player3Index], new Vector3(3, 2, 0), Quaternion.identity);
         player3.transform.name = "Player" + count + "Parent";
         player3.transform.FindChild("Grapple").name = "Grapple" + count;
         player3.transform.FindChild("Player").FindChild("Reticle").name = "Reticle" + count;
@@ -636,14 +644,14 @@ public class MainMenus : MonoBehaviour
         count++;
         if (maxPlayers == count - 1) return playerList;
 
-        GameObject player4 = (GameObject)GameObject.Instantiate(playerSelections[player4Index], new Vector3(3, 2, 0), Quaternion.identity);
+        player4 = (GameObject)GameObject.Instantiate(playerSelections[player4Index], new Vector3(7, 2, 0), Quaternion.identity);
         player4.transform.name = "Player" + count + "Parent";
         player4.transform.FindChild("Grapple").name = "Grapple" + count;
         player4.transform.FindChild("Player").FindChild("Reticle").name = "Reticle" + count;
         player4.transform.FindChild("Player").name = "Player" + count;
         player4.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player4Color];
 
-        player3.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
+        player4.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
         PlayerInfo p4 = new PlayerInfo();
         if (player4Controls == 0)
         {
@@ -662,6 +670,197 @@ public class MainMenus : MonoBehaviour
         if (maxPlayers == count - 1) return playerList;
         return playerList; 
     }
+    //map selection things
+    float p1Time;
+    float p2Time;
+    public Sprite[] mapImages;
+    public GameObject[] mapCameraBiz;
+    private int mapIndex = 0;
+    public int maxLevel = 9;
+    private int levelCount = 1;
+    private int colorIndex = 0;
+    //number of unique levels we have
+    public int numLevels = 6;
+    void GoBack()
+    {
+        map.SetActive(true);
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("PlayerParent");
+        foreach (GameObject g in buttons)
+        {
+            GameObject.Destroy(g);
+        }
+        GameObject mouse = GameObject.Find("MouseInput");
+        mouse.SendMessage("Cleanup");
+        Destroy(mouse);
+        charSelectMenu.SetActive(true);
+
+    }
+    void StartGame()
+    {
+        
+        map.SetActive(false);
+        GameObject.Instantiate(mapCameraBiz[mapIndex], Vector3.zero, Quaternion.identity);
+        GameObject g = new GameObject("SceneController");
+        SceneController s = g.AddComponent<SceneController>();
+        //create scene controller
+        s.playerCount = maxPlayers;
+        //give player count
+        int[] levelPlan = new int[levelCount];
+        for (int i = 0; i < levelCount; i++)
+        {
+            levelPlan[i] = Random.Range(1, numLevels - 1);
+        }
+        s.levelPlan = levelPlan;
+        //give level plan (array of integers)
+        s.gameMode = 0;
+        //give game mode (0)
+        s.timeBeforeRoundEnd = 4;
+        //give time before round end (4)
+        s.timeForPointsAwarded = 2.5f;
+        //give time for points awarded (2.5)
+        s.timeBeforeRoundStart = 6;
+        s.map = map;
+        s.LoadNow();
+        //send message LoadNow()
+    }
+    void Start1()
+    {
+        p1Time = Time.realtimeSinceStartup;
+        CheckTimes();
+    }
+    void Start2()
+    {
+        p2Time = Time.realtimeSinceStartup;
+        CheckTimes();
+    }
+    void CheckTimes()
+    {
+        if (Mathf.Abs(p2Time - p1Time) < 1) StartGame();
+
+    }
+    void MapPrev()
+    {
+        mapIndex--;
+        if (mapIndex < 0) mapIndex = mapImages.Length - 1;
+        GameObject.Find("MapImage").GetComponent<SpriteRenderer>().sprite = mapImages[mapIndex];
+    }
+    void MapNext()
+    {
+        mapIndex++;
+        if (mapIndex > mapImages.Length - 1) mapIndex = 0;
+        GameObject.Find("MapImage").GetComponent<SpriteRenderer>().sprite = mapImages[mapIndex];
+    }
+    void LevelLess()
+    {
+        levelCount--;
+        if (levelCount < 1) levelCount = 1;
+        GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+    }
+    void LevelMore()
+    {
+        levelCount++;
+        if (levelCount > maxLevel) levelCount = maxLevel;
+        GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+    }
+    void ColorPrev()
+    {
+        colorIndex--;
+        if (colorIndex < 0) colorIndex = avaliableColors.Length - 1;
+        Transform ColorChangeCol = GameObject.Find("ColorChangeCol").transform;
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(ColorChangeCol.position.x - 5, ColorChangeCol.position.y + 5), new Vector2(ColorChangeCol.position.x + 5, ColorChangeCol.position.y - 5));
+        foreach (Collider2D hit in hits)
+        {
+
+            AnimationHandler a;
+            if (hit.CompareTag("Player"))
+            {
+                if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
+                {
+
+                    a.startColor = avaliableColors[colorIndex];
+                    a.ApplyColor();
+                }
+            }
+
+        }
+    }
+    void ColorNext()
+    {
+        //for art we should have a giant paint bucket falling and splashing the peeps
+        colorIndex++;
+        if (colorIndex > avaliableColors.Length - 1) colorIndex = 0;
+        Transform ColorChangeCol = GameObject.Find("ColorChangeCol").transform;
+        Collider2D[] hits = Physics2D.OverlapAreaAll(new Vector2(ColorChangeCol.position.x - 5, ColorChangeCol.position.y + 5), new Vector2(ColorChangeCol.position.x + 5, ColorChangeCol.position.y - 5));
+        foreach (Collider2D hit in hits)
+        {
+           
+            AnimationHandler a;
+            if (hit.CompareTag("Player")) {
+                if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
+                {
+
+                    a.startColor = avaliableColors[colorIndex];
+                    a.ApplyColor();
+                }
+            }
+
+        }
+    }
+    void DontPress()
+    {
+        GameObject.Instantiate(explosion, GameObject.Find("DontPress").transform.position, Quaternion.identity);
+        //deathCount++;
+        //if (deathCount == maxPlayers)
+        //{
+        //    allDead = true;
+        //}
+        StartCoroutine(RespawnWhoever());
+
+    }
+
+    IEnumerator RespawnWhoever()
+    {
+        yield return new WaitForSeconds(5);
+        if (player1.transform.FindChild("Player1").GetComponent<Health>().dead)
+        {
+            Respawn(player1.transform.FindChild("Player1").gameObject);
+        }
+        if (player2.transform.FindChild("Player2").GetComponent<Health>().dead)
+        {
+            Respawn(player2.transform.FindChild("Player2").gameObject);
+        }
+        if (player3 && player3.transform.FindChild("player3").GetComponent<Health>().dead)
+        {
+            Respawn(player3.transform.FindChild("player3").gameObject);
+        }
+        if (player4 && player4.transform.FindChild("player4").GetComponent<Health>().dead)
+        {
+            Respawn(player4.transform.FindChild("player4").gameObject);
+        }
+
+    }
+    void Respawn(GameObject g)
+    {
+        g.transform.position = g.transform.position + Vector3.up;
+        g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = g.transform.position;
+        g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+        g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
+        g.transform.eulerAngles = Vector3.zero;
+        g.GetComponent<Health>().resetPlayer();
+        g.GetComponent<player>().death = false;
+        g.BroadcastMessage("NotDeath");
+        g.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    }
+   
+
+
+    /*void blank()
+    {
+        print("got message");
+    }*/
+    
+
+
 
 
 }

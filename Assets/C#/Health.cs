@@ -172,8 +172,8 @@ public class Health : MonoBehaviour {
 				GameObject.Find("SceneController").SendMessage("AddDeath"); 
 				//print("adding death");
 			}
-			else
-				if (GameObject.Find("Boundary").GetComponent<Boundary>().respawning) GameObject.Find("Boundary").SendMessage("SetInRespawnQueue", this.gameObject);
+			//else
+				//if (GameObject.Find("Boundary").GetComponent<Boundary>().respawning) GameObject.Find("Boundary").SendMessage("SetInRespawnQueue", this.gameObject);
 
 		}
 	}

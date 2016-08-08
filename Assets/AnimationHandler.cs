@@ -11,7 +11,7 @@ public class AnimationHandler : MonoBehaviour {
     
     public Transform hip;
 
-	public SpriteRenderer leg, torso, head, armL, armR;
+	public SpriteRenderer leg, torso, head, armL, armR, grappleArm;
 	public Animator legA, armLA, armRA;
 	public Sprite singleR, singleL, dualR, dualL, heavyR, heavyL, legS, armLS, armRS;
 
@@ -35,7 +35,7 @@ public class AnimationHandler : MonoBehaviour {
     private float lastSwing;
 	// Use this for initialization
 	void Start () {
-		leg.color = torso.color = head.color = armL.color = armR.color = startColor;
+        ApplyColor();
 		//armLA.Stop ();
 		//armRA.Stop ();
 		armL.sprite = armLS;
@@ -48,6 +48,10 @@ public class AnimationHandler : MonoBehaviour {
 		centerR = armR.transform.parent;
 		centerL = armL.transform.parent;
 	}
+    public void ApplyColor()
+    {
+        grappleArm.color = leg.color = torso.color = head.color = armL.color = armR.color = startColor;
+    }
 	void Update() {
 		if (death)
 			return;

@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour {
-	/* For control of level transition 
+    /* For control of level transition 
 	 * More gamemodes to be added soon.
 	 */
-
+    public GameObject map;
 	public int playerCount;
 	public int[] levelPlan, playerScores;
 	//public Scene[] levels;
@@ -19,11 +19,16 @@ public class SceneController : MonoBehaviour {
 	private Vector2[] mapPlacements;
 	public float timeBeforeRoundEnd = 4f;
 	public float timeForPointsAwarded = 2.5f;
-	private int currentMapIndex, currentMapQueue;
+    public float timeBeforeRoundStart = 3f;
+
+    private int currentMapIndex, currentMapQueue;
 	private int deathCount;
 	private float endTimer, startTimer;
 	private GameObject currentMap, lastMap, cameraThing;
-	private bool transitioning, readyToStart, countDown, endScene, pointYet;
+	private bool transitioning, readyToStart, countDown, endScene, pointYet, gameover;
+    public bool loadInstantly = false;
+    private GUIText countDownText;
+    private GUITexture countDownBackground;
 	void Start() {
 		//int index = 0;
 		/*mapPlacements = new Vector2[9];
@@ -35,20 +40,25 @@ public class SceneController : MonoBehaviour {
 				index++;
 			}
 		}*/
-		StartCoroutine (LoadLevelIntitial());
+		if (loadInstantly) StartCoroutine (LoadLevelIntitial());
 		//OnLevelWasLoaded(0);
 	}
-
+    public void LoadNow()
+    {
+        StartCoroutine(LoadLevelIntitial());
+    }
 	void Awake() {
 		DontDestroyOnLoad(this.transform);
 	}
 
 	IEnumerator LoadLevelIntitial() {
 		cameraThing = GameObject.Find("AutoZoomCamParent");
-		/*playerCount = 0;
+        countDownText = cameraThing.transform.parent.FindChild("CountdownText").GetComponent<GUIText>();
+        countDownBackground = cameraThing.transform.parent.FindChild("CountdownBackground").GetComponent<GUITexture>();
+        /*playerCount = 0;
 		GameObject g;
 		while ((g=GameObject.Find("Player" + playerCount)) != null && g.activeInHierarchy) playerCount++; */
-		players = new GameObject[playerCount];
+        players = new GameObject[playerCount];
 		playerScores = new int[playerCount];
 		for (int i = 1; i <= playerCount; i++) {
 			GameObject gg = GameObject.Find("Player" + i);
@@ -56,7 +66,11 @@ public class SceneController : MonoBehaviour {
 				players[i-1] = gg;
 		}
 
-		for (int i = playerCount + 1; i <= 4; i++) GameObject.Find("Player" + i).transform.parent.gameObject.SetActive(false);
+
+
+
+
+		if (loadInstantly) for (int i = playerCount + 1; i <= 4; i++) GameObject.Find("Player" + i).transform.parent.gameObject.SetActive(false);
 		for (int i = 0; i < playerCount; i++) {
 			players[i].SendMessage("DisablePlayers");
 		}
@@ -64,8 +78,7 @@ public class SceneController : MonoBehaviour {
 		currentMapIndex = 4; // 0  1  2     We are at 4, the center
 		                     // 3  4  5
 		                     // 6  7  8
-		//Spawn map
-		//currentMap = (GameObject)GameObject.Instantiate(levels[levelPlan[0]], Vector3.zero, Quaternion.identity);
+		//Spawn map 
 		int sceneIndex = levelPlan[0];
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
@@ -164,23 +177,37 @@ public class SceneController : MonoBehaviour {
 	void Update () {
 		if (readyToStart && !countDown && startTimer <= 0) {
 			
-			startTimer = 3;
+			startTimer = timeBeforeRoundStart;
 			countDown = true;
+            
 			cameraThing.SendMessage("SetTracking",false);
 		}
 		if (countDown) {
 			if (startTimer > 0) {
 				startTimer -= Time.deltaTime;
-				if (startTimer > 1.5f) {
-					//not tracking
+                if (startTimer < 0) startTimer = 0;
+                string newText = "" + startTimer;
+                if (newText.Length >= 4) newText = newText.Substring(0, 4);
+                countDownText.text = newText;
+                countDownBackground.gameObject.SetActive(true);
+                if (startTimer > timeBeforeRoundStart/2)
+                {
+                    
+                    //hide scoreboard fade out
+                }
+                else if (startTimer > (3*timeBeforeRoundStart) / 4) {
+					//not tracking, get a glimpse of the map here
 					cameraThing.SendMessage("SetTracking",false);
 
 				} else {
 					cameraThing.SendMessage("SetTracking",true);
-				}
-			} else {
-				//Begin!!!
-				for (int i = 0; i < playerCount; i++) {
+                }
+            } else {
+                //Begin!!!
+                countDownText.text = "";
+                countDownBackground.gameObject.SetActive(false);
+
+                for (int i = 0; i < playerCount; i++) {
 					players[i].SendMessage("EnablePlayers");
 				}
 				GameObject.Find("MouseInput").SendMessage("EnablePlayers");			
@@ -208,7 +235,11 @@ public class SceneController : MonoBehaviour {
 				//print("Counting one point for Player ");
 				pointYet = true;
 			}
-			if (endTimer <= 0 && !transitioning) {
+            if (endTimer < (timeBeforeRoundEnd-timeForPointsAwarded)/2 && !transitioning)
+            {
+                //show scoreboard fade in
+            }
+            if (endTimer <= 0 && !transitioning) {
 				//print();
 				pointYet = false;
 				transitioning = true;
@@ -222,17 +253,36 @@ public class SceneController : MonoBehaviour {
 
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.Backspace)) RestartNewGame();
+		if (Input.GetKeyDown(KeyCode.Backspace) && gameover) RestartNewGame();
 
 	}
 	void RestartNewGame() {
-		GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
-		foreach (GameObject o in objects) {
-			GameObject.Destroy(o.gameObject);
-		}
-		SceneManager.LoadScene(0);
-		//Application.LoadLevel(Application.loadedLevel);
-	}
+        if (loadInstantly)
+        {
+            GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
+            foreach (GameObject o in objects)
+            {
+                GameObject.Destroy(o.gameObject);
+            }
+            SceneManager.LoadScene(0);
+        } else
+        {
+            RespawnPeeps();
+            SceneManager.UnloadScene(lastScene);
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                players[i].transform.position = new Vector3(-7 + (2.5f * i), 2, 0);
+                players[i].SendMessage("EnablePlayers");
+            }
+            GameObject.Find("MouseInput").SendMessage("EnablePlayers");
+            GameObject.Destroy(myCamera.transform.parent.gameObject);
+            map.SetActive(true);
+           
+            GameObject.Destroy(this.gameObject);
+        }
+
+    }
 	void AddDeath() {
 		deathCount++;
 	}
@@ -251,7 +301,9 @@ public class SceneController : MonoBehaviour {
 		//g.transform.parent = rePos;
 		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = g.transform.position;
 		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
-		g.transform.eulerAngles = Vector3.zero;
+        g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
+
+        g.transform.eulerAngles = Vector3.zero;
 		g.GetComponent<Health>().resetPlayer();
 		g.GetComponent<player>().death = false;
 		g.BroadcastMessage("NotDeath");
@@ -262,6 +314,7 @@ public class SceneController : MonoBehaviour {
 		GUIText guit = this.gameObject.AddComponent<GUIText>();
 		guit.text = PrintRoundEnd();
 		guit.transform.position = new Vector3(0, 1, 0);
+        gameover = true;
 	}
 	bool IsRoundOver() {
 		switch (gameMode) {
@@ -271,16 +324,20 @@ public class SceneController : MonoBehaviour {
 		}
 	}
 	string PrintRoundEnd() {
+        string s = "";
 		switch (gameMode) {
 		case 0: 
-			string s = "Player Scores:\n";
+			s = "Player Scores:\n";
 			for (int i = 0; i < playerCount; i++) {
 				s += ("Player " + (i + 1) + ": " + playerScores[i] + "\n");
 			}
-			return s;
-		default: return "";
+                break;
+           
+		default: s += "";
+                break;
 		}
-	}
+        return s + "\nPress Backspace to return to main menu";
+    }
 
 	void CleanScene() {
 		myCamera.GetComponent<SmootherTrackingCamera> ().ResetCamera ();
