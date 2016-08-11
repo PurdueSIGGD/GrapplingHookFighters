@@ -81,7 +81,7 @@ public class GrappleScript : MonoBehaviour {
 		} else {
 			breakTime = 0;
 		}
-		RaycastHit2D[] r;
+		//RaycastHit2D[] r;
 		if (connected) {
 			
 			/*float d = Vector3.Distance(this.transform.position, center.position) * .75f;

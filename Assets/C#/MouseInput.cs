@@ -46,10 +46,10 @@ public class MouseInput : MonoBehaviour {
 	public bool usesMouse = true, tempMoveDisable;
 	public Camera mainCam;
 
-	bool init, levelReady, beforeRound, menuPointersOn;
+	bool init, levelReady, beforeRound;
 	public bool singleMouse, forceStart;
 	private bool firstValues;
-	private Transform[] pointers;
+	//private Transform[] pointers;
 
 
 	void Start() {
@@ -85,10 +85,10 @@ public class MouseInput : MonoBehaviour {
 	 * Sets up player info and makes the round ready to go
 	 */
 	public void SetUpRound() {
-		int numPlayers = 4;
+		//int numPlayers = 4;
 		joystickPlayers = new ArrayList();
 		mousePlayers = new ArrayList();
-		menuPointersOn = false;
+		//menuPointersOn = false;
 		int joystickNums = 1;
 		int mouseNums = 0;
 		int i = 0;
@@ -127,7 +127,7 @@ public class MouseInput : MonoBehaviour {
 			//if this instanced and there is another open, delete the other
 			Destroy(this.gameObject);
 		} else {
-			pointers = new Transform[4];
+			//pointers = new Transform[4];
 			lastReticle = new Vector2[4];
 			mousePosition = new Vector2[NUM_MICE];
 			lastMousePosition = new Vector2[NUM_MICE];

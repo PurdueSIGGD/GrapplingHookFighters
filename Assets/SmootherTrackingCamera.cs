@@ -99,7 +99,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			desiredPosition = transform.position;
 		}
 		float cameraDistance = Vector2.Distance (desiredPosition, transform.position);
-		float movementSizeInflation = Time.deltaTime * 2.5f * Vector3.Magnitude(desiredPosition - transform.position);
+		//float movementSizeInflation = Time.deltaTime * 2.5f * Vector3.Magnitude(desiredPosition - transform.position);
 		if (cameraDistance > 0) {
 			lastDistance = Time.deltaTime * movementSpeed * (cameraDistance + 3) * (desiredPosition - transform.position);
 			transform.position += lastDistance;

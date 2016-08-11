@@ -24,7 +24,7 @@ public class grenade : MonoBehaviour {
 		if (sticky && myRigid && timePassed > .2f) {
 			int layermask = (1 << this.gameObject.layer) + (1 << 13) + (1 << 15);
 			RaycastHit2D[] rr = Physics2D.RaycastAll(transform.position, myRigid.velocity, Time.deltaTime, layermask);
-			RaycastHit2D myHit;
+			//RaycastHit2D myHit;
 			foreach (RaycastHit2D r in rr) {
 				if (r.transform != this.transform) {
 					//stick it to one frame back

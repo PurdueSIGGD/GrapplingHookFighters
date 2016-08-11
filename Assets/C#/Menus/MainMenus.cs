@@ -557,7 +557,7 @@ public class MainMenus : MonoBehaviour
     private ArrayList GeneratePlayers()
     {
         ArrayList playerList = new ArrayList();
-        int[] heroCount = new int[playerSelections.Length];
+        //int[] heroCount = new int[playerSelections.Length];
         //Color[] altColors = new Color[4];
         //altColors[0] = new Color(1, )
         //joystick id starts at 1
@@ -680,7 +680,7 @@ public class MainMenus : MonoBehaviour
     private int levelCount = 1;
     private int colorIndex = 0;
     //number of unique levels we have
-    public int numLevels = 6;
+    public int numLevels = 7;
     void GoBack()
     {
         map.SetActive(true);
@@ -708,7 +708,7 @@ public class MainMenus : MonoBehaviour
         int[] levelPlan = new int[levelCount];
         for (int i = 0; i < levelCount; i++)
         {
-            levelPlan[i] = Random.Range(1, numLevels - 1);
+            levelPlan[i] = Random.Range(1, numLevels);
         }
         s.levelPlan = levelPlan;
         //give level plan (array of integers)

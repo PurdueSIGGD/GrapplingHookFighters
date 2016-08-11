@@ -22,7 +22,7 @@ public class AnimationHandler : MonoBehaviour {
 	public Color startColor = Color.white;
 
 	public int heldType; //0: nothing, 1: single, 2: dual, 3: heavy
-	private int lastHeldType;
+//	private int lastHeldType;
 
 
 	private bool lastCrouching, lastAirborne, lastDirection, lastMoving; //used for knowing when to flip
@@ -117,7 +117,7 @@ public class AnimationHandler : MonoBehaviour {
 
 			break;
 		}
-		lastHeldType = heldType;
+		//lastHeldType = heldType;
 
 
 		//______________Animation Handling for Legs _______________
