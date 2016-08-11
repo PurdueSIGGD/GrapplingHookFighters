@@ -48,6 +48,9 @@ public class MainMenus : MonoBehaviour
     public Sprite[] sPlayerSelections;
     private GameObject player1, player2, player3, player4;
 
+	public GUITexture fader;
+	private bool fading;
+
     RawMouseDriver.RawMouseDriver miceController;
 
 	//controls menu
@@ -89,7 +92,20 @@ public class MainMenus : MonoBehaviour
 	}
     void Update()
     {
-        
+		if (!fading) {
+			//false = fading in, true = fading out
+			if (fader.color.a > 0) {
+				fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a - Time.deltaTime/2);
+			} else {
+				if (fader.color.a != 0) fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, 0);
+			}
+		} else {
+			if (fader.color.a < 1) {
+				fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + Time.deltaTime/2);
+			} else {
+				if (fader.color.a != 1) fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, 1);
+			}
+		}
     }
 	public void switchScreens(GameObject from, GameObject to) {
 		//if there are animations or such, we want it to the same function
@@ -551,6 +567,10 @@ public class MainMenus : MonoBehaviour
         ArrayList playerList = GeneratePlayers();
         //generate mouse controller
         createMouse(playerList);
+		fading = false;
+		fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, .6f);
+
+		//set fader to fade in
         //enable map
         map.SetActive(true);
     }
@@ -578,6 +598,7 @@ public class MainMenus : MonoBehaviour
         player1.transform.FindChild("Player").name = "Player" + count;
         player1.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
         player1.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player1Color];
+		player1 = player1.transform.FindChild("Player" + count).gameObject;
         PlayerInfo p1 = new PlayerInfo();
         if (player1Controls == 0)
         {
@@ -602,6 +623,8 @@ public class MainMenus : MonoBehaviour
         player2.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player2Color];
 
         player2.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
+		player2 = player2.transform.FindChild("Player" + count).gameObject;
+
         PlayerInfo p2 = new PlayerInfo();
         if (player2Controls == 0)
         {
@@ -627,6 +650,8 @@ public class MainMenus : MonoBehaviour
         player3.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player3Color];
 
         player3.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
+		player3 = player3.transform.FindChild("Player" + count).gameObject;
+
         PlayerInfo p3 = new PlayerInfo();
         if (player3Controls == 0)
         {
@@ -652,6 +677,8 @@ public class MainMenus : MonoBehaviour
         player4.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player4Color];
 
         player4.transform.FindChild("Player" + count).GetComponent<player>().playerid = count;
+		player4 = player4.transform.FindChild("Player" + count).gameObject;
+
         PlayerInfo p4 = new PlayerInfo();
         if (player4Controls == 0)
         {
@@ -669,6 +696,8 @@ public class MainMenus : MonoBehaviour
         count++;
         if (maxPlayers == count - 1) return playerList;
         return playerList; 
+
+
     }
     //map selection things
     float p1Time;
@@ -681,11 +710,18 @@ public class MainMenus : MonoBehaviour
     private int colorIndex = 0;
     //number of unique levels we have
     public int numLevels = 7;
-    void GoBack()
+	void GoBack() {
+		StartCoroutine(GoBackFading());
+	}
+
+	IEnumerator GoBackFading()
     {
+		fading = true;
+		yield return new WaitForSeconds(1.5f);
+
         map.SetActive(true);
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("PlayerParent");
-        foreach (GameObject g in buttons)
+        GameObject[] playerObj = GameObject.FindGameObjectsWithTag("PlayerParent");
+		foreach (GameObject g in playerObj)
         {
             GameObject.Destroy(g);
         }
@@ -694,10 +730,16 @@ public class MainMenus : MonoBehaviour
         Destroy(mouse);
         charSelectMenu.SetActive(true);
 
+
     }
-    void StartGame()
+	IEnumerator StartGame()
     {
-        
+		fading = true;
+		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
+
+		yield return new WaitForSeconds(2.5f);
+
+
         map.SetActive(false);
         GameObject.Instantiate(mapCameraBiz[mapIndex], Vector3.zero, Quaternion.identity);
         GameObject g = new GameObject("SceneController");
@@ -720,8 +762,20 @@ public class MainMenus : MonoBehaviour
         //give time for points awarded (2.5)
         s.timeBeforeRoundStart = 6;
         s.map = map;
-        s.LoadNow();
+		s.LoadNow(maxPlayers,
+			sPlayerSelections[player1Index],
+			sPlayerSelections[player2Index],
+			sPlayerSelections[player3Index],
+			sPlayerSelections[player4Index],
+
+			player1.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor,
+			player2!=null?player2.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor:Color.black,
+			player3!=null?player3.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor:Color.black,
+			player4!=null?player4.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor:Color.black
+
+		);
         //send message LoadNow()
+		fading = false;
     }
     void Start1()
     {
@@ -735,7 +789,7 @@ public class MainMenus : MonoBehaviour
     }
     void CheckTimes()
     {
-        if (Mathf.Abs(p2Time - p1Time) < 1) StartGame();
+		if (Mathf.Abs(p2Time - p1Time) < 1) StartCoroutine(StartGame());
 
     }
     void MapPrev()
@@ -821,21 +875,21 @@ public class MainMenus : MonoBehaviour
     IEnumerator RespawnWhoever()
     {
         yield return new WaitForSeconds(5);
-        if (player1.transform.FindChild("Player1").GetComponent<Health>().dead)
+		if (player1.GetComponent<Health>().dead)
         {
-            Respawn(player1.transform.FindChild("Player1").gameObject);
+			Respawn(player1);
         }
-        if (player2.transform.FindChild("Player2").GetComponent<Health>().dead)
+		if (player2.GetComponent<Health>().dead)
         {
-            Respawn(player2.transform.FindChild("Player2").gameObject);
+			Respawn(player2);
         }
-        if (player3 && player3.transform.FindChild("player3").GetComponent<Health>().dead)
+		if (player3 && player3.GetComponent<Health>().dead)
         {
-            Respawn(player3.transform.FindChild("player3").gameObject);
+			Respawn(player3);
         }
-        if (player4 && player4.transform.FindChild("player4").GetComponent<Health>().dead)
+		if (player4 && player4.GetComponent<Health>().dead)
         {
-            Respawn(player4.transform.FindChild("player4").gameObject);
+			Respawn(player4);
         }
 
     }

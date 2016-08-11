@@ -25,10 +25,15 @@ public class SceneController : MonoBehaviour {
 	private int deathCount;
 	private float endTimer, startTimer;
 	private GameObject currentMap, lastMap, cameraThing;
+	private GUIText score1, score2, score3, score4, gameOverText;
+	private GUITexture scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4, scoreBoard;
+
 	private bool transitioning, readyToStart, countDown, endScene, pointYet, gameover;
     public bool loadInstantly = false;
     private GUIText countDownText;
     private GUITexture countDownBackground;
+
+	private bool fading; //false = fading in, true = fading out
 	void Start() {
 		//int index = 0;
 		/*mapPlacements = new Vector2[9];
@@ -40,26 +45,78 @@ public class SceneController : MonoBehaviour {
 				index++;
 			}
 		}*/
-		if (loadInstantly) StartCoroutine (LoadLevelIntitial());
+		//if (loadInstantly) StartCoroutine (LoadLevelIntitial());
 		//OnLevelWasLoaded(0);
 	}
-    public void LoadNow()
+	public void LoadNow(int playerCount, Sprite p1Sprite, Sprite p2Sprite, Sprite p3Sprite, Sprite p4Sprite, Color p1C, Color p2C, Color p3C, Color p4C)
     {
-        StartCoroutine(LoadLevelIntitial());
+		StartCoroutine(LoadLevelIntitial(playerCount, p1Sprite,  p2Sprite,  p3Sprite,  p4Sprite,  p1C,  p2C,  p3C,  p4C));
     }
 	void Awake() {
 		DontDestroyOnLoad(this.transform);
 	}
+	void SetTransparency(float a) {
+		scoreBoard.color = new Color(scoreBoard.color.r, scoreBoard.color.g, scoreBoard.color.b, a);
 
-	IEnumerator LoadLevelIntitial() {
+		score1.color = new Color(score1.color.r, score1.color.g, score1.color.b, a);
+		score2.color = new Color(score2.color.r, score2.color.g, score2.color.b, a);
+		score3.color = new Color(score3.color.r, score3.color.g, score3.color.b, a);
+		score4.color = new Color(score4.color.r, score4.color.g, score4.color.b, a);
+
+		scorePlayer1.color = new Color(scorePlayer1.color.r, scorePlayer1.color.g, scorePlayer1.color.b, a);
+		scorePlayer2.color = new Color(scorePlayer2.color.r, scorePlayer2.color.g, scorePlayer2.color.b, a);
+		scorePlayer3.color = new Color(scorePlayer3.color.r, scorePlayer3.color.g, scorePlayer3.color.b, a);
+		scorePlayer4.color = new Color(scorePlayer4.color.r, scorePlayer4.color.g, scorePlayer4.color.b, a);
+
+		if (gameover) gameOverText.color = new Color(gameOverText.color.r, gameOverText.color.g, gameOverText.color.b, a);
+	}
+	IEnumerator LoadLevelIntitial(int playerCount, Sprite p1Sprite, Sprite p2Sprite, Sprite p3Sprite, Sprite p4Sprite, Color p1C, Color p2C, Color p3C, Color p4C) {
 		cameraThing = GameObject.Find("AutoZoomCamParent");
         countDownText = cameraThing.transform.parent.FindChild("CountdownText").GetComponent<GUIText>();
         countDownBackground = cameraThing.transform.parent.FindChild("CountdownBackground").GetComponent<GUITexture>();
+		scoreBoard = cameraThing.transform.parent.FindChild("Scoreboard").GetComponent<GUITexture>();
+		gameOverText = scoreBoard.transform.FindChild("GameOver").GetComponent<GUIText>();
+		score1 = scoreBoard.transform.FindChild("Score1").FindChild("Score").GetComponent<GUIText>();
+		scorePlayer1 = scoreBoard.transform.FindChild("Score1").FindChild("Icon").GetComponent<GUITexture>();
+		score2 = scoreBoard.transform.FindChild("Score2").FindChild("Score").GetComponent<GUIText>();
+		scorePlayer2 = scoreBoard.transform.FindChild("Score2").FindChild("Icon").GetComponent<GUITexture>();
+		if (playerCount < 2) {
+			score2.gameObject.SetActive(false);
+			scorePlayer2.gameObject.SetActive(false);
+		}
+		score3 = scoreBoard.transform.FindChild("Score3").FindChild("Score").GetComponent<GUIText>();
+		scorePlayer3 = scoreBoard.transform.FindChild("Score3").FindChild("Icon").GetComponent<GUITexture>();
+		if (playerCount < 3) {
+			score3.gameObject.SetActive(false);
+			scorePlayer3.gameObject.SetActive(false);
+		}
+		score4 = scoreBoard.transform.FindChild("Score4").FindChild("Score").GetComponent<GUIText>();
+		scorePlayer4 = scoreBoard.transform.FindChild("Score4").FindChild("Icon").GetComponent<GUITexture>();
+		if (playerCount < 4) {
+			score4.gameObject.SetActive(false);
+			scorePlayer4.gameObject.SetActive(false);
+		}
+
+
+
+		scorePlayer1.texture = p1Sprite.texture;
+		scorePlayer2.texture = p2Sprite.texture;
+		scorePlayer3.texture = p3Sprite.texture;
+		scorePlayer4.texture = p4Sprite.texture;
+
+		scorePlayer1.color = new Color(p1C.r/2, p1C.g/2, p1C.b/2);
+		scorePlayer2.color = new Color(p2C.r/2, p2C.g/2, p2C.b/2);
+		scorePlayer3.color = new Color(p3C.r/2, p3C.g/2, p3C.b/2);
+		scorePlayer4.color = new Color(p4C.r/2, p4C.g/2, p4C.b/2);
+
+
+
+		SetTransparency(0);
         /*playerCount = 0;
 		GameObject g;
 		while ((g=GameObject.Find("Player" + playerCount)) != null && g.activeInHierarchy) playerCount++; */
         players = new GameObject[playerCount];
-		playerScores = new int[playerCount];
+		playerScores = new int[4];
 		for (int i = 1; i <= playerCount; i++) {
 			GameObject gg = GameObject.Find("Player" + i);
 			if (gg.activeInHierarchy)
@@ -75,11 +132,15 @@ public class SceneController : MonoBehaviour {
 			players[i].SendMessage("DisablePlayers");
 		}
 		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
+
 		currentMapIndex = 4; // 0  1  2     We are at 4, the center
 		                     // 3  4  5
 		                     // 6  7  8
 		//Spawn map 
 		int sceneIndex = levelPlan[0];
+
+
+
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
 
@@ -109,15 +170,46 @@ public class SceneController : MonoBehaviour {
 		//Create new map
 		currentMapQueue++;
 		if (currentMapQueue == levelPlan.Length) {
-			//we're done, break
-			End();
+			//if tie, add another map (from one of our previous) and continue
+			int max = -1;
+			bool tie = false;
+			for (int i = 0; i < playerScores.Length; i++) {
+				if (playerScores[i] >= max) {
+					tie = false;
+					if (playerScores[i] == max) {
+						tie = true;
+					}
+					max = playerScores[i];
+				} 
 
-			yield break;
+			}
+			if (tie) {
+				int[] newLevelPlan = new int[levelPlan.Length + 1];
+				for (int i = 0; i < levelPlan.Length; i++) {
+					print(levelPlan[i]);
+					newLevelPlan[i] = levelPlan[i];
+				}
+				newLevelPlan[newLevelPlan.Length - 1] = levelPlan[Random.Range(0, levelPlan.Length - 1)];
+				levelPlan = newLevelPlan;
+			} else {
+				fading = true;
+				//we're done, break
+				End();
+
+				yield break;
+
+			}
+
+
+
 		}
 		//print(currentMapQueue);
 		int nextMap = levelPlan[currentMapQueue];
 		int sceneIndex = nextMap;
 		for (int i = 0; i < playerCount; i++) DisconnectPlayers (i);
+		fading = true;
+		yield return new WaitForSeconds(3);
+
 		SceneManager.UnloadScene (lastScene);
 
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
@@ -175,6 +267,20 @@ public class SceneController : MonoBehaviour {
 	}
 
 	void Update () {
+		if (!fading) {
+			//false = fading in, true = fading out
+			if (score1.color.a > 0) {
+				SetTransparency(score1.color.a - Time.deltaTime);
+			} else {
+				if (score1.color.a != 0) SetTransparency(0);
+			}
+		} else {
+			if (score1.color.a < 1) {
+				SetTransparency(score1.color.a + Time.deltaTime);
+			} else {
+				if (score1.color.a != 1) SetTransparency(1);
+			}
+		}
 		if (readyToStart && !countDown && startTimer <= 0) {
 			
 			startTimer = timeBeforeRoundStart;
@@ -192,7 +298,7 @@ public class SceneController : MonoBehaviour {
                 countDownBackground.gameObject.SetActive(true);
                 if (startTimer > timeBeforeRoundStart/2)
                 {
-                    
+					fading = false;
                     //hide scoreboard fade out
                 }
                 else if (startTimer > (3*timeBeforeRoundStart) / 4) {
@@ -230,6 +336,18 @@ public class SceneController : MonoBehaviour {
 					if (!ps.death) {
 						print("Counting one point for Player " + ps.playerid);
 						playerScores[ps.playerid - 1] += 1;
+						/*if (ps.playerid == 1) {
+							score1.text = "Score: " + playerScores[ps.playerid - 1];
+						}
+						else if (ps.playerid == 2) {
+							score2.text = "Score: " + playerScores[ps.playerid - 1];
+						}
+						else if (ps.playerid == 3) {
+							score3.text = "Score: " + playerScores[ps.playerid - 1];
+						}
+						else if (ps.playerid == 4) {
+							score4.text = "Score: " + playerScores[ps.playerid - 1];
+						}*/
 					}
 				}
 				//print("Counting one point for Player ");
@@ -249,6 +367,12 @@ public class SceneController : MonoBehaviour {
 				if (newIndex >= currentMapIndex) newIndex++; // so we don't go to the same place as currently
 				StartCoroutine(StartNewScene());
 				currentMapIndex = newIndex;
+
+				score1.text = "Score: " + playerScores[0];
+				score2.text = "Score: " + playerScores[1];
+				score3.text = "Score: " + playerScores[2];
+				score4.text = "Score: " + playerScores[3];
+
 				return;
 
 			}
@@ -278,7 +402,9 @@ public class SceneController : MonoBehaviour {
             GameObject.Find("MouseInput").SendMessage("EnablePlayers");
             GameObject.Destroy(myCamera.transform.parent.gameObject);
             map.SetActive(true);
-           
+			GUITexture fader = GameObject.Find("Fader").GetComponent<GUITexture>();
+			fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, 1);
+
             GameObject.Destroy(this.gameObject);
         }
 
@@ -311,15 +437,17 @@ public class SceneController : MonoBehaviour {
 	}
 	void End() {
 		
-		GUIText guit = this.gameObject.AddComponent<GUIText>();
-		guit.text = PrintRoundEnd();
-		guit.transform.position = new Vector3(0, 1, 0);
+		//GUIText guit = this.gameObject.AddComponent<GUIText>();
+		//guit.text = PrintRoundEnd();
+		//guit.transform.position = new Vector3(0, 1, 0);
         gameover = true;
 	}
 	bool IsRoundOver() {
 		switch (gameMode) {
 			case 0: 
 				return deathCount >= playerCount - 1;
+
+
 			default: return false;
 		}
 	}
