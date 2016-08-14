@@ -508,11 +508,11 @@ public class MainMenus : MonoBehaviour
 	public void toControlMenu() {
 		switchScreens(numPlayersMenu, charSelectMenu);
         charSelectMenu.transform.FindChild("Player1Select");
-        
-        player1Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[0];
-        player2Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[1];
-        player3Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[2];
-        player4Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[3];
+
+		//player1Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[0];
+		//player2Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[1];
+		//player3Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[2];
+		//player4Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[3];
         player1Index = 0;
         player2Index = 1;
         player3Index = 2;
@@ -590,7 +590,7 @@ public class MainMenus : MonoBehaviour
         Set PlayerID to x
         Set joystickID
         Set MouseID*/
-        player1 = (GameObject)GameObject.Instantiate(playerSelections[player1Index], new Vector3(-7, 2, 0), Quaternion.identity);
+        player1 = (GameObject)GameObject.Instantiate(playerSelections[player1Index], new Vector3(-6, 2, 0), Quaternion.identity);
         
         player1.transform.name = "Player" + count + "Parent";
         player1.transform.FindChild("Grapple").name = "Grapple" + count;
@@ -669,7 +669,7 @@ public class MainMenus : MonoBehaviour
         count++;
         if (maxPlayers == count - 1) return playerList;
 
-        player4 = (GameObject)GameObject.Instantiate(playerSelections[player4Index], new Vector3(7, 2, 0), Quaternion.identity);
+        player4 = (GameObject)GameObject.Instantiate(playerSelections[player4Index], new Vector3(6, 2, 0), Quaternion.identity);
         player4.transform.name = "Player" + count + "Parent";
         player4.transform.FindChild("Grapple").name = "Grapple" + count;
         player4.transform.FindChild("Player").FindChild("Reticle").name = "Reticle" + count;
@@ -709,7 +709,8 @@ public class MainMenus : MonoBehaviour
     private int levelCount = 1;
     private int colorIndex = 0;
     //number of unique levels we have
-    public int numLevels = 7;
+	//so the last level + 1
+    private int numLevels = 7;
 	void GoBack() {
 		StartCoroutine(GoBackFading());
 	}
@@ -879,7 +880,7 @@ public class MainMenus : MonoBehaviour
         {
 			Respawn(player1);
         }
-		if (player2.GetComponent<Health>().dead)
+		if (player2 && player2.GetComponent<Health>().dead)
         {
 			Respawn(player2);
         }

@@ -140,7 +140,7 @@ public class gun : MonoBehaviour, item {
 						}
 						//print (inTheWay);
 						if (raycastShoot) {
-							if (!inTheWay) {
+							if (!inTheWay || !this.raycastShoot) {
 								//Debug.DrawLine(this.transform.position, ugh);
 								//EditorApplication.isPaused = true;
 								RaycastHit2D[] r;
@@ -218,7 +218,7 @@ public class gun : MonoBehaviour, item {
 								}
 
 							}
-							if (!colliding) {
+							if (!colliding || true) {
 
 								GameObject g;
 								g = (GameObject)GameObject.Instantiate (projectileGameObject, shootPoint, transform.rotation);

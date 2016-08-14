@@ -36,4 +36,11 @@ public class Sticky : MonoBehaviour {
 		}
 
 	}
+	void Unstuck() {
+		transform.parent = null;
+		myRigid.freezeRotation = false;
+		myRigid.isKinematic = false;
+		myCollider.enabled = true;
+		hasBeenStuck = false;
+	}
 }

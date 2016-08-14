@@ -43,7 +43,7 @@ public class GrappleLauncher : MonoBehaviour {
 	void Update () {
 		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
 		else grappleTimer = 0;
-		if (firedGrapple == null) Disconnect();
+		if (firedGrapple == null || firedGrappleScript.disconnectMe) Disconnect();
 		if (firedGrapple != null) {
 			for (int i = 0; i < grapples.Length; i++) {
 				Vector3[] linePoints;
@@ -173,7 +173,7 @@ public class GrappleLauncher : MonoBehaviour {
 		myRigid.AddForce(60 * (firedGrapple.transform.position - transform.position));
 
 	}
-	void Disconnect() {
+	public void Disconnect() {
 		firedGrapple.gameObject.layer = this.gameObject.layer;
 
 		if (firing || retracting) {

@@ -9,29 +9,50 @@ public class ItemBox : MonoBehaviour {
 	public GameObject[] items;
     private Transform childSprite;
 
+	public Sprite openSprite;
+	private Sprite closedSprite;
+
+	public float timeTillReset = -1;
+	// -1 = no reset, 1 = 1 second to refill
+
 	private bool used;
     void Start()
     {
-        childSprite = transform.FindChild("ButtonSprite");
+        childSprite = transform.FindChild("Sprite");
+		closedSprite = childSprite.GetComponent<SpriteRenderer>().sprite;
     }
     void Update()
     {
         time += Time.deltaTime;
+		if (time > timeTillReset && timeTillReset > 0 && used) {
+			childSprite.GetComponent<SpriteRenderer>().sprite = closedSprite;
+			used = false;
+		}
     }
 	void DropItem() {
         
-		if (!used && !callsFunction) {
-			used = true;
-			GameObject spawn = (GameObject)GameObject.Instantiate(items[Random.Range(0, items.Length)], transform.FindChild("BoxSpawnPoint").position, Quaternion.identity);
-			spawn.GetComponent<Rigidbody2D>().AddForce(80* (Vector2.up + Random.insideUnitCircle));
-			spawn.GetComponent<Rigidbody2D>().AddTorque(Random.Range(0, 20));
-		}
-        if (callsFunction && time > cooldownTime)
+
+       if (time > cooldownTime)
         {
-            //print("calling function");
-            childSprite.GetComponent<Animator>().SetTrigger("Press");
-            GameObject.Find("Menus").SendMessage(useString);
-            time = 0;
+
+			if (callsFunction) {
+	            //print("calling function");
+				time = 0;
+	            childSprite.GetComponent<Animator>().SetTrigger("Press");
+	            GameObject.Find("Menus").SendMessage(useString);
+			} else {
+				if (!used) {
+					used = true;
+					time = 0;
+					childSprite.GetComponent<SpriteRenderer>().sprite = openSprite;
+					GameObject spawn = (GameObject)GameObject.Instantiate(items[Random.Range(0, items.Length)], transform.FindChild("BoxSpawnPoint").position, Quaternion.identity);
+					spawn.GetComponent<Rigidbody2D>().AddForce(80* (Vector2.up + Random.insideUnitCircle));
+					spawn.GetComponent<Rigidbody2D>().AddTorque(Random.Range(0, 20));
+				}
+
+			}
+
+
         }
 	}
 }

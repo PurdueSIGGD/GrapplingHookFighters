@@ -5,7 +5,7 @@ public class GrappleScript : MonoBehaviour {
 	public GameObject focus;
 //	private EdgeCollider2D lineCol;
 	private bool firing, connected;
-	public bool retracting;
+	public bool retracting, disconnectMe;
 	private Transform lastGrab, center;
 	public float breakTime, timeRetracting;
 
@@ -33,6 +33,7 @@ public class GrappleScript : MonoBehaviour {
 			g.tag != "Item" && 
 			g.tag != "DualItem" && 
 			g.tag != "Grapple" &&
+			g.tag != "NoGrapple" &&
 			(firing)) {
 			//print(g.name);
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
@@ -53,8 +54,23 @@ public class GrappleScript : MonoBehaviour {
 			retracting = false;
 			connected = true;
 		}
+		if (g.tag == "NoGrapple" ||
+			g.tag == "Item" ||
+			g.tag == "DualItem" 
+			 ) {
+			//bounce back
+			retracting = true;
+			Detach();
+		}
+		//otherwise, pass through
+	}
+	void Detach() {
+		//for when we release not determined by the grapplelauncher
+		disconnectMe = true;
+
 	}
 	void Release() {
+		disconnectMe = false;
 		this.transform.parent = focus.transform.parent; //for if it moves
 		transform.localScale = new Vector3(1,1,1);
 		if (!myRigid.isKinematic) {
@@ -75,7 +91,12 @@ public class GrappleScript : MonoBehaviour {
 		firing = true;
 	}
 	void Update() {
-		if (focus != null) center = focus.transform.FindChild("AimingParent");
+		if (focus != null) {
+			center = focus.transform.FindChild("AimingParent");
+
+		} else if (connected) {
+			this.retracting = true;
+		}
 		if (breakTime > 0) {
 			breakTime -= Time.deltaTime;
 		} else {

@@ -396,7 +396,7 @@ public class SceneController : MonoBehaviour {
 
             for (int i = 0; i < playerCount; i++)
             {
-                players[i].transform.position = new Vector3(-7 + (2.5f * i), 2, 0);
+				players[i].transform.position = new Vector3(-6 + (3f * i>1?i+2:i), 2, 0);
                 players[i].SendMessage("EnablePlayers");
             }
             GameObject.Find("MouseInput").SendMessage("EnablePlayers");
