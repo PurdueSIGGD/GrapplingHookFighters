@@ -47,6 +47,7 @@ public class MainMenus : MonoBehaviour
     public GameObject[] playerSelections;
     public Sprite[] sPlayerSelections;
     private GameObject player1, player2, player3, player4;
+	private int player1ControlNum, player2ControlNum, player3ControlNum, player4ControlNum;
 
 	public GUITexture fader;
 	private bool fading;
@@ -62,6 +63,10 @@ public class MainMenus : MonoBehaviour
 
 	void Start () 
 	{
+		player1ControlNum = 1;
+		player2ControlNum = 2;
+		player3ControlNum = 3;
+		player4ControlNum = 4;
 
 		/*mainMenu = GameObject.Find ("Main Menu");
 		charSelectMenu = GameObject.Find ("Char Select Menu");
@@ -413,9 +418,67 @@ public class MainMenus : MonoBehaviour
 		//charSelectMenu.SetActive (false);
 		//mainMenu.SetActive (true);
 	}
-    
+    //control number setting
+	public void ControlNum1Inc() {
+		player1ControlNum++;
+		if (player1ControlNum > 4) {
+			player1ControlNum = 1;
+		}
+		player1Select.transform.FindChild("Controls").FindChild("ControlNum1").GetComponent<Text>().text = "#" + player1ControlNum;
+	}
 
+	public void ControlNum1Dec() {
+		player1ControlNum--;
+		if (player1ControlNum < 1) {
+			player1ControlNum = 4;
+		}
+		player1Select.transform.FindChild("Controls").FindChild("ControlNum1").GetComponent<Text>().text = "#" + player1ControlNum;
+	}
+	public void ControlNum2Inc() {
+		player2ControlNum++;
+		if (player2ControlNum > 4) {
+			player2ControlNum = 1;
+		}
+		player2Select.transform.FindChild("Controls").FindChild("ControlNum2").GetComponent<Text>().text = "#" + player2ControlNum;
+	}
 
+	public void ControlNum2Dec() {
+		player2ControlNum--;
+		if (player2ControlNum < 1) {
+			player2ControlNum = 4;
+		}
+		player2Select.transform.FindChild("Controls").FindChild("ControlNum2").GetComponent<Text>().text = "#" + player2ControlNum;
+	}
+	public void ControlNum3Inc() {
+		player3ControlNum++;
+		if (player3ControlNum > 4) {
+			player3ControlNum = 1;
+		}
+		player3Select.transform.FindChild("Controls").FindChild("ControlNum3").GetComponent<Text>().text = "#" + player3ControlNum;
+	}
+
+	public void ControlNum3Dec() {
+		player3ControlNum--;
+		if (player3ControlNum < 1) {
+			player3ControlNum = 4;
+		}
+		player3Select.transform.FindChild("Controls").FindChild("ControlNum3").GetComponent<Text>().text = "#" + player3ControlNum;
+	}
+	public void ControlNum4Inc() {
+		player4ControlNum++;
+		if (player4ControlNum > 4) {
+			player4ControlNum = 1;
+		}
+		player4Select.transform.FindChild("Controls").FindChild("ControlNum4").GetComponent<Text>().text = "#" + player4ControlNum;
+	}
+
+	public void ControlNum4Dec() {
+		player4ControlNum--;
+		if (player4ControlNum < 1) {
+			player4ControlNum = 4;
+		}
+		player4Select.transform.FindChild("Controls").FindChild("ControlNum4").GetComponent<Text>().text = "#" + player4ControlNum;
+	}
 
 	//options menu
 	public void optionMenuBack() {
@@ -573,6 +636,16 @@ public class MainMenus : MonoBehaviour
 		//set fader to fade in
         //enable map
         map.SetActive(true);
+		for (int i = 0; i < playerList.Count; i++) {
+			PlayerInfo pi = (PlayerInfo)playerList[i];
+			if (pi.usesJoystick) {
+				GameObject.Find("controller" + pi.id).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
+			} else {
+				GameObject.Find("kb" + (pi.id + 1)).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
+			}
+				
+		}
+
     }
     private ArrayList GeneratePlayers()
     {
@@ -602,12 +675,12 @@ public class MainMenus : MonoBehaviour
         PlayerInfo p1 = new PlayerInfo();
         if (player1Controls == 0)
         {
-            p1.id = mouseID;
+            p1.id = player1ControlNum - 1;
             p1.usesJoystick = false;
             mouseID++;
         } else
         {
-            p1.id = joystickID;
+			p1.id = player1ControlNum;
             p1.usesJoystick = true;
             joystickID++;
         }
@@ -628,13 +701,13 @@ public class MainMenus : MonoBehaviour
         PlayerInfo p2 = new PlayerInfo();
         if (player2Controls == 0)
         {
-            p2.id = mouseID;
+			p2.id = player2ControlNum - 1;
             p2.usesJoystick = false;
             mouseID++;
         }
         else
         {
-            p2.id = joystickID;
+			p2.id = player2ControlNum;
             p2.usesJoystick = true;
             joystickID++;
         }
@@ -655,13 +728,13 @@ public class MainMenus : MonoBehaviour
         PlayerInfo p3 = new PlayerInfo();
         if (player3Controls == 0)
         {
-            p3.id = mouseID;
+			p3.id = player3ControlNum - 1;
             p3.usesJoystick = false;
             mouseID++;
         }
         else
         {
-            p3.id = joystickID;
+			p3.id = player3ControlNum;
             p3.usesJoystick = true;
             joystickID++;
         }
@@ -682,13 +755,13 @@ public class MainMenus : MonoBehaviour
         PlayerInfo p4 = new PlayerInfo();
         if (player4Controls == 0)
         {
-            p4.id = mouseID;
+			p4.id = player4ControlNum - 1;
             p4.usesJoystick = false;
             mouseID++;
         }
         else
         {
-            p4.id = joystickID;
+			p4.id = player4ControlNum;
             p4.usesJoystick = true;
             joystickID++;
         }

@@ -328,7 +328,7 @@ public class player : MonoBehaviour {
     }
     bool changePlane() {
         /* If the input has its first time being pressed down   */
-        if (!death && Input.GetAxisRaw("Switch" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0) {
+		if (!death && Input.GetAxisRaw("Switch" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) > 0) {
             if (switchedKey) {
                 switchedKey = false;
                 return true;
@@ -343,19 +343,19 @@ public class player : MonoBehaviour {
     bool goLeft() {
        // if (name == "Player1" )print(Input.GetAxis("HorizontalPD" + joystickID));
 
-		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) < -.4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) < 0):false));
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) < -.4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) < 0):false));
     }
     bool goRight() {
-		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > .4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) > 0):false));
+		return (Input.GetAxis("HorizontalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) > .4f || (joystickController?(Input.GetAxis("HorizontalPD" + joystickID) > 0):false));
     }
     bool goDown() {
-		return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid))  < -.5f || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == -1):false));
+		return (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1)))  < -.5f || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == -1):false));
     }
 	bool jump() {
 		return jump(false);
 	}
     bool jump(bool usingJetpack) {
-		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
+		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
 			return isAirborne (usingJetpack);
         } else {
 			
