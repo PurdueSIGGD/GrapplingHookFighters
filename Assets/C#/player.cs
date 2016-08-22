@@ -413,7 +413,7 @@ public class player : MonoBehaviour {
 		player pl = col.GetComponent<player>();
 		HeldItem hi = col.GetComponent<HeldItem>();
 
-		if (col.CompareTag("Player") || col.GetComponent<ItemBox>()) {
+		if (col.CompareTag("Player") || (col.GetComponent<ItemBox>() && !col.GetComponent<ItemBox>().used)) {
 			//print("setting punchable" + col.name);
 			punchable = col.transform;
 		}

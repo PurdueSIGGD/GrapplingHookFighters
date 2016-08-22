@@ -15,7 +15,7 @@ public class ItemBox : MonoBehaviour {
 	public float timeTillReset = -1;
 	// -1 = no reset, 1 = 1 second to refill
 
-	private bool used;
+	public bool used;
     void Start()
     {
         childSprite = transform.FindChild("Sprite");

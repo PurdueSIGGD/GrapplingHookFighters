@@ -636,8 +636,14 @@ public class MainMenus : MonoBehaviour
 		//set fader to fade in
         //enable map
         map.SetActive(true);
+
+		for (int i = 1; i <= 4; i++) {
+			GameObject.Find("controller" + i).transform.position = new Vector3(-15, -15, 0);
+			GameObject.Find("kb" + i).transform.position = new Vector3(-15, -15, 0);
+		}
 		for (int i = 0; i < playerList.Count; i++) {
 			PlayerInfo pi = (PlayerInfo)playerList[i];
+
 			if (pi.usesJoystick) {
 				GameObject.Find("controller" + pi.id).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
 			} else {
