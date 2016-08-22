@@ -382,7 +382,8 @@ public class player : MonoBehaviour {
 		return hitValid; //hitvalid is if we can jump, because something may be in our way
 	}
     bool pickUpKey() {
-		return (!death && !tempDisabled && Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : playerid)) > 0);
+        // print(Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))));
+        return (!death && !tempDisabled && Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) > 0);
     }
 	void VerifyItemCollision(Collider2D col, bool toPickup) {
 		Rigidbody2D colR = col.GetComponent<Rigidbody2D>();
