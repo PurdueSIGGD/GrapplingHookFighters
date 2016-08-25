@@ -3,17 +3,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Linq;
+using System.Text;
+using System.IO;
 
 public class MainMenus : MonoBehaviour 
 {
     private int deathCount;
-    private bool allDead;
+	private bool allDead, mousePressed, hasMouse, updating;
     private float allDeadTimer, checkTimer;
     public GameObject map;
     public GameObject explosion;
 	public GameObject mouseController;
 	private MouseInput mouseControllerRef;
-
+	public GameObject mouseInfo;
 	public GameObject mainEventSystem;
 
 	//main menu
@@ -31,6 +33,7 @@ public class MainMenus : MonoBehaviour
 
 	//char select menu
 	public GameObject vsMenu;
+	public Text currentMouse;
 	//public GameObject controlsMenu;
 
 
@@ -49,6 +52,8 @@ public class MainMenus : MonoBehaviour
     private GameObject player1, player2, player3, player4;
 	private int player1ControlNum, player2ControlNum, player3ControlNum, player4ControlNum;
 
+	private int[] lastMice;
+	private int lastMouse = 1;
 	public GUITexture fader;
 	private bool fading;
 
@@ -63,10 +68,17 @@ public class MainMenus : MonoBehaviour
 
 	void Start () 
 	{
+		lastMice = new int[4];
 		player1ControlNum = 1;
 		player2ControlNum = 2;
 		player3ControlNum = 3;
 		player4ControlNum = 4;
+
+		player1Controls = 1;
+		player2Controls = 1;
+		player3Controls = 1;
+		player4Controls = 1;
+
 
 		/*mainMenu = GameObject.Find ("Main Menu");
 		charSelectMenu = GameObject.Find ("Char Select Menu");
@@ -109,6 +121,31 @@ public class MainMenus : MonoBehaviour
 				fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, fader.color.a + Time.deltaTime/2);
 			} else {
 				if (fader.color.a != 1) fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, 1);
+			}
+		}
+		if (updating && miceController != null) {
+			
+			for (int i = 3; i >= 0; i--) {
+				int lastMouseValue = lastMice[i];
+				RawInputSharp.RawMouse mouse = null;
+				miceController.GetMouse(i, ref mouse);
+				lastMice[i] = mouse.X + mouse.Y;
+				print(lastMice[i] + " " + i);
+				if (lastMouseValue != lastMice[i]) {
+					lastMouse = i;
+				}
+			}
+			currentMouse.gameObject.SetActive(true);
+
+			currentMouse.text = "Current mouse: " + (lastMouse + 1);
+		} else {
+			currentMouse.gameObject.SetActive(false);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Backspace)) {
+			//print( );
+			if (map.activeInHierarchy && !fading) {
+				this.GoBack();
 			}
 		}
     }
@@ -168,6 +205,7 @@ public class MainMenus : MonoBehaviour
 	//que vs menu
 	public void charSelectMenuStart()
 	{
+		updating = true;
 		switchScreens(charSelectMenu, vsMenu);
 
 		//charSelectMenu.SetActive (false);
@@ -217,20 +255,25 @@ public class MainMenus : MonoBehaviour
     }
     public void Mouse1()
     {
-        if (player1Controls == 1)
+		if (player1Controls == 1 && (!hasMouse || miceController != null))
         {
             player1Controls = 0;
             player1Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = false;
             player1Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = true;
+			hasMouse = true;
         } 
     }
     public void Joystick1()
     {
         if (player1Controls == 0)
         {
+			if (hasMouse) {
+				hasMouse = false;
+			}
             player1Controls = 1;
             player1Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = false;
             player1Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = true;
+
         }
     }
     //select2
@@ -276,8 +319,9 @@ public class MainMenus : MonoBehaviour
     }
     public void Mouse2()
     {
-        if (player2Controls == 1)
+		if (player2Controls == 1  && (!hasMouse || miceController != null))
         {
+			hasMouse = true;
             player2Controls = 0;
             player2Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = false;
             player2Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = true;
@@ -287,6 +331,9 @@ public class MainMenus : MonoBehaviour
     {
         if (player2Controls == 0)
         {
+			if (hasMouse) {
+				hasMouse = false;
+			}
             player2Controls = 1;
             player2Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = false;
             player2Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = true;
@@ -335,8 +382,9 @@ public class MainMenus : MonoBehaviour
     }
     public void Mouse3()
     {
-        if (player3Controls == 1)
+		if (player3Controls == 1  && (!hasMouse || miceController != null))
         {
+			hasMouse = true;
             player3Controls = 0;
             player3Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = false;
             player3Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = true;
@@ -346,6 +394,9 @@ public class MainMenus : MonoBehaviour
     {
         if (player3Controls == 0)
         {
+			if (hasMouse) {
+				hasMouse = false;
+			}
             player3Controls = 1;
             player3Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = false;
             player3Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = true;
@@ -394,8 +445,9 @@ public class MainMenus : MonoBehaviour
     }
     public void Mouse4()
     {
-        if (player4Controls == 1)
+		if (player4Controls == 1  && (!hasMouse || miceController != null))
         {
+			hasMouse = true;
             player4Controls = 0;
             player4Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = false;
             player4Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = true;
@@ -405,6 +457,9 @@ public class MainMenus : MonoBehaviour
     {
         if (player4Controls == 0)
         {
+			if (hasMouse) {
+				hasMouse = false;
+			}
             player4Controls = 1;
             player4Select.transform.FindChild("Controls").FindChild("JoystickBG").GetComponent<Button>().interactable = false;
             player4Select.transform.FindChild("Controls").FindChild("MouseBG").GetComponent<Button>().interactable = true;
@@ -414,7 +469,7 @@ public class MainMenus : MonoBehaviour
     public void charSelectMenuBack()
 	{
 		switchScreens(charSelectMenu, numPlayersMenu);
-
+		updating = false;
 		//charSelectMenu.SetActive (false);
 		//mainMenu.SetActive (true);
 	}
@@ -485,7 +540,18 @@ public class MainMenus : MonoBehaviour
 		optionsMenu.SetActive (false);
 		mainMenu.SetActive (true);
 	}
-
+	public void turnOnMouse() {
+		if (!mousePressed) {
+			if (miceController == null) {
+				mousePressed = true;
+				mouseInfo.SetActive(true);
+			}
+		} else {
+			miceController = new RawMouseDriver.RawMouseDriver();
+			mouseInfo.SetActive(false);
+			GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Multi-Mouse\n support Enabled";
+		}
+	}
 
 
 
@@ -571,7 +637,7 @@ public class MainMenus : MonoBehaviour
 	public void toControlMenu() {
 		switchScreens(numPlayersMenu, charSelectMenu);
         charSelectMenu.transform.FindChild("Player1Select");
-
+		updating = true;
 		//player1Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[0];
 		//player2Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[1];
 		//player3Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[2];
@@ -624,6 +690,7 @@ public class MainMenus : MonoBehaviour
 
     public void charSelectMenuDone()
     {
+		updating = false;
         //hide this
         charSelectMenu.SetActive(false);
         //generate players
@@ -789,7 +856,8 @@ public class MainMenus : MonoBehaviour
     private int colorIndex = 0;
     //number of unique levels we have
 	//so the last level + 1
-    private int numLevels = 7;
+	public int numLevels;
+
 	void GoBack() {
 		StartCoroutine(GoBackFading());
 	}
@@ -798,7 +866,7 @@ public class MainMenus : MonoBehaviour
     {
 		fading = true;
 		yield return new WaitForSeconds(1.5f);
-
+		updating = true;
         map.SetActive(true);
         GameObject[] playerObj = GameObject.FindGameObjectsWithTag("PlayerParent");
 		foreach (GameObject g in playerObj)
@@ -828,9 +896,24 @@ public class MainMenus : MonoBehaviour
         s.playerCount = maxPlayers;
         //give player count
         int[] levelPlan = new int[levelCount];
+		int[] rawLevelPlan = new int[10];
+		//I don't trust just throwing in an array with random.range, so we are trying a different approach
+		//create an array with all levels included, if room, and loop
+		//i.e. [1, 2, 3, 4, 1, 2, 3, 4, 1, 2] if there aref 4 levels
+		for (int i = 0; i < rawLevelPlan.Length; i++) {
+			rawLevelPlan[i] = (i)%(numLevels)+1	;
+		}
+		//shuffle the array
+		for (int i = 0; i < rawLevelPlan.Length; i++) {
+			int tmp = rawLevelPlan[i];
+			int newval = Random.Range(0, rawLevelPlan.Length-1);
+			rawLevelPlan[i] = rawLevelPlan[newval];
+			rawLevelPlan[newval] = tmp;
+		}
+		//trim to our array
         for (int i = 0; i < levelCount; i++)
         {
-            levelPlan[i] = Random.Range(1, numLevels);
+            levelPlan[i] = rawLevelPlan[i];
         }
         s.levelPlan = levelPlan;
         //give level plan (array of integers)
@@ -986,7 +1069,9 @@ public class MainMenus : MonoBehaviour
         g.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
    
-
+	void OnApplicationQuit() {
+		if (miceController != null) miceController.Dispose();
+	}
 
     /*void blank()
     {

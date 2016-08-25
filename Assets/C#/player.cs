@@ -11,6 +11,8 @@ public class player : MonoBehaviour {
     public int playerid;
     private bool jumped, switchedKey, jumpedKey;
 	public bool death, joystickController, tempDisabled;
+	private bool connected;
+	private Vector3 connectedPos;
     private bool canMoveRight;
     private bool canMoveLeft, canPickup;
 	private bool spinningItem;
@@ -87,7 +89,9 @@ public class player : MonoBehaviour {
 			//this.mySprite.flipX = false;
 
 		}
-
+		if (connected) {
+			myRigid.AddForce((connectedPos - transform.position) * Time.deltaTime * 500);
+		}
 		if (punchTime < 1) punchTime +=Time.deltaTime;
 		if (!death && !tempDisabled) {
 
@@ -251,6 +255,8 @@ public class player : MonoBehaviour {
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
 			if (heldItem1 != null) {
+				connected = false;
+
 				this.aimingParent.SendMessage("StopRotation");
 				aimingParent.localRotation = Quaternion.Euler(0,0,0);
 				heldItem1.GetComponent<HeldItem> ().focus = null;
@@ -280,6 +286,7 @@ public class player : MonoBehaviour {
 			}
 		} else if (i == 1) {
 			if (heldItem2 != null) {
+
 				heldItem2.GetComponent<HeldItem> ().focus = null;
 				//GameObject.Find ("MouseInput").SendMessage ("playerHasNotItem2", playerid);
 				heldItem2.SendMessage ("retriggerSoon",myCollider);
@@ -366,10 +373,13 @@ public class player : MonoBehaviour {
 		return isAirborne (false);
 	}
 	bool isAirborne(bool usingJetpack) {
-		RaycastHit2D[] hits = Physics2D.BoxCastAll (center1.position, new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
+		RaycastHit2D[] hits1 = Physics2D.BoxCastAll (center1.position, new Vector2(.8f, .5f), 180 , Vector2.down, 1.4f);
+		//Debug.DrawLine(center1.position, center1.position +
+		//RaycastHit2D[] hits2 = Physics2D.BoxCastAll (center1.position + new Vector3(-.4f, 0), new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
+
 		//RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
 		bool hitValid = usingJetpack; 
-		foreach (RaycastHit2D hit in hits) {
+		foreach (RaycastHit2D hit in hits1) {
 			Collider2D col = hit.collider;
 			if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
 				hitValid = true;
@@ -378,6 +388,15 @@ public class player : MonoBehaviour {
 				break;
 			}
 		}
+		/*foreach (RaycastHit2D hit in hits2) {
+			Collider2D col = hit.collider;
+			if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
+				hitValid = true;
+				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
+				//Debug.Log (hit.transform.name);
+				break;
+			}
+		}*/
 		myAnim.airborne = !hitValid;
 		return hitValid; //hitvalid is if we can jump, because something may be in our way
 	}
@@ -460,6 +479,15 @@ public class player : MonoBehaviour {
 						else {
 							foreach (BoxCollider2D b in heldItem1.GetComponents<BoxCollider2D>()) {
 								b.isTrigger = true;
+							}
+						}
+						GrappleLauncher g;
+						if (g= heldItem1.GetComponent<GrappleLauncher>()) {
+							if (g.isAttached()) {
+								print("is attached");
+								connected = true;
+								connectedPos = g.firedGrapple.transform.position;
+
 							}
 						}
 						col.SendMessage ("ignoreColl", myCollider);

@@ -6,7 +6,8 @@ public class GrappleScript : MonoBehaviour {
 //	private EdgeCollider2D lineCol;
 	private bool firing, connected;
 	public bool retracting, disconnectMe;
-	private Transform lastGrab, center;
+	private Transform lastGrab;
+	public Transform center;
 	public float breakTime, timeRetracting;
 
 	private Rigidbody2D myRigid;

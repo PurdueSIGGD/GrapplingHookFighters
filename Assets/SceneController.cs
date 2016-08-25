@@ -233,7 +233,11 @@ public class SceneController : MonoBehaviour {
 	//	print(players[0].transform.position);
 		//EditorApplication.isPaused = true;
 		//Kill all players
-		for (int i = 0; i < playerCount; i++) KillPlayer(i);
+		for (int i = 0; i < playerCount; i++) {
+			KillPlayer(i);
+			players[i].SendMessage("Disconnect");
+		}
+
 		//clean map, all leftoveres 
 		//Debug.Log("is it cleanup?");
 		CleanScene ();
@@ -396,7 +400,7 @@ public class SceneController : MonoBehaviour {
 
             for (int i = 0; i < playerCount; i++)
             {
-				players[i].transform.position = new Vector3(-6 + (3f * i>1?i+2:i), 2, 0);
+				players[i].transform.position = new Vector3(-5 + (3f * i>1?i+2:i), 2, 0);
                 players[i].SendMessage("EnablePlayers");
             }
             GameObject.Find("MouseInput").SendMessage("EnablePlayers");
@@ -473,7 +477,7 @@ public class SceneController : MonoBehaviour {
 		List<GameObject> roots = new List<GameObject> (scene.rootCount + 1);
 		scene.GetRootGameObjects (roots);
 		foreach (GameObject g in roots) {
-			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect") || g.CompareTag("PlayerGibs") /* ragdoll */) {
+			if (g.CompareTag("Item") || g.CompareTag("DualItem") || g.CompareTag("Effect") || g.CompareTag("PlayerGibs") /* ragdoll */ ) {
 				if (!g.GetComponentInChildren<GrappleScript>() && !g.GetComponentInChildren<GrappleLauncher>() && !g.GetComponentInChildren<player>() && 
 					!g.GetComponent<GrappleScript>() && !g.GetComponent<GrappleLauncher>() && !g.GetComponent<player>()) {
 

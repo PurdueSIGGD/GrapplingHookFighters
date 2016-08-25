@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class GrappleLauncher : MonoBehaviour {
+	
 	private bool firing, retracting, attached, mouseReleased, death;
 	private float grappleTimer;
 	public GameObject firedGrapple;
@@ -44,6 +45,7 @@ public class GrappleLauncher : MonoBehaviour {
 		if (grappleTimer > 0) grappleTimer -= Time.deltaTime;
 		else grappleTimer = 0;
 		if (firedGrapple == null || firedGrappleScript.disconnectMe) Disconnect();
+
 		if (firedGrapple != null) {
 			for (int i = 0; i < grapples.Length; i++) {
 				Vector3[] linePoints;
@@ -196,6 +198,9 @@ public class GrappleLauncher : MonoBehaviour {
 		}*/
 		death = true;
 		grappleArm.gameObject.SetActive (false);
+		for (int i = 0; i < edges.Length; i++) {
+			edges[i].isTrigger = true;
+		}
 	}
 	void NotDeath() {
         Disconnect();
@@ -215,6 +220,7 @@ public class GrappleLauncher : MonoBehaviour {
 			lines[i].SetVertexCount(2);
 			lines[i].SetPositions(new Vector3[2]);
 			lines[i].enabled = true;
+			edges[i].isTrigger = false;
             springs[i].distance = 0.005f;
 
         }
@@ -223,4 +229,7 @@ public class GrappleLauncher : MonoBehaviour {
             rigids[i].isKinematic = false;
         }
     }
+	public bool isAttached() {
+		return attached;
+	}
 }

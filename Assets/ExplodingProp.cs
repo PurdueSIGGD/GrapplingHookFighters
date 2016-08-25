@@ -10,15 +10,17 @@ public class ExplodingProp : MonoBehaviour {
 	ParticleSystem ps;
     // Use this for initialization
 	void Start () {
-		ps = this.GetComponent<ParticleSystem>();
+		ps = this.GetComponentInChildren<ParticleSystem>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         //i += Time.deltaTime;
         //print(i);
-        if(flame)
-            flameCountdown -= Time.deltaTime;
+		if(flame) {
+			print(flameCountdown);
+			flameCountdown -= Time.deltaTime;
+		}
         if (hitThre <= 0)
         {
             GameObject ex = (GameObject)GameObject.Instantiate(explosion, transform.position, Quaternion.identity);
