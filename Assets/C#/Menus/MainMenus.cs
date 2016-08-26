@@ -129,10 +129,12 @@ public class MainMenus : MonoBehaviour
 				int lastMouseValue = lastMice[i];
 				RawInputSharp.RawMouse mouse = null;
 				miceController.GetMouse(i, ref mouse);
-				lastMice[i] = mouse.X + mouse.Y;
-				print(lastMice[i] + " " + i);
-				if (lastMouseValue != lastMice[i]) {
-					lastMouse = i;
+				if (mouse != null) {
+					lastMice[i] = mouse.X + mouse.Y;
+					//print(lastMice[i] + " " + i);
+					if (lastMouseValue != lastMice[i]) {
+						lastMouse = i;
+					}
 				}
 			}
 			currentMouse.gameObject.SetActive(true);
@@ -1059,8 +1061,8 @@ public class MainMenus : MonoBehaviour
     void Respawn(GameObject g)
     {
         g.transform.position = g.transform.position + Vector3.up;
+		g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
         g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = g.transform.position;
-        g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
         g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
         g.transform.eulerAngles = Vector3.zero;
         g.GetComponent<Health>().resetPlayer();
