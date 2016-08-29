@@ -2,6 +2,7 @@
 using System.Collections;
 //using UnityEditor;
 using System.Security.Policy;
+//using FMOD.Studio;
 
 public class player : MonoBehaviour {
    // private float currentX;

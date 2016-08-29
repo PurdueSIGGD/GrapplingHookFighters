@@ -72,20 +72,7 @@ public class GrappleLauncher : MonoBehaviour {
 			if (attached) myRigid.AddForce(400 *  Time.deltaTime * (firedGrapple.transform.position - center.position));//Vector2.up);
 			if (retracting && !firing) {
 				if (Vector3.Distance (center.position, firedGrapple.transform.position) < .3f) {
-					retracting = false;
-					firedGrappleScript.retracting = false;
-					firedGrapple.SendMessage("ResetLast");
-					for( int i = 0; i < grapples.Length; i++) {
-						grapples[i].transform.localPosition = Vector3.zero;
-						grapples[i].transform.localPosition = Vector3.zero;
-						edges[i].enabled = false;
-						springs[i].distance =  0;//Vector3.Distance (firedGrapple.transform.position, center.position) / 5; //because we have 5 joints
-						edges[i].isTrigger = true;
-						//set the distance 
-					}
-					foreach (Rigidbody2D r in rigids) {
-						r.velocity = Vector2.zero;
-					}
+					Reset();
 				}
 			}
 			if (!firing && !retracting) {
@@ -175,8 +162,24 @@ public class GrappleLauncher : MonoBehaviour {
 		myRigid.AddForce(60 * (firedGrapple.transform.position - transform.position));
 
 	}
+	public void Reset() {
+		retracting = false;
+		firedGrappleScript.retracting = false;
+		firedGrapple.SendMessage("ResetLast");
+		for( int i = 0; i < grapples.Length; i++) {
+			grapples[i].transform.localPosition = Vector3.zero;
+			grapples[i].transform.localPosition = Vector3.zero;
+			edges[i].enabled = false;
+			springs[i].distance =  0;//Vector3.Distance (firedGrapple.transform.position, center.position) / 5; //because we have 5 joints
+			edges[i].isTrigger = true;
+			//set the distance 
+		}
+		foreach (Rigidbody2D r in rigids) {
+			r.velocity = Vector2.zero;
+		}
+	}
 	public void Disconnect() {
-		firedGrapple.gameObject.layer = this.gameObject.layer;
+		//firedGrapple.gameObject.layer = this.gameObject.layer;
 
 		if (firing || retracting) {
 			

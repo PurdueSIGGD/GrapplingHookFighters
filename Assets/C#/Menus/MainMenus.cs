@@ -129,12 +129,10 @@ public class MainMenus : MonoBehaviour
 				int lastMouseValue = lastMice[i];
 				RawInputSharp.RawMouse mouse = null;
 				miceController.GetMouse(i, ref mouse);
-				if (mouse != null) {
-					lastMice[i] = mouse.X + mouse.Y;
-					//print(lastMice[i] + " " + i);
-					if (lastMouseValue != lastMice[i]) {
-						lastMouse = i;
-					}
+				lastMice[i] = mouse.X + mouse.Y;
+				print(lastMice[i] + " " + i);
+				if (lastMouseValue != lastMice[i]) {
+					lastMouse = i;
 				}
 			}
 			currentMouse.gameObject.SetActive(true);
@@ -886,6 +884,7 @@ public class MainMenus : MonoBehaviour
     {
 		fading = true;
 		GameObject.Find("MouseInput").SendMessage("DisablePlayers");
+		for (int i = 0; i < maxPlayers; i++) DisconnectPlayers ();
 
 		yield return new WaitForSeconds(2.5f);
 
@@ -1058,11 +1057,24 @@ public class MainMenus : MonoBehaviour
         }
 
     }
+	void DisconnectPlayers() {
+		player1.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+		if (player2) player2.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+		if (player3) player3.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+		if (player4) player4.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
+
+		player1.GetComponent<GrappleLauncher>().SendMessage("Reset");
+		if (player2) player2.GetComponent<GrappleLauncher>().SendMessage("Reset");
+		if (player3) player3.GetComponent<GrappleLauncher>().SendMessage("Reset");
+		if (player4) player4.GetComponent<GrappleLauncher>().SendMessage("Reset");
+
+
+	}
     void Respawn(GameObject g)
     {
         g.transform.position = g.transform.position + Vector3.up;
-		g.GetComponent<GrappleLauncher>().SendMessage("Disconnect");
         g.GetComponent<GrappleLauncher>().firedGrapple.transform.position = g.transform.position;
+		g.GetComponent<GrappleLauncher>().SendMessage("Reset");
         g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
         g.transform.eulerAngles = Vector3.zero;
         g.GetComponent<Health>().resetPlayer();

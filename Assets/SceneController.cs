@@ -206,9 +206,11 @@ public class SceneController : MonoBehaviour {
 		//print(currentMapQueue);
 		int nextMap = levelPlan[currentMapQueue];
 		int sceneIndex = nextMap;
-		for (int i = 0; i < playerCount; i++) DisconnectPlayers (i);
 		fading = true;
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(2);
+		for (int i = 0; i < playerCount; i++) DisconnectPlayers (i);
+
+		yield return new WaitForSeconds(1);
 
 		SceneManager.UnloadScene (lastScene);
 
@@ -235,7 +237,7 @@ public class SceneController : MonoBehaviour {
 		//Kill all players
 		for (int i = 0; i < playerCount; i++) {
 			KillPlayer(i);
-			players[i].SendMessage("Disconnect");
+			players[i].SendMessage("Reset");
 		}
 
 		//clean map, all leftoveres 
@@ -423,6 +425,8 @@ public class SceneController : MonoBehaviour {
 	void DisconnectPlayers(int i) {
 		GameObject g = players[i];
 		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+
+		g.GetComponent<GrappleLauncher> ().SendMessage ("Reset");
 	}
 	void RespawnPlayer(int i) {
 		GameObject g = players[i];
@@ -430,7 +434,7 @@ public class SceneController : MonoBehaviour {
 	//	print(rePos.position);
 		//g.transform.parent = rePos;
 		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = g.transform.position;
-		g.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect");
+		g.GetComponent<GrappleLauncher> ().SendMessage ("Reset");
         g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
 
         g.transform.eulerAngles = Vector3.zero;
