@@ -206,7 +206,9 @@ public class GrappleLauncher : MonoBehaviour {
 		}
 	}
 	void NotDeath() {
+        
         Disconnect();
+        Reset();
         retracting = false;
         firedGrapple.transform.position = center.position;
         firedGrappleScript.retracting = false;

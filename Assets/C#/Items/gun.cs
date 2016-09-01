@@ -300,7 +300,7 @@ public class gun : MonoBehaviour, item {
 					if (gunGoesPoof) {
 						particleSmoke.Play();
 					}
-                    if (gunGoesFlare)
+                    if (gunGoesFlare && particleMuzzleFlare != null)
                     {
                         particleMuzzleFlare.Play();
                     }

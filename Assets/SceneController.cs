@@ -433,8 +433,8 @@ public class SceneController : MonoBehaviour {
 		 
 	//	print(rePos.position);
 		//g.transform.parent = rePos;
-		g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = g.transform.position;
-		g.GetComponent<GrappleLauncher> ().SendMessage ("Reset");
+		//g.GetComponent<GrappleLauncher> ().firedGrapple.transform.position = g.transform.position;  
+		//g.GetComponent<GrappleLauncher> ().SendMessage ("Reset");
         g.GetComponent<GrappleLauncher>().SendMessage("NotDeath");
 
         g.transform.eulerAngles = Vector3.zero;

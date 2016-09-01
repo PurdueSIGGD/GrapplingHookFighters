@@ -16,7 +16,22 @@ public class ParticleScript : MonoBehaviour {
 		Color c = sp.color;
 		if (!shell)  sp.color = new Color(c.r, c.g, c.b, time);
 		if (time <= 0) {
-			GameObject.Destroy(this.gameObject);
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                //evacuate the children.
+                Transform t = transform.GetChild(i);
+                GrappleScript g;
+                if (g = t.GetComponent<GrappleScript>())
+                {
+                    g.center.GetComponentInParent<GrappleLauncher>().Disconnect();
+                }
+                if (t.CompareTag("Effect") && t.GetComponent<Sticky>())
+                {
+                    t.SendMessage("Unstuck");
+                }
+
+            }
+            GameObject.Destroy(this.gameObject);
 		}
 	}
 }

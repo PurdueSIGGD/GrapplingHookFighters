@@ -129,11 +129,13 @@ public class MainMenus : MonoBehaviour
 				int lastMouseValue = lastMice[i];
 				RawInputSharp.RawMouse mouse = null;
 				miceController.GetMouse(i, ref mouse);
-				lastMice[i] = mouse.X + mouse.Y;
-				print(lastMice[i] + " " + i);
-				if (lastMouseValue != lastMice[i]) {
-					lastMouse = i;
-				}
+                if (mouse != null) { 
+				    lastMice[i] = mouse.X + mouse.Y;
+				    print(lastMice[i] + " " + i);
+				    if (lastMouseValue != lastMice[i]) {
+					    lastMouse = i;
+				    }
+                }
 			}
 			currentMouse.gameObject.SetActive(true);
 
