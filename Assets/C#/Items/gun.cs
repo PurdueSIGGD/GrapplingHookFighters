@@ -3,7 +3,7 @@ using System.Collections;
 //using UnityEditor;
 public class gun : MonoBehaviour, item {
 
-	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof, yelling;
+	public bool trigger, death, ejecting, canDual, raycastShoot, automatic, canFire, nonLethal, penetrating, chargedShot, shootIntoWalls, childProjectile, gunGoesPoof, gunGoesFlare, yelling;
 	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, minChargeTime, bulletDistance = 100, chance = 0;
 	private float timeSincelast, maxProjectileSpeed, chargeTime, gunShaking, nextAngle, lastAngle;
@@ -17,6 +17,8 @@ public class gun : MonoBehaviour, item {
 	private HeldItem myHeldItem;
 	private Transform butthole, reticle, gunbase;
 	private ParticleSystem particleSmoke;
+    private ParticleSystem particleMuzzleFlare;
+    private bool isrpg;
 
 	public GameObject critGameObject;
 
@@ -32,10 +34,23 @@ public class gun : MonoBehaviour, item {
 		butthole = transform.FindChild("Butthole");
 		gunbase = transform.FindChild("GunBase");
 		myHeldItem = this.GetComponent<HeldItem>();
-		Transform t;
-		if (t = transform.FindChild("ParticleSmoke")) 
-			particleSmoke = t.GetComponent<ParticleSystem>();
-	}
+		Transform smoke, flare;
+		if (smoke = transform.FindChild("ParticleSmoke")) 
+			particleSmoke = smoke.GetComponent<ParticleSystem>();
+        isrpg = true;
+        if (transform.name != "RPG")
+            isrpg = false;
+        if (isrpg == false)
+        {
+            if (flare = transform.Find("ParticleMuzzleFlare"))
+                particleMuzzleFlare = flare.GetComponent<ParticleSystem>();
+        }
+        else
+        {
+            if (flare = transform.Find("ParticleMuzzleFlareRPG"))
+                particleMuzzleFlare = flare.GetComponent<ParticleSystem>();
+        }
+    }
 
 	public void click() {
 		if ((canFire || automatic) && !chargedShot) {
@@ -285,6 +300,10 @@ public class gun : MonoBehaviour, item {
 					if (gunGoesPoof) {
 						particleSmoke.Play();
 					}
+                    if (gunGoesFlare)
+                    {
+                        particleMuzzleFlare.Play();
+                    }
 					timeSincelast = 0;
 				} else {
 					//print("Click");
