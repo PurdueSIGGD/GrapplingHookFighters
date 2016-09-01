@@ -154,7 +154,7 @@ public class MainMenus : MonoBehaviour
 		from.SetActive(false);
 		to.SetActive(true);
 		GameObject selected = to.transform.GetChild(0).GetComponentInChildren<Button>().gameObject;
-		print(selected.name);
+		//print(selected.name);
 		this.mainEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(selected);
 	}
 
