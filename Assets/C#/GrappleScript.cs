@@ -59,7 +59,7 @@ public class GrappleScript : MonoBehaviour {
         if (g.tag == "NoGrapple" ||
             g.tag == "Item" ||
             g.tag == "DualItem" ||
-            (g.tag == "Player" && g != center.parent.gameObject)
+            (g.tag == "Player" && center != null && g != center.parent.gameObject)
 
 			 ) {
             //bounce back
