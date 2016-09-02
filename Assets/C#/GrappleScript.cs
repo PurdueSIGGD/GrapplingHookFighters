@@ -30,7 +30,7 @@ public class GrappleScript : MonoBehaviour {
 		if (g.transform != lastGrab && 
 			g.GetComponent<ExplosionScript>() == null && 
 			g.GetComponent<player>() == null && 
-			g.GetComponentInParent<player>() == null && 
+			(g.GetComponentInParent<player>()) == null && 
 			g.tag != "Item" && 
 			g.tag != "DualItem" && 
 			g.tag != "Grapple" &&
@@ -56,11 +56,14 @@ public class GrappleScript : MonoBehaviour {
 			retracting = false;
 			connected = true;
 		}
-		if (g.tag == "NoGrapple" ||
-			g.tag == "Item" ||
-			g.tag == "DualItem" 
+        if (g.tag == "NoGrapple" ||
+            g.tag == "Item" ||
+            g.tag == "DualItem" ||
+            (g.tag == "Player" && g != center.parent.gameObject)
+
 			 ) {
-			//bounce back
+            //bounce back
+            //print("bounce back");
 			retracting = true;
 			Detach();
 		}
