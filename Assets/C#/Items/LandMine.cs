@@ -7,7 +7,7 @@ public class LandMine : MonoBehaviour {
     private Transform originalorientation;
     public float droppedtime = 0.0f;
     public float fusetime = 4.0f;
-	public GameObject explosion;
+	public GameObject explosion, beeper;
 
     // Use this for initialization
 	void Start () {
@@ -31,13 +31,19 @@ public class LandMine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (droppedtime > fusetime) {
-			GetComponent<SpriteRenderer> ().color = Color.red;
-		}
+			beeper.SetActive(true);
+			Destroy(transform.parent.GetComponent<HeldItem>());
+			//GetComponent<SpriteRenderer> ().color = Color.red;
+		} else 
 
 
 		if(transform.parent.GetComponent<HeldItem>().timeSinceDropped > 0.0)
         {
             droppedtime += Time.deltaTime;     
+			if (droppedtime < fusetime) {
+				transform.position += Time.deltaTime * Vector3.down * .10f;
+				beeper.transform.position += Time.deltaTime * Vector3.down * .10f;
+			}
         }
         //Make sure the landmine falls flat on ground 
         if (this.gameObject.CompareTag("Player") != true) //focus is not player
