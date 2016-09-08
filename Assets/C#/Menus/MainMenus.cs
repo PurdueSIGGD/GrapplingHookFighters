@@ -549,9 +549,11 @@ public class MainMenus : MonoBehaviour
 				mouseInfo.SetActive(true);
 			}
 		} else {
-			miceController = new RawMouseDriver.RawMouseDriver();
-			mouseInfo.SetActive(false);
-			GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Multi-Mouse\n support Enabled";
+			if (miceController == null) {
+				miceController = new RawMouseDriver.RawMouseDriver();
+				mouseInfo.SetActive(false);
+				GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Multi-Mouse\n support Enabled";
+			}
 		}
 	}
 
