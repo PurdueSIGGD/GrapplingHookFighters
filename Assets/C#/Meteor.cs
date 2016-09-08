@@ -8,6 +8,8 @@ public class Meteor : MonoBehaviour {
 	bool hit;
 	bool grabbed;
 	float countdown;
+	Rigidbody2D rigid;
+
 
 	void Start () {
 		hi = gameObject.GetComponentInChildren<HeldItem> ();
@@ -20,14 +22,21 @@ public class Meteor : MonoBehaviour {
 		hit = false;
 		grabbed = false;
 		countdown = 10f;
+		rigid = gameObject.GetComponent<Rigidbody2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (hi.focus == null) {
 			grabbed = false;
+			hi.forceHazard = true;
 		} else {
 			grabbed = true;
+			hi.forceHazard = false;
+		}
+
+		if (rigid.velocity.y >= -.05) {
+			hi.forceHazard = false;
 		}
 
 		if (grabbed) {

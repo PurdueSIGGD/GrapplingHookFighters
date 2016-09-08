@@ -11,6 +11,7 @@ public class MeteorShower : MonoBehaviour {
 	double angleOfDrop;//assumed to be in degrees
 	int radius;//How wide will the spread of the meteors fall from the distance
 	float time;
+	public float lifetime;
 
 	// Use this for initialization
 	void Start () {
@@ -23,11 +24,13 @@ public class MeteorShower : MonoBehaviour {
 		angleOfDrop = (angleOfDrop / 360) * 6.28;//changes to degrees to radians
 		dropsAtime = Random.Range (0,maxDrops);
 		time = Random.Range (0, 3);
+		lifetime = Random.Range (5, 20);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		time -= Time.deltaTime;
+		lifetime -= Time.deltaTime;
 		if (time < 0) {
 			for (int i = 0; i < dropsAtime; i++) {
 				force = Random.Range (500, (float)maxForce);
@@ -40,6 +43,10 @@ public class MeteorShower : MonoBehaviour {
 			}
 			dropsAtime = Random.Range (0, maxDrops);
 			time = Random.Range (5, 10);
+		}
+
+		if(lifetime < 0){
+			Destroy (gameObject);
 		}
 	}
 }

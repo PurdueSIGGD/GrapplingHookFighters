@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class lightning : MonoBehaviour {
 
@@ -10,13 +11,18 @@ public class lightning : MonoBehaviour {
 	public Image lightningSprite;
 	public Image flashScreen;
 	public Canvas effectcanvas;
+	public GameObject lightningstrike;
 	Vector3 canvasOffset;
+	Vector3 lstrikeLoc;
 	//Vector3 stageCenter;
 
 	float interval;//how long the lightning is spaced out
 	float appear;//how long the lightning is out
+	int strikes;//how many lighting strikes spawn
 	float flashAppear;
+	float width,height;//with and height positions for where the ligthing strikes will spawn
 	bool hasStruck;//lightning is lightninging and stuff...
+	public float lifetime;
 	
 
 	void Start () {
@@ -24,17 +30,21 @@ public class lightning : MonoBehaviour {
 		//stageCenter = gameObject.transform.FindChild("Stage Center").transform.position;
 		//flashScreen = gameObject.GetComponentsInChildren
 		//flashScreen.color = new Color(1,1,1,1);
+		determinespawn();//depending on the stage sets the area where lighting strikes  will spawn
 		canvasOffset = effectcanvas.transform.position;
 		flashScreen.transform.position = new Vector3 (canvasOffset.x,canvasOffset.y,canvasOffset.z-5);
 		lightningSprite.enabled = false;
 		flashScreen.enabled = false;
 		interval = Random.Range (50, 100);
 		appear = Random.Range (10, 30);
+		strikes = Random.Range (0,3);
 		hasStruck = false;
+		lifetime = Random.Range (10,30);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		lifetime -= Time.deltaTime;
 		//it appears for at most 3 seconds then changes location and disappears for at most 10 seconds
 		if(hasStruck){
 			if(appear <= 0){
@@ -46,6 +56,7 @@ public class lightning : MonoBehaviour {
 				int Larry =  (int)Random.Range(canvasOffset.x-100,canvasOffset.x+200);
 				//int Gary =  (int)Random.Range(transform.position.x-50,transform.position.x+50);
 				lightningSprite.transform.position = new Vector3(Larry,0,0);
+				strikes = Random.Range (0,3);
 				hasStruck = false;
 			}else{
 				appear--;
@@ -59,6 +70,12 @@ public class lightning : MonoBehaviour {
 					lightningSprite.enabled = true;
 					hasStruck = true;
 					appear = Random.Range (10, 30)*Time.deltaTime;
+					//creates lighting strikes across the actual stage
+					for(int i = 0; i < strikes;i++){
+						lstrikeLoc = new Vector3 (Random.Range(-width,width),height,0);
+						GameObject thing = (GameObject)Instantiate (lightningstrike,lstrikeLoc,new Quaternion(0,0,0,0));
+						thing.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0,-1000));
+					}
 				}else{
 					flashAppear--;
 				}
@@ -66,5 +83,44 @@ public class lightning : MonoBehaviour {
 				interval--;
 			}
 		}
+
+		if(lifetime < 0){
+			Destroy(this);
+		}
+	}
+
+	void determinespawn(){
+		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
+		switch(SceneManager.GetActiveScene().buildIndex){
+		case 1://BoxofSword
+			height = 17;//will spawn inside the box
+			width = 23;
+			break;
+		case 2://Potato
+			height = 10;
+			width = 20;
+			break;
+		case 3://Bridges
+			width = 19;
+			height = 9;
+			break;
+		case 4://lava fall
+			width = 22;
+			height = 7;
+			break;
+		case 5://upwards
+			height = 9;
+			width = 20;
+			break;
+		case 6://stuck
+			width = 12;
+			height = 10;
+			break;
+		default://testing stage or any other random stage for now
+			width = 31;
+			height = 16;
+			break;
+		}
+		return;
 	}
 }
