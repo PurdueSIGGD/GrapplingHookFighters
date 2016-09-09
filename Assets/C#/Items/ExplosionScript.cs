@@ -25,7 +25,8 @@ public class ExplosionScript : MonoBehaviour {
 			//if (c.GetComponent<player>()) print(Vector2.Distance(transform.position, c.transform.position));
 			//if (!tooCloseToCare) {
 			//EditorApplication.isPaused = true;
-			RaycastHit2D myHit;
+			RaycastHit2D myHit = new RaycastHit2D();
+
 			foreach (RaycastHit2D r in rr) {
 				//print(r.transform.name);
 				//reasons that we want to ignore this thing we are hitting 
