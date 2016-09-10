@@ -36,7 +36,7 @@ public class Sticky : MonoBehaviour {
 		}
 
 	}
-	void Unstuck() {
+	public void Unstuck() {
 		transform.parent = null;
 		myRigid.freezeRotation = false;
 		myRigid.isKinematic = false;

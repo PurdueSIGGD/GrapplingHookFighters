@@ -9,6 +9,7 @@ public class GrappleDetacher : MonoBehaviour {
         {
             //evacuate the children.
             Transform t = transform.GetChild(i);
+            print(t.name);
             GrappleScript g;
             if (g = t.GetComponent<GrappleScript>())
             {
