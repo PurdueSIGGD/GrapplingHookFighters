@@ -378,7 +378,7 @@ public class player : MonoBehaviour {
 		//RaycastHit2D[] hits2 = Physics2D.BoxCastAll (center1.position + new Vector3(-.4f, 0), new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
 
 		//RaycastHit2D[] hits = Physics2D.RaycastAll(center1.position, Vector2.down, 1.4f);
-		bool hitValid = usingJetpack; 
+		bool hitValid = false; 
 		foreach (RaycastHit2D hit in hits1) {
 			Collider2D col = hit.collider;
 			if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
@@ -398,7 +398,7 @@ public class player : MonoBehaviour {
 			}
 		}*/
 		myAnim.airborne = !hitValid;
-		return hitValid; //hitvalid is if we can jump, because something may be in our way
+		return hitValid || usingJetpack; //hitvalid is if we can jump, because something may be in our way
 	}
     bool pickUpKey() {
         // print(Input.GetAxis("UseP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))));

@@ -25,7 +25,7 @@ public class leafBlower : MonoBehaviour {
 	}
 	void OnTriggerStay2D(Collider2D col) {
 		//print(blowing);
-		if (blowing && col.GetComponent<Rigidbody2D>()) {
+		if (blowing && col.GetComponent<Rigidbody2D>() && !col.CompareTag("Grapple")) {
 			//print("move dammit");
 			
 			col.GetComponent<Rigidbody2D>().AddForce(spool * 3f * (col.transform.position - this.transform.position));
