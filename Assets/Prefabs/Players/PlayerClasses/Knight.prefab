@@ -1428,8 +1428,8 @@ MonoBehaviour:
   firingVector: {x: 0, y: 0, z: 0}
   savedReticleLocation: {x: 0, y: 0, z: 0}
   myAnim: {fileID: 11441606}
-  leftGunPos: {x: 0.3, y: -0.1}
-  rightGunPos: {x: 0.4, y: -0.1}
+  leftGunPos: {x: 0.3, y: 0}
+  rightGunPos: {x: 0.4, y: 0}
   joystickID: 0
   mouseID: 0
 --- !u!114 &11437406
