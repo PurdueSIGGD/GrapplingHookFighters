@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 422730}
   - 212: {fileID: 21207526}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Lava Sprite
   m_TagString: Hazard
   m_Icon: {fileID: 0}
@@ -28,9 +28,9 @@ GameObject:
   - 114: {fileID: 11465204}
   - 61: {fileID: 6140208}
   - 61: {fileID: 6187090}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Lava_Bottom_Left
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -11,9 +11,9 @@ GameObject:
   - 61: {fileID: 6185984}
   - 114: {fileID: 11466578}
   - 61: {fileID: 6162494}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Lava_Top_Left
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 465862}
   - 212: {fileID: 21290226}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Lava Sprite
   m_TagString: Hazard
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 478636}
   - 198: {fileID: 19895286}
   - 199: {fileID: 19965324}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: LavaParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
