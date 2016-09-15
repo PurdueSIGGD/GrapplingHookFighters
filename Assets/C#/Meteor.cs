@@ -14,7 +14,6 @@ public class Meteor : MonoBehaviour {
 	void Start () {
 		hi = gameObject.GetComponentInChildren<HeldItem> ();
 		if (hi == null) {
-			Debug.Log ("Because it's hoooot!!!");
 			Destroy(this.gameObject);
 		}
 		hi.hazardCollider = gameObject.GetComponentInChildren<PolygonCollider2D> ();
