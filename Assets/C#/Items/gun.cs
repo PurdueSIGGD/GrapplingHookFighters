@@ -15,6 +15,7 @@ public class gun : MonoBehaviour, item {
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
+	public Sprite emptySprite;
 
 	private HeldItem myHeldItem;
 	private Transform butthole, reticle, gunbase;
@@ -126,6 +127,9 @@ public class gun : MonoBehaviour, item {
 				if (ammo > 0) {
 
 					ammo--;
+					if (ammo == 0 && emptySprite != null) {
+						this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = emptySprite;
+					}
 					shootPoint = butthole.position; //only need to set when player decides to shoot
 					reticlePos = reticle.position;
 					Vector2 gunBase = gunbase.position;

@@ -344,6 +344,7 @@ MonoBehaviour:
   reticlePos: {x: 0, y: 0}
   shellSprite: {fileID: 21300000, guid: d2e7413055069be42a8022cd39580a25, type: 3}
   bulletPhys: {fileID: 6200000, guid: 641ea22dfd82af7408202fbaf56df9bd, type: 2}
+  emptySprite: {fileID: 21300000, guid: a85a1857c15fad445bd3e1b87659667f, type: 3}
   critGameObject: {fileID: 0}
 --- !u!114 &11471358
 MonoBehaviour:

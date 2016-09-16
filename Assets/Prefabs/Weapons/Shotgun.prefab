@@ -379,6 +379,7 @@ MonoBehaviour:
   reticlePos: {x: 0, y: 0}
   shellSprite: {fileID: 21300000, guid: bd0287f586629f74ba42deadd8590e73, type: 3}
   bulletPhys: {fileID: 6200000, guid: 641ea22dfd82af7408202fbaf56df9bd, type: 2}
+  emptySprite: {fileID: 21300000, guid: fe32d079a2ce4ab49bbe40ccb2591d8e, type: 3}
   critGameObject: {fileID: 0}
 --- !u!198 &19865938
 ParticleSystem:
@@ -3440,7 +3441,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: af51e8ba9b7e0bb4495cca7f708c5f88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

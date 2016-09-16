@@ -134,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.785, y: -2.278194, z: -0.1883556}
+  m_LocalPosition: {x: -5.14, y: -2.278194, z: -0.1883556}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -312,6 +312,7 @@ MonoBehaviour:
   reticlePos: {x: 0, y: 0}
   shellSprite: {fileID: 21300000, guid: d2e7413055069be42a8022cd39580a25, type: 3}
   bulletPhys: {fileID: 6200000, guid: 641ea22dfd82af7408202fbaf56df9bd, type: 2}
+  emptySprite: {fileID: 21300000, guid: d05c1bc76551e56438a5dd33ecb301b4, type: 3}
   critGameObject: {fileID: 0}
 --- !u!114 &11446384
 MonoBehaviour:
@@ -1854,7 +1855,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4447134befa2bc840b796321559001f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
