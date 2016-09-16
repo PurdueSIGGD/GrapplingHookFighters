@@ -323,12 +323,17 @@ public class player : MonoBehaviour {
 				passiveItem.SendMessage("Drop",b?0:1);
 				passiveItem.GetComponent<HeldItem> ().focus = null;
 				passiveItem.SendMessage ("retriggerSoon", myCollider);
-				if (passiveItem.GetComponent<PolygonCollider2D> ())
+				if (passiveItem.GetComponent<PolygonCollider2D> ()) 
 					passiveItem.GetComponent<PolygonCollider2D> ().isTrigger = false;
-
 				timeSincePickup = 0;
 				Rigidbody2D rg = passiveItem.GetComponent<Rigidbody2D>();
 				rg.isKinematic = false;
+				if (passiveItem.GetComponent<PassivePickup>().itemCode == 4) {
+					myAnim.spikeBoots.SetBool("Pickup", true);
+					myAnim.spikeBoots.GetComponent<SpriteRenderer>().flipX = false;
+					myAnim.spikeBoots = null;
+
+				}
 				if (b)
 					rg.AddForce (80 * Random.insideUnitCircle); //throw weapon
 				rg.AddTorque (3);
@@ -473,6 +478,12 @@ public class player : MonoBehaviour {
 					passiveItem.GetComponent<Rigidbody2D> ().isKinematic = true;
 					passiveItem.transform.localScale = Vector3.one;
 					passiveItem.transform.rotation = Quaternion.identity;
+					if (passiveItem.GetComponent<PassivePickup>().itemCode == 4) {
+						passiveItem.transform.localPosition = myAnim.transform.FindChild("Legs").transform.localPosition;
+						myAnim.spikeBoots = passiveItem.transform.FindChild("Sprite").GetComponent<Animator>();
+
+					}
+
 					canPickup = false;
 				} else {
 					if (heldItem1 == null) { //assign values to helditem1

@@ -14,6 +14,7 @@ public class AnimationHandler : MonoBehaviour {
 	public SpriteRenderer leg, torso, head, armL, armR, grappleArm;
 	public Animator legA, armLA, armRA;
 	public Sprite singleR, singleL, dualR, dualL, heavyR, heavyL, legS, armLS, armRS;
+	public Animator spikeBoots;
 
 	public Transform AimingParent;
 	//I need aiming parent to set the rotation to zero if we change direction, because it is causing problems with my resetting of positions
@@ -58,6 +59,7 @@ public class AnimationHandler : MonoBehaviour {
 
         lastSwing += Time.deltaTime;
 		leg.flipX = torso.flipX = head.flipX = armL.flipX = armR.flipX = direction;
+		if (this.spikeBoots) spikeBoots.GetComponent<SpriteRenderer>().flipX = direction;
 
 		if (direction != lastDirection) {
 			//This is my method of hard coding in position when the player changes direction. It uses the hip as a center axis of flipping
@@ -121,16 +123,22 @@ public class AnimationHandler : MonoBehaviour {
 
 
 		//______________Animation Handling for Legs _______________
+		if (spikeBoots) spikeBoots.SetBool("Pickup", false);
+
 		legA.SetBool ("Airborne", airborne);
+		if (spikeBoots) spikeBoots.SetBool("Airborne", airborne);
 		//legLA.SetBool ("Airborne", airborne);
 		legA.SetBool ("Crouching", crouching);
+		if (spikeBoots) spikeBoots.SetBool("Crouching", crouching);
 		//legLA.SetBool ("Crouching", crouching);
 		legA.SetBool ("Running", moving);
+		if (spikeBoots) spikeBoots.SetBool("Running", moving);
 		//legLA.SetBool ("Running", moving);
 
 		if (airborne) {
 			if (airborne != lastAirborne) {
 				legA.Play ("Airborne");
+				if (spikeBoots) spikeBoots.Play("Airborne");
 				//legLA.Play ("MonkLAirborne");
 			}
 		} else {
@@ -140,6 +148,7 @@ public class AnimationHandler : MonoBehaviour {
 				if (crouching) {
 					if (crouching != lastCrouching) {
 						legA.Play ("Crouch");
+						if (spikeBoots) spikeBoots.Play("Crouch");
 						//legLA.Play ("MonkLCrouch");
 					}
 					//legRA.runtimeAnimatorController = crouchingR;
@@ -150,6 +159,8 @@ public class AnimationHandler : MonoBehaviour {
 
 					if (moving != lastMoving) {
 						legA.Play ("Running");
+						if (spikeBoots) spikeBoots.Play("Running");
+
 						//legRA.Play ("MonkLRunning");
 					}
 
@@ -161,6 +172,8 @@ public class AnimationHandler : MonoBehaviour {
 					//legL.sprite = legLS;
 					//legR.sprite = legRS;
 					legA.Play ("Idle");
+					if (spikeBoots) spikeBoots.Play("Idle");
+
 					//legLA.Play ("MonkLIdle");
 				}
 			}
@@ -212,10 +225,14 @@ public class AnimationHandler : MonoBehaviour {
     public void Death() {
 		death = true;
 		legA.SetBool ("Airborne", false);
+		if (spikeBoots) spikeBoots.SetBool("Airborne", false);
+
 		//legLA.SetBool ("Airborne", false);
 		legA.SetBool ("Crouching", false);
+		if (spikeBoots) spikeBoots.SetBool("Crouching", false);
 		//legLA.SetBool ("Crouching", false);
 		legA.SetBool ("Running", false);
+		if (spikeBoots) spikeBoots.SetBool("Running", false);
 		//legLA.SetBool ("Running", false);
 		moving = airborne = crouching = false;
 		//armRA.SetInteger("HeldType", 0);
@@ -227,10 +244,15 @@ public class AnimationHandler : MonoBehaviour {
 		heldType = 0;
 		death = false;
 		legA.SetBool ("Airborne", false);
+		if (spikeBoots) spikeBoots.SetBool("Airborne", false);
+
 		//legLA.SetBool ("Airborne", false);
 		legA.SetBool ("Crouching", false);
+		if (spikeBoots) spikeBoots.SetBool("Crouching", false);
 		//legLA.SetBool ("Crouching", false);
 		legA.SetBool ("Running", false);
+		if (spikeBoots) spikeBoots.SetBool("Running", false);
+		//legLA.SetBool ("Running", false);
 		//legLA.SetBool ("Running", false);
 
 		//armRA.SetInteger("HeldType", 0);
