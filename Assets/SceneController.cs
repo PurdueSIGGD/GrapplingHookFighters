@@ -7,6 +7,7 @@ public class SceneController : MonoBehaviour {
     /* For control of level transition 
 	 * More gamemodes to be added soon.
 	 */
+    public SpriteSet spriteSet;
     public GameObject map;
 	public int playerCount;
 	public int[] levelPlan, playerScores;
@@ -145,12 +146,13 @@ public class SceneController : MonoBehaviour {
 		lastScene = sceneIndex;
 
 		if (!myCamera) myCamera = GameObject.Find ("AutoZoomCamParent");
-		//Spawn players
-		//Scene loadedScene = SceneManager.GetSceneAt(lastScene-1);
-		//GameObject sceneRoot = loadedScene.GetRootGameObjects()[0];
-		/*for (int i = 0; i < playerCount - 1; i++) {
+        //Spawn players
+        //Scene loadedScene = SceneManager.GetSceneAt(lastScene-1);
+        //GameObject sceneRoot = loadedScene.GetRootGameObjects()[0];
+        /*for (int i = 0; i < playerCount - 1; i++) {
 			players[i].transform.position = GameObject.Find("Player" + (i+1) + "Spawn").transform.position;
 		}*/
+        SpriteSet.ApplySprites(spriteSet); //Apply sprites for this stage
 		RespawnPeeps ();
 		readyToStart = true;
 		/*for (int i = 0; i < playerCount; i++) {
@@ -217,6 +219,7 @@ public class SceneController : MonoBehaviour {
 		yield return SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
 		lastScene = sceneIndex;
 		RespawnPeeps ();
+        SpriteSet.ApplySprites(spriteSet); //Apply sprites for this stage
 		//currentMap = (GameObject)GameObject.Instantiate(levels[nextMap], nextPosition, Quaternion.identity);
 		//Tell camera to move towards another place, will call RespawnPeeps when halfway to next location
 		//GameObject.Find("AutoZoomCamParent").SendMessage("SetNewPlace", nextPosition);

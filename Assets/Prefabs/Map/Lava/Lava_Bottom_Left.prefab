@@ -28,6 +28,7 @@ GameObject:
   - 114: {fileID: 11465204}
   - 61: {fileID: 6140208}
   - 61: {fileID: 6187090}
+  - 114: {fileID: 11423546}
   m_Layer: 13
   m_Name: Lava_Bottom_Left
   m_TagString: Platform
@@ -42,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179516}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: -12, z: 0}
+  m_LocalPosition: {x: 3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -104,6 +105,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.19783211}
   serializedVersion: 2
   m_Size: {x: 1, y: 0.1698799}
+--- !u!114 &11423546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8266608efe8f2b4cac896e270b5c747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: lava
 --- !u!114 &11465204
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,6 +12,7 @@ GameObject:
   - 61: {fileID: 6145876}
   - 114: {fileID: 11487372}
   - 61: {fileID: 6131424}
+  - 114: {fileID: 11497566}
   m_Layer: 8
   m_Name: BoxSpawner
   m_TagString: Untagged
@@ -83,7 +84,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.214821, y: -2.8417304, z: 6.90625}
+  m_LocalPosition: {x: -1, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -151,6 +152,18 @@ MonoBehaviour:
   openSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   timeTillReset: 5
   used: 0
+--- !u!114 &11497566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8266608efe8f2b4cac896e270b5c747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: item_box
 --- !u!212 &21205510
 SpriteRenderer:
   m_ObjectHideFlags: 1

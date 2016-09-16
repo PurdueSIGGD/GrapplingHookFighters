@@ -57,6 +57,8 @@ public class MainMenus : MonoBehaviour
 	public GUITexture fader;
 	private bool fading;
 
+    public SpriteSet[] spriteSets;
+
     RawMouseDriver.RawMouseDriver miceController;
 
 	//controls menu
@@ -900,6 +902,8 @@ public class MainMenus : MonoBehaviour
         //create scene controller
         s.playerCount = maxPlayers;
         //give player count
+        s.spriteSet = spriteSets[mapIndex];
+        //assign map sprite set
         int[] levelPlan = new int[levelCount];
 		int[] rawLevelPlan = new int[10];
 		//I don't trust just throwing in an array with random.range, so we are trying a different approach
