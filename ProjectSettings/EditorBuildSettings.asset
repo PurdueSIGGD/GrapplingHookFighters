@@ -11,7 +11,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Cave_LevelTraverser.unity
   - enabled: 0
     path: Assets/Scenes/Scenes Without Players/old/Scene1.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scenes Without Players/BoxO'Swords.unity
   - enabled: 0
     path: Assets/Scenes/Scenes Without Players/Ice Level Test.unity

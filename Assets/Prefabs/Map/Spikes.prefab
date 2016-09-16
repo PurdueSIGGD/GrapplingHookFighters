@@ -27,6 +27,7 @@ GameObject:
   - 61: {fileID: 6135238}
   - 114: {fileID: 11444766}
   - 61: {fileID: 6183404}
+  - 114: {fileID: 11425548}
   m_Layer: 13
   m_Name: Spikes
   m_TagString: Untagged
@@ -131,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.300838, y: -4.4477906, z: 0.18835068}
+  m_LocalPosition: {x: 4, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -209,6 +210,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -0.49514246}
   serializedVersion: 2
   m_Size: {x: 1.188009, y: 0.58941317}
+--- !u!114 &11425548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8266608efe8f2b4cac896e270b5c747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: spike
 --- !u!114 &11444766
 MonoBehaviour:
   m_ObjectHideFlags: 1

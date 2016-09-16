@@ -64,7 +64,7 @@ public class player : MonoBehaviour {
         //switchedKey = true;
 		myPolygon = this.GetComponent<PolygonCollider2D>();
 		Vector2[] curCol = 	myPolygon.points;
-
+		crouched = true;
 		standingCol = new Vector2[curCol.Length];
 		crouchingCol = new Vector2[curCol.Length];
 		for (int i = 0; i < curCol.Length; i++) {
@@ -131,7 +131,7 @@ public class player : MonoBehaviour {
             if (goDown()) {
                 if (!isAirborne())
                 {
-                    myRigid.AddForce(new Vector3(0, -10, 0));
+					myRigid.AddForce(new Vector3(0, -300 * Time.deltaTime, 0));
                 } else
                 {
                     if (!crouched) myPolygon.points = crouchingCol;
@@ -278,7 +278,10 @@ public class player : MonoBehaviour {
 					rs.SendMessage("StopRotation");
 					aimingParent.localRotation = Quaternion.Euler(0,0,0);
 				}
-
+				gun g;
+				if (g = heldItem1.GetComponent<gun>()) {
+					g.playerid = -1;
+				}
 
 				heldItem1.SendMessage ("unclick");
 				heldItem1 = null;
@@ -305,6 +308,10 @@ public class player : MonoBehaviour {
 				if (heldItem2.GetComponent<RecoilSimulator>()) {
 					heldItem2.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
 					aimingParent.localRotation = Quaternion.Euler(0,0,0);
+				}
+				gun g;
+				if (g = heldItem2.GetComponent<gun>()) {
+					g.playerid = -1;
 				}
 				heldItem2.SendMessage ("unclick");
 				heldItem2 = null;
@@ -363,7 +370,7 @@ public class player : MonoBehaviour {
 	}
     bool jump(bool usingJetpack) {
 		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
-			return isAirborne (usingJetpack);
+			return true;
         } else {
 			
             return false;
@@ -373,7 +380,7 @@ public class player : MonoBehaviour {
 		return isAirborne (false);
 	}
 	bool isAirborne(bool usingJetpack) {
-		RaycastHit2D[] hits1 = Physics2D.BoxCastAll (center1.position, new Vector2(.8f, .5f), 180 , Vector2.down, 1.4f);
+		RaycastHit2D[] hits1 = Physics2D.BoxCastAll (center1.position, new Vector2(.6f, .5f), 180 , Vector2.down, 1.4f);
 		//Debug.DrawLine(center1.position, center1.position +
 		//RaycastHit2D[] hits2 = Physics2D.BoxCastAll (center1.position + new Vector3(-.4f, 0), new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
 
@@ -381,7 +388,7 @@ public class player : MonoBehaviour {
 		bool hitValid = false; 
 		foreach (RaycastHit2D hit in hits1) {
 			Collider2D col = hit.collider;
-			if ((col.CompareTag("Platform") || (col.CompareTag("Item")) && !col.isTrigger)) {
+			if ((col.CompareTag("Platform") || (col.CompareTag("Item") || col.gameObject.layer == 13) && !col.isTrigger)) {
 				hitValid = true;
 				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
 				//Debug.Log (hit.transform.name);
@@ -608,7 +615,7 @@ public class player : MonoBehaviour {
 			punchTime = 0;
 			//punch animation here
 			myAnim.Punch ();
-			if (punchable) {
+			if (punchable && punchable.gameObject.activeInHierarchy) {
 				if (punchable.CompareTag("Player")) {
 					
 					Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
@@ -620,7 +627,8 @@ public class player : MonoBehaviour {
 					punchable.SendMessage ("throwWeapont", o);
 				} else {
 					//print("drop it");
-					punchable.SendMessage ("DropItem");
+					//print(punchable.name);
+					if (punchable.CompareTag("ItemBox") || punchable.CompareTag("Button")) punchable.SendMessage ("DropItem");
 				}
 			}
 
@@ -647,7 +655,11 @@ public class player : MonoBehaviour {
 		} else {
 			//Transform center = this.gameObject.transform.FindChild("Center");
 
-			if ((b || jump ()) && Time.time - jumpTime > .05f) {
+			if (jump() && !isAirborne()) {
+				myRigid.AddForce(new Vector3(0, 300 * Time.deltaTime, 0));
+			}
+
+			if ((b || jump ()) && Time.time - jumpTime > .05f && isAirborne()) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
 				jumpTime = Time.time;

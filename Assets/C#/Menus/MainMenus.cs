@@ -57,7 +57,12 @@ public class MainMenus : MonoBehaviour
 	public GUITexture fader;
 	private bool fading;
 
+    public SpriteSet[] spriteSets;
+
     RawMouseDriver.RawMouseDriver miceController;
+
+	public bool debugUseSceneSelections;
+	public int[] debugSceneSelections;
 
 	//controls menu
 	//public GameObject player1Controls;
@@ -859,7 +864,7 @@ public class MainMenus : MonoBehaviour
     private int levelCount = 1;
     private int colorIndex = 0;
     //number of unique levels we have
-	//so the last level + 1
+	//so the last level number in build settings
 	public int numLevels;
 
 	void GoBack() {
@@ -900,27 +905,33 @@ public class MainMenus : MonoBehaviour
         //create scene controller
         s.playerCount = maxPlayers;
         //give player count
-        int[] levelPlan = new int[levelCount];
-		int[] rawLevelPlan = new int[10];
-		//I don't trust just throwing in an array with random.range, so we are trying a different approach
-		//create an array with all levels included, if room, and loop
-		//i.e. [1, 2, 3, 4, 1, 2, 3, 4, 1, 2] if there aref 4 levels
-		for (int i = 0; i < rawLevelPlan.Length; i++) {
-			rawLevelPlan[i] = (i)%(numLevels)+1	;
+        s.spriteSet = spriteSets[mapIndex];
+        //assign map sprite set
+		if (debugUseSceneSelections) {
+			s.levelPlan = debugSceneSelections;
+		} else {
+	        int[] levelPlan = new int[levelCount];
+			int[] rawLevelPlan = new int[10];
+			//I don't trust just throwing in an array with random.range, so we are trying a different approach
+			//create an array with all levels included, if room, and loop
+			//i.e. [1, 2, 3, 4, 1, 2, 3, 4, 1, 2] if there aref 4 levels
+			for (int i = 0; i < rawLevelPlan.Length; i++) {
+				rawLevelPlan[i] = (i)%(numLevels)+1	;
+			}
+			//shuffle the array
+			for (int i = 0; i < rawLevelPlan.Length; i++) {
+				int tmp = rawLevelPlan[i];
+				int newval = Random.Range(0, rawLevelPlan.Length-1);
+				rawLevelPlan[i] = rawLevelPlan[newval];
+				rawLevelPlan[newval] = tmp;
+			}
+			//trim to our array
+	        for (int i = 0; i < levelCount; i++)
+	        {
+	            levelPlan[i] = rawLevelPlan[i];
+	        }
+	        s.levelPlan = levelPlan;
 		}
-		//shuffle the array
-		for (int i = 0; i < rawLevelPlan.Length; i++) {
-			int tmp = rawLevelPlan[i];
-			int newval = Random.Range(0, rawLevelPlan.Length-1);
-			rawLevelPlan[i] = rawLevelPlan[newval];
-			rawLevelPlan[newval] = tmp;
-		}
-		//trim to our array
-        for (int i = 0; i < levelCount; i++)
-        {
-            levelPlan[i] = rawLevelPlan[i];
-        }
-        s.levelPlan = levelPlan;
         //give level plan (array of integers)
         s.gameMode = 0;
         //give game mode (0)

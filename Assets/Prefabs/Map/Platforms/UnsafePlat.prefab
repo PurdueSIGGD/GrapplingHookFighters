@@ -28,6 +28,7 @@ GameObject:
   - 61: {fileID: 6161124}
   - 61: {fileID: 6119296}
   - 114: {fileID: 11442414}
+  - 114: {fileID: 11471600}
   m_Layer: 13
   m_Name: UnsafePlat
   m_TagString: Platform
@@ -42,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 188730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -89,7 +90,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: -0.0000047683716, y: 0.49811947}
   serializedVersion: 2
-  m_Size: {x: 0.9984566, y: 0.06631422}
+  m_Size: {x: 0.9, y: 0.06631422}
 --- !u!61 &6161124
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -103,7 +104,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0.0044373274, y: 0.4908731}
   serializedVersion: 2
-  m_Size: {x: 0.9984684, y: 0.042899847}
+  m_Size: {x: 0.95, y: 0.042899847}
 --- !u!114 &11442414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +117,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 1
+--- !u!114 &11471600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8266608efe8f2b4cac896e270b5c747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: unsafe_plat
 --- !u!212 &21217576
 SpriteRenderer:
   m_ObjectHideFlags: 1

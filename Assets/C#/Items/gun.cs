@@ -7,9 +7,11 @@ public class gun : MonoBehaviour, item {
 	public int playerid, bulletsPerShot = 1, ammo;
 	public float timeToShoot, projectileSpeed, recoil, aimRecoil, damage, spread, timeToCharge, minChargeTime, bulletDistance = 100, chance = 0;
 	private float timeSincelast, maxProjectileSpeed, chargeTime, gunShaking, nextAngle, lastAngle;
+	private float emptyTime;
+	public float deleteEmptyTime = 5;
 	//the point at which bullets come out of
 	public Vector3 shootPoint;
-	public GameObject projectileGameObject, particle, sparks, splats;
+	public GameObject projectileGameObject, particle, sparks, splats, disappear;
 	public Vector2 reticlePos;
 	public Sprite shellSprite;
 	public PhysicsMaterial2D bulletPhys;
@@ -83,6 +85,7 @@ public class gun : MonoBehaviour, item {
 			projectileSpeed = 0;
 			chargeTime = minChargeTime;
 		}
+		emptyTime = 0;
 	}
 
 	//a send message command
@@ -110,7 +113,14 @@ public class gun : MonoBehaviour, item {
 			if (gunShaking > 0) gunShaking -= (aimRecoil)*Time.deltaTime;
 			else gunShaking = 0;
 		}
-
+		if (ammo <= 0) {
+			emptyTime += Time.deltaTime;
+			if (emptyTime > deleteEmptyTime && this.playerid < 0) {
+				if (disappear != null) GameObject.Instantiate(disappear, transform.position, Quaternion.identity);
+				else Debug.LogWarning("Missing disappear particles for item " + transform.name);
+				Destroy(this.gameObject);
+			}
+		}
 		if (!death && trigger && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
 			if (timeSincelast > timeToShoot) {
 				if (ammo > 0) {

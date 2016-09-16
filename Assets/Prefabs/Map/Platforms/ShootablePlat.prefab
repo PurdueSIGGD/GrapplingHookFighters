@@ -28,6 +28,7 @@ GameObject:
   - 61: {fileID: 6173872}
   - 114: {fileID: 11488054}
   - 114: {fileID: 11469586}
+  - 114: {fileID: 11483418}
   m_Layer: 13
   m_Name: ShootablePlat
   m_TagString: Platform
@@ -55,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -70,7 +71,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 193430}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: abd40738d4d93754da3649f90623602d, type: 2}
+  m_Material: {fileID: 6200000, guid: 939df06040bee814fa7eedeec21e85cf, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
@@ -89,7 +90,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0.47319126}
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.08146405}
+  m_Size: {x: 0.95, y: 0.08146405}
 --- !u!114 &11469586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +104,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 200
   gibs: {fileID: 119670, guid: bbc0c4ffd2cd2cf46a30212c351ba34e, type: 2}
+--- !u!114 &11483418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8266608efe8f2b4cac896e270b5c747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identifier: shootable_plat
 --- !u!114 &11488054
 MonoBehaviour:
   m_ObjectHideFlags: 1

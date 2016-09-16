@@ -334,11 +334,13 @@ MonoBehaviour:
   minChargeTime: 0
   bulletDistance: 10
   chance: 0
+  deleteEmptyTime: 5
   shootPoint: {x: 0, y: 0, z: 0}
   projectileGameObject: {fileID: 111886, guid: 2a597de3fe2e0444ca12c9ebbfea6758, type: 2}
   particle: {fileID: 129218, guid: b94fd4134caa964408ea3afdc2a9ca66, type: 2}
   sparks: {fileID: 156400, guid: d331c54a369005644aff3e4856c0cabb, type: 2}
   splats: {fileID: 180624, guid: a716ecb00c44be248a34712538c5eee6, type: 2}
+  disappear: {fileID: 102216, guid: ea3e41627e97a6c488f2ba94ad5be1a1, type: 2}
   reticlePos: {x: 0, y: 0}
   shellSprite: {fileID: 21300000, guid: d2e7413055069be42a8022cd39580a25, type: 3}
   bulletPhys: {fileID: 6200000, guid: 641ea22dfd82af7408202fbaf56df9bd, type: 2}

@@ -17,6 +17,7 @@ TagManager:
   - Button
   - PlayerParent
   - NoGrapple
+  - ItemBox
   layers:
   - Default
   - TransparentFX
