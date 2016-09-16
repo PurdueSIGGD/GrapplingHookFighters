@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11497566}
   m_Layer: 8
   m_Name: BoxSpawner
-  m_TagString: Untagged
+  m_TagString: ItemBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useString: 
   callsFunction: 0
+  dropsAutomatically: 0
   items:
   - {fileID: 147808, guid: 3eae5451a0fea6040a120e8a73cf29b8, type: 2}
   openSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}

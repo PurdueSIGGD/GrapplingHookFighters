@@ -71,7 +71,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 193430}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: abd40738d4d93754da3649f90623602d, type: 2}
+  m_Material: {fileID: 6200000, guid: 939df06040bee814fa7eedeec21e85cf, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
@@ -90,7 +90,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0.47319126}
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.08146405}
+  m_Size: {x: 0.95, y: 0.08146405}
 --- !u!114 &11469586
 MonoBehaviour:
   m_ObjectHideFlags: 1

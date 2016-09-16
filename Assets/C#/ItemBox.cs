@@ -6,6 +6,7 @@ public class ItemBox : MonoBehaviour {
     private float cooldownTime = 1;
     private float time = 0;
     public bool callsFunction;
+	public bool dropsAutomatically;
 	public GameObject[] items;
     private Transform childSprite;
 
@@ -20,6 +21,13 @@ public class ItemBox : MonoBehaviour {
     {
         childSprite = transform.FindChild("Sprite");
 		closedSprite = childSprite.GetComponent<SpriteRenderer>().sprite;
+		if (dropsAutomatically) {
+			used = true;
+			childSprite.GetComponent<SpriteRenderer>().sprite = openSprite;
+
+		}
+			
+
     }
     void Update()
     {
@@ -27,6 +35,7 @@ public class ItemBox : MonoBehaviour {
 		if (time > timeTillReset && timeTillReset > 0 && used) {
 			childSprite.GetComponent<SpriteRenderer>().sprite = closedSprite;
 			used = false;
+			if (dropsAutomatically) use();
 		}
     }
 	void DropItem() {
@@ -42,17 +51,20 @@ public class ItemBox : MonoBehaviour {
 	            GameObject.Find("Menus").SendMessage(useString);
 			} else {
 				if (!used) {
-					used = true;
-					time = 0;
-					childSprite.GetComponent<SpriteRenderer>().sprite = openSprite;
-					GameObject spawn = (GameObject)GameObject.Instantiate(items[Random.Range(0, items.Length)], transform.FindChild("BoxSpawnPoint").position, Quaternion.identity);
-					spawn.GetComponent<Rigidbody2D>().AddForce(50* (Vector2.up + Random.insideUnitCircle));
-					spawn.GetComponent<Rigidbody2D>().AddTorque(Random.Range(0, 20));
+					use();
 				}
 
 			}
 
 
         }
+	}
+	void use() {
+		used = true;
+		time = 0;
+		childSprite.GetComponent<SpriteRenderer>().sprite = openSprite;
+		GameObject spawn = (GameObject)GameObject.Instantiate(items[Random.Range(0, items.Length)], transform.FindChild("BoxSpawnPoint").position, Quaternion.identity);
+		spawn.GetComponent<Rigidbody2D>().AddForce(50* (Vector2.up + Random.insideUnitCircle));
+		spawn.GetComponent<Rigidbody2D>().AddTorque(Random.Range(0, 20));
 	}
 }

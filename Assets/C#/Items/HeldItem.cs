@@ -64,6 +64,10 @@ public class HeldItem : MonoBehaviour {
 		object o = 0;
 		if (focus) focus.SendMessage("throwWeapont",o);
 	}
+	void OnDestroy()
+	{
+		NotDeath();
+	}
 	void fullClick() {
 
 	}

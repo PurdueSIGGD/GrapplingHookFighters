@@ -12,8 +12,8 @@ public class BoulderSpawn : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dropsAtATime = Random.Range (0,10);
-		spawntime = Random.Range(0,1);
+		dropsAtATime = Random.Range (1,5);
+		spawntime = Random.Range(0f,1f);
 		instLoc = this.transform.position;
 		force = 500;
 	}
@@ -27,13 +27,15 @@ public class BoulderSpawn : MonoBehaviour {
 			for (int i = 0; i < dropsAtATime; i++) {
 				GameObject thing;
 				thing = (GameObject)Instantiate (boulder, instLoc, new Quaternion (0, 0, 0, 0));
+				float scaleSiz = Random.Range (0.1f, 1.3f);
+				thing.transform.localScale = new Vector3 (scaleSiz,scaleSiz,1);
 				if (spawnLorR) {
 					thing.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (-force, 0));
 				}else{
 					thing.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (force, 0));
 				}
 			}
-			spawntime = Random.Range(1,20);
+			spawntime = Random.Range(2f,3f);
 		}
 	}
 }
