@@ -36,33 +36,35 @@ public class ExplosionScript : MonoBehaviour {
 					//(r.transform.gameObject.layer != 13 || Vector2.Distance(r.transform.position, transform.position ) < )
 				)
 				{
-					//print(r.transform.name);
+
 					myHit = r;
-					hit = true;
-					break;
+					if (myHit.transform.GetComponent<grenade>()) {
+						myHit.transform.SendMessage("Explode");
+					}
+					Rigidbody2D rg;
+					if ((rg = myHit.transform.GetComponent<Rigidbody2D>()) != null && myHit.transform.GetComponent<FiredProjectile>() == null) {
+						rg.AddForce (300 * rg.mass * (myHit.transform.position - this.transform.position));
+						rg.AddForce (150 * rg.mass * Vector2.up);
+					}
+					if (myHit.transform.GetComponent<Hittable> ()) {
+						myHit.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, myHit.transform.position));
+						if (myHit.transform.GetComponent<Health>()) myHit.transform.SendMessage("Gib",transform.position);
+					}
+					if (myHit.transform.GetComponent<ShootableItem> () && !myHit.transform.GetComponent<Collider2D>().isTrigger) {
+						myHit.transform.SendMessage("hit", 150);
+					}
+
+					if (r.transform.gameObject.CompareTag("Platform")) {
+						
+						hit = true;
+						break;
+					}
+
 				}
 
 			}
 
-			if (hit) {
-				//print (myHit.transform.name); 
-				if (myHit.transform.GetComponent<grenade>()) {
-					myHit.transform.SendMessage("Explode");
-				}
-				Rigidbody2D rg;
-				if ((rg = myHit.transform.GetComponent<Rigidbody2D>()) != null && myHit.transform.GetComponent<FiredProjectile>() == null) {
-					rg.AddForce (300 * rg.mass * (myHit.transform.position - this.transform.position));
-					rg.AddForce (150 * rg.mass * Vector2.up);
-				}
-				if (myHit.transform.GetComponent<Hittable> ()) {
-					myHit.transform.SendMessage("hit",  100 /Vector2.Distance(this.transform.position, myHit.transform.position));
-					if (myHit.transform.GetComponent<Health>()) myHit.transform.SendMessage("Gib",transform.position);
-				}
-				if (myHit.transform.GetComponent<ShootableItem> () && !myHit.transform.GetComponent<Collider2D>().isTrigger) {
-					
-					myHit.transform.SendMessage("hit", 150);
-				}
-			}
+
 		}
 		if (transform.childCount > 1) {
 			for (int i = 0; i < transform.childCount; i++) {

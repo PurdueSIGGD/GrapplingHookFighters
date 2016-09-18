@@ -8,7 +8,7 @@ public class GrappleScript : MonoBehaviour {
 	public bool retracting, disconnectMe;
 	private Transform lastGrab;
 	public Transform center;
-	public float breakTime, timeRetracting;
+	public float breakTime, timeRetracting, timeFiring;
 
 	private Rigidbody2D myRigid;
 	private SpringJoint2D toPlayer, toPickup;
@@ -56,14 +56,15 @@ public class GrappleScript : MonoBehaviour {
 			retracting = false;
 			connected = true;
 		}
-        if (g.tag == "NoGrapple" ||
+        if ((g.tag == "NoGrapple" ||
             g.tag == "Item" ||
-            g.tag == "DualItem" ||
-            (g.tag == "Player" && center != null && g != center.parent.gameObject)
+			g.tag == "DualItem" ) &&
+			g.name != focus.name
 
 			 ) {
             //bounce back
             //print("bounce back");
+			print(g.name + " " + focus.name);
 			retracting = true;
 			Detach();
 		}
@@ -106,6 +107,11 @@ public class GrappleScript : MonoBehaviour {
 			breakTime -= Time.deltaTime;
 		} else {
 			breakTime = 0;
+		}
+		if (!firing) {
+			timeFiring += Time.deltaTime;
+		} else {
+			timeFiring = 0;
 		}
 		//RaycastHit2D[] r;
 		if (connected) {

@@ -18,6 +18,7 @@ TagManager:
   - PlayerParent
   - NoGrapple
   - ItemBox
+  - MapItem
   layers:
   - Default
   - TransparentFX

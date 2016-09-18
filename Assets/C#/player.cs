@@ -93,6 +93,28 @@ public class player : MonoBehaviour {
 			myRigid.AddForce((connectedPos - transform.position) * Time.deltaTime * 500);
 		}
 		if (punchTime < 1) punchTime +=Time.deltaTime;
+		if (!goDown() && !this.death) {
+			if (crouched) {
+				this.isStandingUp = true;
+			}
+			crouched = false;
+			myAnim.crouching = false;
+			if (isStandingUp) {
+				//start slowly moving upwards
+				Vector2 offset = myPolygon.offset;
+				offset.y-=4*Time.deltaTime;
+				if (offset.y < -1f) {
+					//done standing up
+					myPolygon.points = standingCol;
+					this.isStandingUp = false;
+					offset.y = 0;
+					maxMoveSpeed = 10;
+				}
+				myPolygon.offset = offset;
+
+
+			}
+		}
 		if (!death && !tempDisabled) {
 
            // currentX = transform.position.x;
@@ -144,26 +166,7 @@ public class player : MonoBehaviour {
                 
 				
 			} else {
-				if (crouched) {
-					this.isStandingUp = true;
-				}
-				crouched = false;
-				myAnim.crouching = false;
-				if (isStandingUp) {
-					//start slowly moving upwards
-					Vector2 offset = myPolygon.offset;
-					offset.y-=4*Time.deltaTime;
-					if (offset.y < -1f) {
-						//done standing up
-						myPolygon.points = standingCol;
-						this.isStandingUp = false;
-						offset.y = 0;
-						maxMoveSpeed = 10;
-					}
-					myPolygon.offset = offset;
-
-
-				}
+				
 			}
 
 			//if (playerid == 1) print(crouched);
@@ -385,7 +388,7 @@ public class player : MonoBehaviour {
 		return isAirborne (false);
 	}
 	bool isAirborne(bool usingJetpack) {
-		RaycastHit2D[] hits1 = Physics2D.BoxCastAll (center1.position, new Vector2(.6f, .5f), 180 , Vector2.down, 1.4f);
+		RaycastHit2D[] hits1 = Physics2D.BoxCastAll (center1.position, new Vector2(.6f, .5f), 180 , Vector2.down, 1.0f);
 		//Debug.DrawLine(center1.position, center1.position +
 		//RaycastHit2D[] hits2 = Physics2D.BoxCastAll (center1.position + new Vector3(-.4f, 0), new Vector2(.5f, .5f), 180 , Vector2.down, 1.4f);
 
@@ -393,10 +396,10 @@ public class player : MonoBehaviour {
 		bool hitValid = false; 
 		foreach (RaycastHit2D hit in hits1) {
 			Collider2D col = hit.collider;
-			if ((col.CompareTag("Platform") || (col.CompareTag("Item") || col.gameObject.layer == 13) && !col.isTrigger)) {
+			if ((col.CompareTag("Platform") || (col.CompareTag("Item") || col.gameObject.layer == 13) && !col.isTrigger) && !col.GetComponent<Hazard>()) {
 				hitValid = true;
 				//Debug.DrawLine (center.position, hit.point, Color.green, 20f);
-				//Debug.Log (hit.transform.name);
+				//Debug.Log (hit.transform.name + " " + col.GetComponent<Hazard>() + " " + col.isTrigger + " " + col.transform.name);
 				break;
 			}
 		}
@@ -610,6 +613,8 @@ public class player : MonoBehaviour {
 		myAnim.NotDeath ();
         death = false;
 		crouched = false;
+		crouched = true;
+
 		myPolygon.points = standingCol;
 		this.isStandingUp = false;
 		maxMoveSpeed = 10;
@@ -670,7 +675,7 @@ public class player : MonoBehaviour {
 				myRigid.AddForce(new Vector3(0, 300 * Time.deltaTime, 0));
 			}
 
-			if ((b || jump ()) && Time.time - jumpTime > .05f && isAirborne()) {
+			if ((b || jump ()) && Time.time - jumpTime > .5f && isAirborne()) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
 				jumpTime = Time.time;

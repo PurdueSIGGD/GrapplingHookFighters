@@ -131,7 +131,7 @@ public class GrappleLauncher : MonoBehaviour {
 			if (!firing && !retracting && firedGrappleScript.breakTime <= 0) {
 
 				for (int i = 0; i < grapples.Length; i++) {
-					edges[i].enabled = true;
+					edges[i].enabled = false;
 					edges[i].isTrigger = false;
 				}
 	            this.mouseReleased = false;
@@ -159,6 +159,10 @@ public class GrappleLauncher : MonoBehaviour {
 
 	void Attach() {
 		attached = true;
+		for (int i = 0; i < grapples.Length; i++) {
+			edges[i].enabled = true;
+			edges[i].isTrigger = false;
+		}
 		myRigid.AddForce(60 * (firedGrapple.transform.position - transform.position));
 
 	}
@@ -186,6 +190,10 @@ public class GrappleLauncher : MonoBehaviour {
 			attached = false;
 			firing = false;
 			retracting = true;
+			for (int i = 0; i < grapples.Length; i++) {
+				edges[i].enabled = false;
+				edges[i].isTrigger = false;
+			}
 			if (firedGrapple != null) firedGrapple.SendMessage("Release");
 		}
 	}

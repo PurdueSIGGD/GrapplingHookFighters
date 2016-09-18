@@ -18,7 +18,7 @@ public class GravityWell : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        force += Time.deltaTime * 33 *2;
+        force += Time.deltaTime * 80;
         //print(force);
         if (force < 0)
         {
