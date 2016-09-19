@@ -2984,12 +2984,14 @@ MonoBehaviour:
   - {fileID: 140196, guid: 0b4d7ce37cff0d44c947c843f6e3ddb8, type: 2}
   - {fileID: 115202, guid: c78b3050a179419498f31a4651b356dc, type: 2}
   - {fileID: 191438, guid: 78146d04b4996744dbf15f2aa9b18a6f, type: 2}
+  - {fileID: 177472, guid: 1c44f7cc802f5e949bbc528104a602df, type: 2}
   sPlayerSelections:
   - {fileID: 21300000, guid: 84a4ca946358af74daad9808d6a84141, type: 3}
   - {fileID: 21300000, guid: 9118579509a36da4ebdc8c3ce6e9d901, type: 3}
   - {fileID: 21300000, guid: aa1a0b3ea0b79094a830597c173cfc77, type: 3}
   - {fileID: 21300000, guid: 93cba368c1038e440a09a70ea31fec47, type: 3}
   - {fileID: 21300000, guid: bd96bf52b0dbe7d48a78db2cf7159f38, type: 3}
+  - {fileID: 21300000, guid: 7a56f40c0b1506a4c9e63f444af1fae0, type: 3}
   fader: {fileID: 820126939}
   spriteSets:
   - bridge_sprite: {fileID: 21300000, guid: 0f243655f73c68b4c8923f38a6d6196c, type: 3}

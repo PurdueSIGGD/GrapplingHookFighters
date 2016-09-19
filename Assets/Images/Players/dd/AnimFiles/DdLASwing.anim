@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PriestAirborne
+  m_Name: DdLASwing
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -18,16 +18,10 @@ AnimationClip:
   m_FloatCurves: []
   m_PPtrCurves:
   - curve:
-    - time: 0
-      value: {fileID: 21300000, guid: a7002f211183b5b4288bd3329cb47a46, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: bb52d56bb1a2ece4186cb63bd67020a8, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: ee013a0f4e01f654d9e6005061411ccc, type: 3}
-    - time: 0.5
-      value: {fileID: 21300000, guid: bb52d56bb1a2ece4186cb63bd67020a8, type: 3}
-    - time: 0.6666667
-      value: {fileID: 21300000, guid: a7002f211183b5b4288bd3329cb47a46, type: 3}
+    - time: 0.016666668
+      value: {fileID: 21300000, guid: c7d314da54e78734f83e0d1e928e426f, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 99e0b2c2984eb9245b41241207b01781, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,17 +40,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: a7002f211183b5b4288bd3329cb47a46, type: 3}
-    - {fileID: 21300000, guid: bb52d56bb1a2ece4186cb63bd67020a8, type: 3}
-    - {fileID: 21300000, guid: ee013a0f4e01f654d9e6005061411ccc, type: 3}
-    - {fileID: 21300000, guid: bb52d56bb1a2ece4186cb63bd67020a8, type: 3}
-    - {fileID: 21300000, guid: a7002f211183b5b4288bd3329cb47a46, type: 3}
+    - {fileID: 21300000, guid: c7d314da54e78734f83e0d1e928e426f, type: 3}
+    - {fileID: 21300000, guid: 99e0b2c2984eb9245b41241207b01781, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.68333334
+    m_StopTime: 0.1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -76,4 +67,11 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.016666668
+    functionName: 
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
