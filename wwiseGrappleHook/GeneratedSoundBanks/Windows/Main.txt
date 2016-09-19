@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1125500713	Intro			\Default Work Unit\Intro	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	980585809	File0168	C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\File0168_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\File0168		1597248
+

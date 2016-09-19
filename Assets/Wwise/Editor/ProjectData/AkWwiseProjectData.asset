@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: affb0b861a531d646b323e24ac1bf4fa, type: 3}
+  m_Name: AkWwiseProjectData
+  m_EditorClassIdentifier: 
+  CurrentPluginConfig: 
+  EventWwu:
+  - PhysicalPath: Events\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}'
+    m_lastTimePsrt1: -1541512270
+    m_lastTimePart2: -1999380254
+    List:
+    - Name: Intro
+      Path: Default Work Unit\Intro
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Intro
+        ObjectType: 3
+      ID: 1125500713
+      Guid: ba2568851ba15a4e9b45cf14c1bdeea1
+      maxAttenuation: 0
+  AuxBusWwu:
+  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{C4648A2C-0174-4CE5-8724-20B42BFA0374}'
+    m_lastTimePsrt1: -614904727
+    m_lastTimePart2: -1999380255
+    List: []
+  StateWwu:
+  - PhysicalPath: States\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{D672F0B8-7BE5-4B2C-8633-3E20093D60AC}'
+    m_lastTimePsrt1: -614854658
+    m_lastTimePart2: -1999380255
+    List: []
+  SwitchWwu:
+  - PhysicalPath: Switches\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{3E46A833-89B8-4115-90A3-FB5920DC85B3}'
+    m_lastTimePsrt1: -615309976
+    m_lastTimePart2: -1999380255
+    List: []
+  BankWwu:
+  - PhysicalPath: SoundBanks\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{B77F6242-31CD-463B-865B-F4A0C7E1E5AA}'
+    m_lastTimePsrt1: -1542187890
+    m_lastTimePart2: -1999380254
+    List:
+    - Name: Main
+      Path: Default Work Unit\Main
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Main
+        ObjectType: 7
+      ID: -1133058374
+      Guid: 3a86f3d7a030854bbbc68be465d4172d
+  ExpandedItems:
+  - /wwiseGrappleHook
+  - /wwiseGrappleHook/Events
+  - /wwiseGrappleHook/Events/Default Work Unit
+  - /wwiseGrappleHook/SoundBanks
+  - /wwiseGrappleHook/SoundBanks/Default Work Unit
+  m_lastPopulateTimePsrt1: 0
+  m_lastPopulateTimePart2: 0
+  autoPopulateEnabled: 1
+  basePath: Audio\GeneratedSoundBanks
+  language: English(US)
+  defaultPoolSize: 4096
+  lowerPoolSize: 2048
+  streamingPoolSize: 1024
+  preparePoolSize: 0
+  memoryCutoffThreshold: 0.95

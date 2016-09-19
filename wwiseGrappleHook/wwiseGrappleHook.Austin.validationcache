@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ValidationCache Version="1" SchemaVersion="72">
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="2174610394" DateHigh="30544587"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Attenuations\Default Work Unit.wwu" DateLow="3101513125" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Audio Devices\Default Work Unit.wwu" DateLow="3102301337" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Control Surface Sessions\Default Work Unit.wwu" DateLow="3102003562" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Conversion Settings\Default Work Unit.wwu" DateLow="3102226279" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Conversion Settings\Factory Conversion Settings.wwu" DateLow="1933035449" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Dynamic Dialogue\Default Work Unit.wwu" DateLow="3101563199" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Effects\Default Work Unit.wwu" DateLow="3101638333" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Effects\Factory Effects.wwu" DateLow="1933065466" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Events\Default Work Unit.wwu" DateLow="2175230898" DateHigh="30544587"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Game Parameters\Default Work Unit.wwu" DateLow="3101598181" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="3101928410" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="3101838441" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Mixing Sessions\Default Work Unit.wwu" DateLow="3102266312" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Modulators\Default Work Unit.wwu" DateLow="3102166245" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Presets\Default Work Unit.wwu" DateLow="3101763422" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Queries\Default Work Unit.wwu" DateLow="3101473216" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Queries\Factory Queries.wwu" DateLow="1933055458" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\SoundBanks\Default Work Unit.wwu" DateLow="2174555278" DateHigh="30544587"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Soundcaster Sessions\Default Work Unit.wwu" DateLow="3101803459" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\States\Default Work Unit.wwu" DateLow="3101888510" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Switches\Default Work Unit.wwu" DateLow="3101433192" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Triggers\Default Work Unit.wwu" DateLow="3101963563" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\wwiseGrappleHook.Austin.wsettings" DateLow="758050184" DateHigh="30544588"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\wwiseGrappleHook.wproj" DateLow="428673189" DateHigh="30544588"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="3101673358" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Attenuations\Default Work Unit.wwu" DateLow="3101513125" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Audio Devices\Default Work Unit.wwu" DateLow="3102301337" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Control Surface Sessions\Default Work Unit.wwu" DateLow="3102003562" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Conversion Settings\Default Work Unit.wwu" DateLow="3102226279" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Conversion Settings\Factory Conversion Settings.wwu" DateLow="1933035449" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Dynamic Dialogue\Default Work Unit.wwu" DateLow="3101563199" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Effects\Default Work Unit.wwu" DateLow="3101638333" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Effects\Factory Effects.wwu" DateLow="1933065466" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Events\Default Work Unit.wwu" DateLow="3101723265" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Game Parameters\Default Work Unit.wwu" DateLow="3101598181" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="3101928410" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="3101838441" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Mixing Sessions\Default Work Unit.wwu" DateLow="3102266312" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Modulators\Default Work Unit.wwu" DateLow="3102166245" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Presets\Default Work Unit.wwu" DateLow="3101763422" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Queries\Default Work Unit.wwu" DateLow="3101473216" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Queries\Factory Queries.wwu" DateLow="1933055458" DateHigh="30529692"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\SoundBanks\Default Work Unit.wwu" DateLow="3101398060" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Soundcaster Sessions\Default Work Unit.wwu" DateLow="3101803459" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\States\Default Work Unit.wwu" DateLow="3101888510" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Switches\Default Work Unit.wwu" DateLow="3101433192" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\Triggers\Default Work Unit.wwu" DateLow="3101963563" DateHigh="30544586"/>
+	<ValidationCacheItem File="C:\Users\Austin\Documents\WwiseProjects\wwiseGrappleHook\wwiseGrappleHook.wproj" DateLow="3101338180" DateHigh="30544586"/>
+</ValidationCache>
