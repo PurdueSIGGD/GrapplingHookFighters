@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{5569D1A7-CF7C-41DE-9BDB-41F8A4AE79E4}" SchemaVersion="72">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{5569D1A7-CF7C-41DE-9BDB-41F8A4AE79E4}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="File0168" ID="{9B45F74B-5F60-4509-816C-9E001F040ED0}" ShortID="135501068" Type="SoundFX">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{90A9CDD6-74DD-4A5E-B59B-3C20CF1F081F}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4648A2C-0174-4CE5-8724-20B42BFA0374}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="File0168" ID="{D05AE56F-A0B0-420B-8411-ECA5ACD0A8E3}" ShortID="980585809">
+							<Language>SFX</Language>
+							<AudioFile>File0168.wav</AudioFile>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="File0168" ID="{D05AE56F-A0B0-420B-8411-ECA5ACD0A8E3}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
