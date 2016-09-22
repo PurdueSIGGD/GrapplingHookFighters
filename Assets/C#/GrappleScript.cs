@@ -4,11 +4,12 @@ using System.Collections;
 public class GrappleScript : MonoBehaviour {
 	public GameObject focus;
 //	private EdgeCollider2D lineCol;
-	private bool firing, connected;
-	public bool retracting, disconnectMe;
+	//public bool firing, connected, retracting;
+	public bool  disconnectMe;
 	private Transform lastGrab;
 	public Transform center;
 	public float breakTime, timeRetracting, timeFiring;
+	public int grappleState = 0; //0: idle, 1: launched, firing outwards, 2: connected, 3: retracting
 
 	private Rigidbody2D myRigid;
 	private SpringJoint2D toPlayer, toPickup;
@@ -35,7 +36,7 @@ public class GrappleScript : MonoBehaviour {
 			g.tag != "DualItem" && 
 			g.tag != "Grapple" &&
 			g.tag != "NoGrapple" &&
-			(firing)) {
+			(grappleState == 1)) {
 			//print(g.name);
 		/*	lineCol = this.gameObject.AddComponent<EdgeCollider2D>();
 			Vector2[] vee = new Vector2[2];
@@ -53,8 +54,7 @@ public class GrappleScript : MonoBehaviour {
 
 			//toPlayer.enabled = true;
 			focus.SendMessage("Attach");
-			retracting = false;
-			connected = true;
+			grappleState = 2;
 		}
         if ((g.tag == "NoGrapple" ||
             g.tag == "Item" ||
@@ -65,7 +65,7 @@ public class GrappleScript : MonoBehaviour {
             //bounce back
             //print("bounce back");
 			print(g.name + " " + focus.name);
-			retracting = true;
+			grappleState = 3;
 			Detach();
 		}
 		//otherwise, pass through
@@ -89,57 +89,30 @@ public class GrappleScript : MonoBehaviour {
 	//	Destroy(lineCol);
 		//lineCol = null;
 		toPlayer.enabled = false;
-		connected = false;
-		firing = false;
-		retracting = true;
+		grappleState = 3;
 	}
 	void Launch(Vector2 firingVector) {
-		firing = true;
+		grappleState = 1;
 	}
 	void Update() {
 		if (focus != null) {
 			center = focus.transform.FindChild("AimingParent");
 
-		} else if (connected) {
-			this.retracting = true;
-		}
+		} 
 		if (breakTime > 0) {
 			breakTime -= Time.deltaTime;
 		} else {
 			breakTime = 0;
 		}
-		if (!firing) {
+		if (grappleState == 1) {
 			timeFiring += Time.deltaTime;
 		} else {
 			timeFiring = 0;
 		}
 		//RaycastHit2D[] r;
-		if (connected) {
-			
-			/*float d = Vector3.Distance(this.transform.position, center.position) * .75f;
-			if (d > 1.2f) { //so getting too close won't disconnect
-				int layermask = 1 << (this.gameObject.layer + 5);
-				r = Physics2D.RaycastAll(center.position, (this.transform.position - center.position), d, layermask);
-				foreach (RaycastHit2D ray in r) {
-					if (ray.transform.GetComponent<player>() == null 
-					    && ray.transform.GetComponentInParent<player>() == null 
-					    && ray.transform.GetComponent<GrappleScript>() == null) {
-						breakTime = .4f; //so player wont try to disconnect and shoot again
-						//print("raycast disconnect " + ray.transform.name);
-						//print(d);
-						focus.SendMessage("Disconnect"); //Temporarily disabled for now
-					}
-				}
-			}*/
-		}
-		/*if (lineCol != null) {
-			Vector2[] vee = new Vector2[2];
-			vee[0] = Vector2.zero;
-			vee[1] = focus.transform.position - this.transform.position;
-			lineCol.points = vee;
-		}*/
 
-		if (retracting) {
+
+		if (grappleState == 3) {
 			timeRetracting += Time.deltaTime;
 			myRigid.velocity = Vector2.zero;
 			transform.position = Vector3.MoveTowards(this.transform.position, center.position, timeRetracting * 30 * Time.deltaTime );

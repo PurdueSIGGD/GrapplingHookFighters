@@ -168,7 +168,7 @@ public class GrappleLauncher : MonoBehaviour {
 	}
 	public void Reset() {
 		retracting = false;
-		firedGrappleScript.retracting = false;
+		firedGrappleScript.grappleState = 0;
 		firedGrapple.SendMessage("ResetLast");
 		for( int i = 0; i < grapples.Length; i++) {
 			grapples[i].transform.localPosition = Vector3.zero;
@@ -219,7 +219,7 @@ public class GrappleLauncher : MonoBehaviour {
         Reset();
         retracting = false;
         firedGrapple.transform.position = center.position;
-        firedGrappleScript.retracting = false;
+		firedGrappleScript.grappleState = 0;
         firedGrapple.SendMessage("ResetLast");
         death = false;
 		grappleArm.gameObject.SetActive (true);
