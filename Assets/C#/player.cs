@@ -657,6 +657,8 @@ public class player : MonoBehaviour {
 			if (jump (true)) { //we are using jetpackPlaying because there is a delay for it to stop
 				if (myJetpack && !jetpackPlaying) {
 					myJetpack.GetComponentInChildren<ParticleSystem> ().Play ();
+					myJetpack.GetComponentInChildren<Animator>().SetBool("Flying", true);
+
 					jetpackPlaying = true;
 				}
 				myRigid.AddForce (new Vector3 (0, 3000 * Time.deltaTime, 0));
@@ -664,6 +666,8 @@ public class player : MonoBehaviour {
 				
 				if (myJetpack && jetpackPlaying) {
 					myJetpack.GetComponentInChildren<ParticleSystem> ().Stop ();
+					myJetpack.GetComponentInChildren<Animator>().SetBool("Flying", false);
+
 					jetpackPlaying = false;
 				}
 				

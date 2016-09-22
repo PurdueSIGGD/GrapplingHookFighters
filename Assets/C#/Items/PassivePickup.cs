@@ -32,6 +32,7 @@ public class PassivePickup : MonoBehaviour {
 			g.GetComponent<player> ().jetpack = true;
 			if (this.transform.name != "Jetpack") transform.name = "Jetpack";
 			this.GetComponentInChildren<ParticleSystem>().Stop();
+			this.GetComponentInChildren<Animator>().SetBool("Flying", false);
 			break;
 		case 2:
 			focus.GetComponent<player> ().skateBoard = true;
@@ -76,6 +77,7 @@ public class PassivePickup : MonoBehaviour {
 			if (this.GetComponentInChildren<ParticleSystem>().isPlaying) {
 				broke = true;
 				this.GetComponentInChildren<ParticleSystem>().Play();
+				this.GetComponentInChildren<Animator>().SetBool("Flying", true);
 			}
 			break;
 		case 2:

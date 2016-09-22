@@ -62,7 +62,11 @@ public class HeldItem : MonoBehaviour {
 	}
 	void NotDeath() {
 		object o = 0;
-		if (focus) focus.SendMessage("throwWeapont",o);
+		if (focus && focus.GetComponent<player>()) { 
+			//this will throw errors because of unloading issues, nothing to worry about
+			focus.SendMessage("throwWeapont",o);
+		}
+			
 	}
 	void OnDestroy()
 	{

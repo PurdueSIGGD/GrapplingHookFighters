@@ -84,6 +84,10 @@ public class MainMenus : MonoBehaviour
 		player3Controls = 1;
 		player4Controls = 1;
 
+		player1Index = 0;
+		player2Index = 1;
+		player3Index = 2;
+		player4Index = 3;
 
 		/*mainMenu = GameObject.Find ("Main Menu");
 		charSelectMenu = GameObject.Find ("Char Select Menu");
@@ -651,10 +655,10 @@ public class MainMenus : MonoBehaviour
 		//player2Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[1];
 		//player3Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[2];
 		//player4Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[3];
-        player1Index = 0;
-        player2Index = 1;
-        player3Index = 2;
-        player4Index = 3;
+        //player1Index = 0;
+        //player2Index = 1;
+        //player3Index = 2;
+        //player4Index = 3;
         for (int i = 1; i <= 4; i++)
         {
             if (i >= maxPlayers + 1)
