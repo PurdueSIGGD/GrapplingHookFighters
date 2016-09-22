@@ -213,7 +213,7 @@ MonoBehaviour:
   yelling: 0
   playerid: -1
   bulletsPerShot: 1
-  ammo: 1
+  ammo: 10
   timeToShoot: 0
   projectileSpeed: 0
   recoil: 0
@@ -224,14 +224,17 @@ MonoBehaviour:
   minChargeTime: 0
   bulletDistance: 100
   chance: 0
+  deleteEmptyTime: 5
   shootPoint: {x: 0, y: 0, z: 0}
   projectileGameObject: {fileID: 0}
   particle: {fileID: 0}
   sparks: {fileID: 0}
   splats: {fileID: 0}
+  disappear: {fileID: 0}
   reticlePos: {x: 0, y: 0}
   shellSprite: {fileID: 0}
   bulletPhys: {fileID: 0}
+  emptySprite: {fileID: 0}
   critGameObject: {fileID: 0}
 --- !u!114 &11444964
 MonoBehaviour:

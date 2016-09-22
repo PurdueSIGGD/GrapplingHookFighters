@@ -15,10 +15,20 @@ public class LightinigStrike : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.GetComponent<player> ()){
-			Debug.Log ("Hit a player");
-			col.gameObject.GetComponent<Health>().hit(100f);//detects a player
+			//Debug.Log ("Hit a player with trigger");
+			col.gameObject.GetComponent<Health>().hit(200f);//detects a player
 		}
-			Destroy (this);
+		//Debug.Log ("Death by trgger");
+		Destroy (gameObject);
 		
+	}
+
+	void OnCollisionEnter2D(Collision2D col){
+		if (col.gameObject.GetComponent<player> ()){
+			//Debug.Log ("Hit a player with collision");
+			col.gameObject.GetComponent<Health>().hit(200f);//detects a player
+		}
+		//Debug.Log ("death by collision");
+		Destroy (gameObject);
 	}
 }

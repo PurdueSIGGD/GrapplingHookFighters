@@ -11,7 +11,6 @@ public class RainEffect : MonoBehaviour {
 //	ParticleSystem.Particle[] particles;
 //
 //
-//
 //	drop[] drops;
 //	int dropNum;//number of raindrops
 //
@@ -44,11 +43,13 @@ public class RainEffect : MonoBehaviour {
 //	* End of struct
 //	***********************************/
 //
-//	void Start () {
+	void Start () {
 ////		rainSys = gameObject.GetComponentInChildren<ParticleSystem> ();
 ////		dropNum = rainSys.GetParticles (particles);
 ////		drops = new drop[rainSys.maxParticles];
-//	}
+		transform.position = new Vector3(0,30f,0);
+		transform.rotation = Quaternion.Euler (90,0,0);
+	}
 //	
 //	// Update is called once per frame
 //	void Update () {

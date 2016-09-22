@@ -37,9 +37,10 @@ public class lightning : MonoBehaviour {
 		flashScreen.enabled = false;
 		interval = Random.Range (50, 100);
 		appear = Random.Range (10, 30);
-		strikes = Random.Range (0,3);
+		strikes = Random.Range (0,6);
 		hasStruck = false;
-		lifetime = Random.Range (10,30);
+		lifetime = Random.Range (120,300);
+		transform.rotation = Quaternion.Euler (0,0,0);
 	}
 	
 	// Update is called once per frame
@@ -89,7 +90,7 @@ public class lightning : MonoBehaviour {
 		}
 	}
 
-	void determinespawn(){
+	public void determinespawn(){
 		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
 		switch(SceneManager.GetActiveScene().buildIndex){
 		case 1://BoxofSword
