@@ -650,7 +650,7 @@ Transform:
   m_GameObject: {fileID: 126636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.41, y: 0.7, z: 1}
+  m_LocalScale: {x: 2.92, y: 0.7, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 438414}
@@ -1448,7 +1448,7 @@ MonoBehaviour:
   deadTime: 0
   ignorePosition: 0
   boundaryPlace: {x: 0, y: 0, z: 0}
-  gibHolder: {fileID: 121034, guid: 6fe876c7a56df19499772a2e797c33d5, type: 2}
+  gibHolder: {fileID: 183144, guid: 9eae06a99d75a454d9bd5b3d134ab6e1, type: 2}
   splatterGib: {fileID: 156400, guid: 5e687380f8afd38449135132b66b2a90, type: 2}
   deadSprite: {fileID: 21300000, guid: 707b0f48a6744f2438153628cafe887e, type: 3}
   aliveSprite: {fileID: 21300000, guid: b220f15ad7d3b8942b29e667d291ba68, type: 3}
@@ -1464,12 +1464,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 0}
-  retracting: 0
   disconnectMe: 0
   center: {fileID: 0}
   breakTime: 0
   timeRetracting: 0
   timeFiring: 0
+  grappleState: 0
 --- !u!114 &11433728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1509,6 +1509,7 @@ MonoBehaviour:
   grappling: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   heldType: 0
+  armor: {fileID: 0}
 --- !u!114 &11438050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1986,7 +1987,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: f8b3b3b1634da05449d7982e4ec571d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2016,7 +2017,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: edc359931bfd38744be5dfe3200d22e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2047,7 +2048,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1837700433
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2076,7 +2077,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 88e1a52c4905881488ec32485e213c90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

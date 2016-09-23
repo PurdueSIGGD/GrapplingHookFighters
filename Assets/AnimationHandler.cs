@@ -34,8 +34,10 @@ public class AnimationHandler : MonoBehaviour {
 
     private float swingCooldown = 0.4179f;
     private float lastSwing;
-	// Use this for initialization
-	void Start () {
+    public SpriteRenderer armor;
+
+    // Use this for initialization
+    void Start () {
         ApplyColor();
 		//armLA.Stop ();
 		//armRA.Stop ();
@@ -60,13 +62,16 @@ public class AnimationHandler : MonoBehaviour {
         lastSwing += Time.deltaTime;
 		leg.flipX = torso.flipX = head.flipX = armL.flipX = armR.flipX = direction;
 		if (this.spikeBoots) spikeBoots.GetComponent<SpriteRenderer>().flipX = direction;
+        if (this.armor) armor.flipX = direction;
 
 		if (direction != lastDirection) {
 			//This is my method of hard coding in position when the player changes direction. It uses the hip as a center axis of flipping
 
 			AimingParent.rotation = Quaternion.Euler(Vector3.zero);
 			if (direction) {
-				leg.transform.position = new Vector3(hip.transform.position.x - (leg.transform.position.x - hip.transform.position.x), leg.transform.position.y, leg.transform.position.z);
+                if (armor) armor.transform.position = new Vector3(hip.transform.position.x - (armor.transform.position.x - armor.transform.position.x), armor.transform.position.y, armor.transform.position.z);
+
+                leg.transform.position = new Vector3(hip.transform.position.x - (leg.transform.position.x - hip.transform.position.x), leg.transform.position.y, leg.transform.position.z);
 				//legL.transform.position = new Vector3(hip.transform.position.x - (legL.transform.position.x - hip.transform.position.x), legL.transform.position.y, legL.transform.position.z);
 				torso.transform.position = new Vector3(hip.transform.position.x - (torso.transform.position.x - hip.transform.position.x), torso.transform.position.y, torso.transform.position.z);
 				head.transform.position = new Vector3(hip.transform.position.x - (head.transform.position.x - hip.transform.position.x), head.transform.position.y, head.transform.position.z);

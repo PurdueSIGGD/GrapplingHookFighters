@@ -66,7 +66,7 @@ public class PassivePickup : MonoBehaviour {
 		//print ("Bye");
 		switch (itemCode) {
 		case 0:
-			focus.GetComponent<Health> ().SendMessage ("dropArmor");
+			if (focus)focus.GetComponent<Health> ().SendMessage ("dropArmor");
 			if (i == 1) {
 				broke = true;
 			}

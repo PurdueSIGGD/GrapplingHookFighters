@@ -138,7 +138,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194770}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0.914, y: 0.032, z: -0}
+  m_LocalPosition: {x: 1.01, y: 0.14, z: -0}
   m_LocalScale: {x: 0.1591227, y: 0.057503838, z: 0.07523891}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children: []
@@ -151,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.064, y: 0.038, z: 0}
+  m_LocalPosition: {x: 0.16, y: 0.14, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -164,7 +164,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 155438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.058, y: 0.087, z: 0}
+  m_LocalPosition: {x: 0.07, y: 0.16, z: 0}
   m_LocalScale: {x: 1.0589219, y: 0.78438634, z: 0.78438634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181302}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0.9253397, y: 0.035903215, z: 0.18835068}
+  m_LocalPosition: {x: 1.02, y: 0.14, z: 0.18835068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children: []
@@ -190,7 +190,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106680}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.16, y: 0, z: -0.05}
+  m_LocalPosition: {x: 0.25, y: 0.1, z: -0.05}
   m_LocalScale: {x: 2.5, y: 2.5, z: 0.08}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -216,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.908, y: 0.038, z: 0}
+  m_LocalPosition: {x: 1, y: 0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -270,7 +270,7 @@ PolygonCollider2D:
   m_Material: {fileID: 6200000, guid: e89a05077238ac842a8a6414eb2b39ae, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.16, y: 0}
+  m_Offset: {x: 0.26, y: 0.09}
   m_Points:
     m_Paths:
     - - {x: -0.6827947, y: -0.15368938}
@@ -292,7 +292,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0.1, y: 0}
+  m_Offset: {x: 0.19, y: 0.09}
   serializedVersion: 2
   m_Size: {x: 2.1559782, y: 0.77705806}
 --- !u!114 &11476700

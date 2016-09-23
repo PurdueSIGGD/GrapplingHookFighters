@@ -29,7 +29,7 @@ GameObject:
   - 50: {fileID: 5093892}
   - 212: {fileID: 21285382}
   - 233: {fileID: 23321902}
-  m_Layer: 8
+  m_Layer: 19
   m_Name: LegHome2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - 50: {fileID: 5099062}
   - 60: {fileID: 6039986}
   - 114: {fileID: 11403916}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Hip
   m_TagString: PlayerGibs
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - 50: {fileID: 5004074}
   - 212: {fileID: 21246084}
   - 233: {fileID: 23391494}
-  m_Layer: 8
+  m_Layer: 19
   m_Name: LegHome1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129150}
   m_LocalRotation: {x: 0, y: 0, z: -0.008741215, w: 0.99996185}
-  m_LocalPosition: {x: -0.008, y: 0.429, z: 0}
+  m_LocalPosition: {x: -0.007, y: 0.469, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.0016999}
   m_Children:
@@ -413,7 +413,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 103644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.029, y: 0.409, z: 0}
+  m_LocalPosition: {x: 0.007, y: 0.378, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -506,7 +506,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 122388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.024, y: -0.044, z: 0}
+  m_LocalPosition: {x: 0.024, y: -0.151, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1402,7 +1402,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.000000021587539, y: -0.000000040764185}
+  m_ConnectedAnchor: {x: 0.0044000437, y: 0.116399996}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1471,7 +1471,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.010305315, y: -0.080459766}
+  m_ConnectedAnchor: {x: 0.023229692, y: -0.005498619}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

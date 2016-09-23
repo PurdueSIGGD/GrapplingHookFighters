@@ -63,7 +63,7 @@ GameObject:
   - 50: {fileID: 5088740}
   - 212: {fileID: 21244236}
   - 233: {fileID: 23356336}
-  m_Layer: 8
+  m_Layer: 19
   m_Name: LegHome1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - 50: {fileID: 5054430}
   - 212: {fileID: 21202658}
   - 233: {fileID: 23314852}
-  m_Layer: 8
+  m_Layer: 19
   m_Name: LegHome2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - 50: {fileID: 5000696}
   - 60: {fileID: 6028998}
   - 114: {fileID: 11429508}
-  m_Layer: 15
+  m_Layer: 19
   m_Name: Hip
   m_TagString: PlayerGibs
   m_Icon: {fileID: 0}
@@ -375,7 +375,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.029, y: 0.409, z: 0}
+  m_LocalPosition: {x: -0.011, y: 0.357, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -545,7 +545,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.024, y: -0.044, z: 0}
+  m_LocalPosition: {x: 0.024, y: -0.245, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1402,7 +1402,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.010305315, y: -0.080459766}
+  m_ConnectedAnchor: {x: -0.0017407467, y: -0.072041444}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1471,7 +1471,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.000000021587539, y: -0.000000040764185}
+  m_ConnectedAnchor: {x: 0.004400148, y: 0.07879999}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

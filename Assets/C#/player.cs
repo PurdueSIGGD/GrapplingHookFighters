@@ -331,13 +331,20 @@ public class player : MonoBehaviour {
 				timeSincePickup = 0;
 				Rigidbody2D rg = passiveItem.GetComponent<Rigidbody2D>();
 				rg.isKinematic = false;
-				if (passiveItem.GetComponent<PassivePickup>().itemCode == 4) {
+                PassivePickup myPassive = passiveItem.GetComponent<PassivePickup>();
+				if (myPassive.itemCode == 4) {
 					myAnim.spikeBoots.SetBool("Pickup", true);
 					myAnim.spikeBoots.GetComponent<SpriteRenderer>().flipX = false;
 					myAnim.spikeBoots = null;
 
 				}
-				if (b)
+                if (myPassive.itemCode == 0)
+                {
+                    if (myAnim.armor) myAnim.armor.GetComponentInChildren<SpriteRenderer>().flipX = false;
+                    myAnim.armor = null;
+                }
+
+                if (b)
 					rg.AddForce (80 * Random.insideUnitCircle); //throw weapon
 				rg.AddTorque (3);
 				passiveItem.transform.parent = null;
@@ -481,13 +488,25 @@ public class player : MonoBehaviour {
 					passiveItem.GetComponent<Rigidbody2D> ().isKinematic = true;
 					passiveItem.transform.localScale = Vector3.one;
 					passiveItem.transform.rotation = Quaternion.identity;
-					if (passiveItem.GetComponent<PassivePickup>().itemCode == 4) {
+                    PassivePickup myPassive = passiveItem.GetComponent<PassivePickup>();
+					if (myPassive.itemCode == 4) {
 						passiveItem.transform.localPosition = myAnim.transform.FindChild("Legs").transform.localPosition;
 						myAnim.spikeBoots = passiveItem.transform.FindChild("Sprite").GetComponent<Animator>();
 
 					}
+                    if (myPassive.itemCode == 0)
+                    {
+                        passiveItem.transform.parent = transform.FindChild("AimingParent");
+                        passiveItem.transform.localPosition = new Vector3(-0.052f, 0.114f, 0);
+                        myAnim.armor = myPassive.GetComponentInChildren<SpriteRenderer>();
+                        passiveItem.GetComponentInChildren<SpriteRenderer>().flipX = false;
+                    }
+                    if (myPassive.itemCode == 1)
+                    {
+                        passiveItem.transform.parent = transform.FindChild("AimingParent");
+                    }
 
-					canPickup = false;
+                    canPickup = false;
 				} else {
 					if (heldItem1 == null) { //assign values to helditem1
 						Physics2D.IgnoreCollision (col, myCollider);
@@ -531,6 +550,11 @@ public class player : MonoBehaviour {
 						if (heldItem1.GetComponent<gun> () || heldItem1.GetComponent<PortalGun> ()) {
 							heldItem1.SendMessage ("SetPlayerID", playerid);
 						}
+                        SpriteRenderer s;
+                        if ((s = heldItem1.GetComponent<SpriteRenderer>()) || (s = heldItem1.GetComponentInChildren<SpriteRenderer>()))
+                        {
+                            s.sortingOrder = 3;
+                        }
 						canPickup = false;
 						if (heldItem1.CompareTag ("DualItem")) {
 							myAnim.heldType = 1;
@@ -575,7 +599,12 @@ public class player : MonoBehaviour {
 						if (heldItem2.GetComponent<gun> ()) {
 							heldItem2.SendMessage ("SetPlayerID", playerid);
 						}
-						myAnim.heldType = 2;
+                        SpriteRenderer s;
+                        if ((s = heldItem2.GetComponent<SpriteRenderer>()) || (s = heldItem2.GetComponentInChildren<SpriteRenderer>()))
+                        {
+                            s.sortingOrder = -1;
+                        }
+                        myAnim.heldType = 2;
 						canPickup = false;
 					} else {
 
@@ -653,7 +682,7 @@ public class player : MonoBehaviour {
 	void jumpNow(bool b) {
 		
 		if (jetpack) {
-			Transform myJetpack = transform.FindChild("Jetpack");
+			Transform myJetpack = passiveItem.transform;
 			if (jump (true)) { //we are using jetpackPlaying because there is a delay for it to stop
 				if (myJetpack && !jetpackPlaying) {
 					myJetpack.GetComponentInChildren<ParticleSystem> ().Play ();
