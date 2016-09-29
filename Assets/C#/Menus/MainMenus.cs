@@ -11,6 +11,7 @@ public class MainMenus : MonoBehaviour
     private int deathCount;
 	private bool allDead, mousePressed, hasMouse, updating;
     private float allDeadTimer, checkTimer;
+	public GameObject backgroundCamera;
     public GameObject map;
     public GameObject explosion;
 	public GameObject mouseController;
@@ -70,6 +71,15 @@ public class MainMenus : MonoBehaviour
 	//public GameObject player3Controls;
 	//public GameObject player4Controls;
 
+	//animators
+	private Animator mainMenuA;
+	private Animator numPlayersA;
+	private Animator charSelectA;
+	private Animator optionsA;
+	private Animator creditsA;
+
+
+
 
 	void Start () 
 	{
@@ -89,6 +99,24 @@ public class MainMenus : MonoBehaviour
 		player3Index = 2;
 		player4Index = 3;
 
+		mainMenuA = this.mainMenu.GetComponent<Animator>();
+		numPlayersA = this.numPlayersMenu.GetComponent<Animator>();
+		charSelectA = this.charSelectMenu.GetComponent<Animator>();
+		optionsA = this.optionsMenu.GetComponent<Animator>();
+		creditsA = this.creditsMenu.GetComponent<Animator>();
+
+
+		numPlayersA.SetBool("Insta", true);
+		charSelectA.SetBool("Insta", true);
+		optionsA.SetBool("Insta", true);
+		creditsA.SetBool("Insta", true);
+		numPlayersA.SetBool("Right", true);
+		charSelectA.SetBool("Right", true);
+		optionsA.SetBool("Top", true);
+		creditsA.SetBool("Top", true);
+
+
+
 		/*mainMenu = GameObject.Find ("Main Menu");
 		charSelectMenu = GameObject.Find ("Char Select Menu");
 		optionsMenu = GameObject.Find ("Options Menu");
@@ -99,7 +127,7 @@ public class MainMenus : MonoBehaviour
 		mapsMenu = GameObject.Find ("Maps Menu");
 		weaponsMenu = GameObject.Find ("Weapons Menu");
 		player1Controls = GameObject.Find ("Player1 Menu");
-		player2Controls = GameObject.Find ("Player2 Menu");
+		player2Controls = GameObject.Find ("Player2 Menu"); 	
 		player3Controls = GameObject.Find ("Player3 Menu");
 		player4Controls = GameObject.Find ("Player4 Menu");
 
@@ -162,11 +190,47 @@ public class MainMenus : MonoBehaviour
     }
 	public void switchScreens(GameObject from, GameObject to) {
 		//if there are animations or such, we want it to the same function
-		from.SetActive(false);
-		to.SetActive(true);
+		//from.SetActive(false);
+		//to.SetActive(true);
 		GameObject selected = to.transform.GetChild(0).GetComponentInChildren<Button>().gameObject;
 		//print(selected.name);
 		this.mainEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(selected);
+		to.GetComponent<Animator>().SetBool("Insta", false);
+		from.GetComponent<Animator>().SetBool("Insta", false);
+
+		//Menu1, Menu2.... Use that as if it was a z position
+		//char c1 = from.gameObject.tag[4];
+		//char c2 = to.gameObject.tag[4];
+		int c1 = from.GetComponentInChildren<Canvas>().sortingOrder;
+		int c2 = to.GetComponentInChildren<Canvas>().sortingOrder;
+
+		if (to.CompareTag("HorizontalMenu") && !from.CompareTag("VerticalMenu")) {
+			if (c1 < c2) {
+				//if (from.transform.position.z < to.transform.position.z) {
+				to.GetComponent<Animator>().SetBool(c1<0?"Left":"Right", false);
+				//from.GetComponent<Animator>().SetBool("Right", false);
+				print("Going to the right " + c1 + " " + c2);
+			} else {
+				//to.GetComponent<Animator>().SetBool("Right", false);
+				from.GetComponent<Animator>().SetBool(c1<0?"Left":"Right", true);
+				print("Going to the left" + c1 + " " + c2);
+			}
+		} else if (to.CompareTag("VerticalMenu") || from.CompareTag("VerticalMenu")) {
+			if (c1 < c2) {
+				//if (from.transform.position.z < to.transform.position.z) {
+				to.GetComponent<Animator>().SetBool(c1<0?"Bottom":"Top", false);
+				//from.GetComponent<Animator>().SetBool("Right", false);
+				print("Going upwards " + c1 + " " + c2);
+			} else {
+				//to.GetComponent<Animator>().SetBool("Right", false);
+				from.GetComponent<Animator>().SetBool(c1<0?"Bottom":"Top", true);
+
+				print("Going to the downwards" + c1 + " " + c2);
+			}
+		}
+	
+
+
 	}
 
 	//main menu
@@ -548,8 +612,7 @@ public class MainMenus : MonoBehaviour
 
 	//options menu
 	public void optionMenuBack() {
-		optionsMenu.SetActive (false);
-		mainMenu.SetActive (true);
+		switchScreens(this.optionsMenu, this.mainMenu);
 	}
 	public void turnOnMouse() {
 		if (!mousePressed) {
@@ -649,7 +712,7 @@ public class MainMenus : MonoBehaviour
 	}
 	public void toControlMenu() {
 		switchScreens(numPlayersMenu, charSelectMenu);
-        charSelectMenu.transform.FindChild("Player1Select");
+		//charSelectMenu.transform.FindChild("Player1Select");
 		updating = true;
 		//player1Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[0];
 		//player2Select.transform.FindChild("CharImage").FindChild("Image").GetComponent<Image>().sprite = sPlayerSelections[1];
@@ -705,6 +768,11 @@ public class MainMenus : MonoBehaviour
     {
 		updating = false;
         //hide this
+		backgroundCamera.SetActive(false);
+		mainMenu.SetActive(false);
+		optionsMenu.SetActive(false);
+		numPlayersMenu.SetActive(false);
+		creditsMenu.SetActive(false);
         charSelectMenu.SetActive(false);
         //generate players
         ArrayList playerList = GeneratePlayers();
@@ -889,8 +957,12 @@ public class MainMenus : MonoBehaviour
         GameObject mouse = GameObject.Find("MouseInput");
         mouse.SendMessage("Cleanup");
         Destroy(mouse);
-        charSelectMenu.SetActive(true);
-
+		mainMenu.SetActive(true);
+		optionsMenu.SetActive(true);
+		numPlayersMenu.SetActive(true);
+		creditsMenu.SetActive(true);
+		charSelectMenu.SetActive(true);
+		backgroundCamera.SetActive(true);
 
     }
 	IEnumerator StartGame()

@@ -19,6 +19,8 @@ TagManager:
   - NoGrapple
   - ItemBox
   - MapItem
+  - HorizontalMenu
+  - VerticalMenu
   layers:
   - Default
   - TransparentFX
