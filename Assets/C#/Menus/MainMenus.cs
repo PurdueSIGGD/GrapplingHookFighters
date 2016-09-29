@@ -19,7 +19,6 @@ public class MainMenus : MonoBehaviour
 	public GameObject mainEventSystem;
 
 	//main menu
-	public GameObject menus;
 	public GameObject mainMenu;
 	public GameObject charSelectMenu;
 	public GameObject optionsMenu;
@@ -707,7 +706,6 @@ public class MainMenus : MonoBehaviour
 		updating = false;
         //hide this
         charSelectMenu.SetActive(false);
-		menus.SetActive(false);
         //generate players
         ArrayList playerList = GeneratePlayers();
         //generate mouse controller
@@ -891,7 +889,6 @@ public class MainMenus : MonoBehaviour
         GameObject mouse = GameObject.Find("MouseInput");
         mouse.SendMessage("Cleanup");
         Destroy(mouse);
-		menus.SetActive(true);
         charSelectMenu.SetActive(true);
 
 
