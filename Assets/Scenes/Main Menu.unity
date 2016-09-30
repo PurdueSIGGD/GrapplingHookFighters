@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 15950255}
   - 95: {fileID: 15950256}
+  - 114: {fileID: 15950257}
   m_Layer: 0
   m_Name: Credits Menu
   m_TagString: VerticalMenu
@@ -259,6 +260,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &15950257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 15950254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74319e29275eb4899258cff4caaa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 0
+  depth: 1
 --- !u!1001 &20383565
 Prefab:
   m_ObjectHideFlags: 0
@@ -1626,6 +1640,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 142986614}
   - 95: {fileID: 142986615}
+  - 114: {fileID: 142986616}
   m_Layer: 0
   m_Name: Main Menu
   m_TagString: HorizontalMenu
@@ -1664,6 +1679,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &142986616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 142986613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74319e29275eb4899258cff4caaa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 2
+  depth: 0
 --- !u!1001 &154743792
 Prefab:
   m_ObjectHideFlags: 0
@@ -12270,6 +12298,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1081892133}
   - 95: {fileID: 1081892134}
+  - 114: {fileID: 1081892135}
   m_Layer: 0
   m_Name: NumPlayersMenu
   m_TagString: HorizontalMenu
@@ -12308,6 +12337,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1081892135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1081892132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74319e29275eb4899258cff4caaa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 1
+  depth: 1
 --- !u!1 &1084781662
 GameObject:
   m_ObjectHideFlags: 0
@@ -14008,6 +14050,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1252234368}
   - 95: {fileID: 1252234369}
+  - 114: {fileID: 1252234370}
   m_Layer: 0
   m_Name: Char Select Menu
   m_TagString: HorizontalMenu
@@ -14046,6 +14089,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1252234370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252234367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74319e29275eb4899258cff4caaa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 1
+  depth: 2
 --- !u!1 &1255322869
 GameObject:
   m_ObjectHideFlags: 0
@@ -19104,6 +19160,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1699463789}
   - 95: {fileID: 1699463790}
+  - 114: {fileID: 1699463791}
   m_Layer: 0
   m_Name: Options Menu
   m_TagString: VerticalMenu
@@ -19142,6 +19199,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1699463791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1699463788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a74319e29275eb4899258cff4caaa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 0
+  depth: 1
 --- !u!1001 &1707550106
 Prefab:
   m_ObjectHideFlags: 0

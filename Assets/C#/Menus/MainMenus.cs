@@ -195,12 +195,16 @@ public class MainMenus : MonoBehaviour
 		GameObject selected = to.transform.GetChild(0).GetComponentInChildren<Button>().gameObject;
 		//print(selected.name);
 		this.mainEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(selected);
+		//Call menu node thing
+		from.GetComponent<MenuNode>().Traverse(to);
+		/*
 		to.GetComponent<Animator>().SetBool("Insta", false);
 		from.GetComponent<Animator>().SetBool("Insta", false);
 
 		//Menu1, Menu2.... Use that as if it was a z position
 		//char c1 = from.gameObject.tag[4];
 		//char c2 = to.gameObject.tag[4];
+
 		int c1 = from.GetComponentInChildren<Canvas>().sortingOrder;
 		int c2 = to.GetComponentInChildren<Canvas>().sortingOrder;
 
@@ -228,6 +232,7 @@ public class MainMenus : MonoBehaviour
 				print("Going to the downwards" + c1 + " " + c2);
 			}
 		}
+		//*/
 	
 
 
