@@ -347,7 +347,7 @@ public class gun : MonoBehaviour, item {
 		}
 		Rigidbody2D rb;
 		if (rb = t.GetComponent<Rigidbody2D> ()) {
-			rb.AddForce (7 * (rb.mass) * damage * (angle + Vector2.up));
+			rb.AddForce (7 * damage * (angle + Vector2.up));
 		}
 		if (t.GetComponent<Hittable>()) {
 			//print(1);

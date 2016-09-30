@@ -352,7 +352,7 @@ MonoBehaviour:
   projectileSpeed: 5
   recoil: 20
   aimRecoil: 40
-  damage: 60
+  damage: 90
   spread: 0.18
   timeToCharge: 0
   minChargeTime: 0
