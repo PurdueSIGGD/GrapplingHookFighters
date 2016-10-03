@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: 0
   offset: {x: 0, y: 0}
+  armorHealth: 50
   broke: 0
 --- !u!212 &21230314
 SpriteRenderer:

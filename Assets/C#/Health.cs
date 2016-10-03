@@ -92,11 +92,12 @@ public class Health : MonoBehaviour {
 	}
 
 	//Adds armor to armorHealth
-	public void pickUpArmor() {
-		armorHealth = 50;
+	public void pickUpArmor(PassivePickup armor) {
+		armorHealth += armor.armorHealth;
 	}
 	//drops armor
-	public void dropArmor() {
+	public void dropArmor(PassivePickup armor) {
+		armor.armorHealth = armorHealth;
 		armorHealth = 0;
 	}
 	//Add armor input to armorHealth

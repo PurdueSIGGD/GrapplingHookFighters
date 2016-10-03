@@ -13,31 +13,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Left
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Insta
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Top
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Bottom
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -715,13 +715,13 @@ AnimatorStateMachine:
     m_Position: {x: -120, y: 96, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110227550}
-    m_Position: {x: 24, y: 300, z: 0}
+    m_Position: {x: 84, y: 288, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110292310}
     m_Position: {x: -120, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110228820}
-    m_Position: {x: -84, y: 360, z: 0}
+    m_Position: {x: -132, y: 336, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110255572}
     m_Position: {x: 252, y: 0, z: 0}

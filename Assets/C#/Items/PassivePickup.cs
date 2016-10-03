@@ -12,6 +12,7 @@ public class PassivePickup : MonoBehaviour {
 	 * 
 	 */
 	public Vector2 offset;
+	public float armorHealth = 50;
 	private GameObject focus;
 	public bool broke;
 	private float originalMass;
@@ -25,7 +26,7 @@ public class PassivePickup : MonoBehaviour {
 		case 0:
 			originalMass = g.GetComponent<Rigidbody2D> ().mass;
 			//g.GetComponent<Rigidbody2D> ().mass *= 1.3f;
-			g.GetComponent<Health> ().SendMessage ("pickUpArmor");
+			g.GetComponent<Health> ().SendMessage ("pickUpArmor", this);
 			break;
 		case 1:
 			broke = false;
@@ -66,7 +67,7 @@ public class PassivePickup : MonoBehaviour {
 		//print ("Bye");
 		switch (itemCode) {
 		case 0:
-			if (focus)focus.GetComponent<Health> ().SendMessage ("dropArmor");
+			if (focus)focus.GetComponent<Health> ().SendMessage ("dropArmor", this);
 			if (i == 1) {
 				broke = true;
 			}
