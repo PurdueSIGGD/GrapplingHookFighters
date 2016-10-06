@@ -25,9 +25,9 @@ public class Hazard : MonoBehaviour {
 		}
 	}
 	void OnTriggerStay2D(Collider2D col) {
-		if (active && col.transform.GetComponent<Hittable> () && !col.isTrigger) {
+		/*if (active && col.transform.GetComponent<Hittable> () && !col.isTrigger) {
 			col.transform.SendMessage ("hit", 150);
-		}
+		}*/
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (active && col.GetComponent<Hittable>() && (!col.isTrigger || col.GetComponent<player>())) { //if player is held
@@ -43,6 +43,7 @@ public class Hazard : MonoBehaviour {
 	}
 
 	void OnDestroy() {
+		if (stuckers == null) return;
 		foreach (Object o in stuckers) {
 			Rigidbody2D rg;
 			if (o != null) {

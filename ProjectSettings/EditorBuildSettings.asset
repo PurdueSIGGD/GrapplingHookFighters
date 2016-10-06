@@ -31,3 +31,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Scenes Without Players/Vertical.unity
   - enabled: 1
     path: Assets/Scenes/Scenes Without Players/RockCavern.unity
+  - enabled: 1
+    path: Assets/Scenes/Scenes Without Players/Roll.unity

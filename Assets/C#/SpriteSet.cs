@@ -13,6 +13,7 @@ public class SpriteSet {
     public Sprite floor_thin_left, floor_thin_middle, floor_thin_right;
     public Sprite floor_bottom_left, floor_bottom_right, floor_bottom_mid, floor_left, floor_mid_mid, floor_right, floor_top_left, floor_top_mid, floor_top_right;
     public Sprite lava_bottom_left, lava_bottom_right, lava_bottom_mid, lava_left, lava_mid_mid, lava_right, lava_top_left, lava_top_mid, lava_top_right;
+	public GameObject lavaTop, lavaLeft, lavaRight, lavaBottom, lava; //the actual gameobjects that we want different colliders and what not forx
     public Sprite item_box;
     public Sprite spike;
     public Sprite trampoline;
@@ -36,9 +37,26 @@ public class SpriteSet {
                     // 0 1 2
                     // 3   4
                     // 5 6 7 
-                    Sprite finalSprite = s.errorSprite;
-                    //Debug.Log(g.name + " " + g.transform.position);
+					GameObject finalGameObject = s.lava;
+					if (hits[1] && hits[2] && hits[3] && hits[4] && hits[5] && hits[6] && hits[7]) finalGameObject = s.lava;
+					else if (hits[1] && hits[2] && hits[4] && hits[6] && hits[7]) finalGameObject = s.lavaLeft;
+					else if (hits[1] && hits[0] && hits[3] && hits[5] && hits[6]) finalGameObject = s.lavaRight;
+					else if (hits[0] && hits[2] && !hits[6]) finalGameObject = s.lavaBottom;
+					else if (hits[5] && hits[7] && !hits[1]) finalGameObject = s.lavaTop;
+					else if (hits[6] && hits[4]) finalGameObject = s.lavaLeft;
+					else if (hits[3] && hits[6]) finalGameObject = s.lavaRight;
+					else if (hits[1] && hits[4]) finalGameObject = s.lavaLeft;
+					else if (hits[1] && hits[3]) finalGameObject = s.lavaRight;
+
+					Vector3 tmpPos = g.transform.position;
+					Quaternion tmpRot = g.transform.rotation;
+					GameObject.Destroy(g.gameObject);
+					GameObject newG = (GameObject)GameObject.Instantiate(finalGameObject, tmpPos, tmpRot);
+
+					//Debug.Log(g.name + " " + g.transform.position);
                     //for (int i = 0; i < hits.Length; i++) Debug.Log(hits[i]);
+					Sprite finalSprite = s.errorSprite;
+
 
                     if (hits[1] && hits[2] && hits[3] && hits[4] && hits[5] && hits[6] && hits[7]) finalSprite = s.lava_mid_mid;
                     else if (hits[1] && hits[2] && hits[4] && hits[6] && hits[7]) finalSprite = s.lava_left;
@@ -49,7 +67,7 @@ public class SpriteSet {
                     else if (hits[3] && hits[6]) finalSprite = s.lava_top_right;
                     else if (hits[1] && hits[4]) finalSprite = s.lava_bottom_left;
                     else if (hits[1] && hits[3]) finalSprite = s.lava_bottom_right;
-                    g.transform.FindChild("Lava Sprite").GetComponent<SpriteRenderer>().sprite = finalSprite;
+                    newG.transform.FindChild("Lava Sprite").GetComponent<SpriteRenderer>().sprite = finalSprite;
                     break;
                 case "floor":
 

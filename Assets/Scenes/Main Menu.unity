@@ -3098,6 +3098,11 @@ MonoBehaviour:
     lava_top_left: {fileID: 21300000, guid: 9e8304a51dc000b4ebb5a8058c5e398f, type: 3}
     lava_top_mid: {fileID: 21300000, guid: 90692f77174d6584b9a1d68fa8f4d28b, type: 3}
     lava_top_right: {fileID: 21300000, guid: 299cd84dad85b3743ae3e099fcb570dd, type: 3}
+    lavaTop: {fileID: 116352, guid: 5aa27dce802f66741aebef3a02b3a240, type: 2}
+    lavaLeft: {fileID: 131068, guid: a9d5e1139a968e449b281f287c3ce817, type: 2}
+    lavaRight: {fileID: 124008, guid: c149fe1a0b1ebce47857a102490fd61e, type: 2}
+    lavaBottom: {fileID: 152886, guid: e1ab0f690bf920e429119d73bb52275f, type: 2}
+    lava: {fileID: 139006, guid: a5d9a9a1103c8ca4896f569c356d9a73, type: 2}
     item_box: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
     spike: {fileID: 21300000, guid: cb4d1f74fbb4b904b8d6dd57c3b64a49, type: 3}
     trampoline: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
@@ -3143,6 +3148,11 @@ MonoBehaviour:
     lava_top_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     lava_top_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     lava_top_right: {fileID: 21300000, guid: 299cd84dad85b3743ae3e099fcb570dd, type: 3}
+    lavaTop: {fileID: 0}
+    lavaLeft: {fileID: 0}
+    lavaRight: {fileID: 0}
+    lavaBottom: {fileID: 0}
+    lava: {fileID: 0}
     item_box: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
     spike: {fileID: 21300000, guid: cb4d1f74fbb4b904b8d6dd57c3b64a49, type: 3}
     trampoline: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
@@ -3150,8 +3160,8 @@ MonoBehaviour:
     physicalTileLayers:
       serializedVersion: 2
       m_Bits: 8192
-  debugUseSceneSelections: 0
-  debugSceneSelections: 03000000030000000300000003000000
+  debugUseSceneSelections: 1
+  debugSceneSelections: 08000000080000000800000008000000
   mapImages:
   - {fileID: 21300000, guid: 7d6554053456a384fad3d827871b9cc8, type: 3}
   - {fileID: 21300000, guid: f7b78754e44d1a747b9688fd71942320, type: 3}
@@ -3159,7 +3169,7 @@ MonoBehaviour:
   - {fileID: 171966, guid: e26150c22ca6eb14fa69b8d3eb7c4eb2, type: 2}
   - {fileID: 144260, guid: f4a5c41fcdd70644880130a4f2927000, type: 2}
   maxLevel: 10
-  numLevels: 7
+  numLevels: 8
 --- !u!1 &206084977
 GameObject:
   m_ObjectHideFlags: 0
