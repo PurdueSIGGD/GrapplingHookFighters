@@ -145,9 +145,11 @@ public class GrappleLauncher : MonoBehaviour {
 	                Disconnect();
 
 	            } else {
+					print("1 DEBUG");
 	                //retracting = true;
 	                //retract grapple
 	            }
+				print("2 DEBUG");
 	        }
 		}
     }

@@ -356,10 +356,11 @@ public class MouseInput : MonoBehaviour {
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
 				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterR");
 				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterL");
-				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0);
+				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0).normalized * 2;
 
-				if (Vector2.SqrMagnitude(look) > .2f) { //continue, do not update reticle
-					look = look/Vector2.SqrMagnitude(look);
+				if (Vector2.SqrMagnitude(look) > .2f) { 
+					//look = look.normalized;
+			
 					reticle.localPosition = look;
 					lastReticle[lastReticleIndex] = look;
 				} else {

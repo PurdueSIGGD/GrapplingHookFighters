@@ -7,6 +7,7 @@ public class ItemBox : MonoBehaviour {
     private float time = 0;
     public bool callsFunction;
 	public bool dropsAutomatically;
+	public bool randomDispersion;
 	public GameObject[] items;
     private Transform childSprite;
 
@@ -31,7 +32,7 @@ public class ItemBox : MonoBehaviour {
     }
     void Update()
     {
-        time += Time.deltaTime;
+		time += randomDispersion?Time.deltaTime*Random.Range(0f,2f):Time.deltaTime;
 		if (time > timeTillReset && timeTillReset > 0 && used) {
 			childSprite.GetComponent<SpriteRenderer>().sprite = closedSprite;
 			used = false;

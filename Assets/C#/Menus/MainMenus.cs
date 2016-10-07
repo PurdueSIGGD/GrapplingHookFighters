@@ -938,7 +938,7 @@ public class MainMenus : MonoBehaviour
     public GameObject[] mapCameraBiz;
     private int mapIndex = 0;
     public int maxLevel = 9;
-    private int levelCount = 1;
+    private int levelCount = 5;
     private int colorIndex = 0;
     //number of unique levels we have
 	//so the last level number in build settings

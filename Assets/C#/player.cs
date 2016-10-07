@@ -86,6 +86,7 @@ public class player : MonoBehaviour {
 		if (tempDisabled) {
 			aimingParent.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
 			aimingParent.rotation = Quaternion.Euler(0, 0, 0);
+			reticle.transform.localPosition = Vector3.right;
 			//this.mySprite.flipX = false;
 
 		}

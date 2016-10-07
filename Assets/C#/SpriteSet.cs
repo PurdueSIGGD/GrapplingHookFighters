@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
@@ -24,6 +25,8 @@ public class SpriteSet {
 
     public static void ApplySprites(SpriteSet s)
     {
+		SceneManager.SetActiveScene(SceneManager.GetSceneAt(SceneManager.sceneCount - 1));
+
         foreach (CustomMapObject g in GameObject.FindObjectsOfType<CustomMapObject>())
         {
             switch (g.identifier)
@@ -126,7 +129,9 @@ public class SpriteSet {
             }
             //get sprite, change according to the spriteset passed
         }
-    }
+		SceneManager.SetActiveScene(SceneManager.GetSceneAt(0));
+
+	}
 
     private static bool[] findHits(string identifier, Vector3 position, LayerMask physicalTileLayers)
     {
