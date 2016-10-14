@@ -13,9 +13,11 @@ public class scrollPlatform : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		this.transform.position += downby * Time.deltaTime;
-		if (this.transform.position.y <= -60) {
-			GameObject newplat = (GameObject)Instantiate(platform,new Vector3(transform.position.x,30,0),new Quaternion(0,0,0,0));
-				Destroy(gameObject);
+		if (this.transform.position.y <= -10) {
+			transform.position = new Vector3(transform.position.x,70,0);
+			//GameObject newplat = (GameObject)Instantiate(platform,new Vector3(transform.position.x,70,0),new Quaternion(0,0,0,0));
+
+			//	Destroy(gameObject);
 		}
 	}
 }

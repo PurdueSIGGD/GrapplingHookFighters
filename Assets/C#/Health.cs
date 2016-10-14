@@ -263,7 +263,6 @@ public class Health : MonoBehaviour {
 		//```Destroy(box);
 		GameObject.Destroy(ragdoll);
 		mySprite.sprite = aliveSprite;
-
 		//transform.FindChild("GibHolder").gameObject.SetActive(false);
 		myPolygon.points = alivePoints;
 		Transform ch = transform.FindChild ("ParticleBleed");

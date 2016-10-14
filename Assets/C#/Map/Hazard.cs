@@ -13,10 +13,11 @@ public class Hazard : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if (active && col.GetComponent<Hittable>() && !col.isTrigger && !col.CompareTag("Grapple")) {
 			Rigidbody2D rg = col.GetComponent<Rigidbody2D>();
+			col.transform.SendMessage ("hit", 150);
 			if (rg) {
 				rg.drag = 50;
 				rg.angularDrag = 3;
-				col.transform.SendMessage ("hit", 150);
+
 				if (col.transform.GetComponent<Health> () ) {
 					col.transform.SendMessage ("Bleed");
 					stuckers.Add(col.gameObject);
@@ -32,8 +33,10 @@ public class Hazard : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D col) {
 		if (active && col.GetComponent<Hittable>() && (!col.isTrigger || col.GetComponent<player>())) { //if player is held
 			Rigidbody2D rg = col.GetComponent<Rigidbody2D>();
-			rg.drag = .5f;
-			rg.angularDrag = .05f;
+			if (rg) {
+				rg.drag = .5f;
+				rg.angularDrag = .05f;
+			}
 			if (col.transform.GetComponent<Health> () ) {
 				stuckers.Remove(col.gameObject);
 			}

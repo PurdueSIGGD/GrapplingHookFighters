@@ -103,7 +103,9 @@ public class gun : MonoBehaviour, item {
 	}
 	// Update is called once per frame
 	void Update () {
-		if (playerid >= 0) reticle = GameObject.Find("Reticle" + playerid).transform;
+		if (reticle == null && playerid != -1) {
+			reticle = GameObject.Find("Player" + playerid).GetComponent<player>().reticle;
+		}
 		//checked to see if there was a mouseplayer click
 		//this could be resource intensive as it is calling a method each update so the click()&unclick() method
 		//could be removed from the item interface

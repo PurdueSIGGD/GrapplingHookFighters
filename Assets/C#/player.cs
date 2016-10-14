@@ -30,8 +30,8 @@ public class player : MonoBehaviour {
 
 	public Vector2 leftGunPos, rightGunPos;
 
-
-	private Transform center1, center2, aimingParent, aimer, aimerBody, reticle;
+	public Transform reticle;
+	private Transform center1, center2, aimingParent, aimer, aimerBody;
 	private Rigidbody2D myRigid;
 	private Collider2D myCollider;
 	private PolygonCollider2D myPolygon;
@@ -122,7 +122,8 @@ public class player : MonoBehaviour {
            // currentY = transform.position.y;
             if (time < 1.0f) time += Time.deltaTime;
             if (timeSincePickup <= .4f) timeSincePickup += Time.deltaTime;
-
+			if (heldItem1 && reticle.gameObject.activeSelf) reticle.gameObject.SetActive(false);
+			if (!heldItem1 && !reticle.gameObject.activeSelf) reticle.gameObject.SetActive(true);
             //layer handling will be able to make us deal with seperate collisions and items and such. Changing position is simply for aestetics.
             if (time >= 1.0f && changePlane()) {
                 switchPlanes();
@@ -617,6 +618,7 @@ public class player : MonoBehaviour {
     void Death() {
         death = true;
 		myAnim.Death ();
+		reticle.gameObject.SetActive(false);
         this.myRigid.freezeRotation = false;
         //this.GetComponent<LineRenderer>().SetVertexCount(0);
 		aimer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
@@ -641,6 +643,7 @@ public class player : MonoBehaviour {
     }
     void NotDeath() {
 		myAnim.NotDeath ();
+		reticle.gameObject.SetActive(true);
         death = false;
 		crouched = false;
 		crouched = true;

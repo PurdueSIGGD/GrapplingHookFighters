@@ -34,7 +34,7 @@ public class AnimationHandler : MonoBehaviour {
 
     private float swingCooldown = 0.4179f;
     private float lastSwing;
-    public SpriteRenderer armor;
+    public SpriteRenderer armor, reticleSprite;
 
     // Use this for initialization
     void Start () {

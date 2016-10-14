@@ -386,10 +386,11 @@ public class SceneController : MonoBehaviour {
 
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.Backspace) && gameover) RestartNewGame();
+		if (Input.GetKeyDown(KeyCode.Backspace) && gameover)  RestartNewGame();
 
 	}
 	void RestartNewGame() {
+		
         if (loadInstantly)
         {
             GameObject[] objects = GameObject.FindObjectsOfType<GameObject>();
@@ -400,6 +401,7 @@ public class SceneController : MonoBehaviour {
             SceneManager.LoadScene(0);
         } else
         {
+			CleanScene();
             RespawnPeeps();
             SceneManager.UnloadScene(lastScene);
 

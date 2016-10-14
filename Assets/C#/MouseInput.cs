@@ -447,6 +447,17 @@ public class MouseInput : MonoBehaviour {
 				}*/
                 lastReticleIndex++;
 			}
+		} else {
+			//print(mousePlayers.Count);
+			foreach (player p in mousePlayers) {
+				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
+				Transform center1 = p.transform.FindChild ("AimingParent").FindChild ("CenterR");
+				Transform center2 = p.transform.FindChild ("AimingParent").FindChild ("CenterL");
+				reticle.localPosition = Vector3.right;
+				center1.localEulerAngles = new Vector3(0,0,90);
+				center2.localEulerAngles = new Vector3(0,0,90);
+
+			}
 		}
 		firstValues = false;
 	}

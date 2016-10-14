@@ -785,7 +785,6 @@ public class MainMenus : MonoBehaviour
         createMouse(playerList);
 		fading = false;
 		fader.color = new Color(fader.color.r, fader.color.g, fader.color.b, .6f);
-
 		//set fader to fade in
         //enable map
         map.SetActive(true);
@@ -954,11 +953,17 @@ public class MainMenus : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		updating = true;
         map.SetActive(true);
+		DisconnectPlayers();
         GameObject[] playerObj = GameObject.FindGameObjectsWithTag("PlayerParent");
 		foreach (GameObject g in playerObj)
         {
             GameObject.Destroy(g);
         }
+		playerObj = GameObject.FindGameObjectsWithTag("Player");
+		foreach (GameObject g in playerObj)
+		{
+			GameObject.Destroy(g);
+		}
         GameObject mouse = GameObject.Find("MouseInput");
         mouse.SendMessage("Cleanup");
         Destroy(mouse);
