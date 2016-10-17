@@ -244,6 +244,18 @@ public class GrappleLauncher : MonoBehaviour {
             rigids[i].isKinematic = false;
         }
     }
+    public void ApplyColors(float f)
+    {
+        Color c = new Color(0.5960784313725490196078431372549f, 0.34117647058823529411764705882353f, 0.18039215686274509803921568627451f, f);
+
+        for (int i = 0; i < grapples.Length; i++)
+        {
+            grapples[i].GetComponent<LineRenderer>().SetColors(c, c);
+
+        }
+        this.firedGrapple.GetComponent<SpriteRenderer>().color = c;
+
+    }
 	public bool isAttached() {
 		return attached;
 	}

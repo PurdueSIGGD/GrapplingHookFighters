@@ -9619,22 +9619,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 156
       objectReference: {fileID: 0}
-    - target: {fileID: 11459126, guid: b22b7c0242b4d0741b5b12090ef54549, type: 2}
-      propertyPath: factor
-      value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 197956, guid: b22b7c0242b4d0741b5b12090ef54549, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 472386, guid: b22b7c0242b4d0741b5b12090ef54549, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 472386, guid: b22b7c0242b4d0741b5b12090ef54549, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 197956, guid: b22b7c0242b4d0741b5b12090ef54549, type: 2}
       propertyPath: m_Name
       value: Tramp (1)

@@ -43,18 +43,9 @@ public class PassivePickup : MonoBehaviour {
 			g.GetComponent<player> ().maxMoveSpeed = 25;
 			break;
 		case 3:
-			Color c = focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor;
-			focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = new Color(c.r, c.g, c.b, .1f);
-			focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().ApplyColor();
-			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (1, 1, 1, .1f);
-			/*focusColor = g.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color;
-			g.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
-			g.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, .2f);
+                ChangeColors(true);
 
-			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,.2f);*/
-
-//			g.GetComponent<LineRenderer> ().SetColors (new Color (1, 1, 1, 0), new Color (1, 1, 1, 0));
-			break;
+                break;
 		case 4:
 			Physics2D.IgnoreCollision (g.GetComponent<Collider2D> (), transform.FindChild ("Hazard").GetComponent<Collider2D>());
 			transform.FindChild("Hazard").GetComponent<BoxCollider2D> ().enabled = true;
@@ -89,15 +80,7 @@ public class PassivePickup : MonoBehaviour {
 			focus.GetComponent<player> ().maxMoveSpeed = 10;
 			break;
 		case 3:
-			Color c = focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor;
-			focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = new Color(c.r, c.g, c.b, 1);
-			focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().ApplyColor();
-			this.GetComponentInChildren<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
-			/*focus.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color = focusColor;
-			this.GetComponentInChildren<SpriteRenderer>().color = new Color (1, 1, 1, 1);
-			focus.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
-			focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,1);*/
-		//	focus.GetComponent<LineRenderer> ().SetColors (new Color (1, 0, 0, 1), new Color (1, 0, 0, 0));
+                ChangeColors(false);
 			break;
 		case 4:
 			transform.FindChild("Hazard").GetComponent<BoxCollider2D> ().enabled = false;
@@ -129,4 +112,25 @@ public class PassivePickup : MonoBehaviour {
 			focus.GetComponent<PolygonCollider2D> ().sharedMaterial.bounciness = 0;
 		}
 	}
+    void ChangeColors(bool on)
+    {
+        Color c = focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor;
+        focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = new Color(c.r, c.g, c.b, on?0.2f:1);
+        focus.transform.FindChild("AnimationController").GetComponent<AnimationHandler>().ApplyColor();
+        this.GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, on ? 0.2f : 1);
+        // Reticle
+        focus.GetComponent<player>().reticle.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, on ? 0.2f : 1);
+        //Health and armor bar
+        focus.GetComponent<Health>().SendMessage("ApplyColors", on ? 0.2 : 1);
+        //grapple 
+        focus.GetComponent<GrappleLauncher>().SendMessage("ApplyColors", on ? 0.2 : 1);
+
+
+        /*focus.transform.FindChild ("Hip").GetComponent<SpriteRenderer> ().color = focusColor;
+        this.GetComponentInChildren<SpriteRenderer>().color = new Color (1, 1, 1, 1);
+        focus.GetComponent<GrappleLauncher>().firedGrapple.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
+        focus.transform.FindChild("AimerBody").GetComponentInChildren<SpriteRenderer>().color = new Color(1,1,1,1);*/
+        //	focus.GetComponent<LineRenderer> ().SetColors (new Color (1, 0, 0, 1), new Color (1, 0, 0, 0));
+
+    }
 }

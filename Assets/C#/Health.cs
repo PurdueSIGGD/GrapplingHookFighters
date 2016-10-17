@@ -152,8 +152,8 @@ public class Health : MonoBehaviour {
 				Physics2D.IgnoreCollision(r.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
 			}
 			SpriteRenderer[] sp = ragdoll.GetComponentsInChildren<SpriteRenderer>();
-			Color c = mySprite.color;
-			foreach (SpriteRenderer s in sp) {
+			Color c = new Color(mySprite.color.r, mySprite.color.g, mySprite.color.b, 1);
+            foreach (SpriteRenderer s in sp) {
 				s.color = c;
 			}
 			foreach (Sticky s in transform.GetComponentsInChildren<Sticky>()) {
@@ -244,8 +244,8 @@ public class Health : MonoBehaviour {
 					b.isTrigger = true;
 					b.size = new Vector2(.4f, .4f);
 					g.AddComponent<HeldItem>();
-
-					g.transform.GetComponentInChildren<SpriteRenderer> ().color = mySprite.color;
+                    Color cc = new Color(mySprite.color.r, mySprite.color.g, mySprite.color.b, 1);
+					g.transform.GetComponentInChildren<SpriteRenderer> ().color = cc;
 					usedGibs [range] = true;
 				}
 			}
@@ -297,7 +297,7 @@ public class Health : MonoBehaviour {
 	void Update () {
 		//healthIcon;
 		healthIcon.localScale = new Vector3(playerHealth/100, 1, 1);
-		healthSprite.color = new Color(1-playerHealth/100,playerHealth/100,0);
+		healthSprite.color = new Color(1-playerHealth/100,playerHealth/100,0, healthSprite.color.a);
 
 		armorIcon.localScale = new Vector3(armorHealth/100, 1, 1);
 		if (dead) {
@@ -317,4 +317,11 @@ public class Health : MonoBehaviour {
 		}
 
 	}
+    public void ApplyColors(float f)
+    {
+        Color c = new Color(1, 1, 1, f);
+        healthIcon.GetComponentInChildren<SpriteRenderer>().color = new Color(healthSprite.color.r, healthSprite.color.g, healthSprite.color.b, f);
+        armorIcon.GetComponentInChildren<SpriteRenderer>().color = c;
+
+    }
 }

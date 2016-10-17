@@ -62,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 183720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.98437405, y: 3.5437505, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 412712}
@@ -126,10 +126,12 @@ PolygonCollider2D:
   m_Offset: {x: 0.5, y: 0}
   m_Points:
     m_Paths:
-    - - {x: -0.16901183, y: -0.55679965}
-      - {x: -0.8115189, y: -0.5581701}
-      - {x: -0.781481, y: 0.5746925}
-      - {x: -0.18900347, y: 0.586884}
+    - - {x: 0.00467968, y: -0.08799267}
+      - {x: -0.12767124, y: -0.6394806}
+      - {x: -0.85285854, y: -0.6325836}
+      - {x: -0.9942198, y: -0.08754158}
+      - {x: -0.8724308, y: 0.6325693}
+      - {x: -0.16420078, y: 0.619957}
 --- !u!61 &6100406
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1754,8 +1756,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 3f4aef67f638ccc40b41375ca154fb25, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!1001 &100100000

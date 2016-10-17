@@ -56,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.912899, y: 7.9831495, z: 1.5078125}
+  m_LocalPosition: {x: -7.566601, y: 12.486817, z: 1.5078125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -94,12 +94,12 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: -0.01055336, y: 0.36133957}
-      - {x: 0.19104385, y: 0.16552258}
-      - {x: 0.34133816, y: -0.28748798}
-      - {x: -0.36639786, y: -0.2575302}
-      - {x: -0.3942356, y: -0.030548096}
-      - {x: -0.29098034, y: 0.2996254}
+    - - {x: -0.0016317368, y: 0.5085373}
+      - {x: 0.1754961, y: 0.5237694}
+      - {x: 0.25349236, y: 0.24135303}
+      - {x: 0.26550817, y: -0.5194397}
+      - {x: -0.24596214, y: -0.5073242}
+      - {x: -0.17054367, y: 0.1881113}
 --- !u!61 &6174316
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: 3
   offset: {x: 0, y: 0}
+  armorHealth: 50
   broke: 0
 --- !u!114 &11477286
 MonoBehaviour:
@@ -173,7 +174,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 94b36231852170540bd0a296c13f5219, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4717cbd32de6f984da5e3454a6be54b1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

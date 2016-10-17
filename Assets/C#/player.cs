@@ -289,9 +289,19 @@ public class player : MonoBehaviour {
 				}
 
 				heldItem1.SendMessage ("unclick");
-				heldItem1 = null;
+                Color myColor = this.GetComponentInChildren<AnimationHandler>().startColor;
+                foreach (SpriteRenderer ss in heldItem1.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, 1);
+                }
+                foreach (SpriteRenderer ss in heldItem1.GetComponents<SpriteRenderer>())
+                {
+                    ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, 1);
+                }
+                heldItem1 = null;
 				myAnim.heldType = 0;
-			}
+                
+            }
 		} else if (i == 1) {
 			if (heldItem2 != null) {
 
@@ -319,10 +329,20 @@ public class player : MonoBehaviour {
 					g.playerid = -1;
 				}
 				heldItem2.SendMessage ("unclick");
-				heldItem2 = null;
+                Color myColor = this.GetComponentInChildren<AnimationHandler>().startColor;
+                foreach (SpriteRenderer ss in heldItem2.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, 1);
+                }
+                foreach (SpriteRenderer ss in heldItem2.GetComponents<SpriteRenderer>())
+                {
+                    ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, 1);
+                }
+                heldItem2 = null;
 				canPickup = false;
 				myAnim.heldType = 1;
-			}
+                
+            }
 		} else if (i == 2) { //passive item
 			if (passiveItem != null) {
 				passiveItem.SendMessage("Drop",b?0:1);
@@ -563,7 +583,16 @@ public class player : MonoBehaviour {
 						} else {
 							myAnim.heldType = 3;
 						}
-					} else if (heldItem2 == null && !pl && heldItem1.CompareTag ("DualItem") && col.CompareTag ("DualItem")) { //assign values to helditem2
+                        Color myColor = this.GetComponentInChildren<AnimationHandler>().startColor;
+                        foreach (SpriteRenderer ss in heldItem1.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, myColor.a);
+                        }
+                        foreach (SpriteRenderer ss in heldItem1.GetComponents<SpriteRenderer>())
+                        {
+                            ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, myColor.a);
+                        }
+                    } else if (heldItem2 == null && !pl && heldItem1.CompareTag ("DualItem") && col.CompareTag ("DualItem")) { //assign values to helditem2
 
 						this.GetComponent<GrappleLauncher> ().SendMessage ("Disconnect"); 
 						Physics2D.IgnoreCollision (col,myCollider);
@@ -608,7 +637,16 @@ public class player : MonoBehaviour {
                         }
                         myAnim.heldType = 2;
 						canPickup = false;
-					} else {
+                        Color myColor = this.GetComponentInChildren<AnimationHandler>().startColor;
+                        foreach (SpriteRenderer ss in heldItem2.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, myColor.a);
+                        }
+                        foreach (SpriteRenderer ss in heldItem2.GetComponents<SpriteRenderer>())
+                        {
+                            ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, myColor.a);
+                        }
+                    } else {
 
 					}
 				}
@@ -730,5 +768,33 @@ public class player : MonoBehaviour {
 	void OnDestroy() {
 	//	print("wtf why");
 	}
+    void ApplyColors(float f)
+    {
+       // Color myColor = this.GetComponentInChildren<AnimationHandler>().startColor;
+       if (heldItem1)
+        {
+            foreach (SpriteRenderer ss in heldItem1.GetComponentsInChildren<SpriteRenderer>())
+            {
+                ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, f);
+            }
+            foreach (SpriteRenderer ss in heldItem1.GetComponents<SpriteRenderer>())
+            {
+                ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, f);
+            }
+        }
+        if (heldItem2)
+        {
+            foreach (SpriteRenderer ss in heldItem2.GetComponentsInChildren<SpriteRenderer>())
+            {
+                ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, f);
+            }
+            foreach (SpriteRenderer ss in heldItem2.GetComponents<SpriteRenderer>())
+            {
+                ss.color = new Color(ss.color.r, ss.color.g, ss.color.b, f);
+            }
+        }
+
+
+    }
 
 }
