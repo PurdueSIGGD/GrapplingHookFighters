@@ -624,12 +624,21 @@ public class MainMenus : MonoBehaviour
 			if (miceController == null) {
 				mousePressed = true;
 				mouseInfo.SetActive(true);
+			} else {
+				print("restarting");
+				miceController.Dispose();
+				miceController = new RawMouseDriver.RawMouseDriver();
+				mouseInfo.SetActive(false);
 			}
 		} else {
 			if (miceController == null) {
 				miceController = new RawMouseDriver.RawMouseDriver();
 				mouseInfo.SetActive(false);
-				GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Multi-Mouse\n support Enabled";
+				GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Restart\nmulti-mouse\nSupport";
+				mousePressed = false;
+			} else {
+
+
 			}
 		}
 	}
@@ -766,9 +775,9 @@ public class MainMenus : MonoBehaviour
         mouseControllerRef.singleMouse = (mouseCount <= 1 && miceController == null);
 		mouseControllerRef.SetUpRound();
         mouseControllerRef.Init(miceController);
-        miceController = mouseControllerRef.mousedriver;
+		//If we don't check, the game will so single mouse if we have multi mouse enabled but only one mouse player
+		if (miceController == null) miceController = mouseControllerRef.mousedriver;
     }
-
     public void charSelectMenuDone()
     {
 		updating = false;
@@ -964,15 +973,24 @@ public class MainMenus : MonoBehaviour
 		{
 			GameObject.Destroy(g);
 		}
-        GameObject mouse = GameObject.Find("MouseInput");
+		GameObject mouse = mouseControllerRef.gameObject;
         mouse.SendMessage("Cleanup");
-        Destroy(mouse);
+		GameObject.Destroy(mouse);
 		mainMenu.SetActive(true);
 		optionsMenu.SetActive(true);
 		numPlayersMenu.SetActive(true);
 		creditsMenu.SetActive(true);
 		charSelectMenu.SetActive(true);
 		backgroundCamera.SetActive(true);
+
+		numPlayersA.SetBool("Insta", true);
+		charSelectA.SetBool("Insta", true);
+		optionsA.SetBool("Insta", true);
+		creditsA.SetBool("Insta", true);
+		numPlayersA.SetBool("Right", false);
+		charSelectA.SetBool("Right", false);
+		optionsA.SetBool("Top", true);
+		creditsA.SetBool("Top", true);
 
     }
 	IEnumerator StartGame()
@@ -1140,7 +1158,7 @@ public class MainMenus : MonoBehaviour
     IEnumerator RespawnWhoever()
     {
         yield return new WaitForSeconds(5);
-		if (player1.GetComponent<Health>().dead)
+		if (player1 && player1.GetComponent<Health>().dead)
         {
 			Respawn(player1);
         }

@@ -217,8 +217,8 @@ InputManager:
     m_Name: VerticalPJ1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: s
-    positiveButton: w
+    negativeButton: 
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -265,8 +265,8 @@ InputManager:
     m_Name: VerticalPJ2
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: end
-    positiveButton: home
+    negativeButton: 
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -313,8 +313,8 @@ InputManager:
     m_Name: VerticalPJ3
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: '[5]'
-    positiveButton: '[8]'
+    negativeButton: 
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -361,8 +361,8 @@ InputManager:
     m_Name: VerticalPJ4
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: k
-    positiveButton: i
+    negativeButton: 
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1

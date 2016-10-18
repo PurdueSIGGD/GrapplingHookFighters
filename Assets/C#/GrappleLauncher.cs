@@ -111,7 +111,8 @@ public class GrappleLauncher : MonoBehaviour {
 				}
 				if (!attached && Vector3.Distance (firedGrapple.transform.position, center.position) > 10) {
 					//print(r.collider.name);
-					Disconnect ();
+
+					Disconnect (true);
 
 				}
 			}
@@ -124,6 +125,7 @@ public class GrappleLauncher : MonoBehaviour {
     void fire() {
 		if (grappleTimer <= 0) {
 	        if (!mouseReleased || death) {
+				print("Grapple Cannot Fire");
 	            return;
 	        }
 			grappleTimer = .3f;
@@ -145,11 +147,11 @@ public class GrappleLauncher : MonoBehaviour {
 	                Disconnect();
 
 	            } else {
-					print("1 DEBUG");
+					print("Grapple 1");
 	                //retracting = true;
 	                //retract grapple
 	            }
-				print("2 DEBUG");
+				print("Grapple 2");
 	        }
 		}
     }
@@ -185,13 +187,15 @@ public class GrappleLauncher : MonoBehaviour {
 		}
 	}
 	public void Disconnect() {
+		Disconnect(false);
+	}
+	public void Disconnect(bool force) {
 		//firedGrapple.gameObject.layer = this.gameObject.layer;
-
-		if (firing || retracting) {
-			
+		print("Grapple Disconnect");
+		if ((firing || retracting) && (attached || force)) {
+			retracting = true;
 			attached = false;
 			firing = false;
-			retracting = true;
 			for (int i = 0; i < grapples.Length; i++) {
 				edges[i].enabled = false;
 				edges[i].isTrigger = false;

@@ -5767,7 +5767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980903a12714e8f469b3da7ff864723e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 500
+  force: 1000
   recoverForce: 0
 --- !u!1001 &739462259
 Prefab:
