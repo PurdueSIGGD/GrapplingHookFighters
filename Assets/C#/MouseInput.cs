@@ -356,8 +356,8 @@ public class MouseInput : MonoBehaviour {
 				Transform reticle = p.transform.FindChild("Reticle" + p.playerid);
 				Transform center1 = p.transform.FindChild("AimingParent").FindChild("CenterR");
 				Transform center2 = p.transform.FindChild("AimingParent").FindChild("CenterL");
-				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0).normalized * 2;
-
+				look = new Vector3(Input.GetAxis("JoyX" + p.joystickID), Input.GetAxis("JoyY" + p.joystickID ), 0) * 2;
+				//print(Vector2.SqrMagnitude(look));
 				if (Vector2.SqrMagnitude(look) > .2f) { 
 					//look = look.normalized;
 			

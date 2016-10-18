@@ -301,8 +301,8 @@ public class SceneController : MonoBehaviour {
 			if (startTimer > 0) {
 				startTimer -= Time.deltaTime;
                 if (startTimer < 0) startTimer = 0;
-                string newText = "" + startTimer;
-                if (newText.Length >= 4) newText = newText.Substring(0, 4);
+				string newText = "" + (startTimer+1);
+                if (newText.Length >= 4) newText = newText.Substring(0, 1);
                 countDownText.text = newText;
                 countDownBackground.gameObject.SetActive(true);
                 if (startTimer > timeBeforeRoundStart/2)

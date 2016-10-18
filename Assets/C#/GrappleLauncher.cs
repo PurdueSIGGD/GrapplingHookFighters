@@ -191,8 +191,8 @@ public class GrappleLauncher : MonoBehaviour {
 	}
 	public void Disconnect(bool force) {
 		//firedGrapple.gameObject.layer = this.gameObject.layer;
-		print("Grapple Disconnect");
-		if ((firing || retracting) && (attached || force)) {
+		print("Grapple Disconnect: firing" + firing + " retracting " + retracting + " attached: " + attached + " force " + force);
+		if ((firing || retracting) /*&& (attached || force)*/) {
 			retracting = true;
 			attached = false;
 			firing = false;
