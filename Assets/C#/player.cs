@@ -406,7 +406,7 @@ public class player : MonoBehaviour {
 		return jump(false);
 	}
     bool jump(bool usingJetpack) {
-		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false)) {
+		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false) || (joystickController?(Input.GetButton("VerticalPB" + joystickID)):false)) {
 			return true;
         } else {
 			

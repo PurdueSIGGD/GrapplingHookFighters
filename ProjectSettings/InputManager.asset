@@ -218,7 +218,23 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1
+    dead: 0.5
+    sensitivity: 4
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: VerticalPB1
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: joystick 2 button 0
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -266,7 +282,23 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1
+    dead: 0.5
+    sensitivity: 1000
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 2
+  - serializedVersion: 3
+    m_Name: VerticalPB2
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: joystick 1 button 0
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -314,7 +346,23 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1
+    dead: 0.5
+    sensitivity: 1000
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 3
+  - serializedVersion: 3
+    m_Name: VerticalPB3
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: joystick 3 button 0
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
@@ -362,7 +410,23 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 0
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1
+    dead: 0.5
+    sensitivity: 1000
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 4
+  - serializedVersion: 3
+    m_Name: VerticalPB4
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: joystick 4 button 0
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
