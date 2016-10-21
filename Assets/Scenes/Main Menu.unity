@@ -3103,9 +3103,9 @@ MonoBehaviour:
     lavaRight: {fileID: 124008, guid: c149fe1a0b1ebce47857a102490fd61e, type: 2}
     lavaBottom: {fileID: 152886, guid: e1ab0f690bf920e429119d73bb52275f, type: 2}
     lava: {fileID: 139006, guid: a5d9a9a1103c8ca4896f569c356d9a73, type: 2}
-    item_box: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    item_box: {fileID: 21300000, guid: e7bb83ace5f44a140bc08ac378c6ea7e, type: 3}
     spike: {fileID: 21300000, guid: cb4d1f74fbb4b904b8d6dd57c3b64a49, type: 3}
-    trampoline: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
+    trampoline: {fileID: 21300000, guid: 909f22623d30eca49ae6f62c28aec8c4, type: 3}
     errorSprite: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     physicalTileLayers:
       serializedVersion: 2
@@ -3148,14 +3148,14 @@ MonoBehaviour:
     lava_top_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     lava_top_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     lava_top_right: {fileID: 21300000, guid: 299cd84dad85b3743ae3e099fcb570dd, type: 3}
-    lavaTop: {fileID: 0}
-    lavaLeft: {fileID: 0}
-    lavaRight: {fileID: 0}
-    lavaBottom: {fileID: 0}
-    lava: {fileID: 0}
-    item_box: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    lavaTop: {fileID: 116352, guid: 5aa27dce802f66741aebef3a02b3a240, type: 2}
+    lavaLeft: {fileID: 131068, guid: a9d5e1139a968e449b281f287c3ce817, type: 2}
+    lavaRight: {fileID: 124008, guid: c149fe1a0b1ebce47857a102490fd61e, type: 2}
+    lavaBottom: {fileID: 152886, guid: e1ab0f690bf920e429119d73bb52275f, type: 2}
+    lava: {fileID: 139006, guid: a5d9a9a1103c8ca4896f569c356d9a73, type: 2}
+    item_box: {fileID: 21300000, guid: e7bb83ace5f44a140bc08ac378c6ea7e, type: 3}
     spike: {fileID: 21300000, guid: cb4d1f74fbb4b904b8d6dd57c3b64a49, type: 3}
-    trampoline: {fileID: 21300000, guid: 8a4ad0e2e8befee4988349fc0942ed05, type: 3}
+    trampoline: {fileID: 21300000, guid: 909f22623d30eca49ae6f62c28aec8c4, type: 3}
     errorSprite: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     physicalTileLayers:
       serializedVersion: 2

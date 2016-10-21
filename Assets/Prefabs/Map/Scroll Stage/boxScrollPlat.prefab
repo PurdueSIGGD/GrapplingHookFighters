@@ -1618,7 +1618,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 3.8, y: 9.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -2018,7 +2018,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 150562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -8, z: 0}
+  m_LocalPosition: {x: 0, y: -9.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -2087,7 +2087,7 @@ Transform:
   m_GameObject: {fileID: 167034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.172734, y: 6.17273, z: 6.17273}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469244}
@@ -4088,6 +4088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platform: {fileID: 117042}
+  downby: {x: 0, y: -1.5, z: 0}
 --- !u!114 &11440396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4102,9 +4103,10 @@ MonoBehaviour:
   useString: 
   callsFunction: 0
   dropsAutomatically: 0
+  randomDispersion: 0
   items:
   - {fileID: 147808, guid: 3eae5451a0fea6040a120e8a73cf29b8, type: 2}
-  openSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  openSprite: {fileID: 21300000, guid: d0c9309477462ad4d9dc33d5433ea7f6, type: 3}
   timeTillReset: 5
   used: 0
 --- !u!114 &11440578
@@ -5345,7 +5347,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: e7bb83ace5f44a140bc08ac378c6ea7e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
