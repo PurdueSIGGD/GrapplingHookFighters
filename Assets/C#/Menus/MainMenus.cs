@@ -625,16 +625,16 @@ public class MainMenus : MonoBehaviour
 				mousePressed = true;
 				mouseInfo.SetActive(true);
 			} else {
-				print("restarting");
+				/*print("restarting");
 				miceController.Dispose();
 				miceController = new RawMouseDriver.RawMouseDriver();
-				mouseInfo.SetActive(false);
+				mouseInfo.SetActive(false);*/
 			}
 		} else {
 			if (miceController == null) {
 				miceController = new RawMouseDriver.RawMouseDriver();
 				mouseInfo.SetActive(false);
-				GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Restart\nmulti-mouse\nSupport";
+				GameObject.Find("EnableMice").transform.FindChild("Text").GetComponent<Text>().text = "Multi-mouse\nsupport enabled";
 				mousePressed = false;
 			} else {
 
@@ -974,7 +974,7 @@ public class MainMenus : MonoBehaviour
 			GameObject.Destroy(g);
 		}
 		GameObject mouse = mouseControllerRef.gameObject;
-        mouse.SendMessage("Cleanup");
+        mouse.SendMessage("Cleanup", false);
 		GameObject.Destroy(mouse);
 		mainMenu.SetActive(true);
 		optionsMenu.SetActive(true);
@@ -1114,7 +1114,8 @@ public class MainMenus : MonoBehaviour
                 if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
                 {
 
-                    a.startColor = avaliableColors[colorIndex];
+					ColorChangeCol.GetComponent<ParticleSystem>().Play();
+					a.startColor = avaliableColors[colorIndex];
                     a.ApplyColor();
                 }
             }
@@ -1135,7 +1136,7 @@ public class MainMenus : MonoBehaviour
             if (hit.CompareTag("Player")) {
                 if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
                 {
-
+					ColorChangeCol.GetComponent<ParticleSystem>().Play();
                     a.startColor = avaliableColors[colorIndex];
                     a.ApplyColor();
                 }
