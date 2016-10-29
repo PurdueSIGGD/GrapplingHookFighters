@@ -355,7 +355,11 @@ public class gun : MonoBehaviour, item {
 			//print(1);
 			t.SendMessage ("hit", damage);
 		} 
-	}
+        if (t.GetComponent<Deathbox>())
+        {
+            t.SendMessage("hit", angle);
+        }
+    }
 	bool GetOdds() { 
 		float rd = Random.value;
 		return (rd < chance);

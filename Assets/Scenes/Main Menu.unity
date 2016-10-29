@@ -2497,7 +2497,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8192
   debugUseSceneSelections: 0
-  debugSceneSelections: 09000000090000000900000009000000
+  debugSceneSelections: 0a0000000a0000000a0000000a000000
   mapImages:
   - {fileID: 21300000, guid: 7d6554053456a384fad3d827871b9cc8, type: 3}
   - {fileID: 21300000, guid: f7b78754e44d1a747b9688fd71942320, type: 3}
@@ -11665,7 +11665,7 @@ GameObject:
   - 20: {fileID: 1437104048}
   - 92: {fileID: 1437104047}
   - 124: {fileID: 1437104046}
-  - 81: {fileID: 1437104045}
+  - 114: {fileID: 1437104045}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -11673,13 +11673,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1437104045
-AudioListener:
+--- !u!114 &1437104045
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1437104044}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0dbc49bd809ca4c858a84ad2be1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenerId: 0
 --- !u!124 &1437104046
 Behaviour:
   m_ObjectHideFlags: 0
