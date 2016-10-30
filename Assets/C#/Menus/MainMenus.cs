@@ -1015,7 +1015,7 @@ public class MainMenus : MonoBehaviour
 			s.levelPlan = debugSceneSelections;
 		} else {
 	        int[] levelPlan = new int[levelCount];
-			int[] rawLevelPlan = new int[10];
+			int[] rawLevelPlan = new int[12];
 			//I don't trust just throwing in an array with random.range, so we are trying a different approach
 			//create an array with all levels included, if room, and loop
 			//i.e. [1, 2, 3, 4, 1, 2, 3, 4, 1, 2] if there aref 4 levels
@@ -1030,6 +1030,7 @@ public class MainMenus : MonoBehaviour
 				rawLevelPlan[newval] = tmp;
 			}
 			//trim to our array
+			Debug.Log("Raw Level Plan "+rawLevelPlan.Length+"level count"+levelCount);
 	        for (int i = 0; i < levelCount; i++)
 	        {
 	            levelPlan[i] = rawLevelPlan[i];
