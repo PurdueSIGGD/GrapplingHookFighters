@@ -24,9 +24,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166308}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.81, y: 2.34, z: -14.171873}
+  m_LocalPosition: {x: 14.227921, y: -1.1209757, z: -14.171873}
   m_LocalScale: {x: 4, y: 4, z: 4}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -84,7 +84,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 7
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -119,7 +119,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 0.1
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -248,7 +248,7 @@ ParticleSystem:
         rgba: 4288914339
       minMaxState: 0
     startSize:
-      scalar: 3
+      scalar: 1.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -416,7 +416,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 4
+      scalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -461,7 +461,7 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -631,7 +631,7 @@ ParticleSystem:
         key7:
           serializedVersion: 2
           rgba: 0
-        ctime0: 0
+        ctime0: 128
         ctime1: 65535
         ctime2: 65535
         ctime3: 0

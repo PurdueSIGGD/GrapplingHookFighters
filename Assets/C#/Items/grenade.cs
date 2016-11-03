@@ -3,7 +3,7 @@ using System.Collections;
 
 public class grenade : MonoBehaviour {
 
-    private bool pullPin = false;
+    private bool pullPin = false, stuck;
     public bool pinPulled = false, smokey/*, usePin = true*/;
 	public bool sticky, exploded;
     public float fuseTime, fuseParticleInterval;
@@ -21,7 +21,7 @@ public class grenade : MonoBehaviour {
 	}
 
     public void Update() {
-		if (sticky && myRigid && timePassed > .2f) {
+		/*if (sticky && myRigid && timePassed > .2f) {
 			int layermask = (1 << this.gameObject.layer) + (1 << 13) + (1 << 15);
 			RaycastHit2D[] rr = Physics2D.RaycastAll(transform.position, myRigid.velocity, Time.deltaTime, layermask);
 			//RaycastHit2D myHit;
@@ -33,7 +33,7 @@ public class grenade : MonoBehaviour {
 					break;
 				}
 			}
-		}
+		}*/
 
 		if (transform.parent && transform.parent.GetComponent<ExplosionScript>()) Explode();
 		//if (transform.parent) transform.localScale = new Vector3(1.2f/transform.parent.localScale.x,1.2f/transform.parent.localScale.y,1.2f/transform.parent.localScale.z);
@@ -104,13 +104,17 @@ public class grenade : MonoBehaviour {
 		}
 	}
 	void Stick(Transform col) {
-		Destroy(this.GetComponent<Rigidbody2D>());
-		this.transform.SetParent (col.transform);
-		float scalex = 1 / col.transform.localScale.x ; 
-		//float scaley = 1 / col.transform.localScale.y ; 
-		//float scalez = 1 / col.transform.localScale.z ; 
-		float childOrg = transform.localScale.x; 
-		transform.localScale = new Vector3(childOrg*scalex, childOrg*scalex, childOrg*scalex);
+		if (!stuck && col != this.transform.parent) {
+			stuck = true;
+			//this.GetComponent<Rigidbody2D>().isKinematic = false;
+			Destroy(this.GetComponent<Rigidbody2D>());
+			this.transform.SetParent (col.transform);
+			float scalex = 1 / col.transform.localScale.x ; 
+			//float scaley = 1 / col.transform.localScale.y ; 
+			//float scalez = 1 / col.transform.localScale.z ; 
+			float childOrg = transform.localScale.x; 
+			transform.localScale = new Vector3(childOrg*scalex, childOrg*scalex, childOrg*scalex);
+		}
 	}
 	void OnCollisionStay2D(Collision2D col) {
 		//print(col);

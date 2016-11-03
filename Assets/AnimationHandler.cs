@@ -16,6 +16,7 @@ public class AnimationHandler : MonoBehaviour {
 	public Sprite singleR, singleL, dualR, dualL, heavyR, heavyL, legS, armLS, armRS;
 	public Animator spikeBoots;
 
+
 	public Transform AimingParent;
 	//I need aiming parent to set the rotation to zero if we change direction, because it is causing problems with my resetting of positions
 
@@ -26,7 +27,7 @@ public class AnimationHandler : MonoBehaviour {
 //	private int lastHeldType;
 
 
-	private bool lastCrouching, lastAirborne, lastDirection, lastMoving; //used for knowing when to flip
+	private bool lastCrouching, lastAirborne, lastDirection, lastMoving, lastBoots; //used for knowing when to flip
 	private bool punchIndex, death;
 
 	private Vector2 localArmL, localArmR;
@@ -164,7 +165,14 @@ public class AnimationHandler : MonoBehaviour {
 
 					if (moving != lastMoving) {
 						legA.Play ("Running");
-						if (spikeBoots) spikeBoots.Play("Running");
+						if (spikeBoots) {
+							spikeBoots.Play("Running");
+							if (!lastBoots) {
+								// so we dont have the boots running at a delay
+								legA.Play("Idle");
+								legA.Play("Running");
+							}
+						}
 
 						//legRA.Play ("MonkLRunning");
 					}
@@ -188,6 +196,7 @@ public class AnimationHandler : MonoBehaviour {
 		lastAirborne = airborne;
 		lastMoving = moving;
 		lastCrouching = crouching;
+		lastBoots = spikeBoots;
 	}
 
 	public void Punch() {

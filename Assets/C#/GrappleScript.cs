@@ -66,6 +66,7 @@ public class GrappleScript : MonoBehaviour {
             //print("bounce back");
 			print(g.name + " " + focus.name);
 			grappleState = 3;
+			timeRetracting = 1;
 			Detach();
 		}
 		//otherwise, pass through

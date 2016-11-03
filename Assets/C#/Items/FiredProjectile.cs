@@ -74,8 +74,15 @@ public class FiredProjectile : MonoBehaviour {
 			if (!nonLethal && col.GetComponent<grenade>()) {
 				col.SendMessage("Explode");
 			}
-			if (exploded || (dieOnAnyHit && startTime - time > .05f)) //can die, not too soon
-				GameObject.Destroy (this.gameObject);
+			if (exploded || (dieOnAnyHit && startTime - time > .05f)) { //can die, not too soon
+				if (exploding) {
+					exploded = true;
+					GameObject ex = (GameObject)GameObject.Instantiate (explosion, this.transform.position, Quaternion.identity);
+					ex.gameObject.layer = this.gameObject.layer;
+					//GameObject.DestroyImmediate (this.gameObject);
+					GameObject.Destroy (this.gameObject);
+				}
+			}
 		}
 
 		
@@ -113,6 +120,7 @@ public class FiredProjectile : MonoBehaviour {
 		}
 		time -= Time.deltaTime;
 		if (time <= 0 && startTime != -1) {
+			print("Invalid time");
 			GameObject.Destroy (this.gameObject);
 		}
 	}

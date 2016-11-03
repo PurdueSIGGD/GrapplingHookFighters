@@ -18,7 +18,7 @@ public class ExplodingProp : MonoBehaviour {
         //i += Time.deltaTime;
         //print(i);
 		if(flame) {
-			print(flameCountdown);
+			//print(flameCountdown);
 			flameCountdown -= Time.deltaTime;
 		}
         if (hitThre <= 0)

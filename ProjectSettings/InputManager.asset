@@ -233,7 +233,7 @@ InputManager:
     m_Name: VerticalPB1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick 2 button 0
+    negativeButton: joystick 1 button 0
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
@@ -297,13 +297,13 @@ InputManager:
     m_Name: VerticalPB2
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick 1 button 0
+    negativeButton: joystick 2 button 0
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1
     dead: 0.5
-    sensitivity: 1000
+    sensitivity: 4
     snap: 0
     invert: 1
     type: 2
@@ -319,8 +319,8 @@ InputManager:
     altPositiveButton: 
     gravity: 3
     dead: 0.001
-    sensitivity: 1000
-    snap: 0
+    sensitivity: 4
+    snap: 1
     invert: 0
     type: 2
     axis: 6
@@ -367,7 +367,7 @@ InputManager:
     altPositiveButton: 
     gravity: 1
     dead: 0.5
-    sensitivity: 1000
+    sensitivity: 4
     snap: 0
     invert: 1
     type: 2
@@ -383,7 +383,7 @@ InputManager:
     altPositiveButton: 
     gravity: 3
     dead: 0.001
-    sensitivity: 1000
+    sensitivity: 4
     snap: 1
     invert: 0
     type: 2
@@ -431,7 +431,7 @@ InputManager:
     altPositiveButton: 
     gravity: 1
     dead: 0.5
-    sensitivity: 1000
+    sensitivity: 4
     snap: 0
     invert: 1
     type: 2
@@ -447,7 +447,7 @@ InputManager:
     altPositiveButton: 
     gravity: 3
     dead: 0.001
-    sensitivity: 1000
+    sensitivity: 4
     snap: 1
     invert: 0
     type: 2
