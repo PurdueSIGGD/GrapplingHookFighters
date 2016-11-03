@@ -1480,11 +1480,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 18.35
+      value: 17.78
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.42
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1798,11 +1798,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -18.02
+      value: -17.83
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.42
+      value: -2.54
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3629,6 +3629,66 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 486ed8c7361213348bc9961a5ea00c06, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1317912373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1317912376}
+  - 114: {fileID: 1317912375}
+  - 114: {fileID: 1317912374}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1317912374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1317912373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52959867ad72bb74fa5a4fdecbf5a1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePath: Audio\GeneratedSoundBanks
+  language: English(US)
+  defaultPoolSize: 4096
+  lowerPoolSize: 2048
+  streamingPoolSize: 1024
+  preparePoolSize: 0
+  memoryCutoffThreshold: 0.95
+  engineLogging: 1
+--- !u!114 &1317912375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1317912373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d9d16e54d927744b559173161d62ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1317912376
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1317912373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 125
 --- !u!1001 &1360904517
 Prefab:
   m_ObjectHideFlags: 0
@@ -4156,11 +4216,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 18.56
+      value: 18.12
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -15.66
+      value: -14.84
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5270,11 +5330,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -17.95
+      value: -18.2
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -15.66
+      value: -14.84
       objectReference: {fileID: 0}
     - target: {fileID: 496268, guid: b4e1cb8fce0371f47aae868ccef279e8, type: 2}
       propertyPath: m_LocalPosition.z

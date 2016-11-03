@@ -528,8 +528,8 @@ GameObject:
   - 20: {fileID: 2078866}
   - 92: {fileID: 9268658}
   - 124: {fileID: 12446332}
-  - 81: {fileID: 8184596}
   - 114: {fileID: 11467904}
+  - 114: {fileID: 11480686}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -742,7 +742,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 121522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: -1}
+  m_LocalPosition: {x: 0.5, y: 0.1, z: -1}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1074,7 +1074,6 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1323,13 +1322,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &8184596
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 189796}
-  m_Enabled: 1
 --- !u!92 &9255678
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1457,6 +1449,18 @@ MonoBehaviour:
   upperBoundX: 0.985
   upperBoundY: 0.97
   targets: []
+--- !u!114 &11480686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 189796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd0dbc49bd809ca4c858a84ad2be1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenerId: 0
 --- !u!124 &12446332
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1746,7 +1750,6 @@ GUIText:
   m_TabSize: 4
   m_Font: {fileID: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 0
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1769,7 +1772,6 @@ GUIText:
   m_TabSize: 4
   m_Font: {fileID: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 0
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1784,7 +1786,6 @@ GUIText:
   m_GameObject: {fileID: 112872}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: 
   m_Anchor: 4
   m_Alignment: 1
   m_PixelOffset: {x: 0, y: 0}
@@ -1815,7 +1816,6 @@ GUIText:
   m_TabSize: 4
   m_Font: {fileID: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 0
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1863,7 +1863,6 @@ GUIText:
   m_TabSize: 4
   m_Font: {fileID: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 0
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
