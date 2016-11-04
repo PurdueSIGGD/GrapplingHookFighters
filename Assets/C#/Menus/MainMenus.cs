@@ -1015,7 +1015,7 @@ public class MainMenus : MonoBehaviour
 			s.levelPlan = debugSceneSelections;
 		} else {
 	        int[] levelPlan = new int[levelCount];
-			int[] rawLevelPlan = new int[12];
+			int[] rawLevelPlan = new int[13];
 			//I don't trust just throwing in an array with random.range, so we are trying a different approach
 			//create an array with all levels included, if room, and loop
 			//i.e. [1, 2, 3, 4, 1, 2, 3, 4, 1, 2] if there aref 4 levels

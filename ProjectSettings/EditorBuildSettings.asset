@@ -41,3 +41,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Scenes Without Players/Diamond.unity
   - enabled: 1
     path: Assets/Scenes/Scenes Without Players/Arch.unity
+  - enabled: 1
+    path: Assets/Scenes/Scenes Without Players/Buildings.unity
