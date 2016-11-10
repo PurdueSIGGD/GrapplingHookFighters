@@ -65,6 +65,10 @@ public class MainMenus : MonoBehaviour
 	public bool debugUseSceneSelections;
 	public int[] debugSceneSelections;
 
+	public GameObject[] kb, controller;
+	public ArrayList barrels;
+	public GameObject barrel;
+
 	//controls menu
 	//public GameObject player1Controls;
 	//public GameObject player2Controls;
@@ -83,6 +87,7 @@ public class MainMenus : MonoBehaviour
 
 	void Start () 
 	{
+		barrels = new ArrayList();
 		lastMice = new int[4];
 		player1ControlNum = 1;
 		player2ControlNum = 2;
@@ -797,21 +802,36 @@ public class MainMenus : MonoBehaviour
 		//set fader to fade in
         //enable map
         map.SetActive(true);
-
+		for (int i = 0; i <= 4; i++) {
+			print(i);
+			barrels.Add(GameObject.Find("Barrel" + (i)));
+		}
 		for (int i = 1; i <= 4; i++) {
-			GameObject.Find("controller" + i).transform.position = new Vector3(-15, -15, 0);
-			GameObject.Find("kb" + i).transform.position = new Vector3(-15, -15, 0);
+			
+			//GameObject.Find("controller" + i).transform.position = new Vector3(-15, -15, 0);
+			//GameObject.Find("kb" + i).transform.position = new Vector3(-15, -15, 0);
 		}
 		for (int i = 0; i < playerList.Count; i++) {
 			PlayerInfo pi = (PlayerInfo)playerList[i];
-
+			GameObject g;
 			if (pi.usesJoystick) {
-				GameObject.Find("controller" + pi.id).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
+				g = (GameObject)GameObject.Instantiate((Object)controller[i], Vector3.zero, Quaternion.identity);
+				//g = GameObject.Find("controller" + pi.id);
+				//g = (GameObject)GameObject.Instantiate((Object)GameObject.Find("controller" + pi.id), Vector3.zero, Quaternion.identity);
+				//GameObject.Find("controller" + pi.id).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
 			} else {
-				GameObject.Find("kb" + (pi.id + 1)).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
+				g = (GameObject)GameObject.Instantiate((Object)kb[i], Vector3.zero, Quaternion.identity);
+				//g = GameObject.Find("kb" + pi.id);
+				//g = (GameObject)GameObject.Instantiate((Object)GameObject.Find("kb" + pi.id), Vector3.zero, Quaternion.identity);
+				//GameObject.Find("kb" + (pi.id + 1)).transform.position = new Vector3(-6 + (3f * (i>1?i+1:i)), -2, 0);
 			}
+			g.transform.parent = pi.trans;
+			g.transform.localPosition = Vector3.up * 2;
+			//ParticleScript ps = g.GetComponent<ParticleScript>();
+			//ps.time = 5;
 				
 		}
+
 
     }
     private ArrayList GeneratePlayers()
@@ -840,6 +860,7 @@ public class MainMenus : MonoBehaviour
         player1.transform.FindChild("Player" + count).FindChild("AnimationController").GetComponent<AnimationHandler>().startColor = avaliableColors[player1Color];
 		player1 = player1.transform.FindChild("Player" + count).gameObject;
         PlayerInfo p1 = new PlayerInfo();
+		p1.trans = player1.transform;
         if (player1Controls == 0)
         {
             p1.id = player1ControlNum - 1;
@@ -866,6 +887,7 @@ public class MainMenus : MonoBehaviour
 		player2 = player2.transform.FindChild("Player" + count).gameObject;
 
         PlayerInfo p2 = new PlayerInfo();
+		p2.trans = player2.transform;
         if (player2Controls == 0)
         {
 			p2.id = player2ControlNum - 1;
@@ -879,6 +901,7 @@ public class MainMenus : MonoBehaviour
             joystickID++;
         }
         playerList.Add(p2);
+
         count++;
         if (maxPlayers == count - 1) return playerList;
 
@@ -893,6 +916,8 @@ public class MainMenus : MonoBehaviour
 		player3 = player3.transform.FindChild("Player" + count).gameObject;
 
         PlayerInfo p3 = new PlayerInfo();
+		p3.trans = player3.transform;
+
         if (player3Controls == 0)
         {
 			p3.id = player3ControlNum - 1;
@@ -920,7 +945,8 @@ public class MainMenus : MonoBehaviour
 		player4 = player4.transform.FindChild("Player" + count).gameObject;
 
         PlayerInfo p4 = new PlayerInfo();
-        if (player4Controls == 0)
+		p4.trans = player4.transform;
+		if (player4Controls == 0)
         {
 			p4.id = player4ControlNum - 1;
             p4.usesJoystick = false;
@@ -1092,13 +1118,23 @@ public class MainMenus : MonoBehaviour
     {
         levelCount--;
         if (levelCount < 1) levelCount = 1;
-        GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+        //GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+
+		if (barrels.Count > 0) {
+			GameObject newBarrel = barrels[0] as GameObject;
+			barrels.RemoveAt(0);
+			newBarrel.AddComponent<ParticleScript>().time = .4f; //deletes it slowly
+		}
     }
     void LevelMore()
     {
         levelCount++;
         if (levelCount > maxLevel) levelCount = maxLevel;
-        GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+        //GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
+
+		GameObject newBarrel = (GameObject)GameObject.Instantiate(barrel, GameObject.Find("BarrelSpawn").transform.position, Quaternion.identity);
+		barrel.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-100f,100f));
+		barrels.Add(newBarrel);
     }
     void ColorPrev()
     {

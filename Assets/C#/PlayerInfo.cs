@@ -5,4 +5,5 @@ struct PlayerInfo
 {
     public bool usesJoystick;
     public int id;
+	public Transform trans;
 }
