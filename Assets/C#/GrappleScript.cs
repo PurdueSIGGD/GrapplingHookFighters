@@ -10,14 +10,15 @@ public class GrappleScript : MonoBehaviour {
 	public Transform center;
 	public float breakTime, timeRetracting, timeFiring;
 	public int grappleState = 0; //0: idle, 1: launched, firing outwards, 2: connected, 3: retracting
+    private Transform spriteChild;
 
-	private Rigidbody2D myRigid;
+    private Rigidbody2D myRigid;
 	private SpringJoint2D toPlayer, toPickup;
 	// Use this for initialization
 	void Start() {
 		myRigid = this.GetComponent<Rigidbody2D>();
 		toPlayer = this.transform.GetComponent<SpringJoint2D>();
-
+        spriteChild = transform.FindChild("Sprite");
 	}
 	void OnCollisionEnter2D(Collision2D col) {
 		Attach(col.gameObject);
@@ -110,6 +111,8 @@ public class GrappleScript : MonoBehaviour {
 		} else {
 			timeFiring = 0;
 		}
+
+
 		//RaycastHit2D[] r;
 
 
@@ -121,6 +124,10 @@ public class GrappleScript : MonoBehaviour {
 		} else {
 			timeRetracting = 1;
 		}
+        if (grappleState != 2)
+        {
+            spriteChild.localEulerAngles = new Vector3(0, 0, Vector2Extension.Vector2Deg(transform.position - focus.transform.position) - 90);
+        }
 		/*LineRenderer lr = this.GetComponent<LineRenderer>();
 		if (firing || retracting || myRigid.isKinematic == true) {
 			lr.enabled = true;

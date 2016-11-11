@@ -132,8 +132,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.5, z: 1}
+  m_LocalPosition: {x: -0.074, y: 0, z: 0}
+  m_LocalScale: {x: 2.307037, y: 3.8450637, z: 7.6901274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 409524}
@@ -182,14 +182,11 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: -0.26829147, y: 0.83421993}
-      - {x: -0.29874325, y: 0.4113598}
-      - {x: -0.09870911, y: 0.23045444}
-      - {x: -0.018450737, y: -0.79632187}
-      - {x: 0.07278919, y: 0.15180874}
-      - {x: 0.28328133, y: 0.40742683}
-      - {x: 0.20646667, y: 0.8786602}
-      - {x: -0.021809578, y: 0.97871876}
+    - - {x: -0.2278595, y: 0.43531322}
+      - {x: -0.027357578, y: -1.1347847}
+      - {x: 0.019348145, y: 0.16962147}
+      - {x: 0.054247856, y: 1.1516619}
+      - {x: -0.13759947, y: 0.79167366}
 --- !u!61 &6101416
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -314,7 +311,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d0fce2c33a68c3f428084223811c68fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9836de9f4950c2c40a05b46b946e1974, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
