@@ -125,7 +125,7 @@ public class GrappleLauncher : MonoBehaviour {
     void fire() {
 		if (grappleTimer <= 0) {
 	        if (!mouseReleased || death) {
-				print("Grapple Cannot Fire");
+				//print("Grapple Cannot Fire");
 	            return;
 	        }
 			grappleTimer = .3f;
