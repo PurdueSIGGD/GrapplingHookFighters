@@ -1749,9 +1749,9 @@ GUIText:
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 20
+  m_FontSize: 30
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1772,9 +1772,9 @@ GUIText:
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 20
+  m_FontSize: 30
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1789,16 +1789,16 @@ GUIText:
   m_GameObject: {fileID: 112872}
   m_Enabled: 1
   serializedVersion: 3
-  m_Text: asdf
+  m_Text: 5
   m_Anchor: 4
   m_Alignment: 1
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
   m_FontSize: 60
-  m_FontStyle: 1
+  m_FontStyle: 0
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -1818,9 +1818,9 @@ GUIText:
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 20
+  m_FontSize: 30
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1843,9 +1843,9 @@ GUIText:
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 0
+  m_FontSize: 18
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
@@ -1866,9 +1866,9 @@ GUIText:
   m_PixelOffset: {x: 0, y: 0}
   m_LineSpacing: 1
   m_TabSize: 4
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: 78c70523bc6efc14bb690298c512a454, type: 3}
   m_Material: {fileID: 0}
-  m_FontSize: 20
+  m_FontSize: 30
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2

@@ -1130,11 +1130,16 @@ public class MainMenus : MonoBehaviour
     {
         levelCount++;
         if (levelCount > maxLevel) levelCount = maxLevel;
+		else {
         //GameObject.Find("LevelCounter").GetComponent<TextMesh>().text = "" + levelCount;
 
-		GameObject newBarrel = (GameObject)GameObject.Instantiate(barrel, GameObject.Find("BarrelSpawn").transform.position, Quaternion.identity);
-		barrel.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-100f,100f));
-		barrels.Add(newBarrel);
+			GameObject newBarrel = (GameObject)GameObject.Instantiate(barrel, GameObject.Find("BarrelSpawn").transform.position, Quaternion.identity);
+			newBarrel.transform.localEulerAngles = new Vector3(0,0,Random.Range(0, 360));
+			print(newBarrel.transform.localEulerAngles);
+			//barrel.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-100f,100f));
+			newBarrel.transform.parent = GameObject.Find("BarrelSpawn").transform;
+			barrels.Add(newBarrel);
+		}
     }
     void ColorPrev()
     {
