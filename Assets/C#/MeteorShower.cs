@@ -18,15 +18,15 @@ public class MeteorShower : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//for now I set them
+		maxDrops = 25;//if value is at two it only shoots 1 meteor at a time
 		determinespawn();
-		maxDrops = 15;//if value is at two it only shoots 1 meteor at a time
 		maxForce = 1000;
 		radius = 20;
 		angleOfDrop = -135;
 
 		angleOfDrop = (angleOfDrop / 360) * 6.28;//changes to degrees to radians
 		dropsAtime = Random.Range (0,maxDrops);
-		time = Random.Range (0, 2);
+		time = Random.Range (0, 1.5f);
 		lifetime = Random.Range (50, 200);
 	}
 	
@@ -56,34 +56,52 @@ public class MeteorShower : MonoBehaviour {
 
 	public void determinespawn(){
 		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
-		switch(SceneManager.GetActiveScene().buildIndex){
-		case 1://BoxofSword
+		switch(SceneManager.GetActiveScene().buildIndex){//the cases can change depending on the build settings
+		case -1://BoxofSword. not used in stages so in impossible switch case
 			height = 17;//will spawn inside the box
 			width = 23;
 			break;
-		case 2://Potato
+		case 1://Potato
 			height = 10;
 			width = 20;
 			break;
-		case 3://Bridges
+		case 2://Bridges
 			width = 19;
 			height = 9;
 			break;
-		case 4://lava fall
+		case 3://lava fall
 			width = 22;
 			height = 7;
 			break;
-		case 5://upwards
+		case 4://upwards
 			height = 9;
 			width = 20;
 			break;
-		case 6://stuck
+		case 6://vertical
 			width = 12;
 			height = 10;
+			break;
+		case 8://Roll
+			width = 40;
+			height = 20;
+			break;
+		case 9://Scroll
+			width = 25;
+			height = 70;
+			maxDrops = 70;
+			break;
+		case 12://Arch
+			width = 33;
+			height = 15;
+			break;
+		case 13://Buildings
+			width = 40;
+			height = 35;
 			break;
 		default://testing stage or any other random stage for now
 			width = 31;
 			height = 16;
+			maxDrops = 30;
 			break;
 		}
 		return;

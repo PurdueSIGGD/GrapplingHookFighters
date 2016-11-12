@@ -19,6 +19,7 @@ public class lightning : MonoBehaviour {
 	float interval;//how long the lightning is spaced out
 	float appear;//how long the lightning is out
 	int strikes;//how many lighting strikes spawn
+	int maxStrikes;
 	float flashAppear;
 	float width,height;//with and height positions for where the ligthing strikes will spawn
 	bool hasStruck;//lightning is lightninging and stuff...
@@ -30,6 +31,7 @@ public class lightning : MonoBehaviour {
 		//stageCenter = gameObject.transform.FindChild("Stage Center").transform.position;
 		//flashScreen = gameObject.GetComponentsInChildren
 		//flashScreen.color = new Color(1,1,1,1);
+		maxStrikes = 6;
 		determinespawn();//depending on the stage sets the area where lighting strikes  will spawn
 		canvasOffset = effectcanvas.transform.position;
 		flashScreen.transform.position = new Vector3 (canvasOffset.x,canvasOffset.y,canvasOffset.z-5);
@@ -37,7 +39,7 @@ public class lightning : MonoBehaviour {
 		flashScreen.enabled = false;
 		interval = Random.Range (50, 100);
 		appear = Random.Range (10, 30);
-		strikes = Random.Range (0,6);
+		strikes = Random.Range (0,maxStrikes);
 		hasStruck = false;
 		lifetime = Random.Range (120,300);
 		transform.rotation = Quaternion.Euler (0,0,0);
@@ -57,7 +59,7 @@ public class lightning : MonoBehaviour {
 				int Larry =  (int)Random.Range(canvasOffset.x-100,canvasOffset.x+200);
 				//int Gary =  (int)Random.Range(transform.position.x-50,transform.position.x+50);
 				lightningSprite.transform.position = new Vector3(Larry,0,0);
-				strikes = Random.Range (0,3);
+				strikes = Random.Range (0,maxStrikes);
 				hasStruck = false;
 			}else{
 				appear--;
@@ -93,33 +95,51 @@ public class lightning : MonoBehaviour {
 	public void determinespawn(){
 		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
 		switch(SceneManager.GetActiveScene().buildIndex){
-		case 1://BoxofSword
+		case -1://BoxofSword. not used in stages so in impossible switch case
 			height = 17;//will spawn inside the box
 			width = 23;
 			break;
-		case 2://Potato
+		case 1://Potato
 			height = 10;
 			width = 20;
 			break;
-		case 3://Bridges
+		case 2://Bridges
 			width = 19;
 			height = 9;
 			break;
-		case 4://lava fall
+		case 3://lava fall
 			width = 22;
 			height = 7;
 			break;
-		case 5://upwards
+		case 4://upwards
 			height = 9;
 			width = 20;
 			break;
-		case 6://stuck
+		case 6://vertical
 			width = 12;
 			height = 10;
+			break;
+		case 8://Roll
+			width = 40;
+			height = 20;
+			break;
+		case 9://Scroll
+			width = 25;
+			height = 70;
+			maxStrikes = 35;
+			break;
+		case 12://Arch
+			width = 33;
+			height = 15;
+			break;
+		case 13://Buildings
+			width = 40;
+			height = 35;
 			break;
 		default://testing stage or any other random stage for now
 			width = 31;
 			height = 16;
+			maxStrikes = 20;
 			break;
 		}
 		return;

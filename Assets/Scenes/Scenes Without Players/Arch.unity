@@ -672,6 +672,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11437926, guid: cdda6c98e467b5544b60d24f3d9f8f41, type: 2}
+      propertyPath: maxZoom
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cdda6c98e467b5544b60d24f3d9f8f41, type: 2}
   m_IsPrefabParent: 0
@@ -8738,7 +8742,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 9
 --- !u!1001 &2130949429
 Prefab:
   m_ObjectHideFlags: 0
