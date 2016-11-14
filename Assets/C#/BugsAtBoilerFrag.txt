@@ -1,0 +1,8 @@
+-In the menu The '+' sign was decrementing the person and the '-' sign was incrementing the value
+
+- Clicking the lever that lowers the rounds exits out of the game
+- I think clicking the exploding lever also breaks the game but that happened once
+
+- In the boulder stage when you hook on a boulder and it dies you also break the game
+
+- the black grenade also freezes the stage if it is released on the Bridges stage
