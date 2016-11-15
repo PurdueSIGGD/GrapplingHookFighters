@@ -15,6 +15,7 @@ Ball collision
 Arrow collisison
 Stone collisison
 Boulder rolling
+Grenade collision 
 
 --Weapons--
 Explosion
@@ -24,7 +25,9 @@ Lightning rod shot
 Rock launcher shot
 Crossbow shot
 Bazooka shot
-Grenade thrown
+Grenade activated
+Grenade fuse (3 sec)
+
 
 
 
