@@ -75,7 +75,7 @@ public class GrappleLauncher : MonoBehaviour {
 					Reset();
 				}
 			}
-			if (firedGrappleScript.grappleState == 0) {
+			if (!firing && !retracting) {
 				firedGrapple.transform.position = center.position;
 				grappleArm.gameObject.SetActive (false);
 				armL.gameObject.SetActive (true);

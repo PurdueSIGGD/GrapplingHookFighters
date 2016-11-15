@@ -1070,7 +1070,7 @@ public class MainMenus : MonoBehaviour
         //give time before round end (4)
         s.timeForPointsAwarded = 2.5f;
         //give time for points awarded (2.5)
-        s.timeBeforeRoundStart = 6;
+        s.timeBeforeRoundStart = 3.5f;
         s.map = map;
 		s.LoadNow(maxPlayers,
 			sPlayerSelections[player1Index],

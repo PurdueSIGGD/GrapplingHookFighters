@@ -20,7 +20,7 @@ public class SceneController : MonoBehaviour {
 	private Vector2[] mapPlacements;
 	public float timeBeforeRoundEnd = 4f;
 	public float timeForPointsAwarded = 2.5f;
-    public float timeBeforeRoundStart = 3f;
+    public float timeBeforeRoundStart = 1f;
 
     private int currentMapIndex, currentMapQueue;
 	private int deathCount;

@@ -16,7 +16,7 @@ GameObject:
   - 114: {fileID: 11401102}
   m_Layer: 8
   m_Name: Meteor
-  m_TagString: Item
+  m_TagString: NoGrapple
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
