@@ -8,6 +8,7 @@ Grapple contact
 Land
 Death by spikes
 Death by falling
+Armor Equipped
 
 --Objects--
 Ball collision
