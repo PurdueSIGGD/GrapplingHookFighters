@@ -1,0 +1,30 @@
+--Player--
+Jump
+Pick up object
+Throw object
+Punch
+Grapple shot
+Grapple contact
+Land
+Death by spikes
+Death by falling
+
+--Objects--
+Ball collision
+Arrow collisison
+Stone collisison
+Boulder rolling
+
+--Weapons--
+Explosion
+Out of ammo
+Laser gun shot 
+Lightning rod shot
+Rock launcher shot
+Crossbow shot
+Bazooka shot
+Grenade thrown
+
+
+
+
