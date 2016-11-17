@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Hazard : MonoBehaviour {
 
-	public bool active = true;
+	public bool active = true, spikes;
 	ArrayList stuckers;
 
 	void Start() {
@@ -19,7 +19,7 @@ public class Hazard : MonoBehaviour {
 				rg.angularDrag = 3;
 
 				if (col.transform.GetComponent<Health> () ) {
-					col.transform.SendMessage ("Bleed");
+					col.transform.SendMessage ("Bleed", spikes);
 					stuckers.Add(col.gameObject);
 				}
 			}

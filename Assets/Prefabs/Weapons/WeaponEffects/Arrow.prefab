@@ -13,6 +13,7 @@ GameObject:
   - 60: {fileID: 6078902}
   - 60: {fileID: 6077378}
   - 114: {fileID: 11402634}
+  - 114: {fileID: 11435860}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Effect
@@ -130,6 +131,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stuck: 0
   hasBeenStuck: 0
+--- !u!114 &11435860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3540f0df3b5af43b0dbbe31a4805fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11473652
 MonoBehaviour:
   m_ObjectHideFlags: 1

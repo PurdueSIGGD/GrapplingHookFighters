@@ -44,6 +44,7 @@ GameObject:
   - 60: {fileID: 6037272}
   - 114: {fileID: 11491256}
   - 114: {fileID: 11433952}
+  - 114: {fileID: 11409216}
   m_Layer: 8
   m_Name: Toilet
   m_TagString: Item
@@ -141,6 +142,17 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+--- !u!114 &11409216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3540f0df3b5af43b0dbbe31a4805fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11433952
 MonoBehaviour:
   m_ObjectHideFlags: 1

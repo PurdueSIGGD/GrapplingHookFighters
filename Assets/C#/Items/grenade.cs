@@ -39,6 +39,8 @@ public class grenade : MonoBehaviour {
 		//if (transform.parent) transform.localScale = new Vector3(1.2f/transform.parent.localScale.x,1.2f/transform.parent.localScale.y,1.2f/transform.parent.localScale.z);
 
         if (pullPin) {
+            //SOUND: Grenade activated
+            //SOUND: Grenade fuse (3 sec)
             pullPin = false;
             pinPulled = true;
 			/*if (usePin) {

@@ -127,7 +127,7 @@ public class gun : MonoBehaviour, item {
 		if (!death && trigger && playerid != -1) { // checking the playerid not -1 is if the weapon is not picked up
 			if (timeSincelast > timeToShoot) {
 				if (ammo > 0) {
-
+                    //SOUND: Rock launcher shot / Crossbow shot / Bazooka shot / any other weapons you want
 					ammo--;
 					if (ammo == 0 && emptySprite != null) {
 						this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = emptySprite;
@@ -322,6 +322,7 @@ public class gun : MonoBehaviour, item {
                     }
 					timeSincelast = 0;
 				} else {
+                    //SOUND: Out of ammo
 					//print("Click");
 				}
 			} else {

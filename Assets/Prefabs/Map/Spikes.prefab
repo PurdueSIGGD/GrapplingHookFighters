@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+  spikes: 1
 --- !u!212 &21209314
 SpriteRenderer:
   m_ObjectHideFlags: 1

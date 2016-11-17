@@ -63,6 +63,7 @@ GameObject:
   - 50: {fileID: 5005134}
   - 60: {fileID: 6013522}
   - 114: {fileID: 11471700}
+  - 114: {fileID: 11443362}
   m_Layer: 8
   m_Name: Smoke Bomb
   m_TagString: DualItem
@@ -434,6 +435,17 @@ BoxCollider2D:
   m_Offset: {x: 0.2, y: 0.05332413}
   serializedVersion: 2
   m_Size: {x: 0.89675057, y: 1.1066475}
+--- !u!114 &11443362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3540f0df3b5af43b0dbbe31a4805fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466976
 MonoBehaviour:
   m_ObjectHideFlags: 1

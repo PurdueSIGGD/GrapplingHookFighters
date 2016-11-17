@@ -66,6 +66,7 @@ GameObject:
   - 60: {fileID: 6054046}
   - 114: {fileID: 11456784}
   - 114: {fileID: 11409144}
+  - 114: {fileID: 11476352}
   m_Layer: 8
   m_Name: Grenade
   m_TagString: DualItem
@@ -489,6 +490,17 @@ MonoBehaviour:
   hazardCollider: {fileID: 0}
   forceThreshold: 0
   throwForce: 900
+--- !u!114 &11476352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3540f0df3b5af43b0dbbe31a4805fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21230158
 SpriteRenderer:
   m_ObjectHideFlags: 1

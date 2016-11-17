@@ -37,6 +37,8 @@ public class player : MonoBehaviour {
 	private PolygonCollider2D myPolygon;
 	private SpriteRenderer mySprite;
 
+    private float notAirborneTime;
+    //private bool airborne;
 
    // static float layer1Position = 0;
    // static float layer2Position = 1;
@@ -81,9 +83,10 @@ public class player : MonoBehaviour {
 
     void Update() {
 		isAirborne ();
+        notAirborneTime += Time.deltaTime;
         //CrashDetector.SetExePoint("Whateverelse");
         //if (playerid == 1) print("Start update function player");
-		if (tempDisabled) {
+        if (tempDisabled) {
 			aimingParent.GetComponent<RecoilSimulator>().SendMessage("StopRotation");
 			aimingParent.rotation = Quaternion.Euler(0, 0, 0);
 			reticle.transform.localPosition = Vector3.right;
@@ -259,7 +262,8 @@ public class player : MonoBehaviour {
 	}
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
-			if (heldItem1 != null) {
+            //SOUND: Throw object
+            if (heldItem1 != null) {
 				connected = false;
 
 				this.aimingParent.SendMessage("StopRotation");
@@ -442,6 +446,10 @@ public class player : MonoBehaviour {
 			}
 		}*/
 		myAnim.airborne = !hitValid;
+        if (!hitValid)
+        {
+            notAirborneTime = 0;
+        }
 		return hitValid || usingJetpack; //hitvalid is if we can jump, because something may be in our way
 	}
     bool pickUpKey() {
@@ -488,6 +496,7 @@ public class player : MonoBehaviour {
 		if ((col.CompareTag("Item") || col.CompareTag("DualItem") || ((col.CompareTag("PlayerGibs") || col.CompareTag("Player")) && (!pl || col.GetComponent<Health>().dead))) && ((hi && hi.focus == null) || col.GetComponent<Health>()) && timeSincePickup > .2f) { //check parent null so you can't steal weapons
 
             if (pickUpKey()) {
+                //SOUND: Pick up object 
 				PassivePickup p;
 				if (p = col.GetComponent<PassivePickup> ()) { //assign values to passiveItem
 					if (passiveItem) {
@@ -653,6 +662,16 @@ public class player : MonoBehaviour {
             }
         }
     }
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        
+        if (col.gameObject.CompareTag("Platform") && notAirborneTime < .5f) 
+        {
+            //print("land" + myRigid.velocity);
+            notAirborneTime = .5f;
+            //SOUND: Land, may be a bit glitchy so test this and made modifications if necessary
+        }
+    }
     void Death() {
         death = true;
 		myAnim.Death ();
@@ -702,10 +721,12 @@ public class player : MonoBehaviour {
 			punchTime = 0;
 			//punch animation here
 			myAnim.Punch ();
-			if (punchable && punchable.gameObject.activeInHierarchy) {
+            //SOUND: Punch - swing
+            if (punchable && punchable.gameObject.activeInHierarchy) {
 				if (punchable.CompareTag("Player")) {
-					
-					Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
+                    //SOUND: Punch - hit
+
+                    Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
 					playerPunch.AddForce (300 * (punchable.gameObject.transform.position - transform.position));
 					playerPunch.AddForce (Vector2.up * 450);
 					object o = 0;
@@ -753,6 +774,7 @@ public class player : MonoBehaviour {
 			if ((b || jump ()) && Time.time - jumpTime > .5f && isAirborne()) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
+                //SOUND: Jump
 				jumpTime = Time.time;
 				//jumped = true;
 			}

@@ -141,8 +141,10 @@ public class GrappleLauncher : MonoBehaviour {
 	            grappleRigid.AddForce(firingVector * 3500); //add force to move it
 				//myRigid.AddForce(firingVector * -500); //counteract the throwing force
 	            firedGrapple.SendMessage("Launch", firingVector);
+                //SOUND: Grapple shot
 
-	        } else {
+            }
+            else {
 	            if (attached || firing) {
 	                Disconnect();
 
@@ -162,7 +164,8 @@ public class GrappleLauncher : MonoBehaviour {
     }
 
 	void Attach() {
-		attached = true;
+        //SOUND: Grapple contact
+        attached = true;
 		for (int i = 0; i < grapples.Length; i++) {
 			edges[i].enabled = true;
 			edges[i].isTrigger = false;

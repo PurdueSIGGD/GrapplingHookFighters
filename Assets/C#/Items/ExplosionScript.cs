@@ -38,6 +38,8 @@ public class ExplosionScript : MonoBehaviour {
 				{
 
 					myHit = r;
+
+                    //SOUND: Explosion
 					if (myHit.transform.GetComponent<grenade>()) {
 						myHit.transform.SendMessage("Explode");
 					}

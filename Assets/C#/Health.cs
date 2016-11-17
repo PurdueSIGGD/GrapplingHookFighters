@@ -93,7 +93,8 @@ public class Health : MonoBehaviour {
 
 	//Adds armor to armorHealth
 	public void pickUpArmor(PassivePickup armor) {
-		armorHealth += armor.armorHealth;
+        //SOUND: Armor Equipped
+        armorHealth += armor.armorHealth;
 	}
 	//drops armor
 	public void dropArmor(PassivePickup armor) {
@@ -123,6 +124,7 @@ public class Health : MonoBehaviour {
 	public void killPlayer(bool b) {
 		
 			if (b) {
+                //SOUND: Death by falling
 				//passed boundary is used to know if the player has died from a boundary
 				this.ignorePosition = true;
 				//boundaryplace is used to know the last place before death
@@ -306,8 +308,12 @@ public class Health : MonoBehaviour {
 			deadTime = 0;
 		}
 	}
-	void Bleed() {
+	void Bleed(bool isSpikes) {
 		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {
+            if (isSpikes)
+            {
+                //SOUND: Death by spikes
+            }
 			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 
 			g.transform.parent = this.transform;
