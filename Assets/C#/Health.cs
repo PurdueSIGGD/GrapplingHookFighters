@@ -34,6 +34,8 @@ public class Health : MonoBehaviour {
 	private PolygonCollider2D myPolygon;
 	private SpriteRenderer mySprite, healthSprite;
 
+    private bool deathSound;
+
 
 	public float getPlayerHealth() {
 		return playerHealth;
@@ -118,22 +120,45 @@ public class Health : MonoBehaviour {
 	public void killPlayer() {
 		killPlayer (false);
 	}
-
-	//params: b, if b, the player has passed the boundary.
+    public void killPlayer(bool b)
+    {
+        killPlayer(b ? 1 : 0);
+    }
+	//params: i is death type
 	//kills the player....
-	public void killPlayer(bool b) {
-		
-			if (b) {
-                //SOUND: Death by falling
-				//passed boundary is used to know if the player has died from a boundary
-				this.ignorePosition = true;
-				//boundaryplace is used to know the last place before death
-				this.boundaryPlace = transform.position;
-				//print(b);
-			}
-		
-			//this.boundaryPlace = transform.position;
-		if (!dead) {
+	public void killPlayer(int i) {
+		switch(i)
+        {
+            case 0:
+                if (!deathSound)
+                {
+                    //SOUND: death by other player
+                }
+                break;
+            case 1:
+                if (!deathSound)
+                {
+                    //SOUND: death by falling
+                }
+                //passed boundary is used to know if the player has died from a boundary
+                this.ignorePosition = true;
+                //boundaryplace is used to know the last place before death
+                this.boundaryPlace = transform.position;
+                //print(b);
+                break;
+            case 2:
+
+                break;
+            default:
+
+                break;
+        }
+			
+            
+        
+
+        //this.boundaryPlace = transform.position;
+        if (!dead) {
 			myRigid.AddForce(200 * (Vector2.up + Random.insideUnitCircle));
 			//transform.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-15,15));
 			aliveSprite = mySprite.sprite;
@@ -256,6 +281,7 @@ public class Health : MonoBehaviour {
 	//Restore players beginning status
 	public void resetPlayer() {
 		playerHealth = 100;
+        deathSound = false;
 		armorHealth = 0;
 		deadTime = 0;
 		ignorePosition = false;
@@ -310,10 +336,18 @@ public class Health : MonoBehaviour {
 	}
 	void Bleed(bool isSpikes) {
 		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {
-            if (isSpikes)
+            if (!deathSound)
             {
-                //SOUND: Death by spikes
+                if (isSpikes)
+                {
+                    //SOUND: Death by spikes
+                } else
+                {
+                    //SOUND: death by lava
+                }
+                deathSound = true;
             }
+            
 			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 
 			g.transform.parent = this.transform;
