@@ -50,6 +50,8 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			i++;
 			//if they crossed a boundary, use their last place they were before they died 
 			float thisDistance = Vector2.Distance (transform.position, (gh.ignorePosition)?gh.boundaryPlace:g.transform.position);
+            thisDistance += Mathf.Abs(transform.position.y - g.transform.position.y) * .5f;
+            //more vertical position, it seems to cause more problems when players are right above each other 
 			if (!gh.dead)
 				atLeastOneAlive = true;
 			//calculate furthest distance
@@ -111,11 +113,12 @@ public class SmootherTrackingCamera : MonoBehaviour {
 				furthestDistance = minZoom;
 			if (furthestDistance > maxZoom)
 				furthestDistance = maxZoom;
-			//I call the square root because I want the size to follow the furthest distance in a square root curve.
+            //I call the square root because I want the size to follow the furthest distance in a square root curve.
             //This way, the camera size changes drastically when smaller, but not very much when larger
-			float desiredSize = Mathf.Sqrt(furthestDistance) * 3.5f;
+            float desiredSize = furthestDistance;//Mathf.Sqrt(furthestDistance) * 3.5f;
 			if (atLeastOneAlive) {
-				//TODO fix this broken shit
+                //TODO fix this broken shit
+                //print(desiredSize);
 				cam.orthographicSize = desiredSize;
 			}
 		}

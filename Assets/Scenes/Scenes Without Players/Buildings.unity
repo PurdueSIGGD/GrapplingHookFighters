@@ -6390,7 +6390,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 76
+  m_RootOrder: 153
 --- !u!1001 &409825767
 Prefab:
   m_ObjectHideFlags: 0
@@ -10578,6 +10578,7 @@ MonoBehaviour:
   bottom: {x: 0, y: 0, z: 0}
   moveUp: 0
   delay: 0
+  speed: 7
 --- !u!1001 &641148199
 Prefab:
   m_ObjectHideFlags: 0
@@ -17035,7 +17036,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11437926, guid: cdda6c98e467b5544b60d24f3d9f8f41, type: 2}
       propertyPath: maxZoom
-      value: 37
+      value: 39
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cdda6c98e467b5544b60d24f3d9f8f41, type: 2}

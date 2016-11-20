@@ -38,4 +38,12 @@ public class BoulderSpawn : MonoBehaviour {
 			spawntime = Random.Range(2f,3f);
 		}
 	}
+    void OnDestroy()
+    {
+        Boulder[] boulders = GameObject.FindObjectsOfType<Boulder>();
+        foreach (Boulder boulder in boulders)
+        {
+            GameObject.Destroy(boulder.gameObject);
+        }
+    }
 }

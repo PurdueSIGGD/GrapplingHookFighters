@@ -348,11 +348,11 @@ public class Health : MonoBehaviour {
                 deathSound = true;
             }
             
-			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+			GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 
 			g.transform.parent = this.transform;
 			g.transform.localScale = Vector3.one;
-			g.name = "ParticleBleed";*/
+			g.name = "ParticleBleed";
 			//lets not bleed for now
 		}
 
