@@ -88,6 +88,7 @@ public class gun : MonoBehaviour, item {
 			chargeTime = minChargeTime;
 		}
 		emptyTime = 0;
+        clicked = false;
 	}
 
 	//a send message command
