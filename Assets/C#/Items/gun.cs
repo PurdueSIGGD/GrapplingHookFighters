@@ -21,7 +21,7 @@ public class gun : MonoBehaviour, item {
 	private Transform butthole, reticle, gunbase;
 	private ParticleSystem particleSmoke;
     private ParticleSystem particleMuzzleFlare;
-    private bool isrpg;
+    private bool isrpg, clicked;
 
 	public GameObject critGameObject;
 
@@ -355,7 +355,8 @@ public class gun : MonoBehaviour, item {
 					timeSincelast = 0;
 				} else {
                     //SOUND: Out of ammo
-                     AkSoundEngine.PostEvent("OutOfAmmo", gameObject);
+                    if (!clicked) AkSoundEngine.PostEvent("OutOfAmmo", gameObject);
+                    clicked = true;
 					//print("Click");
 				}
 			} else {

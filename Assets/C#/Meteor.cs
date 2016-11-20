@@ -40,15 +40,15 @@ public class Meteor : MonoBehaviour {
 
 		if (grabbed) {
 		} else {
-			if (hit) {
+			//if (hit) {
 				//hi.forceHazard = false;
-				if(countdown <= 0){
+				/*if(countdown <= 0){
 					if(this.gameObject != null){
 						Destroy (this.gameObject);
 					}
 				}
-				countdown -= Time.deltaTime;
-			}
+				countdown -= Time.deltaTime;*/
+			//}
 		}
 
 	}

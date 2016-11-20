@@ -120,7 +120,7 @@ public class FiredProjectile : MonoBehaviour {
 		}
 		time -= Time.deltaTime;
 		if (time <= 0 && startTime != -1) {
-			print("Invalid time");
+			//print("Invalid time");
 			GameObject.Destroy (this.gameObject);
 		}
 	}

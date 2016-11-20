@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21212820}
   - 60: {fileID: 6034560}
   - 50: {fileID: 5072690}
+  - 114: {fileID: 11465262}
   m_Layer: 14
   m_Name: Barrel
   m_TagString: Untagged
@@ -72,6 +73,18 @@ PolygonCollider2D:
       - {x: 0.19591407, y: 0.00026860237}
       - {x: 0.17823486, y: 0.16245906}
       - {x: 0.13938466, y: 0.255}
+--- !u!114 &11465262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3540f0df3b5af43b0dbbe31a4805fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundTag: 
 --- !u!212 &21212820
 SpriteRenderer:
   m_ObjectHideFlags: 1

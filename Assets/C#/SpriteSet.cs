@@ -9,6 +9,7 @@ public class SpriteSet {
     public Sprite bridge_sprite;
     public Sprite unsafe_plat;
     public Sprite shootable_platform;
+    public GameObject boxGibs;
     public Sprite nograpple_wall_bottom, nograpple_wall_mid, nograpple_wall_top;
     public Sprite wall_bottom, wall_mid, wall_top;
     public Sprite floor_thin_left, floor_thin_middle, floor_thin_right;
@@ -108,6 +109,7 @@ public class SpriteSet {
                     break;
                 case "shootable_plat":
                     g.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = s.shootable_platform;
+                    g.GetComponent<ShootableItem>().gibs = s.boxGibs;
                     break;
                 case "bridge_sprite":
                     for (int i = 0; i < g.transform.childCount; i++)

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: affb0b861a531d646b323e24ac1bf4fa, type: 3}
-  m_Name: AkWwiseProjectData
+  m_Name: AkWwiseProjectData 1
   m_EditorClassIdentifier: 
   CurrentPluginConfig: 
   EventWwu:
@@ -380,12 +380,7 @@ MonoBehaviour:
         ObjectType: 7
       ID: -1133058374
       Guid: 3a86f3d7a030854bbbc68be465d4172d
-  ExpandedItems:
-  - /wwiseGrappleHook
-  - /wwiseGrappleHook/Events
-  - /wwiseGrappleHook/Events/Default Work Unit
-  - /wwiseGrappleHook/SoundBanks
-  - /wwiseGrappleHook/SoundBanks/Default Work Unit
+  ExpandedItems: []
   m_lastPopulateTimePsrt1: 0
   m_lastPopulateTimePart2: 0
   autoPopulateEnabled: 1

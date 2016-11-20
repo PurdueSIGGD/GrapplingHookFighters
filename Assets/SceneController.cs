@@ -343,7 +343,8 @@ public class SceneController : MonoBehaviour {
 				foreach (GameObject g in players) {
 					player ps = g.GetComponent<player>();
 					if (!ps.death) {
-						print("Counting one point for Player " + ps.playerid);
+                        AkSoundEngine.PostEvent("Victory", gameObject);
+                        print("Counting one point for Player " + ps.playerid);
 						playerScores[ps.playerid - 1] += 1;
 						/*if (ps.playerid == 1) {
 							score1.text = "Score: " + playerScores[ps.playerid - 1];

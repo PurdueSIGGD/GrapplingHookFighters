@@ -802,7 +802,7 @@ public class MainMenus : MonoBehaviour
 		//set fader to fade in
         //enable map
         map.SetActive(true);
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 1; i <= 5; i++) {
 			print(i);
 			barrels.Add(GameObject.Find("Barrel" + (i)));
 		}

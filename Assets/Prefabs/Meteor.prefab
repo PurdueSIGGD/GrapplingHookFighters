@@ -14,6 +14,7 @@ GameObject:
   - 60: {fileID: 6003294}
   - 114: {fileID: 11497636}
   - 114: {fileID: 11401102}
+  - 114: {fileID: 11413206}
   m_Layer: 8
   m_Name: Meteor
   m_TagString: NoGrapple
@@ -120,6 +121,19 @@ MonoBehaviour:
   hazardCollider: {fileID: 0}
   forceThreshold: 0
   throwForce: 900
+--- !u!114 &11413206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c381e5ecfb4f2408dd2b7329268752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 10
+  shell: 0
 --- !u!114 &11497636
 MonoBehaviour:
   m_ObjectHideFlags: 1

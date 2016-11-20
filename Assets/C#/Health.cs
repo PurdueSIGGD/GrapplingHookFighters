@@ -125,7 +125,7 @@ public class Health : MonoBehaviour {
 		
 			if (b) {
             //SOUND: Death by falling
-            AkSoundEngine.PostEvent("Death_by_Falling", gameObject);
+            if (!dead) AkSoundEngine.PostEvent("Death_by_Falling", gameObject);
 				//passed boundary is used to know if the player has died from a boundary
 				this.ignorePosition = true;
 				//boundaryplace is used to know the last place before death
@@ -183,7 +183,6 @@ public class Health : MonoBehaviour {
 	}
 	public void Gib(Vector3 t) { //t being where the explosion was
 		if (dead) {
-            AkSoundEngine.PostEvent("Victory", gameObject);
             int length = Random.Range(0,4);
 			for (int j = 0; j < length; j++) {
 				int range = Random.Range (0, 5 + 3); //5 for each limb, 3 for position based gibbing
@@ -310,6 +309,10 @@ public class Health : MonoBehaviour {
 			deadTime = 0;
 		}
 	}
+    void Bleed()
+    {
+        Bleed(false);
+    }
 	void Bleed(bool isSpikes) {
 		if (!transform.FindChild ("ParticleBleed") && playerHealth <= 0) {
             if (isSpikes)
@@ -317,11 +320,11 @@ public class Health : MonoBehaviour {
                 //SOUND: Death by spikes
                 AkSoundEngine.PostEvent("Death_by_Falling", gameObject);
             }
-			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
+			GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 
 			g.transform.parent = this.transform;
 			g.transform.localScale = Vector3.one;
-			g.name = "ParticleBleed";*/
+			g.name = "ParticleBleed";
 			//lets not bleed for now
 		}
 

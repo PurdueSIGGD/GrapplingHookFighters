@@ -35,6 +35,7 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			targets[i-1] = GameObject.Find("Player" + i);
 			targetHealths[i-1] = targets[i-1].GetComponent<Health>();
 		}
+        ResetCamera();
 	}
 	
 	// Update is called once per frame
@@ -50,9 +51,9 @@ public class SmootherTrackingCamera : MonoBehaviour {
 			i++;
 			//if they crossed a boundary, use their last place they were before they died 
 			float thisDistance = Vector2.Distance (transform.position, (gh.ignorePosition)?gh.boundaryPlace:g.transform.position);
-            thisDistance += Mathf.Abs(transform.position.y - g.transform.position.y) * .5f;
+            thisDistance += Mathf.Abs(transform.position.y - (gh.ignorePosition ? gh.boundaryPlace.y : g.transform.position.y)) * .5f;
             //more vertical position, it seems to cause more problems when players are right above each other 
-			if (!gh.dead)
+            if (!gh.dead)
 				atLeastOneAlive = true;
 			//calculate furthest distance
 			//print(atLeastOneAlive);
@@ -128,10 +129,14 @@ public class SmootherTrackingCamera : MonoBehaviour {
 	}
 	public void ResetCamera() {
 		Boundary boundary = GameObject.Find ("Boundary").GetComponent<Boundary> ();
-		minZoom = boundary.minZoom;
-		maxZoom = boundary.maxZoom;
-		movementSpeed = boundary.cameraSpeed;
-		ResetCamera (boundary.minZoom, boundary.maxZoom);
+        if (boundary)
+        {
+            minZoom = boundary.minZoom;
+            maxZoom = boundary.maxZoom;
+            movementSpeed = boundary.cameraSpeed;
+            ResetCamera(boundary.minZoom, boundary.maxZoom);
+        }
+		
 	}
 	public void ResetCamera(float newMinZoom, float newMaxZoom) {
 		minZoom = newMinZoom;

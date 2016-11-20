@@ -262,7 +262,7 @@ public class player : MonoBehaviour {
 	}
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
-            AkSoundEngine.PostEvent("Drop_Object", gameObject);
+            if (b) AkSoundEngine.PostEvent("Drop_Object", gameObject);
             //SOUND: Throw object
             if (heldItem1 != null) {
 				connected = false;
