@@ -157,7 +157,6 @@ public class AkSoundEngine {
 					// Object not active. AkGameObj will not work. Use a temporary game object.  
 					// This will automatically unregister at the end of this scope.
 					autoObject = new AkAutoObject(in_gameObject);
-					Id = autoObject.m_id;
 				}
 			}
 		}
@@ -2324,14 +2323,20 @@ public class AkSoundEngine {
     return ret;
   }
 
+  public static AKRESULT AddPlayerMotionDevice(byte in_iPlayerID, uint in_iCompanyID, uint in_iDeviceID, IntPtr in_pDevice, uint in_uSize) {
+    AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddPlayerMotionDevice__SWIG_0(in_iPlayerID, in_iCompanyID, in_iDeviceID, in_pDevice, in_uSize);
+
+    return ret;
+  }
+
   public static AKRESULT AddPlayerMotionDevice(byte in_iPlayerID, uint in_iCompanyID, uint in_iDeviceID, IntPtr in_pDevice) {
-    AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddPlayerMotionDevice__SWIG_0(in_iPlayerID, in_iCompanyID, in_iDeviceID, in_pDevice);
+    AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddPlayerMotionDevice__SWIG_1(in_iPlayerID, in_iCompanyID, in_iDeviceID, in_pDevice);
 
     return ret;
   }
 
   public static AKRESULT AddPlayerMotionDevice(byte in_iPlayerID, uint in_iCompanyID, uint in_iDeviceID) {
-    AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddPlayerMotionDevice__SWIG_1(in_iPlayerID, in_iCompanyID, in_iDeviceID);
+    AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddPlayerMotionDevice__SWIG_2(in_iPlayerID, in_iCompanyID, in_iDeviceID);
 
     return ret;
   }
@@ -2453,6 +2458,12 @@ public class AkSoundEngine {
     return ret;
   }
 
+  public static uint SetDecodedBankPath(string in_DecodedPath) {
+    uint ret = AkSoundEnginePINVOKE.CSharp_SetDecodedBankPath(in_DecodedPath);
+
+    return ret;
+  }
+
   public static AKRESULT LoadAndDecodeBank(string in_pszString, bool in_bSaveDecodedBank, out uint out_bankID) {
     AKRESULT ret = (AKRESULT)AkSoundEnginePINVOKE.CSharp_LoadAndDecodeBank(in_pszString, in_bSaveDecodedBank, out out_bankID);
 
@@ -2569,6 +2580,14 @@ public class AkSoundEngine {
   public const int AKCOMPANYID_IOSONO = (262);
   public const int AKCOMPANYID_AUROTECHNOLOGIES = (263);
   public const int AKCOMPANYID_DOLBY = (264);
+  public const int AKCOMPANYID_TWOBIGEARS = (265);
+  public const int AKCOMPANYID_OCULUS = (266);
+  public const int AKCOMPANYID_BLUERIPPLESOUND = (267);
+  public const int AKCOMPANYID_ENZIEN = (268);
+  public const int AKCOMPANYID_KROTOS = (269);
+  public const int AKCOMPANYID_NURULIZE = (270);
+  public const int AKCOMPANYID_SUPERPOWERED = (271);
+  public const int AKCOMPANYID_GOOGLE = (272);
   public const int AKCODECID_BANK = (0);
   public const int AKCODECID_PCM = (1);
   public const int AKCODECID_ADPCM = (2);

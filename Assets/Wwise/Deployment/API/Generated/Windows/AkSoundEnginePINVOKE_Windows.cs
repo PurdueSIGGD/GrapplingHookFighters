@@ -1214,9 +1214,11 @@ class AkSoundEnginePINVOKE {
   [DllImport("AkSoundEngine", EntryPoint="CSharp_delete_AkChannelConfig")]
   public static extern void CSharp_delete_AkChannelConfig(IntPtr jarg1);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_AddPlayerMotionDevice__SWIG_0")]
-  public static extern int CSharp_AddPlayerMotionDevice__SWIG_0(byte jarg1, uint jarg2, uint jarg3, IntPtr jarg4);
+  public static extern int CSharp_AddPlayerMotionDevice__SWIG_0(byte jarg1, uint jarg2, uint jarg3, IntPtr jarg4, uint jarg5);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_AddPlayerMotionDevice__SWIG_1")]
-  public static extern int CSharp_AddPlayerMotionDevice__SWIG_1(byte jarg1, uint jarg2, uint jarg3);
+  public static extern int CSharp_AddPlayerMotionDevice__SWIG_1(byte jarg1, uint jarg2, uint jarg3, IntPtr jarg4);
+  [DllImport("AkSoundEngine", EntryPoint="CSharp_AddPlayerMotionDevice__SWIG_2")]
+  public static extern int CSharp_AddPlayerMotionDevice__SWIG_2(byte jarg1, uint jarg2, uint jarg3);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_RemovePlayerMotionDevice")]
   public static extern void CSharp_RemovePlayerMotionDevice(byte jarg1, uint jarg2, uint jarg3);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_SetPlayerListener")]
@@ -1375,6 +1377,8 @@ class AkSoundEnginePINVOKE {
   public static extern int CSharp_AddBasePath([MarshalAs(UnmanagedType.LPWStr)]string jarg1);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_SetGameName")]
   public static extern uint CSharp_SetGameName([MarshalAs(UnmanagedType.LPWStr)]string jarg1);
+  [DllImport("AkSoundEngine", EntryPoint="CSharp_SetDecodedBankPath")]
+  public static extern uint CSharp_SetDecodedBankPath([MarshalAs(UnmanagedType.LPWStr)]string jarg1);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_LoadAndDecodeBank")]
   public static extern int CSharp_LoadAndDecodeBank([MarshalAs(UnmanagedType.LPWStr)]string jarg1, bool jarg2, out uint jarg3);
   [DllImport("AkSoundEngine", EntryPoint="CSharp_LoadAndDecodeBankFromMemory")]

@@ -32,27 +32,35 @@ public abstract class AkBaseInspector : Editor
 		serializedObject.ApplyModifiedProperties ();
 
 		/***************************************Handle Drag and Drop********************************************************/
-		if(DragAndDrop.paths.Length >= 4 && DragAndDrop.paths[3].Equals(m_typeName))
+		object[] DDInfo = (object[])DragAndDrop.GetGenericData("AKWwiseDDInfo");
+		if(DDInfo != null && DDInfo.Length >= 4)
 		{
-			if(Event.current.type == EventType.DragUpdated)
+			string DDTypeName = (string)DDInfo[3];
+			if(DDTypeName.Equals(m_typeName))
 			{
-				//mousePosition is not available during DragExited event but is available during the DragUpdated event.
-				m_isInDropArea = m_dropAreaRelativePos.Contains(Event.current.mousePosition);
+				if(Event.current.type == EventType.DragUpdated)
+				{
+					//mousePosition is not available during DragExited event but is available during the DragUpdated event.
+					m_isInDropArea = m_dropAreaRelativePos.Contains(Event.current.mousePosition);
 				
-				if(m_isInDropArea)
-					DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+					if(m_isInDropArea)
+					{
+						DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+						DragAndDrop.AcceptDrag();
+					}
+					return;
+				}
+				if(Event.current.type == EventType.DragExited && m_isInDropArea) 
+				{
+					Guid DDGuid = (Guid)DDInfo[1];
+					AkUtilities.SetByteArrayProperty(m_guidProperty[0], DDGuid.ToByteArray());
+						
+					//needed for the undo operation to work
+					GUIUtility.hotControl = 0;
 
-				return;
-			}
-			if(Event.current.type == EventType.DragExited && m_isInDropArea) 
-			{
-				AkUtilities.SetByteArrayProperty(m_guidProperty[0], new Guid(DragAndDrop.paths[1]).ToByteArray());
-
-				//needed for the undo operation to work
-				GUIUtility.hotControl = 0;
-
-				m_isInDropArea = false;
-				return;
+					m_isInDropArea = false;
+					return;
+				}
 			}
 		}
 		/*******************************************************************************************************************/

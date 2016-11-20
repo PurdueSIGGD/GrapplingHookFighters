@@ -40,6 +40,7 @@ public class ExplosionScript : MonoBehaviour {
 					myHit = r;
 
                     //SOUND: Explosion
+                    AkSoundEngine.PostEvent("Explosion", gameObject);
 					if (myHit.transform.GetComponent<grenade>()) {
 						myHit.transform.SendMessage("Explode");
 					}

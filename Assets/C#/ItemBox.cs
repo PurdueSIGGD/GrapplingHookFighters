@@ -61,6 +61,7 @@ public class ItemBox : MonoBehaviour {
         }
 	}
 	void use() {
+        AkSoundEngine.PostEvent("ChestOpening", gameObject);
 		used = true;
 		time = 0;
 		childSprite.GetComponent<SpriteRenderer>().sprite = openSprite;

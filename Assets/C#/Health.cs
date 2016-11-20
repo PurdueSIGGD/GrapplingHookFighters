@@ -124,7 +124,8 @@ public class Health : MonoBehaviour {
 	public void killPlayer(bool b) {
 		
 			if (b) {
-                //SOUND: Death by falling
+            //SOUND: Death by falling
+            AkSoundEngine.PostEvent("Death_by_Falling", gameObject);
 				//passed boundary is used to know if the player has died from a boundary
 				this.ignorePosition = true;
 				//boundaryplace is used to know the last place before death
@@ -182,7 +183,8 @@ public class Health : MonoBehaviour {
 	}
 	public void Gib(Vector3 t) { //t being where the explosion was
 		if (dead) {
-			int length = Random.Range(0,4);
+            AkSoundEngine.PostEvent("Victory", gameObject);
+            int length = Random.Range(0,4);
 			for (int j = 0; j < length; j++) {
 				int range = Random.Range (0, 5 + 3); //5 for each limb, 3 for position based gibbing
 
@@ -313,6 +315,7 @@ public class Health : MonoBehaviour {
             if (isSpikes)
             {
                 //SOUND: Death by spikes
+                AkSoundEngine.PostEvent("Death_by_Falling", gameObject);
             }
 			/*GameObject g = (GameObject)GameObject.Instantiate (part, this.transform.position, Quaternion.Euler (new Vector3 (0, 0, Random.Range (0, 360))));
 

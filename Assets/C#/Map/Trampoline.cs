@@ -17,6 +17,7 @@ public class Trampoline : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if (!col.isTrigger && col.transform.GetComponent<Rigidbody2D>()) {
 			col.transform.GetComponent<Rigidbody2D>().velocity = (launchDir);
+            AkSoundEngine.PostEvent("TrampolineBounce", gameObject);
 		}
 	}
 }

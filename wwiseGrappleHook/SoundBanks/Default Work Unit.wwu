@@ -5,7 +5,20 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{D7F3863A-30A0-4B85-BBC6-8BE465D4172D}">
 					<ObjectInclusionList>
-						<ObjectRef Name="Intro" ID="{856825BA-A11B-4E5A-9B45-CF14C1BDEEA1}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Weapons" ID="{08BDF316-69A6-40F3-8B3B-B3CAD6FCE9B7}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Default Work Unit" ID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Explosion" ID="{4B533E5F-AA4F-43FF-A408-4BF9E79B7E5B}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Drop_Object" ID="{3544FCD8-7E0C-453E-908B-3E534AAF5521}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Stop_Grapple" ID="{578B961B-1A8B-4692-A633-832C90D9AB10}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Jump" ID="{82057D9A-6942-47B8-81FB-C6EE1C2C43CA}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Pick_Up_Object" ID="{51FA1E16-AF11-480F-B8ED-A6D4A345BED7}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Death_by_Falling" ID="{B2E703EF-7068-490A-8A5B-122FEF14AF1F}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Punch" ID="{2D7770DC-8B0F-49B1-B074-61D6E7AB1E62}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Player" ID="{6DC98C90-FF43-4B89-80D6-3D8C8063DABD}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Grapple_Shot" ID="{F799E67F-2ED6-4BB6-ADE3-04D75A08CABE}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Death_by_Spikes" ID="{00678488-C197-4C76-A0CC-AF68C10BE63F}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Grapple_Contact" ID="{CD98AFC9-5F45-4DE0-8EF9-7F9B65C72BC1}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Objects" ID="{4E6F8933-2F44-4E18-BF5C-5E1D7AB135E0}" WorkUnitID="{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}" Filter="7" Origin="Manual"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

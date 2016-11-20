@@ -55,6 +55,7 @@ public class AkBank : AkUnityEventHandler
 		}
 	}
 
+	/// Loads the SoundBank
 	public override void HandleEvent(GameObject in_gameObject)
 	{
 		if (!loadAsynchronous)
@@ -63,6 +64,7 @@ public class AkBank : AkUnityEventHandler
 			AkBankManager.LoadBankAsync(bankName);
     }
 
+	/// Unloads a SoundBank
 	public void UnloadBank(GameObject in_gameObject)
 	{
 		AkBankManager.UnloadBank(bankName);

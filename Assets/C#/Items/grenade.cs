@@ -40,6 +40,7 @@ public class grenade : MonoBehaviour {
 
         if (pullPin) {
             //SOUND: Grenade activated
+            AkSoundEngine.PostEvent("GrenadeActivated", gameObject);
             //SOUND: Grenade fuse (3 sec)
             pullPin = false;
             pinPulled = true;

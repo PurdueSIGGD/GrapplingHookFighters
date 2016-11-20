@@ -88,6 +88,7 @@ public enum ErrorCode {
   ErrorCode_XMAStreamBufferTooSmall,
   ErrorCode_ModulatorScopeError_Inst,
   ErrorCode_ModulatorScopeError_Obj,
+  ErrorCode_SeekAfterEndOfPlaylist,
   Num_ErrorCodes
 }
 #endif // #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.

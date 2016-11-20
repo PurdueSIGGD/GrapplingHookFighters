@@ -18,12 +18,13 @@ public class AkWwiseTreeView : TreeViewControl
 	GUIStyle	m_filterBoxStyle	= null;
 	GUIStyle	m_filterBoxCancelButtonStyle = null;
 	string		m_filterString		= string.Empty;  
+	static MonoScript DragDropHelperMonoScript = null;
 
 	public AkWwiseTreeView()
 	{
 		EditorApplication.playmodeStateChanged += SaveExpansionStatusBeforePlay;
 	}
-
+		
     public class AkTreeInfo : object
     {
         public int ID = 0;
@@ -190,12 +191,10 @@ public class AkWwiseTreeView : TreeViewControl
             menu.ShowAsContext();
         }*/
     }
-
+	
     void PrepareDragDrop(object sender, System.EventArgs args)
     {
         TreeViewItem item = (TreeViewItem)sender;
-        AkDragDropHelper helper = null;
-        GameObject tempObj = null;
         try
         {
             if (item == null || !item.IsDraggable)
@@ -203,64 +202,47 @@ public class AkWwiseTreeView : TreeViewControl
                 return;
             }
 
-            AkTreeInfo treeInfo = (AkTreeInfo)item.DataContext;
-            UnityEngine.Object[] objectReferences = new UnityEngine.Object[1];
-            MonoScript componentScript = null;
-            // Instantiate a temp Game Object to attach the correct component to it
-            tempObj = new GameObject();
-			helper = tempObj.AddComponent<AkDragDropHelper>();
-            componentScript = MonoScript.FromMonoBehaviour(helper);
-
-            // We are using paths for passing our drag and drop information, because we couldn't get DragAndDrop.SetGenericData to work.
-            // DragAndDrop.paths[0] contains the component's name
-            // DragAndDrop.paths[1] contains the component's Guid
-            // DragAndDrop.paths[2] contains the component's AkGameObjID
-            // DragAndDrop.paths[3] contains the object's type
-            // We need two more fields for states and switches:
-            // DragAndDrop.paths[4] contains the state or switch group Guid
-            // DragAndDrop.paths[5] contains the state or switch group AkGameObjID
-            string[] paths = null;
+			UnityEngine.Object[] objectReferences = new UnityEngine.Object[1];
+			AkTreeInfo treeInfo = (AkTreeInfo)item.DataContext;
+			// GenericData[0] contains the component's name (string)
+			// GenericData[1] contains the component's Guid (Guid)
+			// GenericData[2] contains the component's AkGameObjID (int)
+			// GenericData[3] contains the object's type (string)
+			// We need two more fields for states and switches:
+			// GenericData[4] contains the state or switch group Guid (Guid)
+			// GenericData[5] contains the state or switch group AkGameObjID (int)
+            object[] DDInfo = null;
             if (item != null)
             {
-                string objType = GetObjectType(treeInfo.ObjectType);
-                if (objType == "State" || objType == "Switch")
+				string objType = GetObjectType(treeInfo.ObjectType);
+				if (objType == "State" || objType == "Switch")
                 {
                     AkTreeInfo ParentTreeInfo = (AkTreeInfo)item.Parent.DataContext;
-                    paths = new string[6];
-					paths[4] = new Guid( ParentTreeInfo.Guid).ToString();
-                    paths[5] = ParentTreeInfo.ID.ToString();
+					DDInfo = new object[6];
+					DDInfo[4] = new Guid( ParentTreeInfo.Guid);
+					DDInfo[5] = ParentTreeInfo.ID;
                 }
                 else
                 {
-                    paths = new string[4];
+					DDInfo = new object[4];
                 }
-				paths[1] = new Guid(treeInfo.Guid).ToString();
-                paths[2] = treeInfo.ID.ToString();
-                paths[3] = objType;
+				DDInfo[1] = new Guid(treeInfo.Guid);
+				DDInfo[2] = treeInfo.ID;
+				DDInfo[3] = objType;
             }
             else
             {
-                paths = new string[1];
+                DDInfo = new object[1];
             }
-            paths[0] = item.Header;
-            objectReferences[0] = componentScript;
-            DragAndDrop.objectReferences = objectReferences;
-            DragAndDrop.paths = paths;
+			DDInfo[0] = item.Header;
+			objectReferences[0] = DragDropHelperMonoScript;
+			DragAndDrop.objectReferences = objectReferences;
+			DragAndDrop.SetGenericData("AKWwiseDDInfo", DDInfo);
 			DragAndDrop.StartDrag("Dragging an AkObject");
         }
         catch (Exception e)
         {
             Debug.Log(e.ToString());
-        }
-
-        if (helper != null)
-        {
-            Component.DestroyImmediate(helper);
-        }
-
-        if (tempObj != null)
-        {
-            UnityEngine.Object.DestroyImmediate(tempObj);
         }
     }
 
@@ -475,6 +457,19 @@ public class AkWwiseTreeView : TreeViewControl
 			InspectorSkin.hideFlags = HideFlags.HideAndDontSave;
 			m_filterBoxStyle = InspectorSkin.FindStyle ("SearchTextField");
 			m_filterBoxCancelButtonStyle = InspectorSkin.FindStyle ("SearchCancelButton");
+		}
+
+		if(DragDropHelperMonoScript == null)
+		{
+			MonoScript[] scripts = (MonoScript[])Resources.FindObjectsOfTypeAll<MonoScript>();
+			for(int i = 0; i < scripts.Length; i++)
+			{
+				if(scripts[i].GetClass() == typeof(AkDragDropHelper))
+				{
+					DragDropHelperMonoScript = scripts[i];
+					break;
+				}
+			}
 		}
     }
 

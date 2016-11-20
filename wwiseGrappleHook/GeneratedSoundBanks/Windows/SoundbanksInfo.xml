@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="118">
 	<RootPaths>
-		<ProjectRoot>C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\GeneratedSoundBanks\Windows\</SoundBanksRoot>
+		<ProjectRoot>C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\GeneratedSoundBanks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -21,12 +21,130 @@
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
-				<Event Id="1125500713" Name="Intro" ObjectPath="\Events\Default Work Unit\Intro"/>
+				<Event Id="717903094" Name="BazookaShot" ObjectPath="\Events\Default Work Unit\Weapons\BazookaShot"/>
+				<Event Id="2199700491" Name="BoulderRolling" ObjectPath="\Events\Default Work Unit\Objects\BoulderRolling"/>
+				<Event Id="471116004" Name="ChestOpening" ObjectPath="\Events\Default Work Unit\Objects\ChestOpening"/>
+				<Event Id="3519619633" Name="CrossbowShot" ObjectPath="\Events\Default Work Unit\Weapons\CrossbowShot"/>
+				<Event Id="912168019" Name="Death_by_Falling" ObjectPath="\Events\Default Work Unit\Player\Death_by_Falling"/>
+				<Event Id="2665351959" Name="Death_by_Spikes" ObjectPath="\Events\Default Work Unit\Player\Death_by_Spikes"/>
+				<Event Id="1331601200" Name="Drop_Object" ObjectPath="\Events\Default Work Unit\Player\Drop_Object"/>
+				<Event Id="13776098" Name="Explosion" ObjectPath="\Events\Default Work Unit\Objects\Explosion"/>
+				<Event Id="1433718469" Name="GeneralCollision" ObjectPath="\Events\Default Work Unit\Objects\GeneralCollision"/>
+				<Event Id="2547884931" Name="Grapple_Contact" ObjectPath="\Events\Default Work Unit\Player\Grapple_Contact"/>
+				<Event Id="1154420437" Name="Grapple_Shot" ObjectPath="\Events\Default Work Unit\Player\Grapple_Shot"/>
+				<Event Id="919041118" Name="GrenadeActivated" ObjectPath="\Events\Default Work Unit\Weapons\GrenadeActivated"/>
+				<Event Id="901276030" Name="GrenadeFuse" ObjectPath="\Events\Default Work Unit\Weapons\GrenadeFuse"/>
+				<Event Id="2325118829" Name="GrenadeLauncherShot" ObjectPath="\Events\Default Work Unit\Weapons\GrenadeLauncherShot"/>
+				<Event Id="2680315389" Name="Jetpack" ObjectPath="\Events\Default Work Unit\Objects\Jetpack"/>
+				<Event Id="3833651337" Name="Jump" ObjectPath="\Events\Default Work Unit\Player\Jump"/>
+				<Event Id="213183400" Name="LaserGunShot" ObjectPath="\Events\Default Work Unit\Weapons\LaserGunShot"/>
+				<Event Id="4113044440" Name="LightningRodShot" ObjectPath="\Events\Default Work Unit\Weapons\LightningRodShot"/>
+				<Event Id="2977987978" Name="MachineGunShot" ObjectPath="\Events\Default Work Unit\Weapons\MachineGunShot"/>
+				<Event Id="4003513310" Name="OutOfAmmo" ObjectPath="\Events\Default Work Unit\Weapons\OutOfAmmo"/>
+				<Event Id="3861027660" Name="Pick_Up_Object" ObjectPath="\Events\Default Work Unit\Player\Pick_Up_Object"/>
+				<Event Id="2562304658" Name="PotatoGunShot" ObjectPath="\Events\Default Work Unit\Weapons\PotatoGunShot"/>
+				<Event Id="645565787" Name="Punch" ObjectPath="\Events\Default Work Unit\Player\Punch"/>
+				<Event Id="1448240169" Name="ShotgunShot" ObjectPath="\Events\Default Work Unit\Weapons\ShotgunShot"/>
+				<Event Id="3641886989" Name="Stop_Grapple" ObjectPath="\Events\Default Work Unit\Player\Stop_Grapple"/>
+				<Event Id="3942466268" Name="TrampolineBounce" ObjectPath="\Events\Default Work Unit\Objects\TrampolineBounce"/>
+				<Event Id="2716678721" Name="Victory" ObjectPath="\Events\Default Work Unit\Player\Victory"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
-				<File Id="980585809" Language="SFX">
-					<ShortName>File0168.wav</ShortName>
-					<Path>SFX\File0168_9E69E797.wem</Path>
+				<File Id="25503410" Language="SFX">
+					<ShortName>grenadeFuse.wav</ShortName>
+					<Path>SFX\grenadeFuse_9E69E797.wem</Path>
+				</File>
+				<File Id="81286926" Language="SFX">
+					<ShortName>machineGunShot.wav</ShortName>
+					<Path>SFX\machineGunShot_9E69E797.wem</Path>
+				</File>
+				<File Id="122244797" Language="SFX">
+					<ShortName>death explosion.wav</ShortName>
+					<Path>SFX\death explosion_9E69E797.wem</Path>
+				</File>
+				<File Id="150349712" Language="SFX">
+					<ShortName>shotgunShot.wav</ShortName>
+					<Path>SFX\shotgunShot_9E69E797.wem</Path>
+				</File>
+				<File Id="201398403" Language="SFX">
+					<ShortName>boulderCollision.wav</ShortName>
+					<Path>SFX\boulderCollision_9E69E797.wem</Path>
+				</File>
+				<File Id="330304009" Language="SFX">
+					<ShortName>laserShot.wav</ShortName>
+					<Path>SFX\laserShot_9E69E797.wem</Path>
+				</File>
+				<File Id="360316706" Language="SFX">
+					<ShortName>jump.wav</ShortName>
+					<Path>SFX\jump_9E69E797.wem</Path>
+				</File>
+				<File Id="363557401" Language="SFX">
+					<ShortName>pickupObject.wav</ShortName>
+					<Path>SFX\pickupObject_9E69E797.wem</Path>
+				</File>
+				<File Id="366082936" Language="SFX">
+					<ShortName>lightningRodShotwav.wav</ShortName>
+					<Path>SFX\lightningRodShotwav_9E69E797.wem</Path>
+				</File>
+				<File Id="459595441" Language="SFX">
+					<ShortName>chestOpening.wav</ShortName>
+					<Path>SFX\chestOpening_9E69E797.wem</Path>
+				</File>
+				<File Id="478609974" Language="SFX">
+					<ShortName>potatoGunShot.wav</ShortName>
+					<Path>SFX\potatoGunShot_9E69E797.wem</Path>
+				</File>
+				<File Id="481632692" Language="SFX">
+					<ShortName>bazookaShot.wav</ShortName>
+					<Path>SFX\bazookaShot_9E69E797.wem</Path>
+				</File>
+				<File Id="487724417" Language="SFX">
+					<ShortName>trampolineBounce.wav</ShortName>
+					<Path>SFX\trampolineBounce_9E69E797.wem</Path>
+				</File>
+				<File Id="538971864" Language="SFX">
+					<ShortName>outOfAmmo.wav</ShortName>
+					<Path>SFX\outOfAmmo_9E69E797.wem</Path>
+				</File>
+				<File Id="545498627" Language="SFX">
+					<ShortName>grenadeActivated.wav</ShortName>
+					<Path>SFX\grenadeActivated_9E69E797.wem</Path>
+				</File>
+				<File Id="556689159" Language="SFX">
+					<ShortName>dropWeapon.wav</ShortName>
+					<Path>SFX\dropWeapon_9E69E797.wem</Path>
+				</File>
+				<File Id="558992601" Language="SFX">
+					<ShortName>death by spikes.wav</ShortName>
+					<Path>SFX\death by spikes_9E69E797.wem</Path>
+				</File>
+				<File Id="725037978" Language="SFX">
+					<ShortName>grappleUnreeling.wav</ShortName>
+					<Path>SFX\grappleUnreeling_4B8CC0C5.wem</Path>
+				</File>
+				<File Id="740381825" Language="SFX">
+					<ShortName>crossbowShot.wav</ShortName>
+					<Path>SFX\crossbowShot_9E69E797.wem</Path>
+				</File>
+				<File Id="811813356" Language="SFX">
+					<ShortName>ballCollision.wav</ShortName>
+					<Path>SFX\ballCollision_9E69E797.wem</Path>
+				</File>
+				<File Id="906595803" Language="SFX">
+					<ShortName>death by falling.wav</ShortName>
+					<Path>SFX\death by falling_9E69E797.wem</Path>
+				</File>
+				<File Id="938450708" Language="SFX">
+					<ShortName>punch.wav</ShortName>
+					<Path>SFX\punch_9E69E797.wem</Path>
+				</File>
+				<File Id="988272403" Language="SFX">
+					<ShortName>victory.wav</ShortName>
+					<Path>SFX\victory_9E69E797.wem</Path>
+				</File>
+				<File Id="998775533" Language="SFX">
+					<ShortName>generalCollision.wav</ShortName>
+					<Path>SFX\generalCollision_9E69E797.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

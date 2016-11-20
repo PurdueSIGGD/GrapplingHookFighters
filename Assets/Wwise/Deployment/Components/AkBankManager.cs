@@ -28,17 +28,27 @@ public class AkBankHandle
         decodeBank = decode;
 		saveDecodedBank = save;
 
-#if !UNITY_EDITOR       
         // Verify if the bank has already been decoded
         if( decodeBank )
 		{
-			if( System.IO.File.Exists (System.IO.Path.Combine(AkInitializer.GetDecodedBankFullPath(), bankName + ".bnk")) )
+            string DecodedBankPath = System.IO.Path.Combine(AkInitializer.GetDecodedBankFullPath(), bankName + ".bnk");
+            string EncodedBankPath = System.IO.Path.Combine(AkBasePathGetter.GetValidBasePath(), bankName + ".bnk");
+			if ( System.IO.File.Exists (DecodedBankPath) )
 			{
-                relativeBasePath = AkInitializer.GetDecodedBankFolder();
-				decodeBank = false;
+				try
+				{
+					if (System.IO.File.GetLastWriteTime(DecodedBankPath) > System.IO.File.GetLastWriteTime(EncodedBankPath))
+					{
+						relativeBasePath = AkInitializer.GetDecodedBankFolder();
+						decodeBank = false;
+					}
+				}
+				catch
+				{
+					// Assume the decoded bank exists, but is not accessible. Re-decode it anyway, so we do nothing.
+				}
 			}
 		}
-#endif
     }
 
     public int RefCount
@@ -49,7 +59,7 @@ public class AkBankHandle
         }
     }
 
-	/// Loads a bank.  This version blocks until the bank is loaded.  See AK::SoundEngine::LoadBank for more information
+	/// Loads a bank. This version blocks until the bank is loaded. See AK::SoundEngine::LoadBank for more information.
 	public void LoadBank()
 	{
 		if (m_RefCount == 0)
@@ -66,9 +76,6 @@ public class AkBankHandle
 				return;
 			}
 
-#if UNITY_EDITOR
-            res = AkSoundEngine.LoadBank(bankName, AkSoundEngine.AK_DEFAULT_POOL_ID, out m_BankID);
-#else
             if( decodeBank == false )
 			{
                 string basePathToSet = null;
@@ -101,25 +108,9 @@ public class AkBankHandle
 			}
 			else
 			{
-				if( saveDecodedBank == true )
-				{
-					if( !System.IO.Directory.Exists (AkInitializer.GetDecodedBankFullPath()) )
-					{
-						try
-						{
-							System.IO.Directory.CreateDirectory(AkInitializer.GetDecodedBankFullPath());
-							System.IO.Directory.CreateDirectory(System.IO.Path.Combine(AkInitializer.GetDecodedBankFullPath(), AkInitializer.GetCurrentLanguage()));
-						}
-						catch
-						{
-							Debug.LogWarning("Could not create decoded SoundBank directory, decoded SoundBank will not be saved.");
-							saveDecodedBank = false;
-						}
-					}
-				}
 				res = AkSoundEngine.LoadAndDecodeBank(bankName, saveDecodedBank, out m_BankID);
 			}
-#endif
+
             if (res != AKRESULT.AK_Success)
 			{
 				Debug.LogWarning("WwiseUnity: Bank " + bankName + " failed to load (" + res.ToString() + ")");
@@ -164,7 +155,7 @@ public class AkBankHandle
     }
 }
 
-/// @brief Maintains the list of soundbanks loaded.  This is currently used only with AkAmbient objects.
+/// @brief Maintains the list of loaded SoundBanks loaded. This is currently used only with AkAmbient objects.
 public static class AkBankManager
 {	
     static Dictionary<string, AkBankHandle> m_BankHandles = new Dictionary<string, AkBankHandle>();
@@ -209,7 +200,7 @@ public static class AkBankManager
 			cb(in_bankID, in_pInMemoryBankPtr, in_eLoadResult, in_memPoolId, null);
     }
 
-	/// Loads a bank.  This version blocks until the bank is loaded.  See AK::SoundEngine::LoadBank for more information
+	/// Loads a SoundBank. This version blocks until the bank is loaded. See AK::SoundEngine::LoadBank for more information.
     public static void LoadBank(string name, bool decodeBank, bool saveDecodedBank)
     {
 		m_Mutex.WaitOne();
@@ -229,7 +220,7 @@ public static class AkBankManager
 		}
     }
 	
-	/// Loads a bank.  This version returns right away and loads in background. See AK::SoundEngine::LoadBank for more information
+	/// Loads a SoundBank. This version returns right away and loads in background. See AK::SoundEngine::LoadBank for more information.
 	public static void LoadBankAsync(string name, AkCallbackManager.BankCallback callback = null)
 	{
 		m_Mutex.WaitOne();
@@ -249,7 +240,7 @@ public static class AkBankManager
 		}
 	}
 
-	/// Unloads a bank.  See AK::SoundEngine::UnloadBank for more information
+	/// Unloads a SoundBank. See AK::SoundEngine::UnloadBank for more information.
     public static void UnloadBank(string name)
     {
 		m_Mutex.WaitOne();

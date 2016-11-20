@@ -79,11 +79,19 @@ public class AkEvent : AkUnityEventHandler
 		soundEmitterObject = gameObj;
 
         if(enableActionOnEvent)
+		{
 			AkSoundEngine.ExecuteActionOnEvent((uint)eventID, actionOnEventType, gameObj, (int)transitionDuration * 1000, curveInterpolation);
+			return;
+		}
 		else if(m_callbackData != null)
 			playingId = AkSoundEngine.PostEvent((uint)eventID, gameObj, (uint)m_callbackData.uFlags, Callback, null, 0, null, AkSoundEngine.AK_INVALID_PLAYING_ID);
 		else
             playingId = AkSoundEngine.PostEvent((uint)eventID, gameObj);
+		
+		if(playingId == AkSoundEngine.AK_INVALID_PLAYING_ID)
+		{
+			Debug.LogError("Could not post event ID \"" + eventID + "\". Did you make sure to load the appropriate SoundBank?");
+		}
     }
 
     public void Stop(int _transitionDuration, AkCurveInterpolation _curveInterpolation = AkCurveInterpolation.AkCurveInterpolation_Linear)

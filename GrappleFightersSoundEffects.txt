@@ -1,35 +1,42 @@
 --Player--
-Jump - 
-Pick up object -
-Throw object -
-Punch - swing and hit
-Grapple shot - 
-Grapple contact -
-Land - 
-Death by spikes - 
-Death by falling -
-Armor Equipped -
+Jump
+Pick up object
+Throw object
+Punch
+Grapple shot
+Grapple contact
+Land
+Death by spikes
+Death by falling
+Armor Equipped
 
 --Objects--
-Ball collision -
-Arrow collisison -
-Stone collisison -
-Boulder rolling -
-Grenade collision -
+Ball collision
+Arrow collisison
+Stone collisison
+Boulder rolling
+Grenade collision 
 
 --Weapons--
-Pistol shot? Rifle shot? Shotgun shot?
-Explosion -
-Out of ammo -
-Laser gun shot ??
-Lightning rod shot ??
-Rock launcher shot -
-Crossbow shot -
-Bazooka shot -
-Grenade activated - 
-Grenade fuse (3 sec) -
+Explosion
+Out of ammo
+Laser gun shot 
+Lightning rod shot
+Rock launcher shot
+Crossbow shot
+Bazooka shot
+Grenade activated
+Grenade fuse (3 sec)
 
-
+---ROUNND 2---
+Open treasure chest
+Bomb launcher
+Machine gun?
+Grenade launcher
+Trampoline bounce
+Spread gun (shotgun?)
+Death by lava
+Jet pack
 
 
 

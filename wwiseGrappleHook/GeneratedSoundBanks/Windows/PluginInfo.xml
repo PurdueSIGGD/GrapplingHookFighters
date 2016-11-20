@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PluginInfo Project="wwiseGrappleHook" Platform="Windows" BasePlatform="Windows" Motion="false">
+<PluginInfo Project="wwiseGrappleHook" Platform="Windows" BasePlatform="Windows">
 	<Plugins/>
 </PluginInfo>

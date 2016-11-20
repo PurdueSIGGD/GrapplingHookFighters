@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ValidationCache Version="1" SchemaVersion="72">
-	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="2149658793" DateHigh="30555634"/>
+	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="694587127" DateHigh="30556614"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Attenuations\Default Work Unit.wwu" DateLow="4103739811" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Audio Devices\Default Work Unit.wwu" DateLow="4103771755" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Control Surface Sessions\Default Work Unit.wwu" DateLow="4103806841" DateHigh="30555189"/>
@@ -9,7 +9,7 @@
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Dynamic Dialogue\Default Work Unit.wwu" DateLow="4103906621" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Effects\Default Work Unit.wwu" DateLow="4103938842" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Effects\Factory Effects.wwu" DateLow="4103994297" DateHigh="30555189"/>
-	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Events\Default Work Unit.wwu" DateLow="2149583317" DateHigh="30555634"/>
+	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Events\Default Work Unit.wwu" DateLow="3792171667" DateHigh="30556610"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Game Parameters\Default Work Unit.wwu" DateLow="4104064484" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="4104678101" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="4104718216" DateHigh="30555189"/>
@@ -18,11 +18,11 @@
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Presets\Default Work Unit.wwu" DateLow="4105249850" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Queries\Default Work Unit.wwu" DateLow="4105274573" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Queries\Factory Queries.wwu" DateLow="4105315039" DateHigh="30555189"/>
-	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\SoundBanks\Default Work Unit.wwu" DateLow="2149528158" DateHigh="30555634"/>
+	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\SoundBanks\Default Work Unit.wwu" DateLow="3792409869" DateHigh="30556610"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Soundcaster Sessions\Default Work Unit.wwu" DateLow="4105703633" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\States\Default Work Unit.wwu" DateLow="4105779200" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Switches\Default Work Unit.wwu" DateLow="4105819299" DateHigh="30555189"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\Triggers\Default Work Unit.wwu" DateLow="4105947220" DateHigh="30555189"/>
-	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\wwiseGrappleHook.lshan.wsettings" DateLow="2153770972" DateHigh="30555634"/>
+	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\wwiseGrappleHook.lshan.wsettings" DateLow="2128602307" DateHigh="30556615"/>
 	<ValidationCacheItem File="C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\wwiseGrappleHook.wproj" DateLow="4106127712" DateHigh="30555189"/>
 </ValidationCache>

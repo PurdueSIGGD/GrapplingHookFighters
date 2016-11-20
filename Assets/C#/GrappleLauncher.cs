@@ -76,7 +76,8 @@ public class GrappleLauncher : MonoBehaviour {
 				}
 			}
 			if (!firing && !retracting) {
-				firedGrapple.transform.position = center.position;
+             
+                firedGrapple.transform.position = center.position;
 				grappleArm.gameObject.SetActive (false);
 				armL.gameObject.SetActive (true);
 			}
@@ -142,6 +143,7 @@ public class GrappleLauncher : MonoBehaviour {
 				//myRigid.AddForce(firingVector * -500); //counteract the throwing force
 	            firedGrapple.SendMessage("Launch", firingVector);
                 //SOUND: Grapple shot
+                AkSoundEngine.PostEvent("Grapple_Shot", gameObject);
 
             }
             else {
@@ -165,6 +167,8 @@ public class GrappleLauncher : MonoBehaviour {
 
 	void Attach() {
         //SOUND: Grapple contact
+        AkSoundEngine.PostEvent("Stop_Grapple", gameObject);
+        AkSoundEngine.PostEvent("Grapple_Contact", gameObject);
         attached = true;
 		for (int i = 0; i < grapples.Length; i++) {
 			edges[i].enabled = true;
@@ -197,7 +201,8 @@ public class GrappleLauncher : MonoBehaviour {
 		//print("Grapple Disconnect: firing" + firing + " retracting " + retracting + " attached: " + attached + " force " + force);
 		if ((firing || retracting) /*&& (attached || force)*/) {
 			retracting = true;
-			attached = false;
+            AkSoundEngine.PostEvent("Stop_Grapple", gameObject);
+            attached = false;
 			firing = false;
 			for (int i = 0; i < grapples.Length; i++) {
 				edges[i].enabled = false;

@@ -1,12 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) Audiokinetic Inc. 2006-2015. All rights reserved.
-//
-// Audiokinetic Wwise SDK version, build number and copyright constants.
-// These are used by sample projects to display the version and to
-// include it in their assembly info. They can also be used by games
-// or tools to display the current version and build number of the
-// Wwise Sound Engine.
+// Copyright (c) 2006 Audiokinetic Inc. / All Rights Reserved
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,19 +23,19 @@
 #define AK_WWISESDK_VERSION_MINOR				1
 
 /// Wwise SDK sub-minor version
-#define AK_WWISESDK_VERSION_SUBMINOR			0
+#define AK_WWISESDK_VERSION_SUBMINOR			3
 
 /// Wwise SDK build number
-#define AK_WWISESDK_VERSION_BUILD				5775
+#define AK_WWISESDK_VERSION_BUILD				5878
 
 /// Wwise SDK build date (year)
 #define AK_WWISESDK_BUILD_YEAR					2016
 
 /// Wwise SDK build date (month)
-#define AK_WWISESDK_BUILD_MONTH					5
+#define AK_WWISESDK_BUILD_MONTH					9
 
 /// Wwise SDK build date (day)
-#define AK_WWISESDK_BUILD_DAY					30
+#define AK_WWISESDK_BUILD_DAY					23
 
 //@}
 

@@ -262,6 +262,7 @@ public class player : MonoBehaviour {
 	}
     void throwWeapon(bool b, int i) { //bool for dropping or throwing
 		if (i == 0) {
+            AkSoundEngine.PostEvent("Drop_Object", gameObject);
             //SOUND: Throw object
             if (heldItem1 != null) {
 				connected = false;
@@ -411,7 +412,8 @@ public class player : MonoBehaviour {
 	}
     bool jump(bool usingJetpack) {
 		if (!death && Input.GetAxis("VerticalP" + (joystickController ? "J" : "") + (joystickController ? joystickID : (mouseID + 1))) >= 1 || (joystickController?(Input.GetAxis("VerticalPD" + joystickID) == 1):false) || (joystickController?(Input.GetButton("VerticalPB" + joystickID)):false)) {
-			return true;
+            AkSoundEngine.PostEvent("Jetpack", gameObject);
+            return true;
         } else {
 			
             return false;
@@ -497,6 +499,7 @@ public class player : MonoBehaviour {
 
             if (pickUpKey()) {
                 //SOUND: Pick up object 
+                AkSoundEngine.PostEvent("Pick_Up_Object", gameObject);
 				PassivePickup p;
 				if (p = col.GetComponent<PassivePickup> ()) { //assign values to passiveItem
 					if (passiveItem) {
@@ -725,6 +728,7 @@ public class player : MonoBehaviour {
             if (punchable && punchable.gameObject.activeInHierarchy) {
 				if (punchable.CompareTag("Player")) {
                     //SOUND: Punch - hit
+                    AkSoundEngine.PostEvent("Punch", gameObject);
 
                     Rigidbody2D playerPunch = punchable.GetComponent<Rigidbody2D> ();
 					playerPunch.AddForce (300 * (punchable.gameObject.transform.position - transform.position));
@@ -775,6 +779,7 @@ public class player : MonoBehaviour {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, 0); //slowing as we hit the floor
 				GetComponent<Rigidbody2D> ().AddForce (new Vector3 (0, 800, 0));
                 //SOUND: Jump
+                AkSoundEngine.PostEvent("Jump", gameObject);
 				jumpTime = Time.time;
 				//jumped = true;
 			}

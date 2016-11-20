@@ -100,14 +100,10 @@ public class AkWwisePostImportCallback
         // Start by checking if the integration supports the platform
         switch (EditorUserBuildSettings.activeBuildTarget)
         {
-            case BuildTarget.BlackBerry:
             case BuildTarget.PSM:
             case BuildTarget.SamsungTV:
-            case BuildTarget.StandaloneGLESEmu:
             case BuildTarget.Tizen:
             case BuildTarget.WebGL:
-            case BuildTarget.WebPlayer:
-            case BuildTarget.WebPlayerStreamed:
                 Msg = "The Wwise Unity integration does not support this platform.";
                 return false;
         }

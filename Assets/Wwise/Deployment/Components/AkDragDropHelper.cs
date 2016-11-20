@@ -18,20 +18,20 @@ public class AkDragDropHelper : MonoBehaviour
 {
     void Awake()
     {
-        // Need a minimum of 4 members in DragAndDrop.paths:
-        // DragAndDrop.paths[0] contains the component's name
-        // DragAndDrop.paths[1] contains the component's Guid
-        // DragAndDrop.paths[2] contains the component's AkGameObjID
-        // DragAndDrop.paths[3] contains the object's type
+        // Need a minimum of 4 members in DragAndDrop generic data:
+		// GenericData[0] contains the component's name (string)
+		// GenericData[1] contains the component's Guid (Guid)
+		// GenericData[2] contains the component's AkGameObjID (int)
+		// GenericData[3] contains the object's type (string)
         // We need two more fields for states and switches:
-        // DragAndDrop.paths[4] contains the state or switch group Guid
-        // DragAndDrop.paths[5] contains the state or switch group AkGameObjID
-        if( DragAndDrop.paths.Length >= 4 )
+		// GenericData[4] contains the state or switch group Guid (Guid)
+		// GenericData[5] contains the state or switch group AkGameObjID (int)
+		object[] DDInfo = (object[])DragAndDrop.GetGenericData ("AKWwiseDDInfo");
+		if( DDInfo != null && DDInfo.Length >= 4 )
         {
-            string componentGuid = DragAndDrop.paths[1];
-            int ID = Convert.ToInt32(DragAndDrop.paths[2]);
-            string type = DragAndDrop.paths[3];
-
+			Guid componentGuid = (Guid)DDInfo[1];
+			int ID = (int)DDInfo[2];
+			string type = (string)DDInfo[3];
             switch(type)
             {
                 case "AuxBus":
@@ -41,18 +41,18 @@ public class AkDragDropHelper : MonoBehaviour
 					CreateAmbient(componentGuid, ID);
                     break;
                 case "Bank":
-					CreateBank(componentGuid, DragAndDrop.paths[0]);
+					CreateBank(componentGuid, (string)DDInfo[0]);
                     break;
                 case "State":
-                    if (DragAndDrop.paths.Length == 6)
+					if (DDInfo.Length == 6)
                     {
-                        CreateState(componentGuid, ID, DragAndDrop.paths[4], Convert.ToInt32(DragAndDrop.paths[5]));
+						CreateState(componentGuid, ID, (Guid)DDInfo[4], (int)DDInfo[5]);
                     }
                     break;
                 case "Switch":
-                    if (DragAndDrop.paths.Length == 6)
+					if (DDInfo.Length == 6)
                     {
-                        CreateSwitch(componentGuid, ID, DragAndDrop.paths[4], Convert.ToInt32(DragAndDrop.paths[5]));
+						CreateSwitch(componentGuid, ID, (Guid)DDInfo[4], (int)DDInfo[5]);
                     }
                     break;
             }
@@ -69,14 +69,14 @@ public class AkDragDropHelper : MonoBehaviour
 		Component.DestroyImmediate(this);
     }
 
-    void CreateAuxBus(string componentGuid, int ID)
+    void CreateAuxBus(Guid componentGuid, int ID)
     {
         AkEnvironment[] akEnvironments = gameObject.GetComponents<AkEnvironment>();
 
         bool found = false;
         for (int i = 0; i < akEnvironments.Length; i++)
         {
-			if (new Guid(akEnvironments[i].valueGuid) == new Guid(componentGuid))
+			if (new Guid(akEnvironments[i].valueGuid) == componentGuid)
 			{
 				found = true;
                 break;
@@ -88,56 +88,56 @@ public class AkDragDropHelper : MonoBehaviour
 			AkEnvironment akEnvironment = Undo.AddComponent<AkEnvironment>(gameObject);
 			if (akEnvironment != null)
             {
-				akEnvironment.valueGuid = new Guid(componentGuid).ToByteArray();
+				akEnvironment.valueGuid = componentGuid.ToByteArray();
 				akEnvironment.SetAuxBusID(ID);
 			}
 		}
 	}
 
-	void CreateAmbient(string componentGuid, int ID)
+	void CreateAmbient(Guid componentGuid, int ID)
     {
 		AkAmbient ambient = Undo.AddComponent<AkAmbient>(gameObject);
 
         if (ambient != null)
         {
-			ambient.valueGuid = new Guid(componentGuid).ToByteArray();
+			ambient.valueGuid = componentGuid.ToByteArray();
             ambient.eventID = ID;
         }
     }
 
-	void CreateBank(string componentGuid, string name)
+	void CreateBank(Guid componentGuid, string name)
     {
 		AkBank bank = Undo.AddComponent<AkBank>(gameObject);
 
 		if (bank != null)
         {
-			bank.valueGuid = new Guid(componentGuid).ToByteArray();
+			bank.valueGuid = componentGuid.ToByteArray();
 			bank.bankName = name;
         }
     }
 
-    void CreateState(string componentGuid, int ID, string groupGuid, int groupID)
+    void CreateState(Guid componentGuid, int ID, Guid groupGuid, int groupID)
     {
 		AkState akState = Undo.AddComponent<AkState>(gameObject);
 		
 		if (akState != null)
         {
-			akState.groupGuid = new Guid(groupGuid).ToByteArray();
+			akState.groupGuid = groupGuid.ToByteArray();
 			akState.groupID = groupID;
-            akState.valueGuid = new Guid(componentGuid).ToByteArray();
+            akState.valueGuid = componentGuid.ToByteArray();
             akState.valueID = ID;
         }
     }
 
-    void CreateSwitch(string componentGuid, int ID, string groupGuid, int groupID)
+    void CreateSwitch(Guid componentGuid, int ID, Guid groupGuid, int groupID)
     {
 		AkSwitch akSwitch = Undo.AddComponent<AkSwitch>(gameObject);
 		
 		if (akSwitch != null)
         {
-			akSwitch.groupGuid = new Guid(groupGuid).ToByteArray();
+			akSwitch.groupGuid = groupGuid.ToByteArray();
 			akSwitch.groupID = groupID;
-			akSwitch.valueGuid = new Guid(componentGuid).ToByteArray();
+			akSwitch.valueGuid = componentGuid.ToByteArray();
 			akSwitch.valueID = ID;
         }
     }

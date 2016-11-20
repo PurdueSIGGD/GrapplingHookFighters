@@ -122,7 +122,9 @@ public partial class AkUtilities
         { BuildTarget.WSAPlayer, new string[] { "Windows" } },
         { BuildTarget.StandaloneLinux64, new string[] { "Linux" } },
         { BuildTarget.StandaloneLinuxUniversal, new string[] { "Linux" } },
+#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2
         { BuildTarget.WP8Player, new string[] { "Windows" } },
+#endif
         { BuildTarget.StandaloneOSXIntel64, new string[] { "Mac" } },
         // { BuildTarget.BlackBerry, null },
         // { BuildTarget.Tizen, null },

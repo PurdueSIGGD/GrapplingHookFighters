@@ -168,6 +168,7 @@ public class AkInitializer : MonoBehaviour
 			return;
 		}
 		
+		AkSoundEngine.SetDecodedBankPath(GetDecodedBankFullPath());
         AkSoundEngine.SetCurrentLanguage(language);
 
 #if (UNITY_ANDROID || UNITY_IOS) && ! UNITY_EDITOR

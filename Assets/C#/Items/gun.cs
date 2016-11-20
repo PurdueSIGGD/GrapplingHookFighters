@@ -25,6 +25,7 @@ public class gun : MonoBehaviour, item {
 
 	public GameObject critGameObject;
 
+    public string soundTag;
 	// Use this for initialization
 	void Start () {
 		timeSincelast = timeToShoot;
@@ -128,6 +129,37 @@ public class gun : MonoBehaviour, item {
 			if (timeSincelast > timeToShoot) {
 				if (ammo > 0) {
                     //SOUND: Rock launcher shot / Crossbow shot / Bazooka shot / any other weapons you want
+                    string name = gameObject.name;
+                 
+                    switch (soundTag)
+                    {
+                        case "pistol":
+                            AkSoundEngine.PostEvent("LaserGunShot", gameObject);
+                            break;
+                        case "bow":
+                            AkSoundEngine.PostEvent("CrossbowShot", gameObject);
+                            break;
+                        case "weatherRod":
+                            AkSoundEngine.PostEvent("LightningRodShot", gameObject);
+                            break;
+                        case "potatoGun":
+                            AkSoundEngine.PostEvent("PotatoGunShot", gameObject);
+                            break;
+                        case "bazooka":
+                            AkSoundEngine.PostEvent("BazookaShot", gameObject);
+                            break;
+                        case "shotgun":
+                            AkSoundEngine.PostEvent("ShotgunShot", gameObject);
+                            break;
+                        case "grenadeLauncher":
+                            AkSoundEngine.PostEvent("GrenadeLauncherShot", gameObject);
+                            break;
+                        case "machineGun":
+                            AkSoundEngine.PostEvent("MachineGunShot", gameObject);
+                            break;
+                       
+                    }
+                    
 					ammo--;
 					if (ammo == 0 && emptySprite != null) {
 						this.transform.FindChild("Sprite").GetComponent<SpriteRenderer>().sprite = emptySprite;
@@ -323,6 +355,7 @@ public class gun : MonoBehaviour, item {
 					timeSincelast = 0;
 				} else {
                     //SOUND: Out of ammo
+                     AkSoundEngine.PostEvent("OutOfAmmo", gameObject);
 					//print("Click");
 				}
 			} else {

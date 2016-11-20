@@ -1,6 +1,55 @@
 Event	ID	Name			Wwise Object Path	Notes
-	1125500713	Intro			\Default Work Unit\Intro	
+	13776098	Explosion			\Default Work Unit\Objects\Explosion	
+	213183400	LaserGunShot			\Default Work Unit\Weapons\LaserGunShot	
+	471116004	ChestOpening			\Default Work Unit\Objects\ChestOpening	
+	645565787	Punch			\Default Work Unit\Player\Punch	
+	717903094	BazookaShot			\Default Work Unit\Weapons\BazookaShot	
+	901276030	GrenadeFuse			\Default Work Unit\Weapons\GrenadeFuse	
+	912168019	Death_by_Falling			\Default Work Unit\Player\Death_by_Falling	
+	919041118	GrenadeActivated			\Default Work Unit\Weapons\GrenadeActivated	
+	1154420437	Grapple_Shot			\Default Work Unit\Player\Grapple_Shot	
+	1331601200	Drop_Object			\Default Work Unit\Player\Drop_Object	
+	1433718469	GeneralCollision			\Default Work Unit\Objects\GeneralCollision	
+	1448240169	ShotgunShot			\Default Work Unit\Weapons\ShotgunShot	
+	2199700491	BoulderRolling			\Default Work Unit\Objects\BoulderRolling	
+	2325118829	GrenadeLauncherShot			\Default Work Unit\Weapons\GrenadeLauncherShot	
+	2547884931	Grapple_Contact			\Default Work Unit\Player\Grapple_Contact	
+	2562304658	PotatoGunShot			\Default Work Unit\Weapons\PotatoGunShot	
+	2665351959	Death_by_Spikes			\Default Work Unit\Player\Death_by_Spikes	
+	2680315389	Jetpack			\Default Work Unit\Objects\Jetpack	
+	2716678721	Victory			\Default Work Unit\Player\Victory	
+	2977987978	MachineGunShot			\Default Work Unit\Weapons\MachineGunShot	
+	3519619633	CrossbowShot			\Default Work Unit\Weapons\CrossbowShot	
+	3641886989	Stop_Grapple			\Default Work Unit\Player\Stop_Grapple	
+	3833651337	Jump			\Default Work Unit\Player\Jump	
+	3861027660	Pick_Up_Object			\Default Work Unit\Player\Pick_Up_Object	
+	3942466268	TrampolineBounce			\Default Work Unit\Objects\TrampolineBounce	
+	4003513310	OutOfAmmo			\Default Work Unit\Weapons\OutOfAmmo	
+	4113044440	LightningRodShot			\Default Work Unit\Weapons\LightningRodShot	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	980585809	File0168	C:\Users\Austin\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\File0168_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\File0168		1597248
+	25503410	grenadeFuse	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\grenadeFuse_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\grenadeFuse		1210432
+	81286926	machineGunShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\machineGunShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\machineGunShot		605248
+	122244797	explosion	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\death explosion_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\explosion		125428
+	150349712	shotgunShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\shotgunShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\shotgunShot		605248
+	201398403	boulderCollision	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\boulderCollision_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\boulderCollision		907328
+	330304009	laserShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\laserShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\laserShot		605248
+	360316706	jump	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\jump_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\jump		605248
+	363557401	pickupObject	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\pickupObject_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\pickupObject		907328
+	366082936	lightningRodShotwav	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\lightningRodShotwav_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\lightningRodShotwav		907328
+	459595441	chestOpening	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\chestOpening_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\chestOpening		123456
+	478609974	potatoGunShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\potatoGunShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\potatoGunShot		605248
+	481632692	bazookaShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\bazookaShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\bazookaShot		605248
+	487724417	trampolineBounce	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\trampolineBounce_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\trampolineBounce		605248
+	538971864	outOfAmmo	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\outOfAmmo_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\outOfAmmo		605248
+	545498627	grenadeActivated	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\grenadeActivated_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\grenadeActivated		60724
+	556689159	dropWeapon	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\dropWeapon_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\dropWeapon		907328
+	558992601	death by spikes	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\death by spikes_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\death by spikes		605248
+	725037978	grappleUnreeling	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\grappleUnreeling_4B8CC0C5.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\grappleUnreeling		47804
+	740381825	crossbowShot	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\crossbowShot_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\crossbowShot		605248
+	811813356	ballCollision	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\ballCollision_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\ballCollision		605248
+	906595803	death by falling	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\death by falling_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\death by falling		302152
+	938450708	punch	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\punch_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\punch		907328
+	988272403	victory	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\victory_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\victory		577600
+	998775533	generalCollision	C:\Users\lshan\Documents\GitHub\GrapplingHookFighters\wwiseGrappleHook\.cache\Windows\SFX\generalCollision_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Objects\generalCollision		907328
 

@@ -52,16 +52,30 @@ public class AkBankInspector : AkBaseInspector
 		GUILayout.BeginVertical("Box");
 		{
 			bool oldDecodeValue = decode.boolValue;
+            bool oldSaveDecodedValue = saveDecoded.boolValue;
 			EditorGUILayout.PropertyField(loadAsync, new GUIContent("Asynchronous:"));
 			EditorGUILayout.PropertyField(decode, new GUIContent("Decode compressed data:"));
 
             if (decode.boolValue)
             {
-				if (decode.boolValue != oldDecodeValue && AkWwiseProjectInfo.GetData().preparePoolSize == 0)
-				{
-					EditorUtility.DisplayDialog("Warning", "You will need to define a prepare pool size in the AkInitializer component options.", "Ok");
-				}
-               EditorGUILayout.PropertyField(saveDecoded, new GUIContent("Save decoded bank:"));
+                if (decode.boolValue != oldDecodeValue && AkWwiseProjectInfo.GetData().preparePoolSize == 0)
+                {
+                    EditorUtility.DisplayDialog("Warning", "You will need to define a prepare pool size in the AkInitializer component options.", "Ok");
+                }
+                EditorGUILayout.PropertyField(saveDecoded, new GUIContent("Save decoded bank:"));
+                if (oldSaveDecodedValue == true && saveDecoded.boolValue == false)
+                {
+                    string decodedBankPath = System.IO.Path.Combine(AkInitializer.GetDecodedBankFullPath(), bankName.stringValue + ".bnk");
+					try
+					{
+						System.IO.File.Delete(decodedBankPath);
+					}
+					catch(Exception e)
+					{
+						Debug.Log("WwiseUnity: Could not delete existing decoded SoundBank. Please delete it manually. " + e.ToString());
+					}
+                }
+            
             }
 		}
 		GUILayout.EndVertical ();
