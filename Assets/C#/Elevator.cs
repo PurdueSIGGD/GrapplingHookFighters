@@ -6,6 +6,7 @@ public class Elevator : MonoBehaviour {
 	public Vector3 bottom;
 	public bool moveUp;
 	public float delay;
+    public float speed;
 	float time;
 	// Use this for initialization
 	void Start () {
@@ -18,20 +19,20 @@ public class Elevator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (time <= 0) {
+		//if (time <= 0) {
 			if (moveUp) {
 				if (this.transform.position.y >= top.y) {
 					moveUp = !moveUp;
 				}
-				this.transform.position += Vector3.up;
+				this.transform.position += Vector3.up * Time.deltaTime * speed;
 			} else {
 				if (this.transform.position.y <= bottom.y) {
 					moveUp = !moveUp;
 				}
-				this.transform.position += Vector3.down;
+				this.transform.position += Vector3.down * Time.deltaTime * speed;
 			}
 			time = delay; 
-		}
-		time -= Time.deltaTime;
+		//}
+		//time -= Time.deltaTime;
 	}
 }

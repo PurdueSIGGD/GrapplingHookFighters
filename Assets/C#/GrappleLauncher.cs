@@ -73,8 +73,10 @@ public class GrappleLauncher : MonoBehaviour {
 			if (retracting && !firing) {
 				if (Vector3.Distance (center.position, firedGrapple.transform.position) < .3f) {
 					Reset();
-				}
-			}
+                    //SOUND: grappling hook done retracting
+                    //Otherwise it would be retracting each time the scene is reset
+                }
+            }
 			if (!firing && !retracting) {
              
                 firedGrapple.transform.position = center.position;
@@ -197,8 +199,7 @@ public class GrappleLauncher : MonoBehaviour {
 		Disconnect(false);
 	}
 	public void Disconnect(bool force) {
-		//firedGrapple.gameObject.layer = this.gameObject.layer;
-		//print("Grapple Disconnect: firing" + firing + " retracting " + retracting + " attached: " + attached + " force " + force);
+		//SOUND: grappling hook retracting
 		if ((firing || retracting) /*&& (attached || force)*/) {
 			retracting = true;
             AkSoundEngine.PostEvent("Stop_Grapple", gameObject);

@@ -2137,15 +2137,15 @@ MonoBehaviour:
     unsafe_plat: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     shootable_platform: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
       type: 3}
-    nograpple_wall_bottom: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
+    nograpple_wall_bottom: {fileID: 21300000, guid: afbed27c1715e86409cf46ad22bfc12f,
       type: 3}
-    nograpple_wall_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
+    nograpple_wall_mid: {fileID: 21300000, guid: 14a2eed8bb998c042826ae32b16aa7c9,
       type: 3}
-    nograpple_wall_top: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
+    nograpple_wall_top: {fileID: 21300000, guid: 36b8bfdd5ab444240bf844ae06ea0da4,
       type: 3}
-    wall_bottom: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    wall_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    wall_top: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
+    wall_bottom: {fileID: 21300000, guid: afbed27c1715e86409cf46ad22bfc12f, type: 3}
+    wall_mid: {fileID: 21300000, guid: 14a2eed8bb998c042826ae32b16aa7c9, type: 3}
+    wall_top: {fileID: 21300000, guid: 36b8bfdd5ab444240bf844ae06ea0da4, type: 3}
     floor_thin_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
     floor_thin_middle: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
       type: 3}
@@ -2155,21 +2155,21 @@ MonoBehaviour:
     floor_bottom_right: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
       type: 3}
     floor_bottom_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_mid_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_right: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_top_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_top_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    floor_top_right: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_bottom_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_bottom_right: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f,
+    floor_left: {fileID: 21300000, guid: 60a0966fdb53a314ba7fe93576f7961f, type: 3}
+    floor_mid_mid: {fileID: 21300000, guid: 3ec7e57082df8244684768416301c9be, type: 3}
+    floor_right: {fileID: 21300000, guid: 5cbedb9f43dd9f04ca48473767e2e171, type: 3}
+    floor_top_left: {fileID: 21300000, guid: bd4c8b9225ca7604294a2cb306b2e596, type: 3}
+    floor_top_mid: {fileID: 21300000, guid: 46d5007f631bc09418ab18bd082283a8, type: 3}
+    floor_top_right: {fileID: 21300000, guid: 1e8f7ef9bfa3797499f6d15b2ed3f0fc, type: 3}
+    lava_bottom_left: {fileID: 21300000, guid: 47620de8341aebc4ebd96276fd7b18da, type: 3}
+    lava_bottom_right: {fileID: 21300000, guid: e918f0dd0f67aca40bfd478aafa04a60,
       type: 3}
-    lava_bottom_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_mid_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_right: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_top_left: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
-    lava_top_mid: {fileID: 21300000, guid: 3bf7e0b147abf8f41a26dfbf419fd20f, type: 3}
+    lava_bottom_mid: {fileID: 21300000, guid: e822636dffcbe224fa5c034d1be91e94, type: 3}
+    lava_left: {fileID: 21300000, guid: e8f909acd8ba8e6468db988e6fee1062, type: 3}
+    lava_mid_mid: {fileID: 21300000, guid: 210465beb51dc52488a5e12e0cef1cbf, type: 3}
+    lava_right: {fileID: 21300000, guid: 22bf01a2c31762248b90fdd5656985b8, type: 3}
+    lava_top_left: {fileID: 21300000, guid: 9e8304a51dc000b4ebb5a8058c5e398f, type: 3}
+    lava_top_mid: {fileID: 21300000, guid: 90692f77174d6584b9a1d68fa8f4d28b, type: 3}
     lava_top_right: {fileID: 21300000, guid: 299cd84dad85b3743ae3e099fcb570dd, type: 3}
     lavaTop: {fileID: 116352, guid: 5aa27dce802f66741aebef3a02b3a240, type: 2}
     lavaLeft: {fileID: 131068, guid: a9d5e1139a968e449b281f287c3ce817, type: 2}
@@ -2184,7 +2184,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8192
   debugUseSceneSelections: 0
-  debugSceneSelections: 0b0000000b0000000b000000
+  debugSceneSelections: 0d0000000c0000000d000000
   kb:
   - {fileID: 116394, guid: 977adf62065bfb24092fa5530f558c39, type: 2}
   - {fileID: 149898, guid: 0b3ad3e0cfae9694aa4665d9165fb557, type: 2}
@@ -2203,7 +2203,7 @@ MonoBehaviour:
   - {fileID: 171966, guid: e26150c22ca6eb14fa69b8d3eb7c4eb2, type: 2}
   - {fileID: 144260, guid: f4a5c41fcdd70644880130a4f2927000, type: 2}
   maxLevel: 12
-  numLevels: 12
+  numLevels: 13
 --- !u!1 &206084977
 GameObject:
   m_ObjectHideFlags: 0
