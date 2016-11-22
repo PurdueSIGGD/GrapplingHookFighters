@@ -1155,7 +1155,8 @@ public class MainMenus : MonoBehaviour
             {
                 if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
                 {
-
+					ColorChangeCol.GetComponent<ParticleSystem>().startColor = avaliableColors[colorIndex];
+					print(ColorChangeCol.GetComponent<ParticleSystem>().startColor);
 					ColorChangeCol.GetComponent<ParticleSystem>().Play();
 					a.startColor = avaliableColors[colorIndex];
                     a.ApplyColor();
@@ -1178,6 +1179,8 @@ public class MainMenus : MonoBehaviour
             if (hit.CompareTag("Player")) {
                 if (a = hit.transform.FindChild("AnimationController").GetComponent<AnimationHandler>())
                 {
+					ColorChangeCol.GetComponent<ParticleSystem>().startColor = avaliableColors[colorIndex];
+					print(ColorChangeCol.GetComponent<ParticleSystem>().startColor);
 					ColorChangeCol.GetComponent<ParticleSystem>().Play();
                     a.startColor = avaliableColors[colorIndex];
                     a.ApplyColor();

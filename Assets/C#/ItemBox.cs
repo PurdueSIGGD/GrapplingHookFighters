@@ -15,6 +15,7 @@ public class ItemBox : MonoBehaviour {
 	private Sprite closedSprite;
 
 	public float timeTillReset = -1;
+
 	// -1 = no reset, 1 = 1 second to refill
 
 	public bool used;
@@ -50,6 +51,10 @@ public class ItemBox : MonoBehaviour {
 				time = 0;
 	            childSprite.GetComponent<Animator>().SetTrigger("Press");
 	            GameObject.Find("Menus").SendMessage(useString);
+				Transform background;
+				if (background = transform.FindChild("Background")) 
+					GameObject.Destroy(background.gameObject);
+
 			} else {
 				if (!used) {
 					use();
