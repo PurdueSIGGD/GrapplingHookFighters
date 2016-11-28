@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meteor: {fileID: 175394, guid: 160ef5058a52a6141b4e4471ab3c7cec, type: 2}
+  wethWep: {fileID: 118704, guid: f2faf60161681554984cd6b841da0514, type: 2}
   dropsAtime: 0
   maxDrops: 0
   lifetime: 0

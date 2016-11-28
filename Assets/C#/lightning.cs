@@ -7,7 +7,8 @@ public class lightning : MonoBehaviour {
 
 	//flash screen for when lightning effect was made was first put in under the AutoZoomCamera and not part of the
 	//lightning effect 
-
+	//public Sprite lightningThing;
+	public Sprite sprite;
 	public Image lightningSprite;
 	public Image flashScreen;
 	public Canvas effectcanvas;
@@ -24,14 +25,19 @@ public class lightning : MonoBehaviour {
 	float width,height;//with and height positions for where the ligthing strikes will spawn
 	bool hasStruck;//lightning is lightninging and stuff...
 	public float lifetime;
+	Scene scene;
 	
 
 	void Start () {
+		lightningSprite.sprite = sprite;
 		//lightningSprite = this.gameObject.GetComponent<SpriteRenderer>();
 		//stageCenter = gameObject.transform.FindChild("Stage Center").transform.position;
 		//flashScreen = gameObject.GetComponentsInChildren
 		//flashScreen.color = new Color(1,1,1,1);
-		maxStrikes = 6;
+		scene = SceneManager.GetSceneAt(1);//the Scene that discerns the stage is assumed to be the second scene
+		Debug.Log (scene);
+		SceneManager.MoveGameObjectToScene (gameObject, scene);
+		maxStrikes = 3;
 		determinespawn();//depending on the stage sets the area where lighting strikes  will spawn
 		canvasOffset = effectcanvas.transform.position;
 		flashScreen.transform.position = new Vector3 (canvasOffset.x,canvasOffset.y,canvasOffset.z-5);
@@ -41,7 +47,7 @@ public class lightning : MonoBehaviour {
 		appear = Random.Range (10, 30);
 		strikes = Random.Range (0,maxStrikes);
 		hasStruck = false;
-		lifetime = Random.Range (120,300);
+		lifetime = Random.Range (90,300);
 		transform.rotation = Quaternion.Euler (0,0,0);
 	}
 	
@@ -77,6 +83,7 @@ public class lightning : MonoBehaviour {
 					for(int i = 0; i < strikes;i++){
 						lstrikeLoc = new Vector3 (Random.Range(-width,width),height,0);
 						GameObject thing = (GameObject)Instantiate (lightningstrike,lstrikeLoc,new Quaternion(0,0,0,0));
+						SceneManager.MoveGameObjectToScene (thing, scene);
 						thing.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0,-1000));
 					}
 				}else{
@@ -93,7 +100,7 @@ public class lightning : MonoBehaviour {
 	}
 
 	public void determinespawn(){
-		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
+		Debug.Log ("The Scene is "+ scene.buildIndex );
 		switch(SceneManager.GetActiveScene().buildIndex){
 		case -1://BoxofSword. not used in stages so in impossible switch case
 			height = 17;//will spawn inside the box
@@ -130,7 +137,7 @@ public class lightning : MonoBehaviour {
 			break;
 		case 12://Arch
 			width = 33;
-			height = 15;
+			height = 17;
 			break;
 		case 13://Buildings
 			width = 40;

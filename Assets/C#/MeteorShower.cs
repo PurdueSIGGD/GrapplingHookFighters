@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MeteorShower : MonoBehaviour {
 
 	public GameObject meteor;
+	GameObject boundary;
 	public int dropsAtime;
 	public int maxDrops;
 	float force;
@@ -14,10 +15,15 @@ public class MeteorShower : MonoBehaviour {
 	float time;
 	public float lifetime;
 	float width,height;
+	Vector3 meteorloc;
+	Scene scene;
 
 	// Use this for initialization
 	void Start () {
 		//for now I set them
+		scene = SceneManager.GetSceneAt(1);//the Scene that discerns the stage is assumed to be the second scene
+		SceneManager.MoveGameObjectToScene (gameObject, scene);
+		Debug.Log (scene);
 		maxDrops = 25;//if value is at two it only shoots 1 meteor at a time
 		determinespawn();
 		maxForce = 1000;
@@ -28,6 +34,7 @@ public class MeteorShower : MonoBehaviour {
 		dropsAtime = Random.Range (0,maxDrops);
 		time = Random.Range (0, 1.5f);
 		lifetime = Random.Range (50, 200);
+
 	}
 	
 	// Update is called once per frame
@@ -38,7 +45,9 @@ public class MeteorShower : MonoBehaviour {
 			for (int i = 0; i < dropsAtime; i++) {
 				force = Random.Range (500, (float)maxForce);
 				if(meteor != null){
-					GameObject thing = (GameObject)Instantiate (meteor, new Vector3 (Random.Range ((width - radius), (width + radius)), height, transform.position.z), new Quaternion (0, 0, 0, 0));
+					meteorloc = new Vector3 (Random.Range ((width - radius), (width + radius)), height, transform.position.z);
+					GameObject thing = (GameObject)Instantiate (meteor,meteorloc, new Quaternion (0, 0, 0, 0));
+					SceneManager.MoveGameObjectToScene (thing, scene);
 				//doesn't check only assumes the gameObject has a rigidbody2d
 				//Meteor.GetComponentInChildren<Rigidbody2D>().gravityScale = 1;
 				thing.GetComponentInChildren<Rigidbody2D> ().AddForce (new Vector2 ((Mathf.Cos ((float)angleOfDrop) * force), (Mathf.Sin ((float)angleOfDrop) * force)));
@@ -55,7 +64,7 @@ public class MeteorShower : MonoBehaviour {
 	}
 
 	public void determinespawn(){
-		Debug.Log ("The Scene is "+ SceneManager.GetActiveScene().buildIndex );
+		Debug.Log ("The Scene is "+ scene.buildIndex);
 		switch(SceneManager.GetActiveScene().buildIndex){//the cases can change depending on the build settings
 		case -1://BoxofSword. not used in stages so in impossible switch case
 			height = 17;//will spawn inside the box

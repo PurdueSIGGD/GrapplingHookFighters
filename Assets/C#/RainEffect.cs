@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class RainEffect : MonoBehaviour {
 //	/**
@@ -47,6 +48,8 @@ public class RainEffect : MonoBehaviour {
 ////		rainSys = gameObject.GetComponentInChildren<ParticleSystem> ();
 ////		dropNum = rainSys.GetParticles (particles);
 ////		drops = new drop[rainSys.maxParticles];
+		Scene scene = SceneManager.GetSceneAt(1);//the Scene that discerns the stage is assumed to be the second scene
+		SceneManager.MoveGameObjectToScene (gameObject, scene);
 		transform.position = new Vector3(0,30f,0);
 		transform.rotation = Quaternion.Euler (90,0,0);
 	}

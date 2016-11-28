@@ -8,10 +8,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484074}
-  - 212: {fileID: 21213448}
   - 61: {fileID: 6179098}
   - 114: {fileID: 11437896}
   - 50: {fileID: 5042914}
+  - 95: {fileID: 9595900}
+  - 212: {fileID: 21249448}
   m_Layer: 8
   m_Name: Lightning Strike
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2189865, y: 5.203737, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 9.67, y: -15.48, z: 0}
+  m_LocalScale: {x: 1, y: 0.9871646, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,6 +64,23 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -2.7}
   serializedVersion: 2
   m_Size: {x: 3, y: 0.5}
+--- !u!95 &9595900
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130920}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 854c293eac086404c9ec4d61f633a9fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11437896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -74,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be12d55bdc241d6408ade98d88faedbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &21213448
+--- !u!212 &21249448
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -100,7 +118,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f4bbdbaa334037408de849ccdace8cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13f502da10bb8a84b978a6b2d00ad0e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
