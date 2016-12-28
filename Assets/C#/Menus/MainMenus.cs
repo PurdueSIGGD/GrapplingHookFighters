@@ -173,17 +173,17 @@ public class MainMenus : MonoBehaviour
 				miceController.GetMouse(i, ref mouse);
                 if (mouse != null) { 
 				    lastMice[i] = mouse.X + mouse.Y;
-				    print(lastMice[i] + " " + i);
+				    //print(lastMice[i] + " " + i);
 				    if (lastMouseValue != lastMice[i]) {
 					    lastMouse = i;
 				    }
                 }
 			}
-			currentMouse.gameObject.SetActive(true);
-
+			currentMouse.transform.parent.gameObject.SetActive(true);
+            print(lastMouse + 1);
 			currentMouse.text = "Current mouse: " + (lastMouse + 1);
 		} else {
-			currentMouse.gameObject.SetActive(false);
+            currentMouse.transform.parent.gameObject.SetActive(false);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Backspace)) {

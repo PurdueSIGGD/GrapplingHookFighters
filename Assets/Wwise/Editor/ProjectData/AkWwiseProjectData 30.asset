@@ -1,0 +1,393 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: affb0b861a531d646b323e24ac1bf4fa, type: 3}
+  m_Name: AkWwiseProjectData 30
+  m_EditorClassIdentifier: 
+  CurrentPluginConfig: 
+  EventWwu:
+  - PhysicalPath: Events\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{4AB18809-3CF9-4387-9EBE-931FCC2B84D5}'
+    m_lastTimePsrt1: 1312383639
+    m_lastTimePart2: -1999367822
+    List:
+    - Name: BazookaShot
+      Path: Default Work Unit\Weapons\BazookaShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: BazookaShot
+        ObjectType: 3
+      ID: 717903094
+      Guid: ab308d12125c6249965fc3b704decc41
+      maxAttenuation: 0
+    - Name: BoulderRolling
+      Path: Default Work Unit\Objects\BoulderRolling
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: BoulderRolling
+        ObjectType: 3
+      ID: -2095266805
+      Guid: 7941c1530591b447a4057c71e0ed28ce
+      maxAttenuation: 0
+    - Name: ChestOpening
+      Path: Default Work Unit\Objects\ChestOpening
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: ChestOpening
+        ObjectType: 3
+      ID: 471116004
+      Guid: 94ef8e8296bb134399c32ce37018720f
+      maxAttenuation: 0
+    - Name: CrossbowShot
+      Path: Default Work Unit\Weapons\CrossbowShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: CrossbowShot
+        ObjectType: 3
+      ID: -775347663
+      Guid: 3e994e36ad8f314bad5cc146794cc446
+      maxAttenuation: 0
+    - Name: Death_by_Falling
+      Path: Default Work Unit\Player\Death_by_Falling
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Death_by_Falling
+        ObjectType: 3
+      ID: 912168019
+      Guid: ef03e7b268700a498a5b122fef14af1f
+      maxAttenuation: 0
+    - Name: Death_by_Spikes
+      Path: Default Work Unit\Player\Death_by_Spikes
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Death_by_Spikes
+        ObjectType: 3
+      ID: -1629615337
+      Guid: 8884670097c1764ca0ccaf68c10be63f
+      maxAttenuation: 0
+    - Name: Drop_Object
+      Path: Default Work Unit\Player\Drop_Object
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Drop_Object
+        ObjectType: 3
+      ID: 1331601200
+      Guid: d8fc44350c7e3e45908b3e534aaf5521
+      maxAttenuation: 0
+    - Name: Explosion
+      Path: Default Work Unit\Objects\Explosion
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: Explosion
+        ObjectType: 3
+      ID: 13776098
+      Guid: 5f3e534b4faaff43a4084bf9e79b7e5b
+      maxAttenuation: 0
+    - Name: GeneralCollision
+      Path: Default Work Unit\Objects\GeneralCollision
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: GeneralCollision
+        ObjectType: 3
+      ID: 1433718469
+      Guid: f048f59c8b2dec4a96fddd7f4a33f403
+      maxAttenuation: 0
+    - Name: Grapple_Contact
+      Path: Default Work Unit\Player\Grapple_Contact
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Grapple_Contact
+        ObjectType: 3
+      ID: -1747082365
+      Guid: c9af98cd455fe04d8ef97f9b65c72bc1
+      maxAttenuation: 0
+    - Name: Grapple_Shot
+      Path: Default Work Unit\Player\Grapple_Shot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Grapple_Shot
+        ObjectType: 3
+      ID: 1154420437
+      Guid: 7fe699f7d62eb64bade304d75a08cabe
+      maxAttenuation: 0
+    - Name: GrenadeActivated
+      Path: Default Work Unit\Weapons\GrenadeActivated
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: GrenadeActivated
+        ObjectType: 3
+      ID: 919041118
+      Guid: 6a2d99ea3575704ea28c8da346b0b508
+      maxAttenuation: 0
+    - Name: GrenadeFuse
+      Path: Default Work Unit\Weapons\GrenadeFuse
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: GrenadeFuse
+        ObjectType: 3
+      ID: 901276030
+      Guid: 6830ddba27250246b51f3f6f2fefc4d3
+      maxAttenuation: 0
+    - Name: GrenadeLauncherShot
+      Path: Default Work Unit\Weapons\GrenadeLauncherShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: GrenadeLauncherShot
+        ObjectType: 3
+      ID: -1969848467
+      Guid: c61de64e0ef6ac4689384853dde44be9
+      maxAttenuation: 0
+    - Name: Jetpack
+      Path: Default Work Unit\Objects\Jetpack
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: Jetpack
+        ObjectType: 3
+      ID: -1614651907
+      Guid: d053105159831044912b3b635a944aa8
+      maxAttenuation: 0
+    - Name: Jump
+      Path: Default Work Unit\Player\Jump
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Jump
+        ObjectType: 3
+      ID: -461315959
+      Guid: 9a7d05824269b84781fbc6ee1c2c43ca
+      maxAttenuation: 0
+    - Name: LaserGunShot
+      Path: Default Work Unit\Weapons\LaserGunShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: LaserGunShot
+        ObjectType: 3
+      ID: 213183400
+      Guid: 434ad2517f96f247841f6584ba97c3ac
+      maxAttenuation: 0
+    - Name: LightningRodShot
+      Path: Default Work Unit\Weapons\LightningRodShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: LightningRodShot
+        ObjectType: 3
+      ID: -181922856
+      Guid: 7abd77998da4644286bcdf9baf34be1c
+      maxAttenuation: 0
+    - Name: MachineGunShot
+      Path: Default Work Unit\Weapons\MachineGunShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: MachineGunShot
+        ObjectType: 3
+      ID: -1316979318
+      Guid: d9bde527b720e444a6fba77e4aa18479
+      maxAttenuation: 0
+    - Name: OutOfAmmo
+      Path: Default Work Unit\Weapons\OutOfAmmo
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: OutOfAmmo
+        ObjectType: 3
+      ID: -291453986
+      Guid: 6dc4bb9a03293445863171f25f8449c5
+      maxAttenuation: 0
+    - Name: Pick_Up_Object
+      Path: Default Work Unit\Player\Pick_Up_Object
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Pick_Up_Object
+        ObjectType: 3
+      ID: -433939636
+      Guid: 161efa5111af0f48b8eda6d4a345bed7
+      maxAttenuation: 0
+    - Name: PotatoGunShot
+      Path: Default Work Unit\Weapons\PotatoGunShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: PotatoGunShot
+        ObjectType: 3
+      ID: -1732662638
+      Guid: ca2ff7073676c6479fac5fe6b79cf7df
+      maxAttenuation: 0
+    - Name: Punch
+      Path: Default Work Unit\Player\Punch
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Punch
+        ObjectType: 3
+      ID: 645565787
+      Guid: dc70772d0f8bb149b07461d6e7ab1e62
+      maxAttenuation: 0
+    - Name: ShotgunShot
+      Path: Default Work Unit\Weapons\ShotgunShot
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Weapons
+        ObjectType: 4
+      - ElementName: ShotgunShot
+        ObjectType: 3
+      ID: 1448240169
+      Guid: 5fd7ac90687cb64b9f24f04732936722
+      maxAttenuation: 0
+    - Name: Stop_Grapple
+      Path: Default Work Unit\Player\Stop_Grapple
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Stop_Grapple
+        ObjectType: 3
+      ID: -653080307
+      Guid: 1b968b578b1a9246a633832c90d9ab10
+      maxAttenuation: 0
+    - Name: TrampolineBounce
+      Path: Default Work Unit\Objects\TrampolineBounce
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Objects
+        ObjectType: 4
+      - ElementName: TrampolineBounce
+        ObjectType: 3
+      ID: -352501028
+      Guid: fcf400d22307a7499a00b7d0205e52ee
+      maxAttenuation: 0
+    - Name: Victory
+      Path: Default Work Unit\Player\Victory
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Player
+        ObjectType: 4
+      - ElementName: Victory
+        ObjectType: 3
+      ID: -1578288575
+      Guid: 6d690da5fb40b0459b4858c40d3a26f9
+      maxAttenuation: 0
+  AuxBusWwu:
+  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{C4648A2C-0174-4CE5-8724-20B42BFA0374}'
+    m_lastTimePsrt1: 1313133682
+    m_lastTimePart2: -1999367822
+    List: []
+  StateWwu:
+  - PhysicalPath: States\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{D672F0B8-7BE5-4B2C-8633-3E20093D60AC}'
+    m_lastTimePsrt1: 1313943728
+    m_lastTimePart2: -1999367822
+    List: []
+  SwitchWwu:
+  - PhysicalPath: Switches\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{3E46A833-89B8-4115-90A3-FB5920DC85B3}'
+    m_lastTimePsrt1: 1313943728
+    m_lastTimePart2: -1999367822
+    List: []
+  BankWwu:
+  - PhysicalPath: SoundBanks\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    Guid: '{B77F6242-31CD-463B-865B-F4A0C7E1E5AA}'
+    m_lastTimePsrt1: 1313933728
+    m_lastTimePart2: -1999367822
+    List:
+    - Name: Main
+      Path: Default Work Unit\Main
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Main
+        ObjectType: 7
+      ID: -1133058374
+      Guid: 3a86f3d7a030854bbbc68be465d4172d
+  ExpandedItems: []
+  m_lastPopulateTimePsrt1: 0
+  m_lastPopulateTimePart2: 0
+  autoPopulateEnabled: 1
+  basePath: Audio\GeneratedSoundBanks
+  language: English(US)
+  defaultPoolSize: 4096
+  lowerPoolSize: 2048
+  streamingPoolSize: 1024
+  preparePoolSize: 0
+  memoryCutoffThreshold: 0.95
